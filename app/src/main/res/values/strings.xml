@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">StudyBridge</string>
+    <string name="error_password">비밀번호를 확인해주세요</string>
+</resources>
