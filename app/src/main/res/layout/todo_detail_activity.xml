@@ -2,35 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="25dp"
-    android:paddingRight="25dp"
-    >
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2021년 11월 3일"
-        android:textColor="@color/black"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        android:paddingTop="30dp"
-        android:paddingBottom="5dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="수요일"
-        android:textSize="16sp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="할 일 n개 남음"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:paddingTop="25dp"
-        android:paddingBottom="10dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/viewUnderline"/>
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/todo_bar"
+            style="@style/Widget.StudyBridge.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/todo_toolbar_menu"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+
+        <TextView
+            android:id="@+id/todyDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yyyy년 mm월 dd일"
+            android:textColor="@color/black"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:paddingTop="20dp"
+            android:paddingBottom="5dp"/>
+        <TextView
+            android:id="@+id/todayDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EE요일"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="할 일 n개 남음"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:paddingTop="25dp"
+            android:paddingBottom="10dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/viewUnderline"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todo_detail_RCView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

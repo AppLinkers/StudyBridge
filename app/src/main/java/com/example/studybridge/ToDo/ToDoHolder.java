@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +27,18 @@ public class ToDoHolder extends RecyclerView.ViewHolder {
         startDate = (TextView) itemView.findViewById(R.id.study_start_date);
         percentage = (TextView) itemView.findViewById(R.id.study_percentage);
         progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ToDoDetailActivity.class);
+
+                String passName = studyName.getText() +"";
+                intent.putExtra("name",passName);
+
+                view.getContext().startActivity(intent);
+            }
+        });
 
 
     }
