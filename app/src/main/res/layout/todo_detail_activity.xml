@@ -6,7 +6,8 @@
     android:orientation="vertical">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/todo_bar"
             style="@style/Widget.StudyBridge.Toolbar"
@@ -30,7 +31,7 @@
             android:textColor="@color/black"
             android:textSize="21sp"
             android:textStyle="bold"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:paddingBottom="5dp"/>
         <TextView
             android:id="@+id/todayDay"

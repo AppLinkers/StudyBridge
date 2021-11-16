@@ -13,14 +13,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MY스터디"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 

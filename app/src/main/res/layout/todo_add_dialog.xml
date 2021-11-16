@@ -16,7 +16,9 @@
             android:text="ToDo 추가하기"
             android:textSize="18sp"
             android:textColor="@color/textColorPrimary"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -26,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="추가할 위치"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textColor="@color/textColorPrimary"
             android:layout_marginTop="20dp"/>
         <RelativeLayout
@@ -35,23 +37,26 @@
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ready"/>
+                android:text="Ready"
+                android:textSize="12dp"/>
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Progress"
+                android:textSize="12dp"
                 android:layout_centerInParent="true"/>
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Done"
+                android:textSize="12dp"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ToDo"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textColor="@color/textColorPrimary"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"/>
@@ -95,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:weightSum="1"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/todo_add_cancel"
                 android:layout_width="0dp"

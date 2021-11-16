@@ -60,6 +60,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     //비밀번호 체크 함수
     private boolean isPasswordValid(@Nullable Editable text) {
-        return text != null && text.length() >= 8;
+        return text != null && text.length() >= 4;
     }
 }
