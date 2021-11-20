@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="10dp"
     android:paddingLeft="15dp"
@@ -12,24 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="1dp"
         android:paddingBottom="1dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/menti_status_Card"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp">
 
-            <TextView
-                android:id="@+id/menti_status"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="모집중"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="25dp"
@@ -37,7 +20,7 @@
             app:cardBackgroundColor="@color/colorPrimary"
             android:layout_marginRight="5dp">
             <TextView
-                android:id="@+id/menti_place"
+                android:id="@+id/mento_place"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="지역"
@@ -48,13 +31,14 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary">
+            app:cardBackgroundColor="@color/colorPrimaryDark">
             <TextView
-                android:id="@+id/menti_subject"
+                android:id="@+id/mento_subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="과목"
@@ -71,59 +55,83 @@
         android:layout_height="match_parent"
         android:layout_marginTop="2dp">
         <androidx.cardview.widget.CardView
-            android:id="@+id/menti_img_card"
+            android:id="@+id/mento_img_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="40dp"
             android:layout_centerVertical="true">
             <ImageView
-                android:id="@+id/menti_img"
+                android:id="@+id/mento_img"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/ic_launcher_foreground"
                 android:elevation="0.5dp"/>
         </androidx.cardview.widget.CardView>
         <TextView
-            android:id="@+id/menti_study_name"
+            android:id="@+id/mento_study_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="스터디 이름"
+            android:text="멘토 아이디"
             android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/menti_img_card"
-            android:layout_alignTop="@+id/menti_img_card"/>
+            android:layout_toRightOf="@+id/mento_img_card"
+            android:layout_alignTop="@+id/mento_img_card"/>
         <TextView
-            android:id="@+id/menti_study_intro"
+            android:id="@+id/mento_study_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="스터디 소개"
-            android:textColor="@color/textColorPrimary"
+            android:text="멘토 한줄 소개"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:maxLines="1"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_below="@+id/menti_study_name"
-            android:layout_toRightOf="@+id/menti_img_card"/>
+            android:layout_below="@+id/mento_study_id"
+            android:layout_toRightOf="@+id/mento_img_card"/>
+        <ImageView
+            android:id="@+id/ic_school"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_school"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="6dp"
+            android:layout_below="@+id/mento_study_intro"
+            android:layout_toRightOf="@+id/mento_img_card"/>
         <TextView
-            android:id="@+id/menti_study_peopleNum"
+            android:id="@+id/mento_study_school"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="인원수 (4/5)"
-            android:textStyle="bold"
+            android:text="멘토 학교"
             android:textSize="12sp"
+            android:textColor="@color/textColorPrimary"
+            android:maxLines="1"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_toRightOf="@+id/ic_peopleNum" />
+            android:layout_below="@+id/mento_study_intro"
+            android:layout_toRightOf="@+id/ic_school"/>
         <ImageView
-            android:id="@+id/ic_peopleNum"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_mypage"
+            android:id="@+id/ic_qualification"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_qualification"
             android:layout_marginLeft="15dp"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_toRightOf="@+id/menti_img_card"/>
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/mento_study_school"
+            android:layout_toRightOf="@+id/mento_img_card"/>
+        <TextView
+            android:id="@+id/mento_study_qualification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멘토 자격증"
+            android:textSize="12sp"
+            android:textColor="@color/textColorPrimary"
+            android:maxLines="1"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/mento_study_school"
+            android:layout_toRightOf="@+id/ic_qualification"/>
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

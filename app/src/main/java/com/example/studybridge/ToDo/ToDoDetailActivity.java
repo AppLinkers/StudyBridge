@@ -28,6 +28,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     public static String format_weekDay = "EE요일";
     private TextView todayDate;
     private TextView todayDay;
+    private TextView todo_detail_num;
 
     private RecyclerView recyclerView;
     private ToDoDetialAdapter adapter;
@@ -42,6 +43,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         todayDate = (TextView) findViewById(R.id.todyDate);
         todayDay = (TextView) findViewById(R.id.todayDay);
+        todo_detail_num = (TextView) findViewById(R.id.todo_detail_num);
         recyclerView = findViewById(R.id.todo_detail_RCView);
         toolbar = findViewById(R.id.todo_bar);
 
@@ -63,6 +65,11 @@ public class ToDoDetailActivity extends AppCompatActivity {
         adapter = new ToDoDetialAdapter();
         getData();
         recyclerView.setAdapter(adapter);
+
+        //남은 할 일
+        StringBuilder sb = new StringBuilder();
+        sb.append("할 일 ").append(String.valueOf(adapter.getItemCount())).append("개 남음");
+        todo_detail_num.setText(sb.toString());
     }
 
 

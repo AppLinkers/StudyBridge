@@ -17,7 +17,7 @@
             android:textSize="18sp"
             android:textColor="@color/textColorPrimary"
             android:textStyle="bold"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:paddingBottom="5dp"/>
         <View
             android:layout_width="match_parent"
@@ -31,34 +31,38 @@
             android:textSize="12sp"
             android:textColor="@color/textColorPrimary"
             android:layout_marginTop="20dp"/>
-        <RelativeLayout
+
+        <RadioGroup
+            android:id="@+id/todo_radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
-            <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <RadioButton
+                android:id="@+id/todo_add_ready"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ready"
-                android:textSize="12dp"/>
-            <com.google.android.material.checkbox.MaterialCheckBox
+                android:text="Ready"/>
+            <RadioButton
+                android:id="@+id/todo_add_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Progress"
-                android:textSize="12dp"
-                android:layout_centerInParent="true"/>
-            <com.google.android.material.checkbox.MaterialCheckBox
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"/>
+            <RadioButton
+                android:id="@+id/todo_add_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done"
-                android:textSize="12dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                android:text="Done"/>
+        </RadioGroup>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ToDo"
             android:textSize="12sp"
             android:textColor="@color/textColorPrimary"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"/>
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.StudyBridge.TextInputLayout"
