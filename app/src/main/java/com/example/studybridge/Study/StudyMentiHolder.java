@@ -1,6 +1,7 @@
 package com.example.studybridge.Study;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoDetailActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +37,29 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         studyPeopleNum = (TextView) itemView.findViewById(R.id.menti_study_peopleNum);
 
         statusColor = (CardView) itemView.findViewById(R.id.menti_status_Card);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), StudyMentiDetail.class);
+
+                String passName = studyName.getText() +"";
+                String passSubject = subject.getText() +"";
+                String passPlace = place.getText() +"";
+                String passPeople = studyPeopleNum.getText() +"";
+                String passStatus = status.getText() +"";
+                String passIntro = studyIntro.getText() +"";
+
+                intent.putExtra("name",passName);
+                intent.putExtra("subject",passSubject);
+                intent.putExtra("place",passPlace);
+                intent.putExtra("peopleNum",passPeople);
+                intent.putExtra("status",passStatus);
+                intent.putExtra("intro",passIntro);
+
+                view.getContext().startActivity(intent);
+            }
+        });
 
     }
 

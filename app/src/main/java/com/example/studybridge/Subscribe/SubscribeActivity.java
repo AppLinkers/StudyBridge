@@ -18,11 +18,13 @@ public class SubscribeActivity extends AppCompatActivity {
     TextInputEditText coinNum;
     CheckBox checkBox;
     TextView buyList,totalPrice;
-    int n=0;
-    int coinP=0;
-    String buyStr;
-    String subStr="구독권 결제 + ";
+    private int n=0;
+    private int coinP=0;
     private int sum=0;
+
+    String subStr="";
+    String coinStr="";
+    String allStr="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +39,23 @@ public class SubscribeActivity extends AppCompatActivity {
 
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
                 if(isChecked){
                     sum = 25000;
-                    subStr="구독권 결제 + ";
+                    subStr = "구독권/";
                 } else {
                     sum = 0;
-                    subStr="";
+                    subStr = "";
                 }
                 n = sum + coinP;
-                buyStr += subStr;
                 String s = String.format("%d",n);
                 totalPrice.setText(s);
+
+                allStr = subStr + coinStr;
+                buyList.setText(allStr);
+
             }
         });
 
@@ -70,16 +75,22 @@ public class SubscribeActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 coinP = 0;
-                if(coinNum.getText().toString() == null || coinNum.getText().toString().equals("")){
+                coinStr = "";
+                if(coinNum.getText() == null || coinNum.getText().toString().equals("")){
                     coinP = 0;
-                    return;
+                    coinStr="";
                 } else {
                     coinP += Integer.parseInt(coinNum.getText().toString())*200;
                     n = coinP + sum;
+                    coinStr= "코인 " + (coinP/200) + "개/";
+
                     String s = String.format("%d",n);
                     totalPrice.setText(s);
+
                 }
 
+                allStr = subStr + coinStr;
+                buyList.setText(allStr);
             }
 
         });

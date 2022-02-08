@@ -23,6 +23,8 @@
             android:exported="true"/>
         <activity android:name=".Subscribe.SubscribeActivity"
             android:exported="true"/>
+        <activity android:name=".Study.StudyMentiDetail"
+            android:exported="true"/>
         <activity
             android:name=".Login.LoginActivity"
             android:exported="true">
