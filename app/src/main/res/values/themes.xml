@@ -37,4 +37,13 @@
     <style name="Widget.StudyBridge.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
+    <style name="Theme.StudyBridge.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.StudyBridge.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.StudyBridge.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
