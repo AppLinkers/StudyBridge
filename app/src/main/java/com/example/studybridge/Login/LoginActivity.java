@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studybridge.AtuhActivity;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.google.android.material.button.MaterialButton;
@@ -61,5 +62,10 @@ public class LoginActivity extends AppCompatActivity {
     //비밀번호 체크 함수
     private boolean isPasswordValid(@Nullable Editable text) {
         return text != null && text.length() >= 4;
+    }
+
+    public void confirm(View view) {
+        Intent intent = new Intent(getApplicationContext(), AtuhActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" ></script>
+</head>
+<body>
+<!-- 아임포트 자바스크립트는 jQuery 기반으로 개발되었습니다 -->
+
+<script type="text/javascript">
+var IMP = window.IMP; // 생략가능
+IMP.init('imp10391932'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+/* 중략 */
+IMP.certification({
+    merchant_uid: "ORD20180131-0000011", // 주문 번호
+    m_redirect_url : "https://www.myservice.com/payments/complete/mobile", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
+    popup : false // PC환경에서는 popup 파라메터가 무시되고 항상 true 로 적용됨
+}, function(rsp) {
+    if ( rsp.success ) {
+         // 인증성공
+        console.log(rsp.imp_uid);
+        console.log(rsp.merchant_uid);
+        Android.getData(rsp.imp_uid)
+        alert("인증이 완료되었습니다.")
+        $.ajax({
+                type : 'POST',
+                url : '/certifications/confirm',
+                dataType : 'json',
+                data : {
+                    imp_uid : rsp.imp_uid
+                }
+         }).done(function(){
+           takeResponseAndHandle(rsp)
+         });
+
+
+    } else {
+         // 인증취소 또는 인증실패
+        var msg = '인증에 실패하였습니다.';
+        msg += '에러내용 : ' + rsp.error_msg;
+
+        alert(msg);
+    }
+});
+
+function takeResponseAndHandle(rsp) {
+    if ( rsp.success ) {
+        // 인증성공
+        console.log(rsp.imp_uid);
+        console.log(rsp.merchant_uid);
+    } else {
+         // 인증취소 또는 인증실패
+        var msg = '인증에 실패하였습니다.';
+        msg += '에러내용 : ' + rsp.error_msg;
+
+        alert(msg);
+    }
+}
+</script>
+</body>
+</html>
