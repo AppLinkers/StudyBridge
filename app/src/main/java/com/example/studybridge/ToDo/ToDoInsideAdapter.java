@@ -36,4 +36,5 @@ public class ToDoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addItem(ToDoInside data) {
         listData.add(data);
     }
+    public void clearItem(){listData.clear();}
 }

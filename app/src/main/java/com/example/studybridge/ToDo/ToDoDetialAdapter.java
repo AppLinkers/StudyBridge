@@ -38,4 +38,7 @@ public class ToDoDetialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addItem(ToDoDetail data) {
         listData.add(data);
     }
+    public void clearItem(){
+        listData.clear();
+    }
 }

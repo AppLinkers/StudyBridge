@@ -1,5 +1,6 @@
 package com.example.studybridge.Subscribe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -98,4 +99,10 @@ public class SubscribeActivity extends AppCompatActivity {
     }
 
 
+    public void gotoPayment(View view) {
+        Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+        intent.putExtra("payDetail", allStr);
+        intent.putExtra("payCost", n+"");
+        startActivity(intent);
+    }
 }

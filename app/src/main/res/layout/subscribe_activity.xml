@@ -135,7 +135,8 @@
                     android:text="결제하기"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:onClick="gotoPayment"/>
             </LinearLayout>
 
         </LinearLayout>
