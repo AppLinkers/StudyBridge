@@ -1,7 +1,9 @@
 package com.example.studybridge.Study;
 
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,6 +28,29 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         mentoIntro = (TextView) itemView.findViewById(R.id.mento_study_intro);
         mentoSchool = (TextView) itemView.findViewById(R.id.mento_study_school);
         mentoQualification = (TextView) itemView.findViewById(R.id.mento_study_qualification);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
+
+                String passName = mentoName.getText() +"";
+                String passSubject = subject.getText() +"";
+                String passPlace = place.getText() +"";
+                String passIntro = mentoIntro.getText() +"";
+                String passSchool = mentoSchool.getText() +"";
+                String passQualifi = mentoQualification.getText() +"";
+
+                intent.putExtra("name",passName);
+                intent.putExtra("subject",passSubject);
+                intent.putExtra("place",passPlace);
+                intent.putExtra("school",passSchool);
+                intent.putExtra("qualify",passQualifi);
+                intent.putExtra("intro",passIntro);
+
+                view.getContext().startActivity(intent);
+            }
+        });
 
     }
 

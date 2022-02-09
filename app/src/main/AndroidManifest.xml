@@ -31,6 +31,8 @@
             android:exported="true" />
         <activity android:name=".Study.StudyMentiDetail"
             android:exported="true"/>
+        <activity android:name=".Study.StudyMentoDetail"
+            android:exported="true"/>
         <activity
             android:name=".Login.LoginActivity"
             android:exported="true" >
