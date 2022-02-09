@@ -32,6 +32,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ToDoDetialAdapter adapter;
+    private ToDoDetailHolder holder;
     private ArrayList<ToDoDetail> arrayList;
 
     private Toolbar toolbar;
@@ -65,10 +66,10 @@ public class ToDoDetailActivity extends AppCompatActivity {
         adapter = new ToDoDetialAdapter();
         getData();
         recyclerView.setAdapter(adapter);
-
+        getAssignData();
         //남은 할 일
         StringBuilder sb = new StringBuilder();
-        sb.append("할 일 ").append(String.valueOf(adapter.getItemCount())).append("개 남음");
+        sb.append("할 일 ").append(String.valueOf(adapter.getAssignCount())).append("개 남음");
         todo_detail_num.setText(sb.toString());
     }
 
@@ -82,6 +83,20 @@ public class ToDoDetailActivity extends AppCompatActivity {
         adapter.addItem(d2);
         adapter.addItem(d3);
     }
+
+    private void getAssignData(){
+        ToDoInside l = new ToDoInside("운전과제","3.1","Done","운");
+        ToDoInside l1 = new ToDoInside("운전과제","3.1","Progress","운");
+        ToDoInside l2 = new ToDoInside("물리과제 ","5.1","Ready","운");
+        ToDoInside l4 = new ToDoInside("물리과제 ","5.1","Ready","운");
+        ToDoInside l3 = new ToDoInside("화학과제 ","7.1","Ready","운");
+        adapter.addAssign(l);
+        adapter.addAssign(l1);
+        adapter.addAssign(l2);
+        adapter.addAssign(l3);
+        adapter.addAssign(l4);
+    }
+
 
     public static String getCurrentDate_yyyyMMdd() {
         Date currentTime = Calendar.getInstance().getTime();

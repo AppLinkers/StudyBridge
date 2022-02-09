@@ -2,6 +2,7 @@ package com.example.studybridge.ToDo;
 
 public class ToDoInside {
 
+    private Long id;
     private String title;
     private String status;
     private String due;
@@ -17,6 +18,14 @@ public class ToDoInside {
 
     public String getTitle() {
         return title;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
