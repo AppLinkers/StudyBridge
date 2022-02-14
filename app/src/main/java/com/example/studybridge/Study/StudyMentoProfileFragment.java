@@ -1,6 +1,5 @@
 package com.example.studybridge.Study;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class StudyMentoProfileFragment extends Fragment {
 
-    private TextView school,intro;
+    private TextView school,intro,place,subject;
 
 
 
@@ -30,11 +29,20 @@ public class StudyMentoProfileFragment extends Fragment {
 
         intro = (TextView) view.findViewById(R.id.mento_profile_intro);
         school = (TextView) view.findViewById(R.id.mento_profile_school);
+        place = (TextView) view.findViewById(R.id.mento_profile_place);
+        subject = (TextView) view.findViewById(R.id.mento_profile_subject);
 
+
+        StringBuilder sb = new StringBuilder();
         Bundle extras = getArguments();
+
+        String introStr = sb.append("\"").append(extras.getString("intro")).append("\"").toString();
+
         if(extras != null){
-            intro.setText(extras.getString("intro"));
-            Toast.makeText(view.getContext(),extras.getString("intro"),Toast.LENGTH_SHORT).show();
+            intro.setText(introStr);
+            school.setText(extras.getString("school"));
+            place.setText(extras.getString("place"));
+            subject.setText(extras.getString("subject"));
         }
 
         return view;

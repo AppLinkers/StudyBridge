@@ -3,6 +3,9 @@ package com.example.studybridge.Study;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -17,9 +20,13 @@ import com.google.android.material.tabs.TabLayout;
 public class StudyMentoDetail extends AppCompatActivity {
 
     private StudyMentoProfileFragment profileFragment;
+    private StudyMentoExperienceFragment experienceFragment;
+    private StudyMentoCommentFragment commentFragment;
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private String[] intentArr;
+    private ImageButton heart;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +35,7 @@ public class StudyMentoDetail extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.mento_detail_tab);
         toolbar = (Toolbar) findViewById(R.id.mento_detial_bar);
+        heart = (ImageButton) findViewById(R.id.mento_detial_heart);
 
         Intent intent = getIntent();
         //툴바 설정
@@ -37,6 +45,8 @@ public class StudyMentoDetail extends AppCompatActivity {
 
         //Tab layout
         profileFragment = new StudyMentoProfileFragment();
+        experienceFragment = new StudyMentoExperienceFragment();
+        commentFragment = new StudyMentoCommentFragment();
 
         //fragment에 들어갈 intent 받기
         intentArr = new String[5];
@@ -45,8 +55,9 @@ public class StudyMentoDetail extends AppCompatActivity {
         intentArr[2] = intent.getExtras().getString("school");
         intentArr[3] = intent.getExtras().getString("qualify");
         intentArr[4] = intent.getExtras().getString("intro");
+
         //여기서 fragment로 데이터 주기
-        Bundle bundle = new Bundle(5);
+        Bundle bundle = new Bundle();
         bundle.putString("subject",intentArr[0]);
         bundle.putString("place",intentArr[1]);
         bundle.putString("school",intentArr[2]);
@@ -57,10 +68,9 @@ public class StudyMentoDetail extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.mento_detial_frame, new StudyMentoProfileFragment())
+                    .add(R.id.mento_detial_frame, profileFragment)
                     .commit();
             profileFragment.setArguments(bundle);
-
         }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -71,7 +81,9 @@ public class StudyMentoDetail extends AppCompatActivity {
                 if(position == 0){
                     selected = profileFragment;
                 } else if(position == 1) {
+                    selected = experienceFragment;
                 } else if(position == 2){
+                    selected = commentFragment;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.mento_detial_frame,selected).commit();
             }
@@ -83,6 +95,19 @@ public class StudyMentoDetail extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {            }
         });
 
+
+        //좋아요 클릭
+        heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(heart.isSelected() == true){
+                    heart.setSelected(false);
+                } else {
+                    Toast.makeText(getApplicationContext(),"Liked!",Toast.LENGTH_SHORT).show();
+                    heart.setSelected(true);
+                }
+            }
+        });
 
 
     }
