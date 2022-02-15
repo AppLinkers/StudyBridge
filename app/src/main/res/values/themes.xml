@@ -43,6 +43,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Widget.StudyBridge.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="checkedIcon">@drawable/ic_check_primarydark</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+    <style name="Widget.StudyBridge.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="Theme.StudyBridge.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StudyBridge.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
