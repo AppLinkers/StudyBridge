@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String total = "type: "+ ment +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
 
-        Toast.makeText(getApplicationContext(), "total", Toast.LENGTH_SHORT).show();
+
 
     }
 
