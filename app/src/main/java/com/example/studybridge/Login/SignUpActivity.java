@@ -114,7 +114,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         String total = "type: "+ ment +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
 
-        Toast.makeText(getApplicationContext(), total, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "total", Toast.LENGTH_SHORT).show();
+
     }
 
     public void idCheck(View view) {
@@ -122,5 +123,9 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         idCheck = true;
+    }
+
+    public void phoneCheck(View view) {
+
     }
 }
