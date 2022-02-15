@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class UserLoginReq {
 
     private String loginId;
 
     private String loginPw;
+
+    public UserLoginReq(String toString, String toString1) {
+    }
 }
