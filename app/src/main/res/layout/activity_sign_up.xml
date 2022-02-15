@@ -12,7 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="study brdige 회원가입"
-        android:layout_marginBottom="30dp"/>
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -50,13 +54,19 @@
     <EditText
         android:id="@+id/signup_id"
         android:layout_width="350dp"
-        android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="아이디 "
         android:textColorHint="#032149"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="70dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중복확인"
+        android:onClick="idCheck"
+        android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/signup_pw"
@@ -66,26 +76,26 @@
         android:ems="10"
         android:hint="비밀번호 "
         android:textColorHint="#032149"
+        android:inputType="textPassword"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="70dp" />
 
-    <TextView
-        android:id="@+id/pw_check_str"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="test"
-        android:textColor="#FF0000"/>
 
     <EditText
         android:id="@+id/signup_pw_check"
         android:layout_width="350dp"
-        android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:ems="10"
         android:hint="비밀번호 재확인 "
         android:textColorHint="#032149"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="70dp" />
+    <TextView
+        android:id="@+id/pw_check_str"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"/>
 
     <EditText
         android:id="@+id/signup_phone"
@@ -103,7 +113,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -131,6 +140,8 @@
 
     <Spinner
         android:id="@+id/region_spnr"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     Spinner regionSpnr;
 
+    boolean idCheck =  false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +59,33 @@ public class SignUpActivity extends AppCompatActivity {
         signupPw = findViewById(R.id.signup_pw);
         signupPwCheck = findViewById(R.id.signup_pw_check);
 
-        signupPwStr = signupPw.getText().toString();
+        signupMentRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.signup_mentor:
+                        break;
+                    case R.id.signup_menti:
+                        break;
+                }
+            }
+        });
 
-        if(!signupPwStr.equals(signupPwCheck.getText())) {
-            pwCheck.setText("비밀번호가 다릅니다 ");
-        }else{
-            pwCheck.setText(" ");
-        }
+        signupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.signup_male:
+                        break;
+                    case R.id.signup_female:
+                        break;
+                }
+            }
+        });
 
-        id = signupId.toString();
-        phone = signupPhone.toString();
-        region = regionSpnr.getSelectedItem().toString();
+
+
+
 
 
 
@@ -75,7 +94,33 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void signup(View view) {
-        Toast.makeText(getApplicationContext(), region, Toast.LENGTH_SHORT).show();
+        id = signupId.getText().toString();
 
+        if(!signupPw.getText().toString().equals(signupPwCheck.getText().toString())) {
+            pwCheck.setText("비밀번호가 다릅니다 ");
+        }else{
+            pwCheck.setText(" ");
+            signupPwStr = signupPw.getText().toString();
+        }
+
+        phone = signupPhone.getText().toString();
+        region = regionSpnr.getSelectedItem().toString();
+
+        RadioButton mentRad =  findViewById(signupMentRg.getCheckedRadioButtonId());
+        String ment= mentRad.getText().toString();
+
+        RadioButton genderRad = findViewById(signupGender.getCheckedRadioButtonId());
+        String gender = genderRad.getText().toString();
+
+        String total = "type: "+ ment +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
+
+        Toast.makeText(getApplicationContext(), total, Toast.LENGTH_SHORT).show();
+    }
+
+    public void idCheck(View view) {
+        //중복확인
+
+
+        idCheck = true;
     }
 }
