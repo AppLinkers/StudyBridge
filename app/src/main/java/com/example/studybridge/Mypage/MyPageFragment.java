@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.studybridge.Mypage.Edit.MyPageEditActivity;
 import com.example.studybridge.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -55,8 +56,8 @@ public class MyPageFragment extends Fragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-
+                Intent intent = new Intent(getContext(), MyPageEditActivity.class);
+                startActivity(intent);
             }
         });
 

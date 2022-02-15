@@ -1,0 +1,59 @@
+package com.example.studybridge.Mypage.Edit;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.studybridge.R;
+
+public class MyPageEditActivity extends AppCompatActivity {
+
+    Toolbar toolbar;
+    LinearLayout changeImage;
+    ImageView img;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mypage_editinfo_activity);
+
+        toolbar = (Toolbar) findViewById(R.id.mypage_edit_bar);
+
+        //툴바 설정
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //이미지 변경
+        changeImage = (LinearLayout) findViewById(R.id.mypage_edit_changeImg);
+        img = (ImageView) findViewById(R.id.mypage_edit_img);
+
+        changeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,1004);
+            }
+        });
+    }
+
+
+    //뒤로 가기 설정
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}
