@@ -35,8 +35,12 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_payment.xml" value="0.15416666666666667" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+=======
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25396575927734377" />
+>>>>>>> 39543e9e7ae04bfbc6393c64d2936bc4ad21b3c9
         <entry key="app/src/main/res/layout/activity_to_do_manage.xml" value="0.29583333333333334" />
 >>>>>>> 3380cb7e360006d48865f33302273df26b2754f6
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.3098958333333333" />
