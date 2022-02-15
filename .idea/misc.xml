@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/button_clicked.xml" value="0.201" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_colorPrimaryDark.xml" value="0.201" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_primarydark.xml" value="0.201" />
@@ -27,10 +28,17 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_item.xml" value="0.33" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/menti_filter_menu.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_toolbar_menu.xml" value="0.32407407407407407" />
+=======
+>>>>>>> 3380cb7e360006d48865f33302273df26b2754f6
         <entry key="app/src/main/res/layout/activity_atuh.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_atuh2.xml" value="0.11626139817629179" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_payment.xml" value="0.15416666666666667" />
+<<<<<<< HEAD
+=======
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_to_do_manage.xml" value="0.29583333333333334" />
+>>>>>>> 3380cb7e360006d48865f33302273df26b2754f6
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/payment_item.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/subscribe_activity.xml" value="0.16822916666666668" />

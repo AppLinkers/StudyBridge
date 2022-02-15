@@ -45,7 +45,8 @@
                     android:id="@+id/mypage_edit_img"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_launcher_foreground"/>
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:scaleType="centerCrop"/>
             </androidx.cardview.widget.CardView>
 
             <TextView
