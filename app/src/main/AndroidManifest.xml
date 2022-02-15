@@ -14,6 +14,12 @@
         android:theme="@style/Theme.StudyBridge"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Login.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ToDo.ToDoManageActivity"
+            android:exported="true" />
+        <activity
             android:name=".Subscribe.PaymentActivity"
             android:exported="true" />
         <activity
@@ -31,12 +37,12 @@
         <activity
             android:name=".Subscribe.SubscribeActivity"
             android:exported="true" />
-
-        <activity android:name=".Study.StudyMentiDetail"
-            android:exported="true"/>
-
-        <activity android:name=".Study.StudyMentoDetail"
-            android:exported="true"/>
+        <activity
+            android:name=".Study.StudyMentiDetail"
+            android:exported="true" />
+        <activity
+            android:name=".Study.StudyMentoDetail"
+            android:exported="true" />
         <activity
             android:name=".Login.LoginActivity"
             android:exported="true">

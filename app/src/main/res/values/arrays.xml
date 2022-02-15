@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="지역">
+        <item>서울 </item>
+        <item>경기 남부 </item>
+        <item>경기 북부 </item>
+        <item>인천 </item>
+
+
+    </string-array>
+
+</resources>

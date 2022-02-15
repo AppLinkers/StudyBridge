@@ -69,6 +69,7 @@
             style="@style/Widget.StudyBridge.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:onClick="gotoSignup"
             android:text="회원가입"/>
 
         <Button

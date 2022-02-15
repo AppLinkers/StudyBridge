@@ -1,6 +1,10 @@
 package com.example.studybridge.ToDo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,25 +18,24 @@ import org.jetbrains.annotations.NotNull;
 public class ToDoInsideHolder extends RecyclerView.ViewHolder {
 
     private TextView insideText;
-    private String status;
+    ToDoInside datas;
 
     public ToDoInsideHolder(View itemView) {
         super(itemView);
 
         insideText= (TextView) itemView.findViewById(R.id.todo_inside_text);
-
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), status, Toast.LENGTH_SHORT).show();
-                ToDoManageDialog dialog = new ToDoManageDialog(view.getContext());
-                dialog.callFunction();
+               Intent intent = new Intent(view.getContext(), ToDoManageActivity.class);
+               intent.putExtra("manageData", datas);
+               view.getContext().startActivity(intent);
             }
         });
     }
 
     public void onBind(ToDoInside data) {
-        insideText.setText(data.getTitle());
-        status = data.getStatus();
+        datas = data;
+        insideText.setText(datas.getTitle());
     }
 }

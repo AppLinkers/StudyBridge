@@ -29,9 +29,11 @@ public class ToDoDetailActivity extends AppCompatActivity {
     private TextView todayDate;
     private TextView todayDay;
     private TextView todo_detail_num;
+    private TextView todo_remain;
 
     private RecyclerView recyclerView;
     private ToDoDetialAdapter adapter;
+    private ToDoInsideAdapter assignAdapter;
     private ToDoDetailHolder holder;
     private ArrayList<ToDoDetail> arrayList;
 
@@ -47,6 +49,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
         todo_detail_num = (TextView) findViewById(R.id.todo_detail_num);
         recyclerView = findViewById(R.id.todo_detail_RCView);
         toolbar = findViewById(R.id.todo_bar);
+        todo_remain = findViewById(R.id.todo_remain);
+
 
         Intent intent = getIntent();
 
@@ -59,6 +63,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
         todayDate.setText(getCurrentDate_yyyyMMdd());
         todayDay.setText(getCurrentDate_EE());
 
+        assignAdapter = new ToDoInsideAdapter();
+
         //리사이클러뷰
         arrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -66,10 +72,21 @@ public class ToDoDetailActivity extends AppCompatActivity {
         adapter = new ToDoDetialAdapter();
         getData();
         recyclerView.setAdapter(adapter);
+
         getAssignData();
+        addData(intent);
+
         //남은 할 일
+        int leftCount = adapter.getAssignCount();
+        double wholeCount = adapter.getWholeCount();
+        double perc = Math.round((double) leftCount/wholeCount*100);
+
+        String remainP = "총 "+perc+"% 완료";
+
         StringBuilder sb = new StringBuilder();
-        sb.append("할 일 ").append(String.valueOf(adapter.getAssignCount())).append("개 남음");
+        sb.append("할 일 ").append(String.valueOf(leftCount)).append("개 남음");
+
+        todo_remain.setText(remainP);
         todo_detail_num.setText(sb.toString());
     }
 
@@ -83,6 +100,15 @@ public class ToDoDetailActivity extends AppCompatActivity {
         adapter.addItem(d2);
         adapter.addItem(d3);
     }
+
+    private void addData(Intent intent){
+        ToDoInside newD = (ToDoInside) intent.getSerializableExtra("newD");
+        if(newD != null) {
+            adapter.addAssign(newD);
+        }
+    }
+
+
 
     private void getAssignData(){
         ToDoInside l = new ToDoInside("운전과제","3.1","Done","운");

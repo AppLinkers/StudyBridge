@@ -1,6 +1,8 @@
 package com.example.studybridge.ToDo;
 
-public class ToDoInside {
+import java.io.Serializable;
+
+public class ToDoInside implements Serializable {
 
     private Long id;
     private String title;
