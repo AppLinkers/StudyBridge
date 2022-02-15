@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 
 public interface UserAuth {
@@ -21,4 +22,8 @@ public interface UserAuth {
 
     @POST("user/auth/")
     Call<Object> login(@Body UserLoginReq userLoginReq);
+
+    @GET("user/id")
+    Call<String> valid(@Query("userLoginId") String userLoginId);
+
 }

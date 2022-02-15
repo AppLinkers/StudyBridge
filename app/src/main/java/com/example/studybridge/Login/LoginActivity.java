@@ -51,10 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     passwordTextInput.setError(null); // Clear the error
 
-                    UserLoginReq userLoginReq = UserLoginReq.builder()
-                            .loginId(loginIdEditText.getText().toString())
-                            .loginPw(passwordEditText.getText().toString())
-                            .build();
+                    UserLoginReq userLoginReq = new UserLoginReq(loginIdEditText.getText().toString(), passwordEditText.getText().toString());
+
 
                     // 로그인 서비스 실행
                     dataService.userAuth.login(userLoginReq).enqueue(new Callback<Object>() {
