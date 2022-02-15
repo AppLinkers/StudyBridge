@@ -1,9 +1,11 @@
 package com.example.studybridge.Mypage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ public class MyPageFragment extends Fragment {
     private TabLayout tabLayout;
     private MyPageMyFragment myFragment;
     private MyPageChatFragment chatFragment;
+    private TextView editBtn;
 
     @Override
     public View onCreateView(
@@ -45,6 +48,16 @@ public class MyPageFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {            }
+        });
+
+        //정보 수정하기로 이동
+        editBtn = (TextView) view.findViewById(R.id.mypage_editBtn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+
+            }
         });
 
         return view;
