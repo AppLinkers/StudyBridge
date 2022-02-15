@@ -124,6 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void phoneCheck(View view) {
+        //본인인증
 
     }
 }
