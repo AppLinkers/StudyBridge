@@ -15,5 +15,7 @@ public class UserLoginReq {
     private String loginPw;
 
     public UserLoginReq(String toString, String toString1) {
+        this.loginId = toString;
+        this.loginPw = toString1;
     }
 }

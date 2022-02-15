@@ -2,6 +2,7 @@ package com.example.studybridge.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -45,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     Spinner regionSpnr;
 
-    boolean idCheck =  false;
+    boolean idCheck =  true;
 
     private DataService dataService;
 
@@ -58,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String[] items = {"서울","경기남부","경기북부","인천","기타"};
         regionSpnr = findViewById(R.id.region_spnr);
+        dataService = new DataService();
 
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
@@ -128,42 +130,44 @@ public class SignUpActivity extends AppCompatActivity {
 
         UserSignUpReq userSignUpReq = new UserSignUpReq(name, id, signupPwStr, role, phone,gender,region);
 
-        if (checkedId.equals(id)) {
             dataService.userAuth.signUp(userSignUpReq).enqueue(new Callback<UserSignUpRes>() {
                 @Override
                 public void onResponse(Call<UserSignUpRes> call, Response<UserSignUpRes> response) {
                     if (response.isSuccessful()) {
-                        // 회원가입 성공
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
                     } else {
-                        // 실패
+                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserSignUpRes> call, Throwable t) {
-
+                    Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            Toast.makeText(view.getContext(), "아이디 중복 확인을 해 주세요", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     public void idCheck(View view) {
         //중복확인
+
         dataService.userAuth.valid(signupId.getText().toString()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
+
                     idCheck = true;
-                    checkedId = signupId.getText().toString();
+                    Toast.makeText(getApplicationContext(), "중복확인완료", Toast.LENGTH_SHORT).show();
                 } else {
+                    Toast.makeText(getApplicationContext(), "중복된 아이디입니다", Toast.LENGTH_SHORT).show();
                     idCheck = false;
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+
 
             }
         });

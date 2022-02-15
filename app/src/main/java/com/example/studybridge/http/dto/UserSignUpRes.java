@@ -8,4 +8,6 @@ public class UserSignUpRes {
 
     private String loginId;
     private String name;
+
+
 }
