@@ -22,8 +22,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/mypage_edit_btnCon"
         android:layout_below="@+id/mypage_edit_appBar"
-        android:layout_above="@+id/mypage_edit_confirmBtn"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="20dp">
@@ -45,8 +45,8 @@
                     android:id="@+id/mypage_edit_img"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_launcher_foreground"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -139,27 +139,29 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/mypage_edit_confirmBtn"
+        android:id="@+id/mypage_edit_btnCon"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:gravity="center">
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/mypage_edit_confirmBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardCornerRadius="20dp"
-            android:backgroundTint="@color/colorPrimaryDark"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:textAlignment="center">
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:cardCornerRadius="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="변경 완료"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:gravity="center"/>
+                android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
 

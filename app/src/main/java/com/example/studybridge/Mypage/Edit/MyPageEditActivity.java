@@ -30,7 +30,6 @@ public class MyPageEditActivity extends AppCompatActivity {
     private ImageView imgNow;
 
     public static final int PICK_IMAGE = 1;
-    ExifInterface exif = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
