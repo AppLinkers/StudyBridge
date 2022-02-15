@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.dto.UserSignUpReq;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    EditText signupName;
     EditText signupId;
     EditText signupPw;
     EditText signupPwCheck;
@@ -28,12 +30,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     String signupPwStr;
     String id;
+    String name;
     String phone;
     String region;
 
     Spinner regionSpnr;
 
     boolean idCheck =  false;
+
 
 
     @Override
@@ -58,6 +62,8 @@ public class SignUpActivity extends AppCompatActivity {
         signupPhone = findViewById(R.id.signup_phone);
         signupPw = findViewById(R.id.signup_pw);
         signupPwCheck = findViewById(R.id.signup_pw_check);
+        signupName = findViewById(R.id.signup_name);
+
 
         signupMentRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -84,17 +90,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
     }
 
     public void signup(View view) {
-        id = signupId.getText().toString();
+
 
         if(!signupPw.getText().toString().equals(signupPwCheck.getText().toString())) {
             pwCheck.setText("비밀번호가 다릅니다 ");
@@ -102,19 +101,18 @@ public class SignUpActivity extends AppCompatActivity {
             pwCheck.setText(" ");
             signupPwStr = signupPw.getText().toString();
         }
+        RadioButton mentRad =  findViewById(signupMentRg.getCheckedRadioButtonId());
+        RadioButton genderRad = findViewById(signupGender.getCheckedRadioButtonId());
 
+
+        id = signupId.getText().toString();
+        name = signupName.getText().toString();
         phone = signupPhone.getText().toString();
         region = regionSpnr.getSelectedItem().toString();
-
-        RadioButton mentRad =  findViewById(signupMentRg.getCheckedRadioButtonId());
-        String ment= mentRad.getText().toString();
-
-        RadioButton genderRad = findViewById(signupGender.getCheckedRadioButtonId());
+        String role= mentRad.getText().toString();
         String gender = genderRad.getText().toString();
 
-        String total = "type: "+ ment +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
-
-
+        String total = "type: "+ role + " Name: "+ name  +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
 
     }
 
