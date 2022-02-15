@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ToDoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<ToDoInside> listData = new ArrayList<>();
+    private ToDoInside toDoInside;
     @NonNull
     @NotNull
     @Override
@@ -27,6 +28,7 @@ public class ToDoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         ((ToDoInsideHolder) holder).onBind(listData.get(position));
+
     }
 
     @Override
@@ -37,4 +39,18 @@ public class ToDoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         listData.add(data);
     }
     public void clearItem(){listData.clear();}
+
+    public void manageData(ToDoInside data){
+        data.setStatus("Progress");
+        toDoInside = data;
+    }
+
+
+    public ToDoInside getToDoInside() {
+        return toDoInside;
+    }
+
+    public void setToDoInside(ToDoInside toDoInside) {
+        this.toDoInside = toDoInside;
+    }
 }

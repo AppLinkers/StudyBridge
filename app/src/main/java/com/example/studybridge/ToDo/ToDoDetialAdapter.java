@@ -36,6 +36,10 @@ public class ToDoDetialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
+    public int getWholeCount() {
+        return list.size();
+    }
+
     public void addItem(ToDoDetail data) {
         listData.add(data);
     }
@@ -49,7 +53,4 @@ public class ToDoDetialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }
         return count; }
-    public void clearItem(){
-        listData.clear();
-    }
 }
