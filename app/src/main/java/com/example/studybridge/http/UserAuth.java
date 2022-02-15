@@ -23,7 +23,7 @@ public interface UserAuth {
     @POST("user/auth/")
     Call<Object> login(@Body UserLoginReq userLoginReq);
 
-    @GET("user/id")
+    @GET("user/auth/id")
     Call<String> valid(@Query("userLoginId") String userLoginId);
 
 }

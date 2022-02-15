@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                     passwordTextInput.setError(getString(R.string.error_password));
                 } else {
                     passwordTextInput.setError(null); // Clear the error
+
+
 
                     UserLoginReq userLoginReq = new UserLoginReq(loginIdEditText.getText().toString(), passwordEditText.getText().toString());
 
