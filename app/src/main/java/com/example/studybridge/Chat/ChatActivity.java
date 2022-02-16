@@ -1,13 +1,17 @@
 package com.example.studybridge.Chat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
 import com.google.gson.Gson;
 
@@ -15,37 +19,34 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-   // private ChatAdapter adapter;
-    private EditText mycontext;
-
-    // creating constant keys for shared preferences.
     public static final String SHARED_PREFS = "shared_prefs";
-
-    // key for storing Member
     public static final String USER_ID_KEY = "user_id_key";
-    public static final String USER_LOGIN_ID_KEY = "user_login_id_key";
-
-    // variable for shared preferences.
+    public static final String USER_NAME = "user_name_key";
     SharedPreferences sharedPreferences;
-    Long user_id;
-    String user_login_id;
 
- //   Room room;
-    Long ticketId;
 
-    private static final String TAG = "Chat";
+    StudyMenti study;
+    String userName;
+    String userId;
 
-    DataService dataService = new DataService();
- //   private StompClient stompClient;
-  //  private List<StompHeader> headerList;
-
-    Gson gson = new Gson();
-    int chk = 0;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        Intent intent = getIntent();
+        study = (StudyMenti) intent.getSerializableExtra("study");
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userName= sharedPreferences.getString(USER_NAME, "사용자");
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(study.getStudyName());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }

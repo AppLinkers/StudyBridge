@@ -24,6 +24,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public TextView studyPeopleNum;
     public CardView statusColor;
 
+
     public StudyMentiHolder(@NonNull @NotNull View itemView) {
         super(itemView);
 
@@ -48,16 +49,30 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 String passStatus = status.getText() +"";
                 String passIntro = studyIntro.getText() +"";
 
-                intent.putExtra("name",passName);
-                intent.putExtra("subject",passSubject);
-                intent.putExtra("place",passPlace);
-                intent.putExtra("peopleNum",passPeople);
-                intent.putExtra("status",passStatus);
-                intent.putExtra("intro",passIntro);
+
+                StudyMenti studyMenti = new StudyMenti(statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
+
+                intent.putExtra("study", studyMenti);
 
                 view.getContext().startActivity(intent);
             }
         });
+
+    }
+
+    public int statusDef(String status){
+        if(status.equals("멘티 모집중")){
+            return 0;
+        }
+        else if(status.equals("멘토 모집중")){
+            return 1;
+        }
+        else if(status.equals("매칭 완료")){
+            return 2;
+        }else{
+            return 3;
+        }
+
 
     }
 
@@ -69,15 +84,13 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         studyName.setText(data.getStudyName());
         studyIntro.setText(data.getStudyIntro());
         studyPeopleNum.setText(String.valueOf(data.getStudyPeopleNum()));
+        status.setText(data.statusStr());
 
         if(data.status == 0){
-            status.setText("대기중");
             statusColor.setCardBackgroundColor(Color.parseColor("#FF03DAC5"));
         } else if(data.status == 1){
-            status.setText("모집중");
             statusColor.setCardBackgroundColor(Color.parseColor("#FBB8AC"));
         } else{
-            status.setText("모집완료");
             statusColor.setCardBackgroundColor(Color.parseColor("#E0E0E0"));
         }
 

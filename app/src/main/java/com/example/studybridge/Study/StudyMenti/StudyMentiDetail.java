@@ -3,12 +3,14 @@ package com.example.studybridge.Study.StudyMenti;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.ToDoAddDialog;
 import com.example.studybridge.ToDo.ToDoDetailActivity;
@@ -17,6 +19,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView subject,place,peopleNum,status,intro;
+    private StudyMenti study;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,13 +46,24 @@ public class StudyMentiDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //넘어온 데이터 입력
-        subject.setText(intent.getExtras().getString("subject"));
-        place.setText(intent.getExtras().getString("place"));
-        status.setText(intent.getExtras().getString("status"));
-        intro.setText(intent.getExtras().getString("intro"));
-        peopleNum.setText(peopleStr);
 
+        //넘어온 데이터 입력
+        study = (StudyMenti) intent.getSerializableExtra("study");
+
+
+        subject.setText(study.getSubject());
+        place.setText(study.getPlace());
+        status.setText(study.statusStr());
+        intro.setText(study.getStudyIntro());
+        peopleNum.setText(study.getStudyPeopleNum()+"");
+
+
+    }
+
+    public void gotoChat(View view) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra("study", study);
+        startActivity(intent);
     }
 
     @Override

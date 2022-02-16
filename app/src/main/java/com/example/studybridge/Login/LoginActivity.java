@@ -35,14 +35,11 @@ public class LoginActivity extends AppCompatActivity {
     DataService dataService = new DataService();
     Gson gson = new Gson();
 
-    // creating constant keys for shared preferences.
-    public static final String SHARED_PREFS = "shared_prefs";
 
-    // key for storing Member
+    public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
 
-    // variable for shared preferences.
     SharedPreferences sharedPreferences;
     String user_login_id;
 

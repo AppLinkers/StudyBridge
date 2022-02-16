@@ -35,16 +35,17 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white">
+
         <EditText
             android:id="@+id/mycontext"
             android:layout_width="330dp"
             android:layout_height="40dp"
-            android:background="@drawable/slider_round"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/send"
+            android:background="@drawable/slider_round"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_marginRight="10dp"/>
+            android:paddingRight="20dp" />
 
         <LinearLayout
             android:id="@+id/send"
