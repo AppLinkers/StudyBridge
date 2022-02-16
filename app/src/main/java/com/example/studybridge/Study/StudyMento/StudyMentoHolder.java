@@ -1,14 +1,11 @@
-package com.example.studybridge.Study;
+package com.example.studybridge.Study.StudyMento;
 
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;

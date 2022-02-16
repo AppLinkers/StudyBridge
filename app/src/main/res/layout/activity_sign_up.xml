@@ -6,28 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Login.SignUpActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/signup_barLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        app:elevation="0dp"
-        android:layout_alignParentTop="true">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/signup_bar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="가입하기"
-            app:titleTextColor="@color/textColorPrimary" />
-    </com.google.android.material.appbar.AppBarLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/signup_btnCon"
-        android:layout_below="@id/signup_barLayout">
+        android:layout_above="@id/signup_btnCon">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -35,58 +18,93 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="25dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="멘토/멘티 선택하기"
+                    android:text="가입하기"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:layout_marginTop="20dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:background="@color/textColorPrimary"
-                    android:layout_marginTop="3dp"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="50dp"/>
 
-
-                <RadioGroup
-                    android:id="@+id/signup_type"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_marginTop="10dp">
+                    android:text="이용방식"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp"
+                    android:layout_marginTop="70dp"/>
 
-                    <RadioButton
-                        android:id="@+id/signup_mentor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="멘토 (선생님)" />
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/signup_type"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1"-->
+<!--                    android:layout_marginTop="10dp">-->
 
-                    <RadioButton
-                        android:id="@+id/signup_menti"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:text="멘티 (학생)" />
-                </RadioGroup>
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/signup_mentor"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:text="멘토 (선생님)" />-->
+
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/signup_menti"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:text="멘티 (학생)" />-->
+<!--                </RadioGroup>-->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:cardCornerRadius="15dp"
+                    app:strokeColor="@color/textColorPrimary"
+                    app:strokeWidth="1dp"
+                    android:layout_marginTop="50dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/signup_mento"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.49"
+                            android:text="멘토 회원"
+                            android:textColor="@color/textColorPrimary"
+                            android:gravity="center"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.005"
+                            android:background="@color/textColorPrimary"/>
+                        <TextView
+                            android:id="@+id/signup_menti"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.49"
+                            android:text="멘티 회원"
+                            android:textColor="@color/textColorPrimary"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="개인 정보"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:layout_marginTop="50dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:background="@color/textColorPrimary"
-                    android:layout_marginTop="3dp"/>
+                    android:textSize="18sp"
+                    android:layout_marginTop="100dp"/>
 
 <!--                <EditText-->
 <!--                    android:id="@+id/signup_name"-->
@@ -99,36 +117,37 @@
 <!--                    tools:layout_editor_absoluteX="8dp"-->
 <!--                    tools:layout_editor_absoluteY="70dp" />-->
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="이름"
-                    android:layout_marginTop="25dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:layout_marginTop="50dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="휴대폰 번호"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    app:helperTextEnabled="true"
+                    app:helperText="(-) 제외하고 입력해주세요">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 <!--                <EditText-->
@@ -142,12 +161,10 @@
 <!--                    tools:layout_editor_absoluteX="8dp"-->
 <!--                    tools:layout_editor_absoluteY="70dp" />-->
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/textColorPrimary"
                     app:cardCornerRadius="20dp"
                     android:onClick="phoneCheck"
                     android:layout_marginTop="10dp">
@@ -161,7 +178,84 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:cardCornerRadius="15dp"
+                    app:strokeColor="@color/textColorPrimary"
+                    app:strokeWidth="1dp"
+                    android:layout_marginTop="30dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.49"
+                            android:text="남"
+                            android:textColor="@color/textColorPrimary"
+                            android:gravity="center"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.005"
+                            android:background="@color/textColorPrimary"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.49"
+                            android:text="여"
+                            android:textColor="@color/textColorPrimary"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:singleLine="true"
+                    app:singleSelection="true"
+                    android:layout_gravity="center_horizontal"
+                    app:chipSpacingHorizontal="10dp">
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="서울"
+                        android:checked="true"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경기남부"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경기북부"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인천"/>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타"/>
+                </com.google.android.material.chip.ChipGroup>
+
+                <Spinner
+                    android:id="@+id/region_spnr"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"/>
 <!--                <Button-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -175,25 +269,18 @@
                     android:layout_height="wrap_content"
                     android:text="회원 정보"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"
-                    android:layout_marginTop="50dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:background="@color/textColorPrimary"
-                    android:layout_marginTop="3dp"/>
+                    android:textSize="18sp"
+                    android:layout_marginTop="100dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="50dp"
                     android:gravity="center_vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:hint="아이디">
@@ -203,7 +290,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -222,11 +310,11 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:onClick="idCheck"-->
 <!--                    android:text="중복확인" />-->
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="@color/colorPrimaryDark"
-                        app:cardCornerRadius="5dp"
+                        android:backgroundTint="@color/textColorPrimary"
+                        app:cardCornerRadius="15dp"
                         android:onClick="idCheck"
                         android:layout_margin="15dp">
 
@@ -239,24 +327,24 @@
                             android:textSize="13sp"
                             android:textStyle="bold" />
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_pw"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 <!--            <EditText-->
@@ -272,19 +360,19 @@
 <!--                tools:layout_editor_absoluteY="70dp" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호 확인"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_pw_check"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -296,45 +384,27 @@
 
 
 
+<!--            <RadioGroup-->
+<!--                android:id="@+id/signup_gender"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:text="성별 "
-                android:textSize="20dp"
-                android:textStyle="bold" />
+<!--                <RadioButton-->
+<!--                    android:id="@+id/signup_male"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="남자 " />-->
 
-            <RadioGroup
-                android:id="@+id/signup_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/signup_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="남자 " />
-
-                <RadioButton
-                    android:id="@+id/signup_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:text="여자 " />
-            </RadioGroup>
-
-            <Spinner
-                android:id="@+id/region_spnr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp" />
-
+<!--                <RadioButton-->
+<!--                    android:id="@+id/signup_female"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="40dp"-->
+<!--                    android:layout_marginRight="40dp"-->
+<!--                    android:text="여자 " />-->
+<!--            </RadioGroup>-->
 
         <!--    <Button-->
         <!--        android:layout_width="wrap_content"-->
@@ -348,17 +418,18 @@
     <LinearLayout
         android:id="@+id/signup_btnCon"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:gravity="center">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/signup_confirmBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:backgroundTint="@color/colorPrimaryDark"
+            app:strokeColor="@color/textColorPrimary"
+            app:strokeWidth="1dp"
             app:cardCornerRadius="20dp"
             android:onClick="signup">
 
@@ -367,11 +438,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="가입하기"
-                android:textColor="@color/white"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

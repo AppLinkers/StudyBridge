@@ -1,11 +1,10 @@
-package com.example.studybridge.Study;
+package com.example.studybridge.Study.StudyMento;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.R;
 import com.google.android.material.tabs.TabLayout;
 

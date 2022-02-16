@@ -73,8 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         regionSpnr.setAdapter(spinnerArrayAdapter);
 
-        signupMentRg = findViewById(R.id.signup_type);
-        signupGender = findViewById(R.id.signup_gender);
+//        signupMentRg = findViewById(R.id.signup_type);
+//        signupGender = findViewById(R.id.signup_gender);
 
         pwCheck = findViewById(R.id.pw_check_str);
 
@@ -85,29 +85,29 @@ public class SignUpActivity extends AppCompatActivity {
         signupName = findViewById(R.id.signup_name);
 
 
-        signupMentRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.signup_mentor:
-                        break;
-                    case R.id.signup_menti:
-                        break;
-                }
-            }
-        });
+//        signupMentRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                switch (i){
+//                    case R.id.signup_mentor:
+//                        break;
+//                    case R.id.signup_menti:
+//                        break;
+//                }
+//            }
+//        });
 
-        signupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.signup_male:
-                        break;
-                    case R.id.signup_female:
-                        break;
-                }
-            }
-        });
+//        signupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                switch (i){
+//                    case R.id.signup_male:
+//                        break;
+//                    case R.id.signup_female:
+//                        break;
+//                }
+//            }
+//        });
 
 
     }

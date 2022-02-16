@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.studybridge">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,7 +37,7 @@
             android:name=".ToDo.ToDoDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".Study.StudyAddActivity"
+            android:name=".Study.StudyMenti.StudyAddActivity"
             android:exported="true" />
         <activity
             android:name=".Subscribe.SubscribeActivity"
@@ -50,6 +51,16 @@
         <activity
             android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true" />
+
+        <activity android:name=".Study.StudyMenti.StudyMentiDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.StudyMentoDetail"
+            android:exported="true"/>
+
+
+        <activity android:name=".Study.StudyMenti.StudyMentiFilterActivity"
+            android:exported="true"/>
+
         <activity
             android:name=".Login.LoginActivity"
             android:exported="true">

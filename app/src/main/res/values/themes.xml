@@ -8,6 +8,7 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
     </style>
 
+    //textInput
     <style name="Widget.StudyBridge.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
         <item name="hintTextColor">@color/textColorPrimary</item>
@@ -15,10 +16,20 @@
         <item name="boxStrokeColor">@color/textInputOutlineColor</item>
     </style>
 
+    <style name="Widget.StudyBridge.TextInputLayout.black" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
+        <item name="hintTextColor">@color/textColorPrimary</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="boxStrokeColor">@color/textColorPrimary</item>
+
+    </style>
+
     <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+
+    //Toolbar
     <style name="Widget.StudyBridge.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/white</item>
         <item name="android:theme">@style/Theme.StudyBridge</item>
@@ -29,6 +40,8 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+
+    //Button
     <style name="Widget.StudyBridge.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="backgroundTint">?attr/colorPrimaryDark</item>
@@ -38,21 +51,31 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+
+    //ActionBar
     <style name="Theme.StudyBridge.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    //Chip
     <style name="Widget.StudyBridge.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
-        <item name="checkedIcon">@drawable/ic_check_primarydark</item>
+        <item name="checkedIcon">@drawable/ic_check_white</item>
         <item name="checkedIconVisible">true</item>
-        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipBackgroundColor">@color/chip_background_list_pink</item>
+        <item name="android:textColor">@color/chip_text_list</item>
         <item name="chipStrokeColor">@color/colorPrimaryDark</item>
         <item name="chipStrokeWidth">1dp</item>
     </style>
     <style name="Widget.StudyBridge.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipBackgroundColor">@color/colorPrimaryDark</item>
+        <item name="chipBackgroundColor">@color/chip_background_list</item>
+        <item name="android:textColor">@color/chip_text_list</item>
+        <item name="chipStrokeColor">@color/textColorPrimary</item>
+        <item name="chipStrokeWidth">1dp</item>
     </style>
+
+
 
     <style name="Theme.StudyBridge.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

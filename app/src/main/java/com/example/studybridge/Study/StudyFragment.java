@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.ToDo;
-import com.example.studybridge.ToDo.ToDoAdapter;
+import com.example.studybridge.Study.StudyMenti.StudyMentiFragment;
+import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 
 public class StudyFragment extends Fragment {
 
