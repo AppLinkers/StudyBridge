@@ -1,6 +1,10 @@
 package com.example.studybridge.Study.StudyMenti;
 
-public class StudyMenti {
+import androidx.cardview.widget.CardView;
+
+import java.io.Serializable;
+
+public class StudyMenti implements Serializable {
 
     int status;
     String subject;
@@ -66,5 +70,23 @@ public class StudyMenti {
 
     public void setStudyPeopleNum(int studyPeopleNum) {
         this.studyPeopleNum = studyPeopleNum;
+    }
+
+    public String statusStr(){
+        int status = getStatus();
+        if(status == 0){
+            return "멘티 모집중";
+        }
+        else if(status == 1){
+            return "멘토 모집중";
+        }
+        else if(status ==2){
+            return "매칭완료";
+        }else{
+            return "스터디 종료";
+
+        }
+
+
     }
 }

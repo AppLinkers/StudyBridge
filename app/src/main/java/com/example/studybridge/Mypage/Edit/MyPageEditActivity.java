@@ -1,6 +1,8 @@
 package com.example.studybridge.Mypage.Edit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,13 +31,28 @@ public class MyPageEditActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LinearLayout changeImage;
     private ImageView imgNow;
+    private TextView editIdTv;
+    private TextView editNameTv;
 
     public static final int PICK_IMAGE = 1;
+
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_NAME = "user_name_key";
+
+    SharedPreferences sharedPreferences;
+    private String userName;
+    private String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_editinfo_activity);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userName= sharedPreferences.getString(USER_NAME, "사용자");
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+
 
         toolbar = (Toolbar) findViewById(R.id.mypage_edit_bar);
 
@@ -45,6 +63,11 @@ public class MyPageEditActivity extends AppCompatActivity {
         //이미지 변경
         changeImage = (LinearLayout) findViewById(R.id.mypage_edit_changeImg);
         imgNow = (ImageView) findViewById(R.id.mypage_edit_img);
+        editIdTv = findViewById(R.id.edit_id);
+        editNameTv = findViewById(R.id.edit_name);
+
+        editIdTv.setText(userId);
+        editNameTv.setText(userName);
 
         changeImage.setOnClickListener(new View.OnClickListener() {
             @Override
