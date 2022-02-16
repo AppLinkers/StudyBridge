@@ -1,4 +1,4 @@
-package com.example.studybridge.Study;
+package com.example.studybridge.Study.StudyMento;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,15 +13,18 @@ import com.example.studybridge.R;
 
 import org.jetbrains.annotations.NotNull;
 
-public class StudyMentoCommentFragment extends Fragment {
+public class StudyMentoExperienceFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.study_mento_detail_comment_fragment,container,false);
+        View view = inflater.inflate(R.layout.study_mento_detail_experience_fragment,container,false);
 
 
         return view;
     }
+
+
 }
+

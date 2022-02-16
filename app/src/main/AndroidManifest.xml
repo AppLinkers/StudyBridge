@@ -33,17 +33,19 @@
             android:name=".ToDo.ToDoDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".Study.StudyAddActivity"
+            android:name=".Study.StudyMenti.StudyAddActivity"
             android:exported="true" />
         <activity
             android:name=".Subscribe.SubscribeActivity"
             android:exported="true" />
 
-        <activity android:name=".Study.StudyMentiDetail"
+        <activity android:name=".Study.StudyMenti.StudyMentiDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.StudyMentoDetail"
             android:exported="true"/>
 
 
-        <activity android:name=".Study.StudyMentiFilterActivity"
+        <activity android:name=".Study.StudyMenti.StudyMentiFilterActivity"
             android:exported="true"/>
         <activity android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true"/>

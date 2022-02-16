@@ -1,4 +1,4 @@
-package com.example.studybridge.Study;
+package com.example.studybridge.Study.StudyMenti;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.ToDo;
-import com.example.studybridge.ToDo.ToDoHolder;
 
 import org.jetbrains.annotations.NotNull;
 
