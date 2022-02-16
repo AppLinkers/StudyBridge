@@ -13,7 +13,8 @@
         android:layout_above="@id/signup_btnCon">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -68,34 +69,38 @@
                     app:strokeColor="@color/textColorPrimary"
                     app:strokeWidth="1dp"
                     android:layout_marginTop="50dp">
-
-                    <LinearLayout
+                    <RadioGroup
+                        android:id="@+id/signup_type"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/signup_mento"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <RadioButton
+                            android:id="@+id/signup_mentor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.49"
+                            android:layout_weight="0.4975"
+                            android:button="@null"
                             android:text="멘토 회원"
-                            android:textColor="@color/textColorPrimary"
+                            android:background="@color/chip_background_list"
+                            android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.005"
                             android:background="@color/textColorPrimary"/>
-                        <TextView
+                        <RadioButton
                             android:id="@+id/signup_menti"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.49"
-                            android:text="멘티 회원"
-                            android:textColor="@color/textColorPrimary"
+                            android:layout_weight="0.4975"
+                            android:button="@null"
+                            android:text="멘토 회원"
+                            android:background="@color/chip_background_list"
+                            android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
-                    </LinearLayout>
+                    </RadioGroup>
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -188,36 +193,42 @@
                     app:strokeWidth="1dp"
                     android:layout_marginTop="30dp">
 
-                    <LinearLayout
+                    <RadioGroup
+                        android:id="@+id/signup_gender"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/sigup_male"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <RadioButton
+                            android:id="@+id/signup_male"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.49"
+                            android:layout_weight="0.4975"
+                            android:button="@null"
                             android:text="남"
-                            android:textColor="@color/textColorPrimary"
+                            android:background="@color/chip_background_list"
+                            android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.005"
                             android:background="@color/textColorPrimary"/>
-                        <TextView
+                        <RadioButton
                             android:id="@+id/signup_female"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.49"
+                            android:layout_weight="0.4975"
+                            android:button="@null"
                             android:text="여"
-                            android:textColor="@color/textColorPrimary"
+                            android:background="@color/chip_background_list"
+                            android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
-                    </LinearLayout>
+                    </RadioGroup>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/signup_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -253,11 +264,11 @@
                         android:text="기타"/>
                 </com.google.android.material.chip.ChipGroup>
 
-                <Spinner
-                    android:id="@+id/region_spnr"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"/>
+<!--                <Spinner-->
+<!--                    android:id="@+id/region_spnr"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginTop="20dp"/>-->
 <!--                <Button-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -362,11 +373,12 @@
 <!--                tools:layout_editor_absoluteY="70dp" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/signup_pw_check_layout"
                     style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호 확인"
-                    app:endIconMode="password_toggle">
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_pw_check"
