@@ -128,21 +128,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="휴대폰 번호">
+                    android:hint="휴대폰 번호"
+                    app:helperTextEnabled="true"
+                    app:helperText="(-) 제외하고 입력해주세요">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 <!--                <EditText-->
@@ -285,7 +290,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -329,14 +335,16 @@
                     style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="비밀번호">
+                    android:hint="비밀번호"
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_pw"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 <!--            <EditText-->
@@ -355,14 +363,16 @@
                     style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="비밀번호 확인">
+                    android:hint="비밀번호 확인"
+                    app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/signup_pw_check"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:ems="10"/>
+                        android:ems="10"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
