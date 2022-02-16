@@ -43,12 +43,6 @@
             android:name=".Subscribe.SubscribeActivity"
             android:exported="true" />
         <activity
-            android:name=".Study.StudyMentiDetail"
-            android:exported="true" />
-        <activity
-            android:name=".Study.StudyMentiFilterActivity"
-            android:exported="true" />
-        <activity
             android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true" />
 
