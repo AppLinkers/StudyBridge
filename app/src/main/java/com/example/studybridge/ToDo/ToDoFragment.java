@@ -21,10 +21,17 @@ public class ToDoFragment extends Fragment {
     private ToDoAdapter adapter;
     ArrayList<ToDo> arrayList;
 
+    private String userId;
+    private String userName;
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.todo_fragment, container, false);
+
+        Bundle bundle = getArguments();
+        userId = bundle.getString("id");
+        userName = bundle.getString("name");
 
         //recycler
         recyclerView = (RecyclerView) view.findViewById(R.id.toDo_RCView);

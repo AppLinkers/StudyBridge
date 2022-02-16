@@ -49,15 +49,14 @@ public class ToDoDetailHolder extends RecyclerView.ViewHolder {
                         arrow.setImageResource(R.drawable.ic_arrow_up);
                         String statusStr = todoStatus.getText().toString();
                         getData(statusStr,assignList);
-                        Toast.makeText(view.getContext(), statusStr,Toast.LENGTH_SHORT).show();
                         recyclerView.setAdapter(adapter);
                         clicked = false;
                     } else {
                        adapter.clearItem();
                        recyclerView.setAdapter(adapter);
                        recyclerView.setVisibility(View.GONE);
-                        arrow.setImageResource(R.drawable.ic_arrow_down);
-                        clicked = true;
+                       arrow.setImageResource(R.drawable.ic_arrow_down);
+                       clicked = true;
                     }
 
                 }

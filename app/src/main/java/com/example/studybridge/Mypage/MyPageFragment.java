@@ -20,11 +20,28 @@ public class MyPageFragment extends Fragment {
     private MyPageChatFragment chatFragment;
     private TextView editBtn;
 
+    private TextView userIdTv;
+    private TextView userNameTv;
+
+    private String userName;
+    private String userId;
+
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mypage_fragment, container, false);
         tabLayout = (TabLayout) view.findViewById(R.id.mypage_tab);
+
+        userIdTv = view.findViewById(R.id.mypage_id);
+        userNameTv = view.findViewById(R.id.mypage_name);
+
+        Bundle bundle =getArguments();
+        userName = bundle.getString("name");
+        userId = bundle.getString("id");
+
+        userIdTv.setText(userId);
+        userNameTv.setText(userName);
 
         myFragment = new MyPageMyFragment();
         chatFragment = new MyPageChatFragment();

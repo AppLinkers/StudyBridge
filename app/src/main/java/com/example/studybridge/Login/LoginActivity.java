@@ -1,6 +1,8 @@
 package com.example.studybridge.Login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -28,14 +30,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+
     DataService dataService = new DataService();
     Gson gson = new Gson();
 
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing Member
+    public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_NAME = "user_name_key";
+
+    // variable for shared preferences.
+    SharedPreferences sharedPreferences;
+    String user_login_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        // initializing our shared preferences.
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        // getting data from shared prefs and
+        // storing it in our string variable.
 
         final TextInputEditText loginIdEditText = findViewById(R.id.id_edit_text);
         final TextInputLayout passwordTextInput = findViewById(R.id.password_text_input);
@@ -57,12 +76,18 @@ public class LoginActivity extends AppCompatActivity {
                     UserLoginReq userLoginReq = new UserLoginReq(loginIdEditText.getText().toString(), passwordEditText.getText().toString());
 
 
+
                     // 로그인 서비스 실행
                     dataService.userAuth.login(userLoginReq).enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
                             if (response.isSuccessful()) {
-                                UserLoginRes userLoginRes = gson.fromJson(response.body().toString(), UserLoginRes.class);
+                                UserLoginRes data = gson.fromJson(response.body().toString(), UserLoginRes.class);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString(USER_ID_KEY, data.getLoginId());
+                                editor.putString(USER_NAME, data.getName());
+                                editor.apply();
 
                                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                 startActivity(intent);

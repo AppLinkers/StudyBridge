@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.UserLoginReq;
+import com.example.studybridge.http.dto.UserLoginRes;
 import com.example.studybridge.http.dto.UserSignUpReq;
 import com.example.studybridge.http.dto.UserSignUpRes;
+import com.google.gson.Gson;
 
 import java.util.Locale;
 
@@ -49,6 +52,8 @@ public class SignUpActivity extends AppCompatActivity {
     boolean idCheck =  true;
 
     private DataService dataService;
+    private DataService dataService2;
+    Gson gson;
 
 
 
@@ -60,6 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
         String[] items = {"서울","경기남부","경기북부","인천","기타"};
         regionSpnr = findViewById(R.id.region_spnr);
         dataService = new DataService();
+        dataService2 = new DataService();
+        gson = new Gson();
 
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
@@ -107,14 +114,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signup(View view) {
 
-
-        if(!signupPw.getText().toString().equals(signupPwCheck.getText().toString())) {
-            pwCheck.setText("비밀번호가 다릅니다 ");
+        if(signupPw.getText().toString().length()<8) {
+            pwCheck.setText("비밀번호는 8자 이상 적어주세요. ");
             return;
-        }else{
+        } else{
             pwCheck.setText(" ");
             signupPwStr = signupPw.getText().toString();
         }
+
+
+        if(!signupPw.getText().toString().equals(signupPwCheck.getText().toString())) {
+            pwCheck.setText("비밀번호가 다릅니다. ");
+            return;
+        } else{
+            pwCheck.setText(" ");
+            signupPwStr = signupPw.getText().toString();
+        }
+
         RadioButton mentRad =  findViewById(signupMentRg.getCheckedRadioButtonId());
         RadioButton genderRad = findViewById(signupGender.getCheckedRadioButtonId());
 
@@ -129,11 +145,14 @@ public class SignUpActivity extends AppCompatActivity {
         String total = "type: "+ role + " Name: "+ name  +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
 
         UserSignUpReq userSignUpReq = new UserSignUpReq(name, id, signupPwStr, role, phone,gender,region);
+        UserLoginReq usl = new UserLoginReq(id,role);
+
 
             dataService.userAuth.signUp(userSignUpReq).enqueue(new Callback<UserSignUpRes>() {
                 @Override
                 public void onResponse(Call<UserSignUpRes> call, Response<UserSignUpRes> response) {
                     if (response.isSuccessful()) {
+
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                     } else {
@@ -156,9 +175,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-
                     idCheck = true;
-                    Toast.makeText(getApplicationContext(), "중복확인완료", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "중복확인완료"+response.body().toString(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "중복된 아이디입니다", Toast.LENGTH_SHORT).show();
                     idCheck = false;

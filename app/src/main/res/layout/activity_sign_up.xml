@@ -288,17 +288,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--            <EditText-->
-<!--                android:id="@+id/signup_pw_check"-->
-<!--                android:layout_width="350dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:ems="10"-->
-<!--                android:hint="비밀번호 재확인 "-->
-<!--                android:inputType="textPassword"-->
-<!--                android:textColorHint="#032149"-->
-<!--                tools:layout_editor_absoluteX="8dp"-->
-<!--                tools:layout_editor_absoluteY="70dp" />-->
-
             <TextView
                 android:id="@+id/pw_check_str"
                 android:layout_width="match_parent"

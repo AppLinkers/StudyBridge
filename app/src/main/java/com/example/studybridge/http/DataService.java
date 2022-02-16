@@ -8,7 +8,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class DataService {
 
-    private String LOCAL_URL = "http://10.0.2.2:8080/";
+    private String LOCAL_URL = "http://172.30.1.40:8080/";
     private String AWS_URL = "http://3.141.122.128:8080/";
 
 
