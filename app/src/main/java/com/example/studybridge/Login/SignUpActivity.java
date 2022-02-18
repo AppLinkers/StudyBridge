@@ -149,10 +149,10 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         }
 
 
-        if(id.length()<=6 || signupPwStr.length()<=5 || phone.length()<9 || name.length()<2 || role.equals("") || gender.equals("")) {
-            Toast.makeText(getApplicationContext(),"필수 항목을 입력해주세요. ",Toast.LENGTH_SHORT).show();
-        }
-        else{
+//        if(id.length()<=6 || signupPwStr.length()<=5 || phone.length()<9 || name.length()<2 || role.equals("") || gender.equals("")) {
+//            Toast.makeText(getApplicationContext(),"필수 항목을 입력해주세요. ",Toast.LENGTH_SHORT).show();
+//        }
+//        else{
             String total = "type: "+ role + " Name: "+ name  +" id: "+id+" pw: "+signupPwStr+" phone: "+phone+" region: "+region+ " gender: "+gender;
             System.out.println(total);
 
@@ -166,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "error?", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -176,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                 }
             });
 
-        }
+ //       }
 
     }
 

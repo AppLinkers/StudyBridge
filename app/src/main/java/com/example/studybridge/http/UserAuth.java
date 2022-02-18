@@ -16,9 +16,9 @@ import retrofit2.http.Query;
 
 public interface UserAuth {
 
-    @Multipart
+
     @POST("user/auth/sign")
-    Call<UserSignUpRes> signUp(@Part UserSignUpReq userSignUpReq);
+    Call<UserSignUpRes> signUp(@Body UserSignUpReq userSignUpReq);
 
     @POST("user/auth/")
     Call<Object> login(@Body UserLoginReq userLoginReq);
