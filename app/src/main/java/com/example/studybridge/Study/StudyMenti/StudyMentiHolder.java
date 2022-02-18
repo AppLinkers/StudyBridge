@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), StudyMentiDetail.class);
+                Intent intent2 = new Intent(view.getContext(), ChatActivity.class);
 
                 String passName = studyName.getText() +"";
                 String passSubject = subject.getText() +"";
@@ -52,9 +54,13 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
                 StudyMenti studyMenti = new StudyMenti(statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
 
-                intent.putExtra("study", studyMenti);
+//                // if user does has the study auth
+//                intent.putExtra("study", studyMenti);
+//                view.getContext().startActivity(intent);
 
-                view.getContext().startActivity(intent);
+                // else
+                intent2.putExtra("study", studyMenti);
+                view.getContext().startActivity(intent2);
             }
         });
 

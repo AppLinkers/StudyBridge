@@ -59,6 +59,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
     public void gotoChat(View view) {
+
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
         intent.putExtra("study", study);
         startActivity(intent);
