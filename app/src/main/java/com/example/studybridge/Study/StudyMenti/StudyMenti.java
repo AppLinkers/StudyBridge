@@ -13,7 +13,17 @@ public class StudyMenti implements Serializable {
     String studyIntro;
     int maxNum;
 
-
+    @Override
+    public String toString() {
+        return "StudyMenti{" +
+                "status=" + status +
+                ", subject='" + subject + '\'' +
+                ", place='" + place + '\'' +
+                ", studyName='" + studyName + '\'' +
+                ", studyIntro='" + studyIntro + '\'' +
+                ", maxNum=" + maxNum +
+                '}';
+    }
 
     public StudyMenti(int status, String subject, String place, String studyName, String studyIntro, int maxNum) {
         this.status = status;

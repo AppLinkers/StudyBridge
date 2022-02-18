@@ -1,7 +1,11 @@
 package com.example.studybridge.Study.StudyMenti;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +13,25 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.StudyFindRes;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class StudyMentiFragment extends Fragment {
@@ -29,6 +43,7 @@ public class StudyMentiFragment extends Fragment {
     private RelativeLayout mentiFilter;
     private Chip subjectChip,placeChip;
 
+    private DataService dataService = new DataService();
 
     @Nullable
     @Override
@@ -92,20 +107,60 @@ public class StudyMentiFragment extends Fragment {
         }
     }
 
+    @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData() {
-        StudyMenti m1 = new StudyMenti(0,"운전면허","서울","1종 대형 스터디","대형따고 운전병ㅠㅠ",5);
-        StudyMenti m2 = new StudyMenti(1,"영어","경기","프리토킹 스터디","프리토킹",2);
-        StudyMenti m3 = new StudyMenti(2,"코딩","인천","코딩 스터디","안드로이드 마스터",3);
-        StudyMenti m4 = new StudyMenti(1,"운동","부산","헬스","3대 500가드아",4);
 
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
+        AsyncTask<Void, Void, List<StudyFindRes>> listAPI = new AsyncTask<Void, Void, List<StudyFindRes>>() {
+            @Override
+            protected List<StudyFindRes> doInBackground(Void... params) {
+                Call<List<StudyFindRes>> call = dataService.study.find();
+                try {
+                    return call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(List<StudyFindRes> s) {
+                super.onPostExecute(s);
+            }
+        }.execute();
+
+
+        List<StudyFindRes> result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (result != null) {
+            result.forEach(s -> {
+
+                String status = s.getStatus();
+                int status_int;
+
+                if (status.equals("APPLY")) {
+                    status_int = 0;
+                } else if (status.equals("WAIT")) {
+                    status_int = 1;
+                } else if (status.equals("MATCHED")) {
+                    status_int = 2;
+                } else {
+                    status_int = 3;
+                }
+
+                StudyMenti studyMenti = new StudyMenti(status_int, s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                Log.d("test", studyMenti.toString());
+
+                adapter.addItem(studyMenti);
+
+            });
+        }
+
 
     }
 }
