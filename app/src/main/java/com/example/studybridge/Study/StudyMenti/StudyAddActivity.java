@@ -102,6 +102,9 @@ public class StudyAddActivity extends AppCompatActivity {
                     public void onResponse(Call<StudyMakeRes> call, Response<StudyMakeRes> response) {
                         if (response.isSuccessful()) {
                             Log.d("test", String.valueOf(response.raw()));
+                            Toast.makeText(StudyAddActivity.this, "추가가 완료되었습니다. ", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
                         }
                     }
 
@@ -111,8 +114,6 @@ public class StudyAddActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(getApplicationContext(), study.getSubject(), Toast.LENGTH_SHORT).show();
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
