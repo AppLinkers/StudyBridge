@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,7 +14,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.StudyMakeReq;
+import com.example.studybridge.http.dto.StudyMakeRes;
 import com.google.android.material.textfield.TextInputEditText;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudyAddActivity extends AppCompatActivity {
 
@@ -30,6 +38,8 @@ public class StudyAddActivity extends AppCompatActivity {
     int maxNum;
     String studyIntro;
     StudyMenti study;
+
+    private DataService dataService = new DataService();
 
     // creating constant keys for shared preferences.
     public static final String SHARED_PREFS = "shared_prefs";
@@ -84,6 +94,23 @@ public class StudyAddActivity extends AppCompatActivity {
 
 
                 study = new StudyMenti(0, subject, studyPlace, title,studyIntro,maxNum);
+
+                StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, studyPlace, maxNum);
+
+                dataService.study.make(studyMakeReq).enqueue(new Callback<StudyMakeRes>() {
+                    @Override
+                    public void onResponse(Call<StudyMakeRes> call, Response<StudyMakeRes> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("test", String.valueOf(response.raw()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<StudyMakeRes> call, Throwable t) {
+
+                    }
+                });
+
                 Toast.makeText(getApplicationContext(), study.getSubject(), Toast.LENGTH_SHORT).show();
                 finish();
                 return true;
