@@ -1,4 +1,4 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoDetail;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInside;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +49,7 @@ public class ToDoDetialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getAssignCount(){
         int count= list.size();
         for(ToDoInside data : list){
-            if(data.getStatus().equals("Done")){
+            if(data.getStatus().equals("Done") || data.getStatus().equals("Confirmed")){
                 count -= 1;
             }
         }

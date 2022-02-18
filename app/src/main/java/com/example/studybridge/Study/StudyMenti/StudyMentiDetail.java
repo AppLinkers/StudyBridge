@@ -12,8 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.ToDoAddDialog;
-import com.example.studybridge.ToDo.ToDoDetailActivity;
 
 public class StudyMentiDetail extends AppCompatActivity {
 
@@ -66,13 +64,13 @@ public class StudyMentiDetail extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

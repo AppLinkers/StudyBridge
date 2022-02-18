@@ -1,4 +1,4 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoMain;
 
 import android.content.Intent;
 import android.view.View;
@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.example.studybridge.ToDo.ToDoDetail.ToDoDetailActivity;
+import com.example.studybridge.ToDo.ToDoMain.ToDo;
 
 import org.jetbrains.annotations.NotNull;
 

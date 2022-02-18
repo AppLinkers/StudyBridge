@@ -1,4 +1,4 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoInside;
 
 import android.view.LayoutInflater;
 import android.view.View;

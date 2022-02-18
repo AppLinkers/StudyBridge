@@ -1,19 +1,13 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoInside;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.studybridge.ToDo.ToDoManageActivity;
 
 public class ToDoInsideHolder extends RecyclerView.ViewHolder {
 

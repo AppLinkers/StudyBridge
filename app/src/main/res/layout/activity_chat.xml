@@ -24,10 +24,10 @@
         android:id="@+id/rc_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
         android:layout_above="@+id/chat"
         android:layout_below="@+id/toolbarCon"
-        app:stackFromEnd="true"/>
+        android:paddingTop="15dp"
+        app:stackFromEnd="true" />
 
     <RelativeLayout
         android:id="@+id/chat"
@@ -65,12 +65,6 @@
                 android:src="@drawable/ic_send" />
         </LinearLayout>
 
-        <!--            <Button-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="50dp"-->
-        <!--                android:text="send"-->
-        <!--                android:onClick="send"-->
-        <!--                android:layout_weight="0.2"/>-->
     </RelativeLayout>
 
 

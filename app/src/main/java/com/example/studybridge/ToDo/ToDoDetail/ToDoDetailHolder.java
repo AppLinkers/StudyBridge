@@ -1,20 +1,17 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoDetail;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInside;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInsideAdapter;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ToDoDetailHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoDetail;
 
 public class ToDoDetail {
 

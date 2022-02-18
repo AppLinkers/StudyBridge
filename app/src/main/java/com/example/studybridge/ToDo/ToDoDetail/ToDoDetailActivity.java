@@ -1,12 +1,9 @@
-package com.example.studybridge.ToDo;
+package com.example.studybridge.ToDo.ToDoDetail;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoAddDialog;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInside;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInsideAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_detail_activity);
+
 
         todayDate = (TextView) findViewById(R.id.todyDate);
         todayDay = (TextView) findViewById(R.id.todayDay);
@@ -75,14 +76,20 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         getAssignData();
         addData(intent);
+        trackAssign();
 
+    }
+
+
+
+
+    private void trackAssign(){
         //남은 할 일
         int leftCount = adapter.getAssignCount();
         double wholeCount = adapter.getWholeCount();
-        double perc = Math.round((double) leftCount/wholeCount*100);
+        double perc = Math.round((double) 100 - (leftCount/wholeCount*100));
 
         String remainP = "총 "+perc+"% 완료";
-
         StringBuilder sb = new StringBuilder();
         sb.append("할 일 ").append(String.valueOf(leftCount)).append("개 남음");
 
@@ -95,10 +102,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
         ToDoDetail d1 = new ToDoDetail("Ready");
         ToDoDetail d2 = new ToDoDetail("Progress");
         ToDoDetail d3 = new ToDoDetail("Done");
+        ToDoDetail d4 = new ToDoDetail("Confirmed");
 
         adapter.addItem(d1);
         adapter.addItem(d2);
         adapter.addItem(d3);
+        adapter.addItem(d4);
     }
 
     private void addData(Intent intent){
@@ -115,7 +124,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         ToDoInside l1 = new ToDoInside("운전과제","3.1","Progress","운");
         ToDoInside l2 = new ToDoInside("물리과제 ","5.1","Ready","운");
         ToDoInside l4 = new ToDoInside("물리과제 ","5.1","Ready","운");
-        ToDoInside l3 = new ToDoInside("화학과제 ","7.1","Ready","운");
+        ToDoInside l3 = new ToDoInside("화학과제 ","7.1","Confirmed","운");
         adapter.addAssign(l);
         adapter.addAssign(l1);
         adapter.addAssign(l2);

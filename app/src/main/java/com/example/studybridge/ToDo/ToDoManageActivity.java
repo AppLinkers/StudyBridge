@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoDetail.ToDoDetailActivity;
+import com.example.studybridge.ToDo.ToDoInside.ToDoInside;
 
 public class ToDoManageActivity extends AppCompatActivity {
 
@@ -45,7 +47,7 @@ public class ToDoManageActivity extends AppCompatActivity {
         }else if(status.equals("Progress")){
             progressBtn.setChecked(true);
         }else if(status.equals("Done")){
-            progressBtn.setChecked(true);
+            doneBtn.setChecked(true);
         }
 
 
@@ -69,7 +71,7 @@ public class ToDoManageActivity extends AppCompatActivity {
                 RadioButton rb =  findViewById(radioGroup.getCheckedRadioButtonId());
                 data = rb.getText()+"";
                 td.setStatus(data);
-                Intent i = new Intent(getApplicationContext(),ToDoDetailActivity.class);
+                Intent i = new Intent(getApplicationContext(), ToDoDetailActivity.class);
                 i.putExtra("newD", td);
                 startActivity(i);
             }

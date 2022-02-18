@@ -34,7 +34,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ToDo.ToDoDetailActivity"
+            android:name=".ToDo.ToDoDetail.ToDoDetailActivity"
             android:exported="true" />
         <activity
             android:name=".Study.StudyMenti.StudyAddActivity"
