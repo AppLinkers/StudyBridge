@@ -83,7 +83,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         place.setText(data.getPlace());
         studyName.setText(data.getStudyName());
         studyIntro.setText(data.getStudyIntro());
-        studyPeopleNum.setText(String.valueOf(data.getStudyPeopleNum()));
+        studyPeopleNum.setText(String.valueOf(data.getMaxNum()));
         status.setText(data.statusStr());
 
         if(data.status == 0){

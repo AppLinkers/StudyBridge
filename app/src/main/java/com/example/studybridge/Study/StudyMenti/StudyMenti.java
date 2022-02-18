@@ -11,17 +11,17 @@ public class StudyMenti implements Serializable {
     String place;
     String studyName;
     String studyIntro;
-    int studyPeopleNum;
+    int maxNum;
 
 
 
-    public StudyMenti(int status, String subject, String place, String studyName, String studyIntro, int studyPeopleNum) {
+    public StudyMenti(int status, String subject, String place, String studyName, String studyIntro, int maxNum) {
         this.status = status;
         this.subject = subject;
         this.place = place;
         this.studyName = studyName;
         this.studyIntro = studyIntro;
-        this.studyPeopleNum = studyPeopleNum;
+        this.maxNum = maxNum;
     }
 
     public int getStatus() {
@@ -64,12 +64,12 @@ public class StudyMenti implements Serializable {
         this.studyIntro = studyIntro;
     }
 
-    public int getStudyPeopleNum() {
-        return studyPeopleNum;
+    public int getMaxNum() {
+        return maxNum;
     }
 
-    public void setStudyPeopleNum(int studyPeopleNum) {
-        this.studyPeopleNum = studyPeopleNum;
+    public void setMaxNum(int maxNum) {
+        this.maxNum = maxNum;
     }
 
     public String statusStr(){

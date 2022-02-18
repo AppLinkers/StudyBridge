@@ -53,7 +53,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         place.setText(study.getPlace());
         status.setText(study.statusStr());
         intro.setText(study.getStudyIntro());
-        peopleNum.setText(study.getStudyPeopleNum()+"");
+        peopleNum.setText(study.getMaxNum()+"");
 
 
     }

@@ -141,8 +141,20 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         phone = signupPhone.getText().toString();
         role = "";
         gender = "";
-        if(mentRad != null){ role= mentRad.getText()+"".toUpperCase(); }
-        if(genderRad != null){ gender = genderRad.getText()+"".toUpperCase(); }
+        if(mentRad != null){
+            if(mentRad.getText().toString().equals("멘토 회원")){
+                role= "MENTOR";
+            }else{
+                role = "MENTEE";
+            }
+             }
+        if(genderRad != null){
+            if(genderRad.getText().toString().equals("남")){
+                gender = "MALE";
+            }else{
+                gender = "FEMALE";
+            }
+        }
         if((signupPw.getText().toString()).equals(signupPwCheck.getText().toString())){ signupPwStr = signupPw.getText().toString();}
         else{
             pwCheck.setText("비밀번호가 다릅니다. ");
@@ -166,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getApplicationContext(), "error?", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -188,7 +200,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     idCheck = true;
-                    Toast.makeText(getApplicationContext(), "중복확인완료"+response.body().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "중복확인완료", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "중복된 아이디입니다", Toast.LENGTH_SHORT).show();
                     idCheck = false;

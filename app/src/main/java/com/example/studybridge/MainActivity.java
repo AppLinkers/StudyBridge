@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
+import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.ToDo.ToDoMain.ToDoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
     Fragment ToDoFragment;
     Fragment MyPageFragment;
     BottomNavigationView bottomNavigationView;
+
+    StudyMenti newStudy;
 
 
     // creating constant keys for shared preferences.
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+
+
 
         HomeFragment = new HomeFragment();
         StudyFragment = new StudyFragment();
