@@ -17,6 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.StudyApplyReq;
+import com.example.studybridge.http.dto.StudyApplyRes;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +39,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String userId;
+    Long studyId;
 
 
     @Override
@@ -59,6 +64,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         StudyMenti study = (StudyMenti)intent.getSerializableExtra("study");
 
 
+        studyId = study.getId();
         subject.setText(study.getSubject());
         place.setText(study.getPlace());
         status.setText(study.statusStr());
@@ -78,6 +84,21 @@ public class StudyMentiDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // 신청된 userLoginIdList
+        dataService.study.userList(studyId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("test", response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+
 
     }
 
@@ -85,23 +106,24 @@ public class StudyMentiDetail extends AppCompatActivity {
 
         //give auth to mentee for the study.
 
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+        StudyApplyReq studyApplyReq = new StudyApplyReq(userId, studyId);
+
+        dataService.study.apply(studyApplyReq).enqueue(new Callback<StudyApplyRes>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
                 if (response.isSuccessful()) {
-                    if (response.body()) {
-                        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                        intent.putExtra("study", study);
-                        startActivity(intent);
-                    }
+                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                    intent.putExtra("study", study);
+                    startActivity(intent);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<StudyApplyRes> call, Throwable t) {
 
             }
         });
+
     }
 
     @Override
