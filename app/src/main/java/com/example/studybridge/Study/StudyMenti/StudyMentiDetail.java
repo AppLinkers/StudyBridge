@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.StudyApplyReq;
+import com.example.studybridge.http.dto.StudyApplyRes;
+
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -27,8 +32,10 @@ import retrofit2.Response;
 public class StudyMentiDetail extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextView subject,place,peopleNum,status,intro;
+    private TextView subject,place,peopleNum,status,intro,enrollList,mentorList;
     private StudyMenti study;
+    private Button applyBtn;
+    private Button applyMentor;
 
     DataService dataService = new DataService();
 
@@ -37,16 +44,15 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String userId;
+    Long studyId;
+
+    int enrollCount;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<String> userList = new ArrayList<String>();
-        userList.add("admin");
-        userList.add("test");
-        userList.add("mentee");
 
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -60,23 +66,23 @@ public class StudyMentiDetail extends AppCompatActivity {
         peopleNum = (TextView) findViewById(R.id.menti_detail_peopleNum);
         status = (TextView) findViewById(R.id.menti_detail_status);
         intro = (TextView) findViewById(R.id.menti_detail_intro);
+        enrollList = findViewById(R.id.enroll_members);
+        applyBtn = findViewById(R.id.applyBtn);
+        applyMentor = findViewById(R.id.applyMentor);
+        mentorList = (TextView) findViewById(R.id.enroll_mentor);
 
+        enrollCount = 0;
 
 
         Intent intent = getIntent();
         study = (StudyMenti)intent.getSerializableExtra("study");
 
 
+        studyId = study.getId();
         subject.setText(study.getSubject());
         place.setText(study.getPlace());
         status.setText(study.statusStr());
         intro.setText(study.getStudyIntro());
-        peopleNum.setText(study.getMaxNum()+"");
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("1 / ").append(study.getMaxNum()+"").append("명");
-        String peopleStr = sb.toString();
-
 
 
         //툴바 설정
@@ -85,32 +91,56 @@ public class StudyMentiDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-    }
 
-    public void applyStudy(View view) {
-
-        //give auth to mentee for the study.
-
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+        // 신청된 userLoginIdList
+        dataService.study.userList(studyId).enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body()) {
-                        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                        intent.putExtra("study", study);
-                        startActivity(intent);
-                    }else{
-                        Toast.makeText(StudyMentiDetail.this, "멘티만 신청 할 수 있는 페이지 입니다.", Toast.LENGTH_SHORT).show();
+                    enrollList.setText(response.body().toString());
+                    enrollCount = response.body().size();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(enrollCount+"").append("/").append(study.getMaxNum()+"").append("명");
+                    String peopleStr = sb.toString();
+                    peopleNum.setText(peopleStr);
+                    if(response.body().get(0).equals(userId)){
+                        //방장일 경우에
+
+
                     }
                 }
             }
 
             @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+
+
+        //멘토 멘티 확인
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    applyBtn.setVisibility(View.VISIBLE);
+                    applyMentor.setVisibility(View.GONE);
+                }else{
+                    applyBtn.setVisibility(View.GONE);
+                    applyMentor.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
 
             }
         });
+
+
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,5 +150,30 @@ public class StudyMentiDetail extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void applyStudy(View view) {
+
+        //give auth to mentee for the study.
+        StudyApplyReq studyApplyReq = new StudyApplyReq(userId, studyId);
+
+        dataService.study.apply(studyApplyReq).enqueue(new Callback<StudyApplyRes>() {
+            @Override
+            public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
+                if (response.isSuccessful()) {
+                    applyBtn.setText("신청완료");
+                    applyBtn.setEnabled(false);
+//                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+//                    intent.putExtra("study", study);
+//                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onFailure(Call<StudyApplyRes> call, Throwable t) {  }
+        });
+    }
+
+    public void applyMentor(View view) {
+        Toast.makeText(getApplicationContext(), "멘토 신청완료", Toast.LENGTH_SHORT).show();
     }
 }
