@@ -93,7 +93,7 @@ public class StudyAddActivity extends AppCompatActivity {
                 studyIntro = studyIntroEt.getText().toString();
 
 
-                study = new StudyMenti(0, subject, studyPlace, title,studyIntro,maxNum);
+                study = new StudyMenti(0L, 0, subject, studyPlace, title,studyIntro,maxNum);
 
                 StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, studyPlace, maxNum);
 

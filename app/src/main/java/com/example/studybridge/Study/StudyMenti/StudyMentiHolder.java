@@ -2,7 +2,9 @@ package com.example.studybridge.Study.StudyMenti;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,8 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
 
 import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
@@ -24,6 +31,16 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public TextView studyIntro;
     public TextView studyPeopleNum;
     public CardView statusColor;
+
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "user_id_key";
+
+    SharedPreferences sharedPreferences;
+    String user_login_id;
+
+    Long study_id;
+
+    DataService dataService = new DataService();
 
 
     public StudyMentiHolder(@NonNull @NotNull View itemView) {
@@ -52,15 +69,39 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 String passIntro = studyIntro.getText() +"";
 
 
-                StudyMenti studyMenti = new StudyMenti(statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
+                StudyMenti studyMenti = new StudyMenti(study_id , statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
 
-//                // if user does has the study auth
+                // 현재 스터디 id 와 사용자 로그인 아이디 필요
+                dataService.study.isApplied(study_id, "test_loginId").enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body()) {
+                                // if user does has the study auth
 //                intent.putExtra("study", studyMenti);
 //                view.getContext().startActivity(intent);
+                            } else {
+                                // else
+                                intent2.putExtra("study", studyMenti);
+                                view.getContext().startActivity(intent2);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
+
 
                 // else 
                 intent2.putExtra("study", studyMenti);
                 view.getContext().startActivity(intent2);
+//
+//                // else
+//                intent2.putExtra("study", studyMenti);
+//                view.getContext().startActivity(intent2);
             }
         });
 
@@ -84,7 +125,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
 
     public void onBind(StudyMenti data) {
-//        status.setText(String.valueOf(data.getStatus()));
+        study_id = data.getId();
         subject.setText(data.getSubject());
         place.setText(data.getPlace());
         studyName.setText(data.getStudyName());

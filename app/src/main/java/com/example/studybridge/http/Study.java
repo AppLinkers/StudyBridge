@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface Study {
 
@@ -20,4 +21,7 @@ public interface Study {
 
     @GET("study")
     Call<List<StudyFindRes>> find();
+
+    @GET("study/isApplied")
+    Call<Boolean> isApplied(@Query("studyID") Long studyId, @Query("userLoginId") String userLoginId);
 }

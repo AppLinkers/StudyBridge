@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class StudyMenti implements Serializable {
 
+    Long id;
     int status;
     String subject;
     String place;
@@ -25,13 +26,22 @@ public class StudyMenti implements Serializable {
                 '}';
     }
 
-    public StudyMenti(int status, String subject, String place, String studyName, String studyIntro, int maxNum) {
+    public StudyMenti(Long id, int status, String subject, String place, String studyName, String studyIntro, int maxNum) {
+        this.id = id;
         this.status = status;
         this.subject = subject;
         this.place = place;
         this.studyName = studyName;
         this.studyIntro = studyIntro;
         this.maxNum = maxNum;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getStatus() {
