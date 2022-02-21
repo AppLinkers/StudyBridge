@@ -58,7 +58,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 //                intent.putExtra("study", studyMenti);
 //                view.getContext().startActivity(intent);
 
-                // else
+                // else 
                 intent2.putExtra("study", studyMenti);
                 view.getContext().startActivity(intent2);
             }
