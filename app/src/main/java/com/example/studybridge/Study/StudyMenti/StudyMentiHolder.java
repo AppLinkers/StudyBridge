@@ -85,7 +85,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                             if (response.body()) {
                                 // if user does have the study auth
                                 intent2.putExtra("study", studyMenti);
-                                Toast.makeText(itemView.getContext(), studyMenti.toString(), Toast.LENGTH_SHORT).show();
                                 view.getContext().startActivity(intent2);
                             } else {
                                 // else

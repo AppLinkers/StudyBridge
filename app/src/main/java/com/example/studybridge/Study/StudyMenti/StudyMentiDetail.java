@@ -18,6 +18,8 @@ import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +43,12 @@ public class StudyMentiDetail extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ArrayList<String> userList = new ArrayList<String>();
+        userList.add("admin");
+        userList.add("test");
+        userList.add("mentee");
+
+
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
@@ -56,7 +64,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        StudyMenti study = (StudyMenti)intent.getSerializableExtra("study");
+        study = (StudyMenti)intent.getSerializableExtra("study");
 
 
         subject.setText(study.getSubject());
@@ -64,8 +72,6 @@ public class StudyMentiDetail extends AppCompatActivity {
         status.setText(study.statusStr());
         intro.setText(study.getStudyIntro());
         peopleNum.setText(study.getMaxNum()+"");
-
-        Toast.makeText(getApplicationContext(), study.toString(), Toast.LENGTH_SHORT).show();
 
         StringBuilder sb = new StringBuilder();
         sb.append("1 / ").append(study.getMaxNum()+"").append("명");
@@ -93,6 +99,8 @@ public class StudyMentiDetail extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                         intent.putExtra("study", study);
                         startActivity(intent);
+                    }else{
+                        Toast.makeText(StudyMentiDetail.this, "멘티만 신청 할 수 있는 페이지 입니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
