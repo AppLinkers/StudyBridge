@@ -84,11 +84,13 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                         if (response.isSuccessful()) {
                             if (response.body()) {
                                 // if user does have the study auth
-                                intent2.putExtra("study", studyMenti);
-                                view.getContext().startActivity(intent2);
+                                intent.putExtra("study", studyMenti);
+                                intent.putExtra("hasAuth", true);
+                                view.getContext().startActivity(intent);
                             } else {
                                 // else
                                 intent.putExtra("study", studyMenti);
+                                intent.putExtra("hasAuth", false);
                                 view.getContext().startActivity(intent);
                             }
                         }

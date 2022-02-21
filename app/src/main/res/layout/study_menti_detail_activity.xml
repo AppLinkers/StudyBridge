@@ -227,36 +227,38 @@
 
             </LinearLayout>
         </ScrollView>
+
         <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:gravity="center"
             android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:background="@color/white">
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.StudyBridge.Button"
-                android:id="@+id/applyBtn"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="신청하기"
-                android:onClick="applyStudy"
-                android:visibility="gone"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
+            android:paddingRight="25dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/applyBtn"
                 style="@style/Widget.StudyBridge.Button"
-                android:id="@+id/applyMentor"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="멘토 신청하기"
-                android:onClick="applyMentor"
-                android:visibility="gone"
+                android:onClick="applyStudy"
+                android:text="신청하기"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/applyMentor"
+                style="@style/Widget.StudyBridge.Button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:onClick="applyMentor"
+                android:text="멘토 신청하기"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.studybridge.Study.StudyMenti;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +43,8 @@ public class StudyMentiDetail extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
 
+    boolean hasAuth = false;
+
     SharedPreferences sharedPreferences;
     String userId;
     Long studyId;
@@ -49,6 +52,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     int enrollCount;
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,8 @@ public class StudyMentiDetail extends AppCompatActivity {
 
         Intent intent = getIntent();
         study = (StudyMenti)intent.getSerializableExtra("study");
+        hasAuth = intent.getBooleanExtra("hasAuth",false);
+
 
 
         studyId = study.getId();
@@ -136,7 +142,16 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
+        if(hasAuth){
+            applyBtn.setEnabled(false);
+            applyBtn.setText("이미 신청하셨습니다");
+            applyBtn.setBackgroundColor(R.color.disableBtn);
+            applyMentor.setEnabled(false);
+            applyMentor.setText("이미 신청하셨습니다");
+            applyMentor.setBackgroundColor(R.color.disableBtn);
+        }else{
 
+        }
 
     }
 
