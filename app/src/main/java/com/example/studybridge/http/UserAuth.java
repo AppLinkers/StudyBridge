@@ -26,4 +26,7 @@ public interface UserAuth {
     @GET("user/auth/id")
     Call<String> valid(@Query("userLoginId") String userLoginId);
 
+    @GET("user/auth/role")
+    Call<Boolean> isMentee(@Query("userLoginId") String userLoginId);
+
 }
