@@ -154,7 +154,7 @@ public class StudyMentiFragment extends Fragment {
                     status_int = 3;
                 }
 
-                StudyMenti studyMenti = new StudyMenti(status_int, s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                StudyMenti studyMenti = new StudyMenti(s.getId(), status_int, s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
                 Log.d("test", studyMenti.toString());
 
                 adapter.addItem(studyMenti);
