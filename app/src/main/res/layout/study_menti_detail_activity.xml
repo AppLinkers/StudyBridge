@@ -204,7 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="신청하기"
-                android:onClick="gotoChat"
+                android:onClick="applyStudy"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
         </LinearLayout>

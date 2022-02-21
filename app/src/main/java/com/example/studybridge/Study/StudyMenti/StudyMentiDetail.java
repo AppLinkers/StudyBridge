@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,22 +32,10 @@ public class StudyMentiDetail extends AppCompatActivity {
         status = (TextView) findViewById(R.id.menti_detail_status);
         intro = (TextView) findViewById(R.id.menti_detail_intro);
 
+
+
         Intent intent = getIntent();
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("1 / ").append(intent.getExtras().getString("peopleNum")).append("명");
-        String peopleStr = sb.toString();
-
-
-
-        //툴바 설정
-        toolbar.setTitle(intent.getExtras().getString("name"));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        //넘어온 데이터 입력
-        study = (StudyMenti) intent.getSerializableExtra("study");
+        StudyMenti study = (StudyMenti)intent.getSerializableExtra("study");
 
 
         subject.setText(study.getSubject());
@@ -55,10 +44,25 @@ public class StudyMentiDetail extends AppCompatActivity {
         intro.setText(study.getStudyIntro());
         peopleNum.setText(study.getMaxNum()+"");
 
+        Toast.makeText(getApplicationContext(), study.toString(), Toast.LENGTH_SHORT).show();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("1 / ").append(study.getMaxNum()+"").append("명");
+        String peopleStr = sb.toString();
+
+
+
+        //툴바 설정
+        toolbar.setTitle(study.getStudyName());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 
-    public void gotoChat(View view) {
+    public void applyStudy(View view) {
+
+        //give auth to mentee for the study.
 
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
         intent.putExtra("study", study);

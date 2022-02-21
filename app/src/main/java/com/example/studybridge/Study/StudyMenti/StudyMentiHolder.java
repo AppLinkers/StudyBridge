@@ -1,12 +1,14 @@
 package com.example.studybridge.Study.StudyMenti;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -36,7 +38,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public static final String USER_ID_KEY = "user_id_key";
 
     SharedPreferences sharedPreferences;
-    String user_login_id;
+    String userId;
 
     Long study_id;
 
@@ -55,6 +57,9 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
         statusColor = (CardView) itemView.findViewById(R.id.menti_status_Card);
 
+        sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,19 +76,21 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
                 StudyMenti studyMenti = new StudyMenti(study_id , statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
 
+
                 // 현재 스터디 id 와 사용자 로그인 아이디 필요
-                dataService.study.isApplied(study_id, "test_loginId").enqueue(new Callback<Boolean>() {
+                dataService.study.isApplied(study_id, userId).enqueue(new Callback<Boolean>() {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                         if (response.isSuccessful()) {
                             if (response.body()) {
-                                // if user does has the study auth
-//                intent.putExtra("study", studyMenti);
-//                view.getContext().startActivity(intent);
+                                // if user does have the study auth
+                                intent2.putExtra("study", studyMenti);
+                                Toast.makeText(itemView.getContext(), studyMenti.toString(), Toast.LENGTH_SHORT).show();
+                                view.getContext().startActivity(intent2);
                             } else {
                                 // else
-                                intent2.putExtra("study", studyMenti);
-                                view.getContext().startActivity(intent2);
+                                intent.putExtra("study", studyMenti);
+                                view.getContext().startActivity(intent);
                             }
                         }
                     }
@@ -94,10 +101,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                     }
                 });
 
-
-                // else 
-                intent2.putExtra("study", studyMenti);
-                view.getContext().startActivity(intent2);
 //
 //                // else
 //                intent2.putExtra("study", studyMenti);
