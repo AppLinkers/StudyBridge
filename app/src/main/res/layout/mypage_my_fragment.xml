@@ -64,6 +64,27 @@
         android:layout_height="0.5dp"
         android:background="@color/colorPrimaryDark"/>
     <LinearLayout
+        android:id="@+id/myPage_goToMentoProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MY 프로필 (멘토 전용)"
+            android:textStyle="bold"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorPrimaryDark"/>
+    <LinearLayout
         android:id="@+id/myPage_goToSubscibe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
