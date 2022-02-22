@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
 
@@ -100,6 +101,13 @@ public class StudyMentiDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        //버튼 재설정
+        //auth, 멘토 멘티 확인
+        buttonChange(userId);
+        //스터디 상태 확인
+      //  checkStudyStatus(studyId);
+
+
 
         // 신청된 menteeLoginIdList
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
@@ -114,7 +122,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                     peopleNum.setText(peopleStr);
                 }
             }
-
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
 
@@ -122,6 +129,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         });
 
 
+        //멘토리스트 표시
         dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -134,9 +142,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-
-
-        buttonChange(userId);
 
 
     }
@@ -195,6 +200,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                     if(managerId.equals(userId)){
                         startStudy.setVisibility(View.VISIBLE);
                         applyBtn.setVisibility(View.GONE);
+
                     }else{
                         applyBtn.setEnabled(false);
                         applyBtn.setText("이미 신청하셨습니다");
@@ -217,7 +223,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                 if(response.body()){
                     applyBtn.setText("스터디 신청하기");
                 }else{
-                    applyBtn.setText("멘토 신청하기");
+                    applyBtn.setText("멘토로 신청하기");
                 }
             }
             @Override
@@ -229,19 +235,77 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
     public void startStudy(View view) {
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+        if(startStudy.getText().equals("스터디 시작하기")){
+            toMatched();
+        }else if(startStudy.getText().equals("멘토 모집하기")){
+            toWait();
+        }
+    }
+
+    public void toMatched(){
+        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, "MATCHED");
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body()){
-                    applyBtn.setText("스터디 신청하기");
-                }else{
-                    applyBtn.setText("멘토 신청하기");
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(StudyMentiDetail.this, "스터디가 시작되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
             }
         });
-
     }
+
+    public void toWait(){
+        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, "WAIT");
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    startStudy.setText("스터디 시작하기");
+                    Toast.makeText(StudyMentiDetail.this, "멘토모집이 시작되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
+
+    public void checkStudyStatus(Long studyId){
+        dataService.study.studyStatus(studyId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    if(response.body().equals("APPLY")){
+                        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                            @Override
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                if(response.body()){
+                                    startStudy.setText("멘토 모집하기");
+                                }else{
+                                    startStudy.setText("스터디 시작하기");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Boolean> call, Throwable t) {
+
+                            }
+                        });
+                    }else if(response.body().equals("WAIT")){
+                        startStudy.setText("스터디 시작하기");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.studybridge.http;
 
+import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
 import com.example.studybridge.http.dto.StudyFindRes;
@@ -38,4 +39,10 @@ public interface Study {
 
     @GET("study/maker")
     Call<String> maker(@Query("studyId") Long studyId);
+
+    @POST("study/status")
+    Call<String> status(@Body ChangeStatusReq changeStatusReq);
+
+    @GET("study/studyStatus")
+    Call<String> studyStatus(@Query("studyId") Long studyId);
 }

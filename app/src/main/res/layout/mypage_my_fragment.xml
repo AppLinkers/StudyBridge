@@ -71,6 +71,7 @@
         android:paddingBottom="20dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
+        android:visibility="gone"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
