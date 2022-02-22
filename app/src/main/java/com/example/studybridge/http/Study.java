@@ -36,4 +36,6 @@ public interface Study {
     @GET("study/mentee")
     Call<List<String>> menteeList(@Query("studyId") Long studyId);
 
+    @GET("study/maker")
+    Call<String> maker(@Query("studyId") Long studyId);
 }
