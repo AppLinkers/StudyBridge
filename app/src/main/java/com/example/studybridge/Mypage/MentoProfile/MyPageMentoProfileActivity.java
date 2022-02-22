@@ -1,10 +1,12 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextView name, school;
+    private TextView name, school,goToCheck;
     private TextInputEditText intro,nickName,curi,appeal;
     private MyPageMentoProfile mentoProfile;
     private Chip seoul,geongi,incheon,placeEtc;
@@ -57,6 +59,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         userName = sharedPreferences.getString(USER_NAME, "사용자");
 
         name.setText(userName);
+
 
         //지역, 과목 선택
 
@@ -112,8 +115,15 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-
+        //학교 인증 가기
+        goToCheck = (TextView) findViewById(R.id.mypage_mentoProfile_school_goToCheck);
+        goToCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyPageMentoProfileActivity.this,MyPageMentoProfileSchoolCheck.class);
+                startActivityForResult(intent,201);
+            }
+        });
 
 
 
@@ -150,5 +160,19 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case 201:
+                    String schoolResult = data.getStringExtra("schoolResult");
+                    school.setText(schoolResult);
+            }
+        }
+
     }
 }

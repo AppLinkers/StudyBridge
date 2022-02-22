@@ -47,13 +47,12 @@
             android:exported="true" />
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileActivity"
             android:exported="true"/>
-
         <activity android:name=".Study.StudyMenti.StudyMentiDetail"
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.StudyMentoDetail"
             android:exported="true"/>
-
-
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
+            android:exported="true"/>
         <activity android:name=".Study.StudyMenti.StudyMentiFilterActivity"
             android:exported="true"/>
 
