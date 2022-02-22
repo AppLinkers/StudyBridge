@@ -48,6 +48,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String userId;
     Long studyId;
+    String managerId;
 
     int enrollCount;
 
@@ -99,6 +100,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
         // 신청된 menteeLoginIdList
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
@@ -110,9 +112,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                     sb.append(enrollCount+"").append("/").append(study.getMaxNum()+"").append("명");
                     String peopleStr = sb.toString();
                     peopleNum.setText(peopleStr);
-//                    if(response.body().get(0).equals(userId)){
-//                        //방장일 경우에
-//                    }
                 }
             }
 
@@ -121,16 +120,15 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
+
 
         dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()) {
                     mentorList.setText(response.body().toString());
-
                 }
             }
-
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
 
@@ -138,30 +136,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         });
 
 
+        buttonChange(userId);
 
-
-        if(hasAuth){
-            applyBtn.setEnabled(false);
-            applyBtn.setText("이미 신청하셨습니다");
-            applyBtn.setBackgroundColor(R.color.disableBtn);
-        }else{
-
-            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.body()){
-                        applyBtn.setText("스터디 신청하기");
-                    }else{
-                        applyBtn.setText("멘토 신청하기");
-                    }
-                }
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-
-                }
-            });
-
-        }
 
     }
 
@@ -200,16 +176,72 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
 
-    public void isManager(String manager, String userId){
-        if(manager.equals(userId)){
-            startStudy.setVisibility(View.VISIBLE);
-            applyBtn.setVisibility(View.GONE);
+    public void buttonChange(String userId){
+        if(hasAuth){
+            checkAuth();
+        }else{
+            checkMentee();
         }
+
+    }
+
+    public void checkAuth(){
+        dataService.study.maker(studyId).enqueue(new Callback<String>() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    managerId = response.body().toString();
+                    if(managerId.equals(userId)){
+                        startStudy.setVisibility(View.VISIBLE);
+                        applyBtn.setVisibility(View.GONE);
+                    }else{
+                        applyBtn.setEnabled(false);
+                        applyBtn.setText("이미 신청하셨습니다");
+                        applyBtn.setBackgroundColor(R.color.disableBtn);
+                        startStudy.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
+    public void checkMentee(){
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    applyBtn.setText("스터디 신청하기");
+                }else{
+                    applyBtn.setText("멘토 신청하기");
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
     }
 
 
     public void startStudy(View view) {
-        
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    applyBtn.setText("스터디 신청하기");
+                }else{
+                    applyBtn.setText("멘토 신청하기");
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+            }
+        });
 
     }
 }
