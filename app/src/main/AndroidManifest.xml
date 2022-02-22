@@ -45,6 +45,8 @@
         <activity
             android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true" />
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileActivity"
+            android:exported="true"/>
 
         <activity android:name=".Study.StudyMenti.StudyMentiDetail"
             android:exported="true"/>
