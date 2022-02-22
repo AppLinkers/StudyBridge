@@ -16,12 +16,14 @@ import com.example.studybridge.MainActivity;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Subscribe.SubscribeActivity;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
 public class MyPageMyFragment extends Fragment {
 
     private LinearLayout goToSubscribe, goToMentoProfile;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
