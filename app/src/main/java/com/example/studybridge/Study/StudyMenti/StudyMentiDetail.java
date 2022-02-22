@@ -53,14 +53,11 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     int enrollCount;
 
-    boolean isMentee;
-
 
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -85,8 +82,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         Intent intent = getIntent();
         study = (StudyMenti)intent.getSerializableExtra("study");
         hasAuth = intent.getBooleanExtra("hasAuth",false);
-
-
+        
 
         studyId = study.getId();
         subject.setText(study.getSubject());
@@ -105,7 +101,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         //auth, 멘토 멘티 확인
         buttonChange(userId);
         //스터디 상태 확인
-      //  checkStudyStatus(studyId);
+        checkStudyStatus(studyId);
 
 
 
@@ -120,6 +116,9 @@ public class StudyMentiDetail extends AppCompatActivity {
                     sb.append(enrollCount+"").append("/").append(study.getMaxNum()+"").append("명");
                     String peopleStr = sb.toString();
                     peopleNum.setText(peopleStr);
+                    if(enrollCount == study.getMaxNum()){
+                        overMaxNum();
+                    }
                 }
             }
             @Override
@@ -142,7 +141,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-
 
     }
 
@@ -305,6 +303,27 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void overMaxNum(){
+        dataService.study.studyStatus(studyId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    if(response.body().equals("APPLY")){
+                        toWait();
+                    }else if(response.body().equals("WAIT")){
+                        toMatched();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
     }
 
 

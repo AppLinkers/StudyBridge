@@ -19,6 +19,7 @@ import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Subscribe.SubscribeActivity;
 import com.example.studybridge.http.DataService;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +37,7 @@ public class MyPageMyFragment extends Fragment {
     public static final String USER_ID_KEY = "user_id_key";
     SharedPreferences sharedPreferences;
     String userId;
+
 
     @Nullable
     @Override
