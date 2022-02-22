@@ -42,4 +42,7 @@ public interface Study {
 
     @POST("study/status")
     Call<String> status(@Body ChangeStatusReq changeStatusReq);
+
+    @GET("study/studyStatus")
+    Call<String> studyStatus(@Query("studyId") Long studyId);
 }
