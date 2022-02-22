@@ -30,7 +30,10 @@ public interface Study {
     @POST("study/apply")
     Call<StudyApplyRes> apply(@Body StudyApplyReq studyApplyReq);
 
-    @GET("study/userList")
-    Call<List<String>> userList(@Query("studyId") Long studyId);
+    @GET("study/mentor")
+    Call<List<String>> mentorList(@Query("studyId") Long studyId);
+
+    @GET("study/mentee")
+    Call<List<String>> menteeList(@Query("studyId") Long studyId);
 
 }

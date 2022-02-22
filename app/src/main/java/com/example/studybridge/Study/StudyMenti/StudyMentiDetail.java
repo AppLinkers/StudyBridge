@@ -97,9 +97,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-        // 신청된 userLoginIdList
-        dataService.study.userList(studyId).enqueue(new Callback<List<String>>() {
+        // 신청된 menteeLoginIdList
+        dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.isSuccessful()) {
