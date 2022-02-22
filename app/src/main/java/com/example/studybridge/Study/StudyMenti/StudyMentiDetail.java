@@ -36,7 +36,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     private TextView subject,place,peopleNum,status,intro,enrollList,mentorList;
     private StudyMenti study;
     private Button applyBtn;
-    private Button applyMentor;
+    private Button startStudy;
 
     DataService dataService = new DataService();
 
@@ -50,6 +50,8 @@ public class StudyMentiDetail extends AppCompatActivity {
     Long studyId;
 
     int enrollCount;
+
+    boolean isMentee;
 
 
     @SuppressLint("ResourceAsColor")
@@ -72,8 +74,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         intro = (TextView) findViewById(R.id.menti_detail_intro);
         enrollList = findViewById(R.id.enroll_members);
         applyBtn = findViewById(R.id.applyBtn);
-        applyMentor = findViewById(R.id.applyMentor);
         mentorList = (TextView) findViewById(R.id.enroll_mentor);
+        startStudy = (Button) findViewById(R.id.startStudy);
 
         enrollCount = 0;
 
@@ -108,11 +110,24 @@ public class StudyMentiDetail extends AppCompatActivity {
                     sb.append(enrollCount+"").append("/").append(study.getMaxNum()+"").append("명");
                     String peopleStr = sb.toString();
                     peopleNum.setText(peopleStr);
-                    if(response.body().get(0).equals(userId)){
-                        //방장일 경우에
+//                    if(response.body().get(0).equals(userId)){
+//                        //방장일 경우에
+//                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
 
-                    }
+            }
+        });
+
+        dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()) {
+                    mentorList.setText(response.body().toString());
+
                 }
             }
 
@@ -123,38 +138,32 @@ public class StudyMentiDetail extends AppCompatActivity {
         });
 
 
-        //멘토 멘티 확인
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body()){
-                    applyBtn.setVisibility(View.VISIBLE);
-                    applyMentor.setVisibility(View.GONE);
-                }else{
-                    applyBtn.setVisibility(View.GONE);
-                    applyMentor.setVisibility(View.VISIBLE);
-                }
-            }
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
 
-            }
-        });
 
         if(hasAuth){
             applyBtn.setEnabled(false);
             applyBtn.setText("이미 신청하셨습니다");
             applyBtn.setBackgroundColor(R.color.disableBtn);
-            applyMentor.setEnabled(false);
-            applyMentor.setText("이미 신청하셨습니다");
-            applyMentor.setBackgroundColor(R.color.disableBtn);
         }else{
+
+            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if(response.body()){
+                        applyBtn.setText("스터디 신청하기");
+                    }else{
+                        applyBtn.setText("멘토 신청하기");
+                    }
+                }
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
 
         }
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -187,7 +196,20 @@ public class StudyMentiDetail extends AppCompatActivity {
         });
     }
 
-    public void applyMentor(View view) {
-        Toast.makeText(getApplicationContext(), "멘토 신청완료", Toast.LENGTH_SHORT).show();
+
+
+
+
+    public void isManager(String manager, String userId){
+        if(manager.equals(userId)){
+            startStudy.setVisibility(View.VISIBLE);
+            applyBtn.setVisibility(View.GONE);
+        }
+    }
+
+
+    public void startStudy(View view) {
+        
+
     }
 }

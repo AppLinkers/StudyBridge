@@ -246,16 +246,15 @@
                 android:onClick="applyStudy"
                 android:text="신청하기"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyMentor"
+                android:id="@+id/startStudy"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:onClick="applyMentor"
-                android:text="멘토 신청하기"
+                android:onClick="startStudy"
+                android:text="스터디 시작하기"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone" />
