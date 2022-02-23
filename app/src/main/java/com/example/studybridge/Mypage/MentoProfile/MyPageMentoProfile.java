@@ -1,5 +1,7 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
+import android.graphics.Bitmap;
+
 public class MyPageMentoProfile {
 
     private String name;
@@ -10,7 +12,11 @@ public class MyPageMentoProfile {
     private String nickName;
     private String curi;
     private String appeal;
+    private Bitmap quliImg; //자격증 이미지
 
+    public MyPageMentoProfile(){
+
+    }
 
     public MyPageMentoProfile(String name, String place, String subject, String school, String intro, String nickName, String curi, String appeal) {
         this.name = name;
@@ -86,5 +92,13 @@ public class MyPageMentoProfile {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Bitmap getQuliImg() {
+        return quliImg;
+    }
+
+    public void setQuliImg(Bitmap quliImg) {
+        this.quliImg = quliImg;
     }
 }

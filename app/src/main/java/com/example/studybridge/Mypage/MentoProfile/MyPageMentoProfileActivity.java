@@ -1,8 +1,15 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,19 +19,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextView name, school,goToCheck;
+    private TextView name, school,goToCheck,imgCount;
     private TextInputEditText intro,nickName,curi,appeal;
     private MyPageMentoProfile mentoProfile;
     private Chip seoul,geongi,incheon,placeEtc;
@@ -32,6 +45,14 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     //지역 과목 선택 데이터
     private ArrayList<String> selectedPlace;
     private ArrayList<String> selectedSubject;
+    //자격증 이미지 add
+    private MaterialCardView addImg;
+    public static final int PICK_IMAGE = 4;
+    public static final int SCHOOL_CHECK = 201;
+    private ArrayList<MyPageMentoProfile> arrayList;
+    private MyPageMentoProfileAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -121,10 +142,33 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyPageMentoProfileActivity.this,MyPageMentoProfileSchoolCheck.class);
-                startActivityForResult(intent,201);
+                startActivityForResult(intent,SCHOOL_CHECK);
             }
         });
 
+        //자격증 이미지 추가하기
+        addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
+        imgCount = (TextView) findViewById(R.id.mypage_mentoProfile_imgCount);
+
+        recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        arrayList = new ArrayList<>();
+        adapter = new MyPageMentoProfileAdapter(arrayList);
+        recyclerView.setAdapter(adapter);
+
+        addImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+
+            }
+        });
 
 
     }
@@ -162,17 +206,67 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK){
             switch (requestCode){
-                case 201:
+                case SCHOOL_CHECK:
                     String schoolResult = data.getStringExtra("schoolResult");
                     school.setText(schoolResult);
+                case PICK_IMAGE:
+                    try {
+                        InputStream in = getContentResolver().openInputStream(data.getData());
+
+
+                        Bitmap img = BitmapFactory.decodeStream(in);
+
+                        Bitmap rImg = rotateImage(data.getData(), img);
+                        in.close();
+
+                        MyPageMentoProfile profile = new MyPageMentoProfile();
+                        profile.setQuliImg(rImg);
+                        arrayList.add(profile);
+                        adapter.notifyDataSetChanged();//새로 고침
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
             }
+        } else if (resultCode == RESULT_CANCELED) {
+            //취소할 경우 case
         }
+
+    }
+
+
+    //사진 돌아감 방지 메서드
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
+        InputStream in = getContentResolver().openInputStream(uri);
+        ExifInterface exif = new ExifInterface(in);
+        in.close();
+
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+        Matrix matrix = new Matrix();
+
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90){
+            matrix.postRotate(90);
+        }
+        else if (orientation == ExifInterface.ORIENTATION_ROTATE_180){
+            matrix.postRotate(180);
+        }
+        else if (orientation == ExifInterface.ORIENTATION_ROTATE_270){
+            matrix.postRotate(270);
+        }
+
+        return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
 
     }
 }

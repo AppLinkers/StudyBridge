@@ -198,45 +198,69 @@
             </androidx.cardview.widget.CardView>
 
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="자격증"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="18sp"
-                android:layout_marginTop="35dp"/>
+                android:layout_marginTop="35dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="25dp">
-                <androidx.recyclerview.widget.RecyclerView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:scrollbars="none"/>
+                    android:layout_centerVertical="true"
+                    android:text="자격증"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/mypage_mentoProfile_imgCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_toLeftOf="@+id/mypage_mentoProfile_countTv"/>
+
+                <TextView
+                    android:id="@+id/mypage_mentoProfile_countTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/mypage_mentoProfile_addImg"
+                    android:text="개 입력"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="100dp"
-                    android:layout_height="75dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/colorPrimaryDark"
-                    app:cardCornerRadius="10dp">
+                    android:id="@+id/mypage_mentoProfile_addImg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    app:cardCornerRadius="20dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_add"
-                        android:scaleType="center"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_add" />
                 </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
 
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_mentoProfile_rcView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.StudyBridge.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="45dp"
                 android:hint="한줄 소개">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -291,7 +315,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.StudyBridge.TextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_marginTop="15dp"
                 android:hint="커리큘럼">
 
