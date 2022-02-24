@@ -26,13 +26,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Callback;
 
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
@@ -58,7 +68,15 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_NAME = "user_name_key";
+    public static final String USER_ID_KEY = "user_id_key";
+
     private String userName;
+    private String userLoginId;
+
+    private File schoolImg;
+    private List<File> certificatesImg;
+
+    DataService dataService = new DataService();
 
 
     @Override
@@ -80,6 +98,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         //이름 데이터
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userName = sharedPreferences.getString(USER_NAME, "사용자");
+        userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
 
         name.setText(userName);
 
@@ -206,6 +225,19 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         experience.getText().toString(),
                         appeal.getText().toString(),
                         arrayList);
+
+                Map<String, RequestBody> profileReq = new HashMap<>();
+
+                profileReq.put("userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
+                profileReq.put("location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
+                profileReq.put("info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
+                profileReq.put("nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
+                profileReq.put("subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
+                profileReq.put("school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
+                profileReq.put("schoolImg", RequestBody.create(MediaType.parse("multipart/form-data"), schoolImg));
+
+                dataService.userMentor.profile(profileReq).enqueue(new Callback<Object>() {
+                });
 
                 Toast.makeText(getApplicationContext(),arrayList.toString(),Toast.LENGTH_LONG).show();
                 return true;
