@@ -119,4 +119,20 @@ public class MyPageMentoProfile {
     public void setExpeience(String expeience) {
         this.expeience = expeience;
     }
+
+    public File getSchoolImg() {
+        return schoolImg;
+    }
+
+    public void setSchoolImg(File schoolImg) {
+        this.schoolImg = schoolImg;
+    }
+
+    public List<File> getCertificateImg() {
+        return certificateImg;
+    }
+
+    public void setCertificateImg(List<File> certificateImg) {
+        this.certificateImg = certificateImg;
+    }
 }

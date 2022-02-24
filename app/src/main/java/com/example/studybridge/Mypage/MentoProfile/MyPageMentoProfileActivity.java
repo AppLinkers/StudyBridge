@@ -29,18 +29,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
@@ -75,6 +87,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     private List<File> certificatesImg;
 
     DataService dataService = new DataService();
+
+    Gson gson = new Gson();
 
 
     @Override
@@ -203,6 +217,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     }
 
     //메뉴 버튼 설정
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("DefaultLocale")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -212,13 +228,14 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                 //상단 완료버튼 눌렀을때
             case R.id.mentoProfile_complete_btn:
 
-                certificatesImg = new ArrayList<File>();
-
+                certificatesImg = new ArrayList<>();
+                File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
                 for(int i=0; i<arrayList.size();i++){
-                    String dir = saveBitmapToJpg(arrayList.get(i).getQuliImg(), "certificateImg/");
+                    String dir = saveBitmapToJpg(arrayList.get(i).getQuliImg(), String.format("certificateImg%d", i));
                     File imgFile = new File(dir);
                     certificatesImg.add(imgFile);
                 }
+
                 //객체 생성
                 mentoProfile = new MyPageMentoProfile(
                         userName,
@@ -230,22 +247,50 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         curi.getText().toString(),
                         experience.getText().toString(),
                         appeal.getText().toString(),
-                        schoolImg,
+                        test,
                         certificatesImg
                 );
 
-//                Map<String, RequestBody> profileReq = new HashMap<>();
-//
-//                profileReq.put("userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
-//                profileReq.put("location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
-//                profileReq.put("info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
-//                profileReq.put("nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
-//                profileReq.put("subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
-//                profileReq.put("school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
-//                profileReq.put("schoolImg", RequestBody.create(MediaType.parse("multipart/form-data"), schoolImg));
-//
-//                dataService.userMentor.profile(profileReq).enqueue(new Callback<Object>() {
-//                });
+                Map<String, RequestBody> profileReq = new HashMap<>();
+
+                profileReq.put("profileTextReq.userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
+                profileReq.put("profileTextReq.location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
+                profileReq.put("profileTextReq.info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
+                profileReq.put("profileTextReq.nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
+                profileReq.put("profileTextReq.subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
+                profileReq.put("profileTextReq.school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
+                profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExpeience()));
+                profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCuri()));
+                profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
+
+                // school Img
+                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), mentoProfile.getSchoolImg());
+                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchoolImg().getName(), schoolImg);
+
+                List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
+                if (mentoProfile.getCertificateImg().size() > 0) {
+                    mentoProfile.getCertificateImg().forEach(
+                            certificatesImg -> {
+                                RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"), certificatesImg);
+                                certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", certificatesImg.getName(), certificateImg));
+                            }
+                    );
+                }
+
+                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,profileReq).enqueue(new Callback<ProfileRes>() {
+                    @Override
+                    public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("test", response.body().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProfileRes> call, Throwable t) {
+                        Log.d("test", t.toString());
+                    }
+                });
+
 
                 Toast.makeText(getApplicationContext(),school.getText().toString(),Toast.LENGTH_LONG).show();
                 return true;
