@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.studybridge.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -20,9 +24,9 @@ import java.lang.reflect.Field;
 
 public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
 
-    private View view;
-
+    private RadioGroup subjectGroup,placeGroup;
     private LinearLayout applyBtn;
+    private Toolbar toolbar;
 
 
 
@@ -31,6 +35,9 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
     public void setupDialog(Dialog dialog, int style) {
         BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialog;
         bottomSheetDialog.setContentView(R.layout.study_menti_filter);
+
+
+        //다이얼로그 확장 방지
         try {
             Field behaviorField = bottomSheetDialog.getClass().getDeclaredField("behavior");
             behaviorField.setAccessible(true);
@@ -51,6 +58,11 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
         } catch (NoSuchFieldException e) { e.printStackTrace(); }
         catch (IllegalAccessException e) { e.printStackTrace(); }
 
+        //상단바
+        toolbar = (Toolbar) bottomSheetDialog.findViewById(R.id.menti_filter_bar);
+
+
+        //적용하기 클릭 이벤트
         applyBtn = (LinearLayout) bottomSheetDialog.findViewById(R.id.menti_filter_btn);
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,28 +70,51 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
+
+        //필터 선택
+        subjectGroup = (RadioGroup) bottomSheetDialog.findViewById(R.id.menti_filter_subjectGroup);
+        placeGroup = (RadioGroup) bottomSheetDialog.findViewById(R.id.menti_filter_placeGroup);
+
+        subjectGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.menti_filter_allSubject:
+                        break;
+                    case R.id.menti_filter_english:
+                        break;
+                    case R.id.menti_filter_math:
+                        break;
+                    case R.id.menti_filter_dev:
+                        break;
+                    case R.id.menti_filter_etcSubject:
+                        break;
+                }
+            }
+        });
+
+        placeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.menti_filter_allPlace:
+                        break;
+                    case R.id.menti_filter_seoul:
+                        break;
+                    case R.id.menti_filter_geongi:
+                        break;
+                    case R.id.menti_filter_incheon:
+                        break;
+                    case R.id.menti_filter_etcPlace:
+                        break;
+                }
+            }
+        });
     }
+
 }
 
 
-
-    //    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//
-//        view = inflater.inflate(R.layout.study_menti_filter,container,false);
-//
-//
-//        applyBtn = (LinearLayout) view.findViewById(R.id.menti_filter_btn);
-//        applyBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dismiss();
-//            }
-//        });
-//
-//        return view;
-//    }
 
 
 

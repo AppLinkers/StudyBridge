@@ -12,13 +12,13 @@
         android:backgroundTint="@color/white"
         app:elevation="0dp"
         android:layout_alignParentTop="true">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/menti_filter_bar"
+            style="@style/Widget.StudyBridge.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            style="@style/Widget.StudyBridge.Toolbar"
-            app:menu="@menu/menti_filter_menu"
-            app:title="스터디 검색하기"/>
+            app:title="스터디 검색하기" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -39,99 +39,65 @@
             android:textStyle="bold" />
 
         <RadioGroup
+            android:id="@+id/menti_filter_subjectGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
-
                 <RadioButton
+                    android:id="@+id/menti_filter_allSubject"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
                     android:button="@null"
                     android:gravity="center"
                     android:text="전체"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_english"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="영어"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_math"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="수학"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RadioButton
+                android:id="@+id/menti_filter_dev"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
+                android:background="@drawable/radio_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="개발"
+                android:textColor="@color/chip_text_list" />
 
-                <RadioButton
+            <RadioButton
+                    android:id="@+id/menti_filter_etcSubject"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="개발"
-                    android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
-
-                <RadioButton
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="기타"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
         </RadioGroup>
 
         <TextView
@@ -144,99 +110,65 @@
             android:textStyle="bold" />
 
         <RadioGroup
+            android:id="@+id/menti_filter_placeGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
-
                 <RadioButton
+                    android:id="@+id/menti_filter_allPlace"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
                     android:button="@null"
                     android:gravity="center"
                     android:text="전체"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_seoul"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="서울"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_geongi"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="경기"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_incheon"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="인천"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:cardCornerRadius="15dp"
-                app:strokeColor="@color/colorPrimaryDark"
-                app:strokeWidth="1dp">
 
                 <RadioButton
+                    android:id="@+id/menti_filter_etcPlace"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:background="@color/chip_background_list_pink"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:text="기타"
                     android:textColor="@color/chip_text_list" />
-            </com.google.android.material.card.MaterialCardView>
         </RadioGroup>
     </LinearLayout>
 
