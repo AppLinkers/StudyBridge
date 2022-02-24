@@ -37,8 +37,8 @@ import java.util.ArrayList;
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextView name, school,goToCheck,imgCount;
-    private TextInputEditText intro,nickName,curi,appeal;
+    private TextView name, school,goToCheck;
+    private TextInputEditText intro,nickName,curi,experience,appeal;
     private MyPageMentoProfile mentoProfile;
     private Chip seoul,geongi,incheon,placeEtc;
     private Chip english,math,dev,subjectEtc;
@@ -47,12 +47,13 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     private ArrayList<String> selectedSubject;
     //자격증 이미지 add
     private MaterialCardView addImg;
-    public static final int PICK_IMAGE = 4;
+    public static final int PICK_IMAGE = 101;
     public static final int SCHOOL_CHECK = 201;
     private ArrayList<MyPageMentoProfile> arrayList;
     private MyPageMentoProfileAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private ArrayList<Bitmap> imgArr;
 
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -73,6 +74,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         intro = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_intro);
         nickName = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_nickName);
         curi = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_curi);
+        experience = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_experience);
         appeal = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_appeal);
 
         //이름 데이터
@@ -148,7 +150,6 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
 
         //자격증 이미지 추가하기
         addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
-        imgCount = (TextView) findViewById(R.id.mypage_mentoProfile_imgCount);
 
         recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -167,11 +168,15 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
+
             }
         });
 
 
+
     }
+
+
 
     //toolbar
     @Override
@@ -198,9 +203,11 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         intro.getText().toString(),
                         nickName.getText().toString(),
                         curi.getText().toString(),
-                        appeal.getText().toString());
+                        experience.getText().toString(),
+                        appeal.getText().toString(),
+                        arrayList);
 
-                Toast.makeText(getApplicationContext(),mentoProfile.getName()+mentoProfile.getSubject()+mentoProfile.getPlace()+mentoProfile.getIntro(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),arrayList.toString(),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -231,6 +238,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         profile.setQuliImg(rImg);
                         arrayList.add(profile);
                         adapter.notifyDataSetChanged();//새로 고침
+
+
 
 
                     } catch (Exception e) {

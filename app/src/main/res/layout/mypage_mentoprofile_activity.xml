@@ -211,27 +211,6 @@
                     android:textColor="@color/textColorPrimary"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/mypage_mentoProfile_imgCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"
-                    android:layout_toLeftOf="@+id/mypage_mentoProfile_countTv"/>
-
-                <TextView
-                    android:id="@+id/mypage_mentoProfile_countTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/mypage_mentoProfile_addImg"
-                    android:text="개 입력"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
-
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mypage_mentoProfile_addImg"
                     android:layout_width="30dp"
@@ -321,6 +300,20 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/mypage_mentoProfile_curi"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.StudyBridge.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:hint="경력사항">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mypage_mentoProfile_experience"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine" />

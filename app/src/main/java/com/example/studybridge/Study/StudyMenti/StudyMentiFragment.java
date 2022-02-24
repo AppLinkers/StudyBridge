@@ -93,8 +93,8 @@ public class StudyMentiFragment extends Fragment {
 
             sb = new StringBuilder();
 
-            subjectChip = getView().findViewById(R.id.study_menti_subjectFilter);
-            placeChip = getView().findViewById(R.id.study_menti_placeFilter);
+//            subjectChip = getView().findViewById(R.id.study_menti_subjectFilter);
+//            placeChip = getView().findViewById(R.id.study_menti_placeFilter);
 
             sb.append("과목: ").append(data.getStringExtra("subject"));
             String str = sb.toString();
