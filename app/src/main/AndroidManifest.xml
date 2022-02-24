@@ -53,8 +53,6 @@
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMenti.StudyMentiFilterActivity"
-            android:exported="true"/>
 
         <activity
             android:name=".Login.LoginActivity"
