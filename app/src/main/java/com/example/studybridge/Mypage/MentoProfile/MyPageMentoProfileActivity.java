@@ -11,6 +11,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,24 +34,20 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Callback;
 
 public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView name, school,goToCheck;
     private TextInputEditText intro,nickName,curi,experience,appeal;
-    private MyPageMentoProfile mentoProfile;
+    private MyPageMentoProfile tempProfile,mentoProfile;
     private Chip seoul,geongi,incheon,placeEtc;
     private Chip english,math,dev,subjectEtc;
     //지역 과목 선택 데이터
@@ -213,6 +211,14 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                 return true;
                 //상단 완료버튼 눌렀을때
             case R.id.mentoProfile_complete_btn:
+
+                certificatesImg = new ArrayList<File>();
+
+                for(int i=0; i<arrayList.size();i++){
+                    String dir = saveBitmapToJpg(arrayList.get(i).getQuliImg(), "certificateImg/");
+                    File imgFile = new File(dir);
+                    certificatesImg.add(imgFile);
+                }
                 //객체 생성
                 mentoProfile = new MyPageMentoProfile(
                         userName,
@@ -224,22 +230,24 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         curi.getText().toString(),
                         experience.getText().toString(),
                         appeal.getText().toString(),
-                        arrayList);
+                        schoolImg,
+                        certificatesImg
+                );
 
-                Map<String, RequestBody> profileReq = new HashMap<>();
+//                Map<String, RequestBody> profileReq = new HashMap<>();
+//
+//                profileReq.put("userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
+//                profileReq.put("location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
+//                profileReq.put("info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
+//                profileReq.put("nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
+//                profileReq.put("subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
+//                profileReq.put("school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
+//                profileReq.put("schoolImg", RequestBody.create(MediaType.parse("multipart/form-data"), schoolImg));
+//
+//                dataService.userMentor.profile(profileReq).enqueue(new Callback<Object>() {
+//                });
 
-                profileReq.put("userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
-                profileReq.put("location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
-                profileReq.put("info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
-                profileReq.put("nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
-                profileReq.put("subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
-                profileReq.put("school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
-                profileReq.put("schoolImg", RequestBody.create(MediaType.parse("multipart/form-data"), schoolImg));
-
-                dataService.userMentor.profile(profileReq).enqueue(new Callback<Object>() {
-                });
-
-                Toast.makeText(getApplicationContext(),arrayList.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),school.getText().toString(),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -255,6 +263,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
             switch (requestCode){
                 case SCHOOL_CHECK:
                     String schoolResult = data.getStringExtra("schoolResult");
+                    schoolImg = (File) data.getExtras().get("schoolImg");
                     school.setText(schoolResult);
                 case PICK_IMAGE:
                     try {
@@ -266,9 +275,9 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
 
-                        MyPageMentoProfile profile = new MyPageMentoProfile();
-                        profile.setQuliImg(rImg);
-                        arrayList.add(profile);
+                        tempProfile = new MyPageMentoProfile();
+                        tempProfile.setQuliImg(rImg);
+                        arrayList.add(tempProfile);
                         adapter.notifyDataSetChanged();//새로 고침
 
 
@@ -310,4 +319,39 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
 
 
     }
+
+
+    public String saveBitmapToJpg(Bitmap bitmap , String name) {
+        /**
+         * 캐시 디렉토리에 비트맵을 이미지파일로 저장하는 코드입니다.
+         *
+         * @version target API 28 ★ API29이상은 테스트 하지않았습니다.★
+         * @param Bitmap bitmap - 저장하고자 하는 이미지의 비트맵
+         * @param String fileName - 저장하고자 하는 이미지의 비트맵
+         *
+         * File storage = 저장이 될 저장소 위치
+         *
+         * return = 저장된 이미지의 경로
+         *
+         * 비트맵에 사용될 스토리지와 이름을 지정하고 이미지파일을 생성합니다.
+         * FileOutputStream으로 이미지파일에 비트맵을 추가해줍니다.
+         */
+
+        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
+        String fileName = name + ".jpg";
+        File imgFile = new File(storage, fileName);
+        try {
+            imgFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.e("saveBitmapToJpg","FileNotFoundException : " + e.getMessage());
+        } catch (IOException e) {
+            Log.e("saveBitmapToJpg","IOException : " + e.getMessage());
+        }
+        Log.d("imgPath" , getCacheDir() + "/" +fileName);
+        return getCacheDir() + "/" +fileName;
+    }
+
 }

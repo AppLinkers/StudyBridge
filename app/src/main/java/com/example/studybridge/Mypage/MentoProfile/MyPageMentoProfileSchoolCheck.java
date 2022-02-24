@@ -8,12 +8,12 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,8 +23,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.studybridge.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
 
@@ -34,6 +37,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
     private TextView uploadImg;
     private ImageView schoolImg;
     private LinearLayout Btn;
+    private File schoolFile;
 
     public static final int PICK_IMAGE = 1;
 
@@ -78,6 +82,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                 String schoolResult = sb.toString();
                 Intent intent = new Intent();
                 intent.putExtra("schoolResult",schoolResult);
+                intent.putExtra("schoolImg",schoolFile);
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -112,6 +117,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                     Bitmap rImg = rotateImage(data.getData(), img);
                     in.close();
                     schoolImg.setImageBitmap(rImg);
+                    schoolFile = BitmapConvertFile(rImg,Environment.getExternalStorageDirectory()+"/UploadSchoolImg");
 
 
                 } catch (Exception e) {
@@ -147,4 +153,33 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
 
 
     }
+
+    private File BitmapConvertFile(Bitmap bitmap, String strFilePath) {
+        File file = new File(strFilePath);
+        // OutputStream 선언 -> bitmap데이터를 OutputStream에 받아 File에 넣어주는 용도
+        OutputStream out = null;
+        try { // 파일 초기화
+            file.createNewFile();
+
+            // OutputStream에 출력될 Stream에 파일을 넣어준다
+            out = new FileOutputStream(file);
+
+            // bitmap 압축
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                out.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
+
 }

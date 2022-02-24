@@ -41,6 +41,7 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
             @Override
             public void onClick(View view) {
                 remove(holder.getAdapterPosition());
+
             }
         });
     }
