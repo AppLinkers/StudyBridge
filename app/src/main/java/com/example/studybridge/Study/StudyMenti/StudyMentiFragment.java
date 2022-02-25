@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,9 +41,10 @@ public class StudyMentiFragment extends Fragment{
     //리사이클러
     private RecyclerView recyclerView;
     private StudyMentiAdapter adapter;
-    ArrayList<StudyMenti> arrayList;
     private FloatingActionButton mentiFab,filterFab;
     private TextView subjectFilter, placeFilter;
+    LinearLayout applyBtn;
+
 
 
     private DataService dataService = new DataService();
@@ -52,14 +54,7 @@ public class StudyMentiFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_menti_fragment,container,false);
 
-        //recycler
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
-        arrayList = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new StudyMentiAdapter();
-        getData();
-        recyclerView.setAdapter(adapter);
+
 
         //study add btn
         mentiFab = (FloatingActionButton) view.findViewById(R.id.menti_addBtn);
@@ -74,8 +69,12 @@ public class StudyMentiFragment extends Fragment{
             }
         });
 
-        //필터 버튼
+        //필터 버튼 & 텍스트
         filterFab = (FloatingActionButton) view.findViewById(R.id.menti_filterBtn);
+        subjectFilter = (TextView) view.findViewById(R.id.menti_subjectFilter);
+        placeFilter = (TextView) view.findViewById(R.id.menti_placeFilter);
+
+
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,13 +91,21 @@ public class StudyMentiFragment extends Fragment{
             }
         });
 
-        Bundle args = getArguments();
-        subjectFilter = (TextView) view.findViewById(R.id.menti_subjectFilter);
-        placeFilter = (TextView) view.findViewById(R.id.menti_placeFilter);
+        //recycler
+        recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new StudyMentiAdapter();
+        getData();
+        recyclerView.setAdapter(adapter);
+
 
 
         return view;
     }
+
 
 
 
@@ -134,32 +141,75 @@ public class StudyMentiFragment extends Fragment{
         }
 
         if (result != null) {
-            result.forEach(s -> {
 
-                String status = s.getStatus();
-                int status_int;
+            if(subjectFilter.getText().equals("전체")&&placeFilter.getText().equals("전체")) {
 
-                if (status.equals("APPLY")) {
-                    status_int = 0;
-                } else if (status.equals("WAIT")) {
-                    status_int = 1;
-                } else if (status.equals("MATCHED")) {
-                    status_int = 2;
-                } else {
-                    status_int = 3;
-                }
+                result.forEach(s -> {
 
-                StudyMenti studyMenti = new StudyMenti(s.getId(), status_int, s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
-                Log.d("test", studyMenti.toString());
+                    String status = s.getStatus();
 
-                adapter.addItem(studyMenti);
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    Log.d("test", studyMenti.toString());
+                    adapter.addItem(studyMenti);
 
-            });
+
+                });
+            }
+
+            else if(!subjectFilter.getText().toString().equals("전체")&&placeFilter.getText().toString().equals("전체")){
+
+                result.stream().filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
+                    String status = s.getStatus();
+
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    Log.d("test", studyMenti.toString());
+                    adapter.addItem(studyMenti);
+                });
+            }
+            else if(subjectFilter.getText().toString().equals("전체")&&!placeFilter.getText().toString().equals("전체")){
+
+                result.stream().filter(s -> s.getType().equals(placeFilter.getText())).forEach(s -> {
+                    String status = s.getStatus();
+
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    Log.d("test", studyMenti.toString());
+                    adapter.addItem(studyMenti);
+                });
+            }
+            else {
+
+                result.stream().filter(s -> s.getType().equals(placeFilter.getText())).filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
+                    String status = s.getStatus();
+
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    Log.d("test", studyMenti.toString());
+                    adapter.addItem(studyMenti);
+                });
+            }
+
+
+
+
+
         }
 
 
     }
 
+
+
+
+    public int statusVal(String s){
+        if (s.equals("APPLY")) {
+            return  0;
+        } else if (s.equals("WAIT")) {
+            return  1;
+        } else if (s.equals("MATCHED")) {
+            return 2;
+        } else {
+            return  3;
+        }
+    }
 
 
 }

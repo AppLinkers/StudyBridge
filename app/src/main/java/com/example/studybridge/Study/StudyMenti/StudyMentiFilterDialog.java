@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.studybridge.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -134,6 +135,7 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
                 dialogInterfacer.onButtonClick(passSubject,passPlace);
 
                 dismiss();
+
             }
         });
     }

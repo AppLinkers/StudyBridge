@@ -38,10 +38,4 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         listData.add(data);
     }
 
-    public void filterList(ArrayList<StudyMenti> filteredList){
-
-        listData = filteredList;
-        notifyDataSetChanged();
-
-    }
 }
