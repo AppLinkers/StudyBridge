@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -41,8 +42,8 @@ public class StudyMentiFragment extends Fragment{
     private StudyMentiAdapter adapter;
     ArrayList<StudyMenti> arrayList;
     private FloatingActionButton mentiFab,filterFab;
-    private RelativeLayout mentiFilter;
-    private Chip subjectChip,placeChip;
+    private TextView subjectFilter, placeFilter;
+
 
     private DataService dataService = new DataService();
 
@@ -79,39 +80,27 @@ public class StudyMentiFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                StudyMentiFilterDialog bottomSheet = new StudyMentiFilterDialog();
-                bottomSheet.show(getActivity().getSupportFragmentManager(), "tag");
+                StudyMentiFilterDialog bottomSheet = StudyMentiFilterDialog.getInstance();
+                bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
+                    @Override
+                    public void onButtonClick(String subject, String place) {
+                        subjectFilter.setText(subject);
+                        placeFilter.setText(place);
+                    }
+                });
+                bottomSheet.show(getFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
             }
         });
+
+        Bundle args = getArguments();
+        subjectFilter = (TextView) view.findViewById(R.id.menti_subjectFilter);
+        placeFilter = (TextView) view.findViewById(R.id.menti_placeFilter);
 
 
         return view;
     }
 
-    //필터에서 가져온 데이터 처리
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        StringBuilder sb;
-
-        if (requestCode == 101){
-
-            sb = new StringBuilder();
-
-//            subjectChip = getView().findViewById(R.id.study_menti_subjectFilter);
-//            placeChip = getView().findViewById(R.id.study_menti_placeFilter);
-
-            sb.append("과목: ").append(data.getStringExtra("subject"));
-            String str = sb.toString();
-            subjectChip.setText(str);
-
-
-            Toast.makeText(getContext(),data.getStringExtra("subject"),Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(),data.getStringExtra("place"),Toast.LENGTH_SHORT).show();
-
-        }
-    }
 
     @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData() {

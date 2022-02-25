@@ -53,7 +53,8 @@
                     android:button="@null"
                     android:gravity="center"
                     android:text="전체"
-                    android:textColor="@color/chip_text_list" />
+                    android:textColor="@color/chip_text_list"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/menti_filter_english"
@@ -124,7 +125,8 @@
                     android:button="@null"
                     android:gravity="center"
                     android:text="전체"
-                    android:textColor="@color/chip_text_list" />
+                    android:textColor="@color/chip_text_list"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/menti_filter_seoul"

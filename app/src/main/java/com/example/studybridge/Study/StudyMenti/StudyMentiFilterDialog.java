@@ -2,6 +2,7 @@ package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
@@ -25,10 +27,24 @@ import java.lang.reflect.Field;
 public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
 
     private RadioGroup subjectGroup,placeGroup;
+    private RadioButton filterSubject, filterPlace;
+    private String passSubject,passPlace;
     private LinearLayout applyBtn;
     private Toolbar toolbar;
 
+    ////dialog --> fragment 로 값 전달
+    public static StudyMentiFilterDialog getInstance(){
+        StudyMentiFilterDialog dialog = new StudyMentiFilterDialog();
+        return dialog;
+    }
+    public interface DialogInterfacer{
+        void onButtonClick(String subject,String place);
+    }
+    private DialogInterfacer dialogInterfacer;
 
+    public void setDialogInterfacer(DialogInterfacer dialogInterfacer) {
+        this.dialogInterfacer = dialogInterfacer;
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -61,15 +77,6 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
         //상단바
         toolbar = (Toolbar) bottomSheetDialog.findViewById(R.id.menti_filter_bar);
 
-
-        //적용하기 클릭 이벤트
-        applyBtn = (LinearLayout) bottomSheetDialog.findViewById(R.id.menti_filter_btn);
-        applyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
 
         //필터 선택
         subjectGroup = (RadioGroup) bottomSheetDialog.findViewById(R.id.menti_filter_subjectGroup);
@@ -108,6 +115,25 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
                     case R.id.menti_filter_etcPlace:
                         break;
                 }
+            }
+        });
+
+
+
+        //적용하기 클릭 이벤트
+        applyBtn = (LinearLayout) bottomSheetDialog.findViewById(R.id.menti_filter_btn);
+        applyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                filterSubject =bottomSheetDialog.findViewById(subjectGroup.getCheckedRadioButtonId());
+                filterPlace =bottomSheetDialog.findViewById(placeGroup.getCheckedRadioButtonId());
+                passSubject = filterSubject.getText().toString()+"";
+                passPlace = filterPlace.getText().toString()+"";
+
+                dialogInterfacer.onButtonClick(passSubject,passPlace);
+
+                dismiss();
             }
         });
     }
