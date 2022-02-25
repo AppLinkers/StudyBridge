@@ -160,7 +160,6 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         math.setOnCheckedChangeListener(checkedChangeListenerForSubject);
         dev.setOnCheckedChangeListener(checkedChangeListenerForSubject);
         subjectEtc.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-
         seoul.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         geongi.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         incheon.setOnCheckedChangeListener(checkedChangeListenerForPlace);
@@ -250,7 +249,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         curi.getText().toString(),
                         experience.getText().toString(),
                         appeal.getText().toString(),
-                        test,
+                        schoolImg,
                         certificatesImg
                 );
 
