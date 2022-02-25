@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,6 +91,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     Gson gson = new Gson();
 
+    ImageView iv;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,7 +160,6 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         math.setOnCheckedChangeListener(checkedChangeListenerForSubject);
         dev.setOnCheckedChangeListener(checkedChangeListenerForSubject);
         subjectEtc.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-
         seoul.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         geongi.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         incheon.setOnCheckedChangeListener(checkedChangeListenerForPlace);
@@ -247,7 +249,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         curi.getText().toString(),
                         experience.getText().toString(),
                         appeal.getText().toString(),
-                        test,
+                        schoolImg,
                         certificatesImg
                 );
 
@@ -308,7 +310,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
             switch (requestCode){
                 case SCHOOL_CHECK:
                     String schoolResult = data.getStringExtra("schoolResult");
-                    schoolImg = (File) data.getExtras().get("schoolImg");
+                    String dir = data.getStringExtra("schoolImg");
+                    schoolImg = new File(dir);
                     school.setText(schoolResult);
                 case PICK_IMAGE:
                     try {

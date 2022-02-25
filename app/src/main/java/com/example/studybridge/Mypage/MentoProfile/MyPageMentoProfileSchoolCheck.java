@@ -9,11 +9,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -24,6 +26,7 @@ import com.example.studybridge.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +41,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
     private ImageView schoolImg;
     private LinearLayout Btn;
     private File schoolFile;
+    String dir;
 
     public static final int PICK_IMAGE = 1;
 
@@ -82,7 +86,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                 String schoolResult = sb.toString();
                 Intent intent = new Intent();
                 intent.putExtra("schoolResult",schoolResult);
-                intent.putExtra("schoolImg",schoolFile);
+                intent.putExtra("schoolImg",dir);
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -115,11 +119,10 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                     Bitmap img = BitmapFactory.decodeStream(in);
 
                     Bitmap rImg = rotateImage(data.getData(), img);
-                    in.close();
                     schoolImg.setImageBitmap(rImg);
-                    schoolFile = BitmapConvertFile(rImg,Environment.getExternalStorageDirectory()+"/UploadSchoolImg");
+                    dir = saveBitmapToJpg(rImg, String.format("uploadSchool1"));
 
-
+                    in.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -180,6 +183,26 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         }
         return file;
     }
+
+    public String saveBitmapToJpg(Bitmap bitmap , String name) {
+
+        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
+        String fileName = name + ".jpg";
+        File imgFile = new File(storage, fileName);
+        try {
+            imgFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.e("saveBitmapToJpg","FileNotFoundException : " + e.getMessage());
+        } catch (IOException e) {
+            Log.e("saveBitmapToJpg","IOException : " + e.getMessage());
+        }
+        Log.d("imgPath" , getCacheDir() + "/" +fileName);
+        return getCacheDir() + "/" +fileName;
+    }
+
 
 
 }
