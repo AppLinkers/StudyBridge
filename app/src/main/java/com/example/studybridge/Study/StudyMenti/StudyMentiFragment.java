@@ -1,6 +1,7 @@
 package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,12 +35,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class StudyMentiFragment extends Fragment {
+public class StudyMentiFragment extends Fragment{
     //리사이클러
     private RecyclerView recyclerView;
     private StudyMentiAdapter adapter;
     ArrayList<StudyMenti> arrayList;
-    private FloatingActionButton mentiFab;
+    private FloatingActionButton mentiFab,filterFab;
     private RelativeLayout mentiFilter;
     private Chip subjectChip,placeChip;
 
@@ -62,22 +63,27 @@ public class StudyMentiFragment extends Fragment {
         //study add btn
         mentiFab = (FloatingActionButton) view.findViewById(R.id.menti_addBtn);
         mentiFab.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), StudyAddActivity.class);
-                startActivity(intent);
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(getActivity(), mentiFab, "transition_fab");
+                startActivity(intent,options.toBundle());
             }
         });
 
         //필터 버튼
-        mentiFilter = (RelativeLayout) view.findViewById(R.id.menti_filter);
-        mentiFilter.setOnClickListener(new View.OnClickListener() {
+        filterFab = (FloatingActionButton) view.findViewById(R.id.menti_filterBtn);
+        filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),StudyMentiFilterActivity.class);
-                startActivityForResult(intent,101);
+
+                StudyMentiFilterDialog bottomSheet = new StudyMentiFilterDialog();
+                bottomSheet.show(getActivity().getSupportFragmentManager(), "tag");
             }
         });
+
 
         return view;
     }
@@ -93,8 +99,8 @@ public class StudyMentiFragment extends Fragment {
 
             sb = new StringBuilder();
 
-            subjectChip = getView().findViewById(R.id.study_menti_subjectFilter);
-            placeChip = getView().findViewById(R.id.study_menti_placeFilter);
+//            subjectChip = getView().findViewById(R.id.study_menti_subjectFilter);
+//            placeChip = getView().findViewById(R.id.study_menti_placeFilter);
 
             sb.append("과목: ").append(data.getStringExtra("subject"));
             String str = sb.toString();
@@ -164,6 +170,7 @@ public class StudyMentiFragment extends Fragment {
 
 
     }
+
 
 
 }

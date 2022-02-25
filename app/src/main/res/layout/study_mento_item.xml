@@ -62,8 +62,8 @@
             android:layout_centerVertical="true">
             <ImageView
                 android:id="@+id/mento_img"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/ic_launcher_foreground"
                 android:elevation="0.5dp"/>
         </androidx.cardview.widget.CardView>
@@ -78,7 +78,8 @@
             android:text="멘토 아이디"
             android:textColor="@color/textColorPrimary"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="-15dp"/>
         <TextView
             android:id="@+id/mento_study_intro"
             android:layout_width="wrap_content"

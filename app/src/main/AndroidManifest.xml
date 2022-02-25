@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -47,14 +47,11 @@
             android:exported="true" />
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileActivity"
             android:exported="true"/>
-
         <activity android:name=".Study.StudyMenti.StudyMentiDetail"
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.StudyMentoDetail"
             android:exported="true"/>
-
-
-        <activity android:name=".Study.StudyMenti.StudyMentiFilterActivity"
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>
 
         <activity

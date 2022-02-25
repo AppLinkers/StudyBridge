@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="380dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/menti_filter_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:elevation="0dp"
+        android:layout_alignParentTop="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/menti_filter_bar"
+            style="@style/Widget.StudyBridge.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="스터디 검색하기" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/menti_filter_btn"
+        android:layout_below="@id/menti_filter_appbar"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="과목별 검색"
+            android:textColor="@color/black30"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/menti_filter_subjectGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/menti_filter_allSubject"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="전체"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_english"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="영어"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_math"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="수학"
+                    android:textColor="@color/chip_text_list" />
+
+            <RadioButton
+                android:id="@+id/menti_filter_dev"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/radio_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="개발"
+                android:textColor="@color/chip_text_list" />
+
+            <RadioButton
+                    android:id="@+id/menti_filter_etcSubject"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="기타"
+                    android:textColor="@color/chip_text_list" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="지역별 검색"
+            android:textColor="@color/black30"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/menti_filter_placeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/menti_filter_allPlace"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="전체"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_seoul"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="서울"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_geongi"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="경기"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_incheon"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="인천"
+                    android:textColor="@color/chip_text_list" />
+
+                <RadioButton
+                    android:id="@+id/menti_filter_etcPlace"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radio_selector"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="기타"
+                    android:textColor="@color/chip_text_list" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menti_filter_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="적용하기"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

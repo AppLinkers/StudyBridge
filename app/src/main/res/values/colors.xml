@@ -16,5 +16,6 @@
     <color name="textColorPrimary">#442C2E</color>
     <color name="viewUnderline">#DDDCDC</color>
     <color name="disableBtn">#D3D3D3</color>
+    <color name="red">#FF5722</color>
 </resources>
 

@@ -29,34 +29,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/img_filter"
-                android:text="필터 적용하기"
+                android:text="지역: 전체  과목: 전체"
                 android:textSize="12sp" />
         </RelativeLayout>
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@+id/menti_filter"
-            android:layout_above="@+id/study_menti_RCView">
-            <com.google.android.material.chip.Chip
-                android:id="@+id/study_menti_subjectFilter"
-                style="@style/Widget.StudyBridge.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:text="과목: 전체"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/study_menti_placeFilter"
-                style="@style/Widget.StudyBridge.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:text="지역: 전체"/>
-        </com.google.android.material.chip.ChipGroup>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/study_menti_RCView"
-            android:layout_below="@id/menti_filter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/menti_filter" />
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -66,6 +47,18 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="25dp"
         app:srcCompat="@drawable/ic_add"
+        tools:ignore="VectorDrawableCompat"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:transitionName="transition_fab"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/menti_filterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="100dp"
+        app:srcCompat="@drawable/ic_search"
         tools:ignore="VectorDrawableCompat"
         app:backgroundTint="@color/colorPrimaryDark"/>
 

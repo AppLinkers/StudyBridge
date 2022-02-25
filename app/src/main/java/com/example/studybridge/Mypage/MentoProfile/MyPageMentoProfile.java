@@ -1,5 +1,11 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
+import android.graphics.Bitmap;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyPageMentoProfile {
 
     private String name;
@@ -9,10 +15,17 @@ public class MyPageMentoProfile {
     private String intro;
     private String nickName;
     private String curi;
+    private String expeience;
     private String appeal;
+    private File schoolImg;
+    private List<File> certificateImg;
+    private Bitmap quliImg; //자격증 이미지
 
+    public MyPageMentoProfile(){
 
-    public MyPageMentoProfile(String name, String place, String subject, String school, String intro, String nickName, String curi, String appeal) {
+    }
+
+    public MyPageMentoProfile(String name, String place, String subject, String school, String intro, String nickName, String curi, String expeience, String appeal, File schoolImg, List<File> certificateImg) {
         this.name = name;
         this.place = place;
         this.subject = subject;
@@ -20,7 +33,10 @@ public class MyPageMentoProfile {
         this.intro = intro;
         this.nickName = nickName;
         this.curi = curi;
+        this.expeience = expeience;
         this.appeal = appeal;
+        this.schoolImg = schoolImg;
+        this.certificateImg = certificateImg;
     }
 
     //getter & setter
@@ -86,5 +102,37 @@ public class MyPageMentoProfile {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Bitmap getQuliImg() {
+        return quliImg;
+    }
+
+    public void setQuliImg(Bitmap quliImg) {
+        this.quliImg = quliImg;
+    }
+
+    public String getExpeience() {
+        return expeience;
+    }
+
+    public void setExpeience(String expeience) {
+        this.expeience = expeience;
+    }
+
+    public File getSchoolImg() {
+        return schoolImg;
+    }
+
+    public void setSchoolImg(File schoolImg) {
+        this.schoolImg = schoolImg;
+    }
+
+    public List<File> getCertificateImg() {
+        return certificateImg;
+    }
+
+    public void setCertificateImg(List<File> certificateImg) {
+        this.certificateImg = certificateImg;
     }
 }
