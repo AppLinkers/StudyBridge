@@ -82,7 +82,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         Intent intent = getIntent();
         study = (StudyMenti)intent.getSerializableExtra("study");
         hasAuth = intent.getBooleanExtra("hasAuth",false);
-        
+
 
         studyId = study.getId();
         subject.setText(study.getSubject());

@@ -43,6 +43,6 @@ public interface Study {
     @POST("study/status")
     Call<String> status(@Body ChangeStatusReq changeStatusReq);
 
-    @GET("study/studyStatus")
+    @GET("study/status")
     Call<String> studyStatus(@Query("studyId") Long studyId);
 }
