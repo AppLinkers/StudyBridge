@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/filterTv"
                 android:backgroundTint="@color/colorPrimary"
                 app:cardCornerRadius="10dp">
@@ -55,16 +55,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="과목: "
-                        android:textSize="10sp"
-                        android:textColor="@color/textColorPrimary"/>
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/menti_subjectFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="전체"
-                        android:textSize="10sp"
-                        android:textColor="@color/textColorPrimary"/>
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/menti_subjectCV"
                 android:backgroundTint="@color/colorPrimary"
                 app:cardCornerRadius="10dp">
@@ -88,25 +88,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="지역: "
-                        android:textSize="10sp"
-                        android:textColor="@color/textColorPrimary"/>
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/menti_placeFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="전체"
-                        android:textSize="10sp"
-                        android:textColor="@color/textColorPrimary"/>
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/study_menti_RCView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/study_menti_swipeRC"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/menti_filter" />
+            android:layout_below="@id/menti_filter"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/study_menti_RCView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

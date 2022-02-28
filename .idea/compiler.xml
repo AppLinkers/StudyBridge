@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-<<<<<<< HEAD
-=======
-    <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
-    </annotationProcessing>
->>>>>>> 700cc29f949d65cb26e0df34f3dc097459baac09
     <bytecodeTargetLevel target="11" />
   </component>
 </project>

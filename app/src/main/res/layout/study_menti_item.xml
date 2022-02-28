@@ -3,23 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="10dp"
+    android:paddingTop="5dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
         <androidx.cardview.widget.CardView
             android:id="@+id/menti_status_Card"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             android:layout_marginRight="5dp">
-
             <TextView
                 android:id="@+id/menti_status"
                 android:layout_width="match_parent"
@@ -27,8 +26,10 @@
                 android:gravity="center"
                 android:text="모집중"
                 android:textColor="@color/white"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
                 android:text="과목"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>
@@ -60,7 +61,7 @@
                 android:text="지역"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>

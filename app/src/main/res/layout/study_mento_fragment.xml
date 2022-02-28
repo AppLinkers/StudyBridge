@@ -1,37 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
+        android:paddingTop="10dp">
+
         <RelativeLayout
             android:id="@+id/mento_filter"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:paddingLeft="15dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
             <ImageView
                 android:id="@+id/img_filter"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_filter"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_filter" />
+
             <TextView
+                android:id="@+id/filterTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="필터 적용하기"
-                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="1dp"
                 android:layout_toRightOf="@+id/img_filter"
-                android:layout_centerVertical="true"/>
+                android:text="필터"
+                android:textSize="12sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mento_subjectCV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@+id/filterTv"
+                android:backgroundTint="@color/colorPrimary"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="과목: "
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/mento_subjectFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전체"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/mento_subjectCV"
+                android:backgroundTint="@color/colorPrimary"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="지역: "
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/mento_placeFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전체"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/study_mento_RCView"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/study_mento_swipeRC"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@id/mento_filter"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/study_mento_RCView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mento_filterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="25dp"
+        app:srcCompat="@drawable/ic_search"
+        tools:ignore="VectorDrawableCompat"
+        app:backgroundTint="@color/colorPrimaryDark"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

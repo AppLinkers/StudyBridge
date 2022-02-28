@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -20,10 +23,33 @@ public class StudyMentoFragment extends Fragment {
     private RecyclerView recyclerView;
     private StudyMentoAdapter adapter;
     ArrayList<StudyMento> arrayList;
+    private FloatingActionButton filterFab;
+    private TextView subjectFilter, placeFilter;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_mento_fragment,container,false);
+
+        //filter
+        filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
+        subjectFilter = (TextView) view.findViewById(R.id.mento_subjectFilter);
+        placeFilter = (TextView) view.findViewById(R.id.mento_placeFilter);
+        filterFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StudyMentiFilterDialog bottomSheet = StudyMentiFilterDialog.getInstance();
+                bottomSheet.show(getChildFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
+                bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
+                    @Override
+                    public void onButtonClick(String subject, String place) {
+                        subjectFilter.setText(subject);
+                        placeFilter.setText(place);
+                    }
+                });
+            }
+        });
 
         //recycler
         recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);

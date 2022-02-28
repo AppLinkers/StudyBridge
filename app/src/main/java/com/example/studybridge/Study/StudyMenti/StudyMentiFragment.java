@@ -2,10 +2,12 @@ package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +20,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.StudyFindRes;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,10 +45,10 @@ import retrofit2.Response;
 public class StudyMentiFragment extends Fragment{
     //리사이클러
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout refreshLayout;
     private StudyMentiAdapter adapter;
     private FloatingActionButton mentiFab,filterFab;
     private TextView subjectFilter, placeFilter;
-    LinearLayout applyBtn;
 
 
 
@@ -53,7 +58,6 @@ public class StudyMentiFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_menti_fragment,container,false);
-
 
 
         //study add btn
@@ -75,24 +79,11 @@ public class StudyMentiFragment extends Fragment{
         placeFilter = (TextView) view.findViewById(R.id.menti_placeFilter);
 
 
-        filterFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                StudyMentiFilterDialog bottomSheet = StudyMentiFilterDialog.getInstance();
-                bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
-                    @Override
-                    public void onButtonClick(String subject, String place) {
-                        subjectFilter.setText(subject);
-                        placeFilter.setText(place);
-                    }
-                });
-                bottomSheet.show(getFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
-            }
-        });
 
         //recycler
         recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_menti_swipeRC);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -100,6 +91,50 @@ public class StudyMentiFragment extends Fragment{
         adapter = new StudyMentiAdapter();
         getData();
         recyclerView.setAdapter(adapter);
+
+        filterFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                StudyMentiFilterDialog bottomSheet = StudyMentiFilterDialog.getInstance();
+                bottomSheet.show(getChildFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
+                bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
+                    @Override
+                    public void onButtonClick(String subject, String place) {
+                        subjectFilter.setText(subject);
+                        placeFilter.setText(place);
+                    }
+                });
+                bottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        adapter = new StudyMentiAdapter();
+                        getData();
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.postDelayed(new Runnable() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(adapter);
+                        refreshLayout.setRefreshing(false);
+                    }
+                },500);
+
+                Snackbar.make(container,"새로고침 되었습니다",Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
 
 
 

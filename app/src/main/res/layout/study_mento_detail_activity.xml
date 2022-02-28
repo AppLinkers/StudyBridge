@@ -18,19 +18,18 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimaryDark"
                 app:elevation="0dp">
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/mento_detial_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:title="멘토 별명"
-                    app:titleTextColor="@color/textColorPrimary"/>
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/mento_detial_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:titleTextColor="@color/textColorPrimary"/>
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 app:cardCornerRadius="30dp"
-                android:layout_marginBottom="-40dp"
+                android:layout_marginBottom="-35dp"
                 android:layout_marginTop="20dp">
                 <ImageView
                     android:layout_width="match_parent"
@@ -41,7 +40,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="125dp"
                 android:padding="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
@@ -50,17 +49,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:weightSum="1"
-                    android:layout_marginTop="60dp">
+                    android:layout_marginTop="50dp">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.33"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center">
                         <androidx.cardview.widget.CardView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:cardCornerRadius="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            app:cardCornerRadius="5dp"
                             android:backgroundTint="@color/colorPrimaryDark">                            >
                             <ImageView
                                 android:layout_width="match_parent"
@@ -73,18 +72,19 @@
                             android:layout_height="wrap_content"
                             android:text="문의하기"
                             android:textColor="@color/textColorPrimary"
-                            android:layout_marginTop="3dp"/>
+                            android:textSize="12sp"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.33"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center">
                         <androidx.cardview.widget.CardView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:cardCornerRadius="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            app:cardCornerRadius="5dp"
                             android:backgroundTint="@color/colorPrimaryDark"
                             >
                             <ImageView
@@ -98,7 +98,8 @@
                             android:layout_height="wrap_content"
                             android:text="질문하기"
                             android:textColor="@color/textColorPrimary"
-                            android:layout_marginTop="3dp"/>
+                            android:textSize="12sp"
+                            android:layout_marginTop="5dp"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -106,11 +107,11 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.33"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center">
                         <androidx.cardview.widget.CardView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:cardCornerRadius="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            app:cardCornerRadius="5dp"
                             android:backgroundTint="@color/colorPrimaryDark"
                             >
                             <ImageButton
@@ -125,7 +126,8 @@
                             android:layout_height="wrap_content"
                             android:text="좋아요"
                             android:textColor="@color/textColorPrimary"
-                            android:layout_marginTop="3dp"/>
+                            android:textSize="12sp"
+                            android:layout_marginTop="5dp"/>
 
                     </LinearLayout>
 
@@ -141,39 +143,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/mento_detail_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tabSelectedTextColor="@color/colorPrimaryDark"
-                    app:tabIndicatorColor="@color/colorPrimaryDark">
+                    app:tabIndicatorColor="@color/colorPrimaryDark"
+                    app:tabSelectedTextColor="@color/colorPrimaryDark">
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="프로필"/>
+                        android:text="프로필" />
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="경력"/>
+                        android:text="경력" />
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="후기"/>
+                        android:text="후기" />
 
 
                 </com.google.android.material.tabs.TabLayout>
+
                 <FrameLayout
                     android:id="@+id/mento_detial_frame"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/mento_detail_tab"
                     android:layout_above="@+id/layout_button"
-                    android:background="@color/white"/>
+                    android:layout_below="@+id/mento_detail_tab"
+                    android:background="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/layout_button"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center"
@@ -183,7 +190,7 @@
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.StudyBridge.Button"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="55dp"
                         android:text="신청하기"
                         android:textColor="@color/white"
                         android:textStyle="bold" />

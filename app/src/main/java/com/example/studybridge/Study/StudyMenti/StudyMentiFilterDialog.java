@@ -2,21 +2,13 @@ package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.DialogInterface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.studybridge.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -31,7 +23,7 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
     private RadioButton filterSubject, filterPlace;
     private String passSubject,passPlace;
     private LinearLayout applyBtn;
-    private Toolbar toolbar;
+    private DialogInterface.OnDismissListener onDismissListener;
 
     ////dialog --> fragment 로 값 전달
     public static StudyMentiFilterDialog getInstance(){
@@ -46,6 +38,8 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
     public void setDialogInterfacer(DialogInterfacer dialogInterfacer) {
         this.dialogInterfacer = dialogInterfacer;
     }
+
+
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -75,8 +69,6 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
         } catch (NoSuchFieldException e) { e.printStackTrace(); }
         catch (IllegalAccessException e) { e.printStackTrace(); }
 
-        //상단바
-        toolbar = (Toolbar) bottomSheetDialog.findViewById(R.id.menti_filter_bar);
 
 
         //필터 선택
@@ -138,6 +130,18 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
 
             }
         });
+    }
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss(dialog);
+        }
     }
 
 }
