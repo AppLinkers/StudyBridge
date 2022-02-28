@@ -9,15 +9,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.Mypage.Edit.MyPageEditActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyFragmentPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MyPageFragment extends Fragment {
     private TabLayout tabLayout;
-    private MyPageMyFragment myFragment;
-    private MyPageChatFragment chatFragment;
+    private ViewPager2 viewPager;
+    private MyPageFragmentPagerAdapter adapter;
+
     private TextView editBtn;
 
     private TextView userIdTv;
@@ -32,6 +36,38 @@ public class MyPageFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mypage_fragment, container, false);
         tabLayout = (TabLayout) view.findViewById(R.id.mypage_tab);
+        viewPager = (ViewPager2) view.findViewById(R.id.mypage_pager);
+
+
+        //옆으로 스와이프
+        FragmentManager fm = getChildFragmentManager();
+        adapter = new MyPageFragmentPagerAdapter(fm,getLifecycle());
+
+        viewPager.setAdapter(adapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+        viewPager.setSaveEnabled(false);
+
+
 
         userIdTv = view.findViewById(R.id.mypage_id);
         userNameTv = view.findViewById(R.id.mypage_name);
@@ -42,31 +78,6 @@ public class MyPageFragment extends Fragment {
 
         userIdTv.setText(userId);
         userNameTv.setText(userName);
-
-        myFragment = new MyPageMyFragment();
-        chatFragment = new MyPageChatFragment();
-
-        getParentFragmentManager().beginTransaction().add(R.id.mypage_frame,myFragment).commit();
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                Fragment selected = null;
-                if(position == 0){
-                    selected = myFragment;
-                } else if(position == 1) {
-                    selected = chatFragment;
-                }
-                getParentFragmentManager().beginTransaction().replace(R.id.mypage_frame,selected).commit();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {            }
-        });
 
         //정보 수정하기로 이동
         editBtn = (TextView) view.findViewById(R.id.mypage_editBtn);

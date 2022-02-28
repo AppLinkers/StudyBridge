@@ -131,7 +131,7 @@ public class StudyMentiFragment extends Fragment{
                     }
                 },500);
 
-                Snackbar.make(container,"새로고침 되었습니다",Snackbar.LENGTH_SHORT).show();
+//                Snackbar.make(getContext(),"새로고침 되었습니다",Snackbar.LENGTH_SHORT).show();
             }
         });
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));

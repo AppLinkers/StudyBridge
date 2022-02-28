@@ -38,35 +38,12 @@
                     android:textSize="18sp"
                     android:layout_marginTop="70dp"/>
 
-<!--                <RadioGroup-->
-<!--                    android:id="@+id/signup_type"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:weightSum="1"-->
-<!--                    android:layout_marginTop="10dp">-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/signup_mentor"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="0.5"-->
-<!--                        android:text="멘토 (선생님)" />-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/signup_menti"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="0.5"-->
-<!--                        android:text="멘티 (학생)" />-->
-<!--                </RadioGroup>-->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     app:cardCornerRadius="15dp"
-                    app:strokeColor="@color/textColorPrimary"
+                    app:strokeColor="@color/colorPrimaryDark"
                     app:strokeWidth="1dp"
                     android:layout_marginTop="50dp">
                     <RadioGroup
@@ -82,14 +59,14 @@
                             android:layout_weight="0.4975"
                             android:button="@null"
                             android:text="멘토 회원"
-                            android:background="@color/chip_background_list"
+                            android:background="@color/chip_background_list_pink"
                             android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.005"
-                            android:background="@color/textColorPrimary"/>
+                            android:background="@color/colorPrimaryDark"/>
                         <RadioButton
                             android:id="@+id/signup_menti"
                             android:layout_width="0dp"
@@ -97,7 +74,7 @@
                             android:layout_weight="0.4975"
                             android:button="@null"
                             android:text="멘티 회원"
-                            android:background="@color/chip_background_list"
+                            android:background="@color/chip_background_list_pink"
                             android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                     </RadioGroup>
@@ -111,16 +88,6 @@
                     android:textSize="18sp"
                     android:layout_marginTop="100dp"/>
 
-<!--                <EditText-->
-<!--                    android:id="@+id/signup_name"-->
-<!--                    android:layout_width="350dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="20dp"-->
-<!--                    android:ems="10"-->
-<!--                    android:hint="이름 "-->
-<!--                    android:textColorHint="#032149"-->
-<!--                    tools:layout_editor_absoluteX="8dp"-->
-<!--                    tools:layout_editor_absoluteY="70dp" />-->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.StudyBridge.TextInputLayout.black"
                     android:layout_width="match_parent"
@@ -155,21 +122,10 @@
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <EditText-->
-<!--                    android:id="@+id/signup_phone"-->
-<!--                    android:layout_width="350dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:hint="전화번호 입력 "-->
-<!--                    android:inputType="number"-->
-<!--                    android:textColorHint="#032149"-->
-<!--                    tools:layout_editor_absoluteX="8dp"-->
-<!--                    tools:layout_editor_absoluteY="70dp" />-->
-
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:backgroundTint="@color/textColorPrimary"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     app:cardCornerRadius="20dp"
                     android:onClick="phoneCheck"
                     android:layout_marginTop="10dp">
@@ -189,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     app:cardCornerRadius="15dp"
-                    app:strokeColor="@color/textColorPrimary"
+                    app:strokeColor="@color/colorPrimaryDark"
                     app:strokeWidth="1dp"
                     android:layout_marginTop="30dp">
 
@@ -206,14 +162,14 @@
                             android:layout_weight="0.4975"
                             android:button="@null"
                             android:text="남"
-                            android:background="@color/chip_background_list"
+                            android:background="@color/chip_background_list_pink"
                             android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.005"
-                            android:background="@color/textColorPrimary"/>
+                            android:background="@color/colorPrimaryDark"/>
                         <RadioButton
                             android:id="@+id/signup_female"
                             android:layout_width="0dp"
@@ -221,7 +177,7 @@
                             android:layout_weight="0.4975"
                             android:button="@null"
                             android:text="여"
-                            android:background="@color/chip_background_list"
+                            android:background="@color/chip_background_list_pink"
                             android:textColor="@color/chip_text_list"
                             android:gravity="center"/>
                     </RadioGroup>
@@ -264,18 +220,6 @@
                         android:text="기타"/>
                 </com.google.android.material.chip.ChipGroup>
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/region_spnr"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_marginTop="20dp"/>-->
-<!--                <Button-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="10dp"-->
-<!--                    android:onClick="phoneCheck"-->
-<!--                    android:text="본인인증 " />-->
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -308,25 +252,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-<!--            <EditText-->
-<!--                android:id="@+id/signup_id"-->
-<!--                android:layout_width="350dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:ems="10"-->
-<!--                android:hint="아이디 "-->
-<!--                android:textColorHint="#032149"-->
-<!--                tools:layout_editor_absoluteX="8dp"-->
-<!--                tools:layout_editor_absoluteY="70dp" />-->
-
-<!--                <Button-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:onClick="idCheck"-->
-<!--                    android:text="중복확인" />-->
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="@color/textColorPrimary"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         app:cardCornerRadius="15dp"
                         android:onClick="idCheck"
                         android:layout_margin="15dp">
@@ -359,18 +288,6 @@
                         android:ems="10"
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-<!--            <EditText-->
-<!--                android:id="@+id/signup_pw"-->
-<!--                android:layout_width="350dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:ems="10"-->
-<!--                android:hint="비밀번호 "-->
-<!--                android:inputType="textPassword"-->
-<!--                android:textColorHint="#032149"-->
-<!--                tools:layout_editor_absoluteX="8dp"-->
-<!--                tools:layout_editor_absoluteY="70dp" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/signup_pw_check_layout"

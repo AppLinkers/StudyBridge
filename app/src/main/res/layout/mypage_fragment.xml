@@ -93,27 +93,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp">
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/mypage_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabSelectedTextColor="@color/colorPrimaryDark"
-                app:tabIndicatorColor="@color/colorPrimaryDark">
+                app:tabIndicatorColor="@color/colorPrimaryDark"
+                app:tabSelectedTextColor="@color/colorPrimaryDark">
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="마이페이지"/>
+                    android:text="마이페이지" />
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="스터디Chat"/>
+                    android:text="스터디Chat" />
 
             </com.google.android.material.tabs.TabLayout>
-            <FrameLayout
-                android:id="@+id/mypage_frame"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/mypage_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/mypage_tab"/>
+                android:layout_below="@+id/mypage_tab"
+                android:layoutDirection="ltr"/>
         </RelativeLayout>
 
 
