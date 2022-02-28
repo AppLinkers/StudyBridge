@@ -3,13 +3,52 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/pc/Desktop/Android/StudyBridge/app/src/main/res/layout/mypage_chat_fragment.xml" value="0.36875" />
         <entry key="..\:/Users/pc/Desktop/Android/StudyBridge/app/src/main/res/layout/study_menti_add.xml" value="0.36875" />
         <entry key="..\:/Users/pc/Desktop/Android/StudyBridge/app/src/main/res/layout/todo_add_dialog.xml" value="0.36822916666666666" />
+=======
+<<<<<<< HEAD
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/button_clicked.xml" value="0.201" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_colorPrimaryDark.xml" value="0.201" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_primarydark.xml" value="0.201" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_atuh2.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_sign_up.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/button_clicked.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/fragment_first.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/fragment_second.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_activity.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_editinfo_activity.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_fragment.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_my_fragment.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_add.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_detail_activity.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_filter_activity.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_fragment.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_item.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_detail_activity.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_detail_comment_fragment.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_detail_profile_fragment.xml" value="0.32407407407407407" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_detail_spec_fragment.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_mento_item.xml" value="0.33" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/menti_filter_menu.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_toolbar_menu.xml" value="0.32407407407407407" />
+=======
+>>>>>>> 3380cb7e360006d48865f33302273df26b2754f6
+>>>>>>> 700cc29f949d65cb26e0df34f3dc097459baac09
         <entry key="app/src/main/res/layout/activity_atuh.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_atuh2.xml" value="0.11626139817629179" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_payment.xml" value="0.15416666666666667" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+=======
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25396575927734377" />
+>>>>>>> 39543e9e7ae04bfbc6393c64d2936bc4ad21b3c9
+        <entry key="app/src/main/res/layout/activity_to_do_manage.xml" value="0.29583333333333334" />
+>>>>>>> 3380cb7e360006d48865f33302273df26b2754f6
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/payment_item.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/subscribe_activity.xml" value="0.16822916666666668" />

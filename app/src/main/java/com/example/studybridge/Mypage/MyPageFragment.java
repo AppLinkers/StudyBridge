@@ -1,13 +1,16 @@
 package com.example.studybridge.Mypage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.studybridge.Mypage.Edit.MyPageEditActivity;
 import com.example.studybridge.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -15,12 +18,30 @@ public class MyPageFragment extends Fragment {
     private TabLayout tabLayout;
     private MyPageMyFragment myFragment;
     private MyPageChatFragment chatFragment;
+    private TextView editBtn;
+
+    private TextView userIdTv;
+    private TextView userNameTv;
+
+    private String userName;
+    private String userId;
+
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mypage_fragment, container, false);
         tabLayout = (TabLayout) view.findViewById(R.id.mypage_tab);
+
+        userIdTv = view.findViewById(R.id.mypage_id);
+        userNameTv = view.findViewById(R.id.mypage_name);
+
+        Bundle bundle =getArguments();
+        userName = bundle.getString("name");
+        userId = bundle.getString("id");
+
+        userIdTv.setText(userId);
+        userNameTv.setText(userName);
 
         myFragment = new MyPageMyFragment();
         chatFragment = new MyPageChatFragment();
@@ -45,6 +66,16 @@ public class MyPageFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {            }
+        });
+
+        //정보 수정하기로 이동
+        editBtn = (TextView) view.findViewById(R.id.mypage_editBtn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MyPageEditActivity.class);
+                startActivity(intent);
+            }
         });
 
         return view;

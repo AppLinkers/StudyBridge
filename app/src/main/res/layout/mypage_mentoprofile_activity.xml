@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/mypage_mentoProfile_barLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.StudyBridge.Toolbar"
+        android:layout_alignParentTop="true"
+        app:elevation="0dp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mypage_mentoProfile_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="MY 프로필"
+            app:menu="@menu/mypage_mentoprofile_menu"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/mypage_mentoProfile_barLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="이름"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/mypage_mentoProfile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="이름"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="지역"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_seoul"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="서울" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_geongi"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경기" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_incheon"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인천" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_placeEtc"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="과목"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_english"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="영어" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_math"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수학" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_dev"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="개발" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/mypage_mentoProfile_subjectEtc"
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="학교"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/mypage_mentoProfile_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="학교 - 학부"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                app:cardCornerRadius="10dp">
+
+                <TextView
+                    android:id="@+id/mypage_mentoProfile_school_goToCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="학교 인증하기"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="자격증"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mypage_mentoProfile_addImg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    app:cardCornerRadius="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_add" />
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_mentoProfile_rcView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.StudyBridge.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:hint="한줄 소개">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mypage_mentoProfile_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.StudyBridge.TextInputLayout"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:hint="별명">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mypage_mentoProfile_nickName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="중복 확인"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.StudyBridge.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:hint="커리큘럼">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mypage_mentoProfile_curi"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.StudyBridge.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:hint="경력사항">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mypage_mentoProfile_experience"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.StudyBridge.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30dp"
+                android:hint="어필">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mypage_mentoProfile_appeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

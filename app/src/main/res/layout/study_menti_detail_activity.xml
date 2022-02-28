@@ -188,24 +188,76 @@
                     android:textSize="14sp"
                     android:layout_marginTop="10dp"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="신청한 멤버 리스트"
+                    android:textColor="@color/textColorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="50dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/enroll_members"
+                    android:layout_height="wrap_content"
+                    android:text="info"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="신청한 멘토 리스트"
+                    android:textColor="@color/textColorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="50dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/enroll_mentor"
+                    android:layout_height="wrap_content"
+                    android:text="멘토아이디/ 이력서 보기"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+
+
             </LinearLayout>
         </ScrollView>
+
         <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:gravity="center"
             android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:background="@color/white">
+            android:paddingRight="25dp">
+
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/applyBtn"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:onClick="applyStudy"
                 android:text="신청하기"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startStudy"
+                style="@style/Widget.StudyBridge.Button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:onClick="startStudy"
+                android:text="스터디 시작하기"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

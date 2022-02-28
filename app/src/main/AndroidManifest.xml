@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.studybridge">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBridge"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ToDo.ToDoManageActivity"
+            android:exported="true" />
         <activity
             android:name=".Subscribe.PaymentActivity"
             android:exported="true" />
@@ -23,20 +34,26 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ToDo.ToDoDetailActivity"
+            android:name=".ToDo.ToDoDetail.ToDoDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".Study.StudyAddActivity"
+            android:name=".Study.StudyMenti.StudyAddActivity"
             android:exported="true" />
         <activity
             android:name=".Subscribe.SubscribeActivity"
             android:exported="true" />
-
-        <activity android:name=".Study.StudyMentiDetail"
+        <activity
+            android:name=".Mypage.Edit.MyPageEditActivity"
+            android:exported="true" />
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileActivity"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMenti.StudyMentiDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.StudyMentoDetail"
+            android:exported="true"/>
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>
 
-        <activity android:name=".Study.StudyMentoDetail"
-            android:exported="true"/>
         <activity
             android:name=".Login.LoginActivity"
             android:exported="true">
