@@ -37,19 +37,20 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mento_subjectCV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/filterTv"
-                android:backgroundTint="@color/colorPrimary"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/textColorPrimary"
+                app:strokeWidth="0.5dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:background="@color/gray30"
+                    android:gravity="center"
                     android:padding="5dp">
 
                     <TextView
@@ -63,26 +64,28 @@
                         android:id="@+id/mento_subjectFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:text="전체"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="10sp" />
-                </LinearLayout>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/mento_subjectCV"
-                android:backgroundTint="@color/colorPrimary"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:strokeColor="@color/textColorPrimary"
+                app:strokeWidth="0.5dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@color/gray30"
                     android:padding="5dp">
 
                     <TextView
@@ -98,8 +101,9 @@
                         android:layout_height="wrap_content"
                         android:text="전체"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                        android:textSize="10sp"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 

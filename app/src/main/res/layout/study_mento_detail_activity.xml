@@ -19,7 +19,7 @@
                 android:backgroundTint="@color/colorPrimaryDark"
                 app:elevation="0dp">
                     <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/mento_detial_bar"
+                        android:id="@+id/mento_detail_bar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         app:titleTextColor="@color/textColorPrimary"/>
@@ -115,7 +115,7 @@
                             android:backgroundTint="@color/colorPrimaryDark"
                             >
                             <ImageButton
-                                android:id="@+id/mento_detial_heart"
+                                android:id="@+id/mento_detail_heart"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/button_clicked"
@@ -169,8 +169,8 @@
 
                 </com.google.android.material.tabs.TabLayout>
 
-                <FrameLayout
-                    android:id="@+id/mento_detial_frame"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/mento_detail_pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/layout_button"

@@ -11,19 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyFragmentPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 public class StudyMentoDetail extends AppCompatActivity {
 
-    private StudyMentoProfileFragment profileFragment;
-    private StudyMentoExperienceFragment experienceFragment;
-    private StudyMentoCommentFragment commentFragment;
     private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+    private StudyMentoDetailPagerAdapter adapter;
     private Toolbar toolbar;
-    private String[] intentArr;
+//    private String[] intentArr;
     private ImageButton heart;
+    private ArrayList intentArray;
 
 
     @Override
@@ -32,8 +37,9 @@ public class StudyMentoDetail extends AppCompatActivity {
         setContentView(R.layout.study_mento_detail_activity);
 
         tabLayout = (TabLayout) findViewById(R.id.mento_detail_tab);
-        toolbar = (Toolbar) findViewById(R.id.mento_detial_bar);
-        heart = (ImageButton) findViewById(R.id.mento_detial_heart);
+        toolbar = (Toolbar) findViewById(R.id.mento_detail_bar);
+        heart = (ImageButton) findViewById(R.id.mento_detail_heart);
+        viewPager = (ViewPager2) findViewById(R.id.mento_detail_pager);
 
         Intent intent = getIntent();
         //툴바 설정
@@ -41,58 +47,59 @@ public class StudyMentoDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //Tab layout
-        profileFragment = new StudyMentoProfileFragment();
-        experienceFragment = new StudyMentoExperienceFragment();
-        commentFragment = new StudyMentoCommentFragment();
-
-        //fragment에 들어갈 intent 받기
-        intentArr = new String[5];
-        intentArr[0] = intent.getExtras().getString("subject");
-        intentArr[1] = intent.getExtras().getString("place");
-        intentArr[2] = intent.getExtras().getString("school");
-        intentArr[3] = intent.getExtras().getString("qualify");
-        intentArr[4] = intent.getExtras().getString("intro");
-
-        //여기서 fragment로 데이터 주기
-        Bundle bundle = new Bundle();
-        bundle.putString("subject",intentArr[0]);
-        bundle.putString("place",intentArr[1]);
-        bundle.putString("school",intentArr[2]);
-        bundle.putString("qualify",intentArr[3]);
-        bundle.putString("intro",intentArr[4]);
+        intentArray = new ArrayList();
+        intentArray.add(intent.getExtras().getString("subject"));
+        intentArray.add(intent.getExtras().getString("place"));
+        intentArray.add(intent.getExtras().getString("school"));
+        intentArray.add(intent.getExtras().getString("qualify"));
+        intentArray.add(intent.getExtras().getString("intro"));
 
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.mento_detial_frame, profileFragment)
-                    .commit();
-            profileFragment.setArguments(bundle);
-        }
+//        //fragment에 들어갈 intent 받기
+//        intentArr = new String[5];
+//        intentArr[0] = intent.getExtras().getString("subject");
+//        intentArr[1] = intent.getExtras().getString("place");
+//        intentArr[2] = intent.getExtras().getString("school");
+//        intentArr[3] = intent.getExtras().getString("qualify");
+//        intentArr[4] = intent.getExtras().getString("intro");
+
+        // viewpager & tablayout
+        FragmentManager fm = getSupportFragmentManager();
+
+        adapter = new StudyMentoDetailPagerAdapter(fm,getLifecycle());
+
+        viewPager.setAdapter(adapter);
+
+        adapter.setArr(intentArray);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                Fragment selected = null;
-                if(position == 0){
-                    selected = profileFragment;
-                } else if(position == 1) {
-                    selected = experienceFragment;
-                } else if(position == 2){
-                    selected = commentFragment;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.mento_detial_frame,selected).commit();
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {            }
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {            }
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
         });
 
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+        viewPager.setSaveEnabled(false);
+
+        heart.setSelected(intent.getExtras().getBoolean("heart"));
 
         //좋아요 클릭
         heart.setOnClickListener(new View.OnClickListener() {

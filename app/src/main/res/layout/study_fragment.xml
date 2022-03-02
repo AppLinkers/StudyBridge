@@ -37,13 +37,14 @@
                 android:layout_height="wrap_content"
                 android:text="멘토 찾기" />
         </com.google.android.material.tabs.TabLayout>
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/study_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutDirection="ltr"
+            android:layout_below="@+id/study_tab"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/study_tab"/>
+            android:layoutDirection="ltr" />
 
     </RelativeLayout>
 

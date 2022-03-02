@@ -8,14 +8,16 @@ public class StudyMento {
     String metnoIntro;
     String metnoSchool;
     String metnoQualification;
+    boolean liked;
 
-    public StudyMento(String subject, String place, String mentoName, String metnoIntro, String metnoSchool, String metnoQualification) {
+    public StudyMento(String subject, String place, String mentoName, String metnoIntro, String metnoSchool, String metnoQualification, boolean liked) {
         this.subject = subject;
         this.place = place;
         this.mentoName = mentoName;
         this.metnoIntro = metnoIntro;
         this.metnoSchool = metnoSchool;
         this.metnoQualification = metnoQualification;
+        this.liked = liked;
     }
 
     public String getSubject() {
@@ -64,5 +66,12 @@ public class StudyMento {
 
     public void setMetnoQualification(String metnoQualification) {
         this.metnoQualification = metnoQualification;
+    }
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

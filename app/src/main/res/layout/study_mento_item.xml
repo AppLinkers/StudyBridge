@@ -7,13 +7,15 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:orientation="vertical">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="1dp"
-        android:paddingBottom="1dp">
+        android:paddingBottom="1dp"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/mento_subjectCon"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             app:cardCornerRadius="10dp"
@@ -36,7 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary">
+            app:cardBackgroundColor="@color/colorPrimary"
+            android:layout_toRightOf="@+id/mento_subjectCon">
             <TextView
                 android:id="@+id/mento_place"
                 android:layout_width="match_parent"
@@ -50,8 +53,14 @@
                 android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
 
+        <ImageButton
+            android:id="@+id/mento_heart"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_clicked_gray"/>
 
-    </LinearLayout>
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -23,9 +23,6 @@ import java.util.List;
 
 public class StudyFragment extends Fragment {
 
-    private StudyMentiFragment mentiFragment;
-    private StudyMentoFragment mentoFragment;
-
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private StudyFragmentPagerAdapter adapter;
@@ -78,12 +75,4 @@ public class StudyFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-
-        final List<String> tabElement = Arrays.asList("스터디 찾기","멘토 찾기");
-
-
-    }
 }

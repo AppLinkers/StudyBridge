@@ -77,7 +77,7 @@
             android:id="@+id/mento_profile_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="학교"
+            android:text="과목"
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp"
             android:gravity="center"/>
@@ -119,6 +119,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:text="어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal어필appeal어필appeal어필appeal어필appeal어필appeal어필appeal"
             android:textColor="@color/textColorPrimary"
             android:lineSpacingExtra="8dp"
