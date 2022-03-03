@@ -76,7 +76,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MY 프로필 (멘토 전용)"
+            android:text="멘토 프로필"
             android:textStyle="bold"
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp"/>

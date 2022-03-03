@@ -39,6 +39,7 @@ public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
                 bundle.putString("school",(String) arr.get(2));
                 bundle.putString("qualify",(String) arr.get(3));
                 bundle.putString("intro",(String) arr.get(4));
+                bundle.putString("mentoId",(String) arr.get(5));
 
                 profileFragment.setArguments(bundle);
                 return profileFragment;

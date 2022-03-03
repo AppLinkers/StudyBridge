@@ -16,9 +16,15 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFragmentPagerAdapter;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudyMentoDetail extends AppCompatActivity {
 
@@ -29,6 +35,8 @@ public class StudyMentoDetail extends AppCompatActivity {
 //    private String[] intentArr;
     private ImageButton heart;
     private ArrayList intentArray;
+
+    DataService dataService = new DataService();
 
 
     @Override
@@ -47,21 +55,34 @@ public class StudyMentoDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //신청한 멘티에서 불러온 것
+        String mentoId = intent.getExtras().getString("mentoId");
+
         intentArray = new ArrayList();
         intentArray.add(intent.getExtras().getString("subject"));
         intentArray.add(intent.getExtras().getString("place"));
         intentArray.add(intent.getExtras().getString("school"));
         intentArray.add(intent.getExtras().getString("qualify"));
         intentArray.add(intent.getExtras().getString("intro"));
+        intentArray.add(mentoId);
+
+        dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
+            @Override
+            public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                if (response.isSuccessful())
+                {
+                    toolbar.setTitle(response.body().getNickName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileRes> call, Throwable t) {
+
+            }
+        });
 
 
-//        //fragment에 들어갈 intent 받기
-//        intentArr = new String[5];
-//        intentArr[0] = intent.getExtras().getString("subject");
-//        intentArr[1] = intent.getExtras().getString("place");
-//        intentArr[2] = intent.getExtras().getString("school");
-//        intentArr[3] = intent.getExtras().getString("qualify");
-//        intentArr[4] = intent.getExtras().getString("intro");
+
 
         // viewpager & tablayout
         FragmentManager fm = getSupportFragmentManager();

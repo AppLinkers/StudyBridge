@@ -49,7 +49,7 @@
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileShowActivity"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMenti.StudyMentiDetail"
+        <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.StudyMentoDetail"
             android:exported="true"/>

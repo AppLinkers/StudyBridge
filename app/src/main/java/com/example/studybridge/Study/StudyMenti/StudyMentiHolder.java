@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -16,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.http.DataService;
 
 import org.jetbrains.annotations.NotNull;

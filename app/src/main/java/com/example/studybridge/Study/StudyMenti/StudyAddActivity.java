@@ -17,6 +17,8 @@ import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.StudyMakeReq;
 import com.example.studybridge.http.dto.StudyMakeRes;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -26,17 +28,15 @@ import retrofit2.Response;
 public class StudyAddActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextInputEditText subjectEt;
-    private TextInputEditText titleEt;
-    private TextInputEditText studyPlaceEt;
-    private TextInputEditText maxNumEt;
-    private TextInputEditText studyIntroEt;
+    private TextInputEditText titleEt,introEt,placeEt,maxNumEt,explainEt;
+    private ChipGroup subjectGroup;
 
     String subject;
     String title;
     String studyPlace;
     int maxNum;
     String studyIntro;
+//    String studyExplain;
     StudyMenti study;
 
     private DataService dataService = new DataService();
@@ -62,11 +62,22 @@ public class StudyAddActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        subjectEt = findViewById(R.id.study_add_subject);
+//        subjectEt = findViewById(R.id.study_add_subject);
+
         titleEt = findViewById(R.id.study_add_title);
-        studyPlaceEt = findViewById(R.id.study_add_place);
+        introEt = findViewById(R.id.study_add_intro);
+        placeEt = findViewById(R.id.study_add_place);
         maxNumEt = findViewById(R.id.study_add_max);
-        studyIntroEt = findViewById(R.id.study_add_intro);
+        explainEt = findViewById(R.id.study_add_intro);
+
+        //지역 선택 chip
+        subjectGroup = (ChipGroup) findViewById(R.id.study_add_subjectGroup);
+        for(int i=0; i<subjectGroup.getChildCount();i++){
+            Chip chip = (Chip) subjectGroup.getChildAt(i);
+            if(chip.isChecked()){
+                subject = chip.getText().toString();
+            }
+        }
 
 
 
@@ -86,11 +97,12 @@ public class StudyAddActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.study_add:
-                subject = subjectEt.getText().toString();
-                title = titleEt.getText().toString();
-                studyPlace = studyPlaceEt.getText().toString();
-                maxNum = Integer.parseInt(maxNumEt.getText().toString());
-                studyIntro = studyIntroEt.getText().toString();
+
+                title = titleEt.getText().toString()+"";
+                studyPlace = placeEt.getText().toString()+"";
+                maxNum = Integer.parseInt(maxNumEt.getText().toString()+"");
+                studyIntro = introEt.getText().toString()+"";
+//                studyExplain = explainEt.getText().toString()+"";
 
 
                 study = new StudyMenti(0L, 0, subject, studyPlace, title,studyIntro,maxNum);

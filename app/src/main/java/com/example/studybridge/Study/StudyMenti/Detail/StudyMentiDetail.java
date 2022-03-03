@@ -1,11 +1,10 @@
-package com.example.studybridge.Study.StudyMenti;
+package com.example.studybridge.Study.StudyMenti.Detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +14,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
 
-import java.util.List;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +52,11 @@ public class StudyMentiDetail extends AppCompatActivity {
     String managerId;
 
     int enrollCount;
+
+    //멘티 리사이클러뷰
+    private StudyMentiEnrollMentoAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
 
     @SuppressLint("ResourceAsColor")
@@ -105,6 +110,8 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
 
+
+
         // 신청된 menteeLoginIdList
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
@@ -127,6 +134,14 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
+        //멘티 리사이클러뷰
+        recyclerView = (RecyclerView) findViewById(R.id.menti_detail_enrollMento_RV);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new StudyMentiEnrollMentoAdapter();
+
 
         //멘토리스트 표시
         dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
@@ -134,6 +149,10 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()) {
                     mentorList.setText(response.body().toString());
+                    for(int i=0; i<response.body().size(); i++){
+                        adapter.addItem(response.body().get(i));
+                    }
+                    recyclerView.setAdapter(adapter);
                 }
             }
             @Override
@@ -142,7 +161,16 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
+//        adapter.addItem("test");
+//        adapter.addItem("test2");
+
+
+
+
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -90,6 +90,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     Gson gson = new Gson();
 
     ImageView iv;
+    String subjectList;
 
 
     @Override
@@ -162,6 +163,11 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         geongi.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         incheon.setOnCheckedChangeListener(checkedChangeListenerForPlace);
         placeEtc.setOnCheckedChangeListener(checkedChangeListenerForPlace);
+
+        for (int i=0; i<selectedSubject.size(); i++)
+        {
+            subjectList += selectedSubject.get(i) + " ";
+        }
 
 
         //툴바 설정
@@ -241,7 +247,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 //객체 생성
                 mentoProfile = new MyPageMentoProfile(
                         userName,
-                        selectedPlace.toString(),
+                        selectedPlace.get(0),
                         selectedSubject.toString(),
                         school.getText().toString(),
                         intro.getText().toString(),

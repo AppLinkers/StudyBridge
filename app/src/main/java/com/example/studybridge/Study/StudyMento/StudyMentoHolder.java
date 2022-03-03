@@ -82,7 +82,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         mentoName.setText(data.getMentoName());
         mentoIntro.setText(data.getMetnoIntro());
         mentoSchool.setText(data.getMetnoSchool());
-        mentoQualification.setText(data.getMetnoQualification());
+        mentoQualification.setText("data.getMetnoQualification()");
 
     }
 }
