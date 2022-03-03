@@ -45,7 +45,7 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
     @Override
     public void setupDialog(Dialog dialog, int style) {
         BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialog;
-        bottomSheetDialog.setContentView(R.layout.study_menti_filter);
+        bottomSheetDialog.setContentView(R.layout.study_filter);
 
 
         //다이얼로그 확장 방지

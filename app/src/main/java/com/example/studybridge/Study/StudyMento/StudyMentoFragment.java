@@ -64,10 +64,10 @@ public class StudyMentoFragment extends Fragment {
     }
 
     private void getData() {
-        StudyMento m1 = new StudyMento("운전","하남","4대대 베스트드라이버","믿고 맡겨주세요","홍익대학교","1종보통",false);
-        StudyMento m2 = new StudyMento("코딩","해남","4대대 베스트통신","믿고 맡겨주세요","과학기술대학교","스프링",true);
-        StudyMento m3 = new StudyMento("수학","서울","수능수학1등급","무조건 1등급","서울대학교","올림피아드",false);
-        StudyMento m4 = new StudyMento("영어","미국","안주전에 한잔","미국사관학교출신","펜실베니아대학교","",true);
+        StudyMento m1 = new StudyMento("수학","경기","4대대 베스트드라이버","믿고 맡겨주세요","홍익대학교","1종보통",false);
+        StudyMento m2 = new StudyMento("개발","기타","4대대 베스트통신","믿고 맡겨주세요","과학기술대학교","스프링",true);
+        StudyMento m3 = new StudyMento("기타","인천","수능수학1등급","무조건 1등급","서울대학교","올림피아드",false);
+        StudyMento m4 = new StudyMento("영어","기타","안주전에 한잔","미국사관학교출신","펜실베니아대학교","",true);
 
         adapter.addItem(m1);
         adapter.addItem(m2);
