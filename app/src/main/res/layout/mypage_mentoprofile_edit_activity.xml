@@ -16,7 +16,7 @@
             android:id="@+id/mypage_mentoProfile_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="MY 프로필"
+            app:title="프로필 수정하기"
             app:menu="@menu/mypage_mentoprofile_menu"/>
     </com.google.android.material.appbar.AppBarLayout>
 

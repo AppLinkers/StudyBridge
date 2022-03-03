@@ -19,13 +19,26 @@ public class MyPageMentoProfile {
     private String appeal;
     private File schoolImg;
     private List<File> certificateImg;
-    private Bitmap quliImg; //자격증 이미지
+    private List<String> certificateName;
+    private String qualiName;
+    private Bitmap qualiImg; //자격증 이미지
 
     public MyPageMentoProfile(){
 
     }
 
-    public MyPageMentoProfile(String name, String place, String subject, String school, String intro, String nickName, String curi, String expeience, String appeal, File schoolImg, List<File> certificateImg) {
+    public MyPageMentoProfile(String name,
+                              String place,
+                              String subject,
+                              String school,
+                              String intro,
+                              String nickName,
+                              String curi,
+                              String expeience,
+                              String appeal,
+                              File schoolImg,
+                              List<File> certificateImg,
+                              List<String> certificateName) {
         this.name = name;
         this.place = place;
         this.subject = subject;
@@ -37,6 +50,7 @@ public class MyPageMentoProfile {
         this.appeal = appeal;
         this.schoolImg = schoolImg;
         this.certificateImg = certificateImg;
+        this.certificateName = certificateName;
     }
 
     //getter & setter
@@ -104,12 +118,12 @@ public class MyPageMentoProfile {
         this.subject = subject;
     }
 
-    public Bitmap getQuliImg() {
-        return quliImg;
+    public Bitmap getQualiImg() {
+        return qualiImg;
     }
 
-    public void setQuliImg(Bitmap quliImg) {
-        this.quliImg = quliImg;
+    public void setQualiImg(Bitmap qualiImg) {
+        this.qualiImg = qualiImg;
     }
 
     public String getExpeience() {
@@ -134,5 +148,13 @@ public class MyPageMentoProfile {
 
     public void setCertificateImg(List<File> certificateImg) {
         this.certificateImg = certificateImg;
+    }
+
+    public String getQualiName() {
+        return qualiName;
+    }
+
+    public void setQualiName(String qualiName) {
+        this.qualiName = qualiName;
     }
 }

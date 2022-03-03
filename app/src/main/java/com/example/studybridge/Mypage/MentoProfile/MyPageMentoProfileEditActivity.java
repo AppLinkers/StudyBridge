@@ -11,7 +11,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,10 +38,8 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPageMentoProfileActivity extends AppCompatActivity {
+public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView name, school,goToCheck;
@@ -86,6 +83,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
 
     private File schoolImg;
     private List<File> certificatesImg;
+    private List<String> certificatesName;
 
     DataService dataService = new DataService();
 
@@ -97,7 +95,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_mentoprofile_activity);
+        setContentView(R.layout.mypage_mentoprofile_edit_activity);
 
         toolbar = (Toolbar) findViewById(R.id.mypage_mentoProfile_bar);
 
@@ -176,7 +174,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
         goToCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MyPageMentoProfileActivity.this,MyPageMentoProfileSchoolCheck.class);
+                Intent intent = new Intent(MyPageMentoProfileEditActivity.this,MyPageMentoProfileSchoolCheck.class);
                 startActivityForResult(intent,SCHOOL_CHECK);
             }
         });
@@ -231,11 +229,13 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
             case R.id.mentoProfile_complete_btn:
 
                 certificatesImg = new ArrayList<>();
+                certificatesName = new ArrayList<>();
                 File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
                 for(int i=0; i<arrayList.size();i++){
-                    String dir = saveBitmapToJpg(arrayList.get(i).getQuliImg(), String.format("certificateImg%d", i));
+                    String dir = saveBitmapToJpg(arrayList.get(i).getQualiImg(), String.format("certificateImg%d", i));
                     File imgFile = new File(dir);
                     certificatesImg.add(imgFile);
+                    certificatesName.add(arrayList.get(i).getQualiName());
                 }
 
                 //객체 생성
@@ -250,7 +250,8 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         experience.getText().toString(),
                         appeal.getText().toString(),
                         schoolImg,
-                        certificatesImg
+                        certificatesImg,
+                        certificatesName
                 );
 
                 Map<String, RequestBody> profileReq = new HashMap<>();
@@ -294,7 +295,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                 });
 
 
-                Toast.makeText(getApplicationContext(),school.getText().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),certificatesName.get(0),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -324,7 +325,7 @@ public class MyPageMentoProfileActivity extends AppCompatActivity {
                         in.close();
 
                         tempProfile = new MyPageMentoProfile();
-                        tempProfile.setQuliImg(rImg);
+                        tempProfile.setQualiImg(rImg);
                         arrayList.add(tempProfile);
                         adapter.notifyDataSetChanged();//새로 고침
 

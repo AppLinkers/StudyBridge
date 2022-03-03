@@ -3,6 +3,7 @@ package com.example.studybridge.Mypage.MentoProfile;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,9 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyPageMentoProfileAdapter.MyPageMentoProfileHolder holder, int position) {
-        holder.qauliImg.setImageBitmap(listData.get(position).getQuliImg());
+        holder.qualiImg.setImageBitmap(listData.get(position).getQualiImg());
+
+        listData.get(position).setQualiName(holder.qualiName.getText().toString());
 
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,16 +70,18 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
 
     public class MyPageMentoProfileHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView qauliImg;
+        protected ImageView qualiImg;
         protected MaterialCardView deleteImg;
+        protected EditText qualiName;
 
 
 
         public MyPageMentoProfileHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            this.qauliImg = (ImageView) itemView.findViewById(R.id.quali_img);
+            this.qualiImg = (ImageView) itemView.findViewById(R.id.quali_img);
             this.deleteImg = (MaterialCardView) itemView.findViewById(R.id.quali_delete);
+            this.qualiName = (EditText) itemView.findViewById(R.id.quali_name);
 
         }
 
