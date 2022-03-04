@@ -18,7 +18,7 @@ public class ProfileRes {
 
     private String subject;
 
-    private List<String> certificatesImg;
+    private List<Certificate> certificates;
 
     private String experience;
 
@@ -36,29 +36,11 @@ public class ProfileRes {
                 ", school='" + school + '\'' +
                 ", schoolImg='" + schoolImg + '\'' +
                 ", subject='" + subject + '\'' +
-                ", certificatesImg=" + certificatesImg +
+                ", certificates=" + certificates +
                 ", experience='" + experience + '\'' +
                 ", curriculum='" + curriculum + '\'' +
                 ", appeal='" + appeal + '\'' +
                 '}';
-    }
-
-    public ProfileRes(String userName, String location, String info, String nickName, String school, String schoolImg, String subject, List<String> certificatesImg, String experience, String curriculum, String appeal) {
-        this.userName = userName;
-        this.location = location;
-        this.info = info;
-        this.nickName = nickName;
-        this.school = school;
-        this.schoolImg = schoolImg;
-        this.subject = subject;
-        this.certificatesImg = certificatesImg;
-        this.experience = experience;
-        this.curriculum = curriculum;
-        this.appeal = appeal;
-    }
-
-    public String getExperience() {
-        return experience;
     }
 
     public String getUserName() {
@@ -89,8 +71,12 @@ public class ProfileRes {
         return subject;
     }
 
-    public List<String> getCertificatesImg() {
-        return certificatesImg;
+    public List<Certificate> getCertificates() {
+        return certificates;
+    }
+
+    public String getExperience() {
+        return experience;
     }
 
     public String getCurriculum() {

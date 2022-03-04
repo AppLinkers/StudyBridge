@@ -196,6 +196,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                     String dir = saveBitmapToJpg(arrayList.get(i).getQualiImg(), String.format("certificateImg%d", i));
                     File imgFile = new File(dir);
                     certificatesImg.add(imgFile);
+                    Log.d("test", arrayList.get(i).toString());
                     certificatesName.add(arrayList.get(i).getQualiName());
 
                 }
@@ -243,6 +244,12 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExpeience()));
                 profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCuri()));
                 profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
+                Log.d("test", mentoProfile.getCertificateName().toString());
+                if (mentoProfile.getCertificateName().size() > 0) {
+                    mentoProfile.getCertificateName().forEach(cn -> {
+                        profileReq.put("profileTextReq.certificates", RequestBody.create(MultipartBody.FORM, cn));
+                    });
+                }
 
                 // school Img
                 RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), mentoProfile.getSchoolImg());
