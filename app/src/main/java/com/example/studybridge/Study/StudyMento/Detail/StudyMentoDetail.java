@@ -1,23 +1,23 @@
-package com.example.studybridge.Study.StudyMento;
+package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyFragmentPagerAdapter;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -32,6 +32,8 @@ public class StudyMentoDetail extends AppCompatActivity {
     private ViewPager2 viewPager;
     private StudyMentoDetailPagerAdapter adapter;
     private Toolbar toolbar;
+    private MaterialButton button;
+    private LinearLayout buttonLayout;
 //    private String[] intentArr;
     private ImageButton heart;
     private ArrayList intentArray;
@@ -48,6 +50,8 @@ public class StudyMentoDetail extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.mento_detail_bar);
         heart = (ImageButton) findViewById(R.id.mento_detail_heart);
         viewPager = (ViewPager2) findViewById(R.id.mento_detail_pager);
+        button = (MaterialButton) findViewById(R.id.mento_detail_button);
+        buttonLayout = (LinearLayout) findViewById(R.id.mento_detail_layout_button);
 
         Intent intent = getIntent();
         //툴바 설정
@@ -72,6 +76,7 @@ public class StudyMentoDetail extends AppCompatActivity {
                 if (response.isSuccessful())
                 {
                     toolbar.setTitle(response.body().getNickName());
+                    buttonLayout.setVisibility(View.VISIBLE);
                 }
             }
 

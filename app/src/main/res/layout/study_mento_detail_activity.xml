@@ -173,27 +173,29 @@
                     android:id="@+id/mento_detail_pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/layout_button"
+                    android:layout_above="@+id/mento_detail_layout_button"
                     android:layout_below="@+id/mento_detail_tab"
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:id="@+id/layout_button"
+                    android:id="@+id/mento_detail_layout_button"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center"
                     android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
+                    android:paddingRight="25dp"
+                    android:visibility="gone">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/mento_detail_button"
                         style="@style/Widget.StudyBridge.Button"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:text="신청하기"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

@@ -95,12 +95,12 @@
             android:textColor="@color/textColorPrimary"
             android:textStyle="bold"
             android:textSize="16sp"/>
-        <HorizontalScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mento_profile_certi_RV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-        </HorizontalScrollView>
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -116,6 +116,7 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
         <TextView
+            android:id="@+id/mento_profile_appeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

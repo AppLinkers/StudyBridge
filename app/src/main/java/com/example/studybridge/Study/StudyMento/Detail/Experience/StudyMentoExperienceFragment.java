@@ -1,4 +1,4 @@
-package com.example.studybridge.Study.StudyMento;
+package com.example.studybridge.Study.StudyMento.Detail.Experience;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

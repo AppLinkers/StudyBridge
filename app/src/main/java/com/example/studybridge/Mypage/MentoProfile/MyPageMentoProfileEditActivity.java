@@ -32,6 +32,7 @@ import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
@@ -58,11 +59,11 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private TextView name, school,goToCheck;
     private TextInputEditText intro,nickName,curi,experience,appeal;
     private MyPageMentoProfile tempProfile,mentoProfile;
-    private Chip seoul,geongi,incheon,placeEtc;
-    private Chip english,math,dev,subjectEtc;
-    //지역 과목 선택 데이터
-    private ArrayList<String> selectedPlace;
-    private ArrayList<String> selectedSubject;
+    private ChipGroup subjectGroup,placeGroup;
+    public String selectedSubject="";
+    public String selectedPlace="";
+
+
     //자격증 이미지 add
     private MaterialCardView addImg;
     public static final int PICK_IMAGE = 101;
@@ -71,8 +72,10 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private MyPageMentoProfileAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<Bitmap> imgArr;
+    private List<File> certificatesImg;
+    private List<String> certificatesName;
 
+    //SharedPreference
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_NAME = "user_name_key";
@@ -81,16 +84,15 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private String userName;
     private String userLoginId;
 
+    //학생증 이미지
     private File schoolImg;
-    private List<File> certificatesImg;
-    private List<String> certificatesName;
+
 
     DataService dataService = new DataService();
 
     Gson gson = new Gson();
 
-    ImageView iv;
-    String subjectList;
+
 
 
     @Override
@@ -118,56 +120,9 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
 
         //지역, 과목 선택
+        placeGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_placeSelect);
+        subjectGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_subjectSelect);
 
-        //지역 chip
-        seoul = (Chip) findViewById(R.id.mypage_mentoProfile_seoul);
-        geongi = (Chip) findViewById(R.id.mypage_mentoProfile_geongi);
-        incheon = (Chip) findViewById(R.id.mypage_mentoProfile_incheon);
-        placeEtc = (Chip) findViewById(R.id.mypage_mentoProfile_placeEtc);
-
-        //과목 chip
-        english = (Chip) findViewById(R.id.mypage_mentoProfile_english);
-        math = (Chip) findViewById(R.id.mypage_mentoProfile_math);
-        dev = (Chip) findViewById(R.id.mypage_mentoProfile_dev);
-        subjectEtc = (Chip) findViewById(R.id.mypage_mentoProfile_subjectEtc);
-
-        selectedSubject = new ArrayList<>();
-        selectedPlace = new ArrayList<>();
-
-        CompoundButton.OnCheckedChangeListener checkedChangeListenerForSubject = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectedSubject.add(buttonView.getText().toString());
-                } else {
-                    selectedSubject.remove(buttonView.getText().toString());
-                }
-            }
-        };
-        CompoundButton.OnCheckedChangeListener checkedChangeListenerForPlace = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectedPlace.add(buttonView.getText().toString());
-                } else {
-                    selectedPlace.remove(buttonView.getText().toString());
-                }
-            }
-        };
-
-        english.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-        math.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-        dev.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-        subjectEtc.setOnCheckedChangeListener(checkedChangeListenerForSubject);
-        seoul.setOnCheckedChangeListener(checkedChangeListenerForPlace);
-        geongi.setOnCheckedChangeListener(checkedChangeListenerForPlace);
-        incheon.setOnCheckedChangeListener(checkedChangeListenerForPlace);
-        placeEtc.setOnCheckedChangeListener(checkedChangeListenerForPlace);
-
-        for (int i=0; i<selectedSubject.size(); i++)
-        {
-            subjectList += selectedSubject.get(i) + " ";
-        }
 
 
         //툴바 설정
@@ -236,19 +191,36 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
                 certificatesImg = new ArrayList<>();
                 certificatesName = new ArrayList<>();
-                File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
+//                File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
                 for(int i=0; i<arrayList.size();i++){
                     String dir = saveBitmapToJpg(arrayList.get(i).getQualiImg(), String.format("certificateImg%d", i));
                     File imgFile = new File(dir);
                     certificatesImg.add(imgFile);
                     certificatesName.add(arrayList.get(i).getQualiName());
+
                 }
+
+                for(int i=0; i<placeGroup.getChildCount();i++){
+                    Chip chip = (Chip) placeGroup.getChildAt(i);
+                    if(chip.isChecked()){
+                        selectedPlace = chip.getText().toString();
+                    }
+                }
+
+                for(int i=0; i<subjectGroup.getChildCount();i++){
+                    Chip chip = (Chip) subjectGroup.getChildAt(i);
+                    if(chip.isChecked()){
+                        selectedSubject = chip.getText().toString();
+                    }
+                }
+
+                Toast.makeText(getApplicationContext(),selectedPlace,Toast.LENGTH_SHORT).show();
 
                 //객체 생성
                 mentoProfile = new MyPageMentoProfile(
                         userName,
-                        selectedPlace.get(0),
-                        selectedSubject.toString(),
+                        selectedPlace,
+                        selectedSubject,
                         school.getText().toString(),
                         intro.getText().toString(),
                         nickName.getText().toString(),

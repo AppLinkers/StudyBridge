@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMento.StudyMentoDetail;
-
-import java.util.ArrayList;
+import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 
 public class StudyMentiEnrollMentoHolder extends RecyclerView.ViewHolder{
 

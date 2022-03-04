@@ -1,7 +1,10 @@
 package com.example.studybridge.Study.StudyMento;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMenti;
+import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
 import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
@@ -72,44 +77,48 @@ public class StudyMentoFragment extends Fragment {
         getData();
 
 
+
+
         return view;
     }
 
+    @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData() {
 
 
-//        dataService.userMentor.getallProfile().enqueue(new Callback<ProfileRes>() {
-//            @Override
-//            public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
-//                if(response.isSuccessful()){
-//                    ProfileRes res = response.body();
-//                    StudyMento m = new StudyMento(res.getSubject(),res.getLocation(),res.getNickName(),res.getInfo(),res.getSchool(),res.getCertificatesImg(),false);
-//                    adapter.addItem(m);
-//                }
-//                recyclerView.setAdapter(adapter);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProfileRes> call, Throwable t) {
-//
-//            }
-//        });
 
 
-        StudyMento m1 = new StudyMento("수학","경기","4대대 베스트드라이버","믿고 맡겨주세요","홍익대학교",null,false);
-        StudyMento m2 = new StudyMento("개발","기타","4대대 베스트통신","믿고 맡겨주세요","과학기술대학교",null,true);
-        StudyMento m3 = new StudyMento("기타","인천","수능수학1등급","무조건 1등급","서울대학교",null,false);
-        StudyMento m4 = new StudyMento("영어","기타","안주전에 한잔","미국사관학교출신","펜실베니아대학교",null,true);
+        AsyncTask<Void, Void, List<ProfileRes>> listAPI = new AsyncTask<Void, Void, List<ProfileRes>>() {
+            @Override
+            protected List<ProfileRes> doInBackground(Void... params) {
+                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
+                try {
+                    for(ProfileRes res : call.execute().body()) {
+                        if(res.getNickName() != null) {
+                            StudyMento m = new StudyMento(res.getSubject(), res.getLocation(), res.getNickName(), res.getInfo(), res.getSchool(), null, false);
+                            adapter.addItem(m);
+                        }
+                    }
+                    recyclerView.setAdapter(adapter);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
 
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
+            @Override
+            protected void onPostExecute(List<ProfileRes> s) {super.onPostExecute(s);}
+        }.execute();
+
+
+        List<ProfileRes> result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

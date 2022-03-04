@@ -72,12 +72,7 @@ public class StudyAddActivity extends AppCompatActivity {
 
         //지역 선택 chip
         subjectGroup = (ChipGroup) findViewById(R.id.study_add_subjectGroup);
-        for(int i=0; i<subjectGroup.getChildCount();i++){
-            Chip chip = (Chip) subjectGroup.getChildAt(i);
-            if(chip.isChecked()){
-                subject = chip.getText().toString();
-            }
-        }
+
 
 
 
@@ -103,6 +98,12 @@ public class StudyAddActivity extends AppCompatActivity {
                 maxNum = Integer.parseInt(maxNumEt.getText().toString()+"");
                 studyIntro = introEt.getText().toString()+"";
 //                studyExplain = explainEt.getText().toString()+"";
+                for(int i=0; i<subjectGroup.getChildCount();i++){
+                    Chip chip = (Chip) subjectGroup.getChildAt(i);
+                    if(chip.isChecked()){
+                        subject = chip.getText().toString();
+                    }
+                }
 
 
                 study = new StudyMenti(0L, 0, subject, studyPlace, title,studyIntro,maxNum);

@@ -51,7 +51,7 @@
             android:exported="true"/>
         <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMento.StudyMentoDetail"
+        <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>

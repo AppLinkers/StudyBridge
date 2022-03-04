@@ -1,4 +1,4 @@
-package com.example.studybridge.Study.StudyMento;
+package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.os.Bundle;
 
@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.studybridge.Study.StudyMento.Detail.Comment.StudyMentoCommentFragment;
+import com.example.studybridge.Study.StudyMento.Detail.Experience.StudyMentoExperienceFragment;
+import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileFragment;
 
 import java.util.ArrayList;
 

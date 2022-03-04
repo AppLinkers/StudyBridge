@@ -20,6 +20,8 @@ public class MyPageMentoProfile {
     private File schoolImg;
     private List<File> certificateImg;
     private List<String> certificateName;
+
+    //임시 데이터
     private String qualiName;
     private Bitmap qualiImg; //자격증 이미지
 

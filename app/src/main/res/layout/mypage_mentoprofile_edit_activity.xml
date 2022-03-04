@@ -71,34 +71,31 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/mypage_mentoProfile_placeSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_seoul"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="서울" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_geongi"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="경기" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_incheon"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="인천" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_placeEtc"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -122,33 +119,31 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/mypage_mentoProfile_subjectSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="25dp">
+                    android:paddingLeft="25dp"
+                    app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_english"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="영어" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_math"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="수학" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_dev"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="개발" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/mypage_mentoProfile_subjectEtc"
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

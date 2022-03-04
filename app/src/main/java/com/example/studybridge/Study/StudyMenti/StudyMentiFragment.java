@@ -106,6 +106,7 @@ public class StudyMentiFragment extends Fragment{
                     }
                 });
                 bottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         adapter = new StudyMentiAdapter();
