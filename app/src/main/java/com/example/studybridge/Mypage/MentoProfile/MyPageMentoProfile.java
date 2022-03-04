@@ -53,6 +53,26 @@ public class MyPageMentoProfile {
         this.certificateName = certificateName;
     }
 
+    @Override
+    public String toString() {
+        return "MyPageMentoProfile{" +
+                "name='" + name + '\'' +
+                ", place='" + place + '\'' +
+                ", subject='" + subject + '\'' +
+                ", school='" + school + '\'' +
+                ", intro='" + intro + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", curi='" + curi + '\'' +
+                ", expeience='" + expeience + '\'' +
+                ", appeal='" + appeal + '\'' +
+                ", schoolImg=" + schoolImg +
+                ", certificateImg=" + certificateImg +
+                ", certificateName=" + certificateName +
+                ", qualiName='" + qualiName + '\'' +
+                ", qualiImg=" + qualiImg +
+                '}';
+    }
+
     //getter & setter
     public String getName() {
         return name;
@@ -148,6 +168,14 @@ public class MyPageMentoProfile {
 
     public void setCertificateImg(List<File> certificateImg) {
         this.certificateImg = certificateImg;
+    }
+
+    public List<String> getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(List<String> certificateName) {
+        this.certificateName = certificateName;
     }
 
     public String getQualiName() {
