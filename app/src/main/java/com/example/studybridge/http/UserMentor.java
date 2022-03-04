@@ -26,5 +26,5 @@ public interface UserMentor {
 
 
     @GET("user/mentor/allProfile")
-    Call<ProfileRes> getallProfile();
+    Call<List<ProfileRes>> getAllProfile();
 }
