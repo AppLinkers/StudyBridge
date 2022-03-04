@@ -22,9 +22,11 @@ import java.util.ArrayList;
 
 public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoProfileAdapter.MyPageMentoProfileHolder>{
 
-    private ArrayList<MyPageMentoProfile> listData;
+    private ArrayList<MyPageMentoCertiInfo> listData;
 
-    public MyPageMentoProfileAdapter(ArrayList<MyPageMentoProfile> listData){
+
+
+    public MyPageMentoProfileAdapter(ArrayList<MyPageMentoCertiInfo> listData){
         this.listData = listData;
     }
     @NonNull
@@ -58,7 +60,7 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
         return (listData != null ? listData.size() : 0);
     }
 
-    public void addItem(MyPageMentoProfile data) {
+    public void addItem(MyPageMentoCertiInfo data) {
         listData.add(data);
     }
 
@@ -70,6 +72,17 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
         } catch (IndexOutOfBoundsException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull MyPageMentoProfileHolder holder) {
+        ((MyPageMentoProfileHolder)holder).enableTextWatcher();
+    }
+
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull MyPageMentoProfileHolder holder) {
+        ((MyPageMentoProfileHolder) holder).disableTextWatcher();
     }
 
     public class MyPageMentoProfileHolder extends RecyclerView.ViewHolder {
@@ -89,8 +102,15 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
             this.qualiName = (EditText) itemView.findViewById(R.id.quali_name);
 
             this.myCustomEditTextListener = myCustomEditTextListener;
-            this.qualiName.addTextChangedListener(myCustomEditTextListener);
 
+        }
+
+        void enableTextWatcher() {
+            qualiName.addTextChangedListener(myCustomEditTextListener);
+        }
+
+        void disableTextWatcher() {
+            qualiName.removeTextChangedListener(myCustomEditTextListener);
         }
 
 
@@ -116,6 +136,7 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
 
         @Override
         public void afterTextChanged(Editable editable) {
+
             // no op
         }
     }

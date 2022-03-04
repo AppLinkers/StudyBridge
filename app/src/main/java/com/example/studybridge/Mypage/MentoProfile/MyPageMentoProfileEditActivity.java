@@ -58,7 +58,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView name, school,goToCheck;
     private TextInputEditText intro,nickName,curi,experience,appeal;
-    private MyPageMentoProfile tempProfile,mentoProfile;
+    private MyPageMentoProfile mentoProfile;
     private ChipGroup subjectGroup,placeGroup;
     public String selectedSubject="";
     public String selectedPlace="";
@@ -68,7 +68,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private MaterialCardView addImg;
     public static final int PICK_IMAGE = 101;
     public static final int SCHOOL_CHECK = 201;
-    private ArrayList<MyPageMentoProfile> arrayList;
+    private ArrayList<MyPageMentoCertiInfo> arrayList;
+    private MyPageMentoCertiInfo certiInfo;
     private MyPageMentoProfileAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -166,6 +167,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
 
 
+
+
     }
 
 
@@ -189,6 +192,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 //상단 완료버튼 눌렀을때
             case R.id.mentoProfile_complete_btn:
 
+
+
                 certificatesImg = new ArrayList<>();
                 certificatesName = new ArrayList<>();
 //                File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
@@ -198,7 +203,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                     certificatesImg.add(imgFile);
                     Log.d("test", arrayList.get(i).toString());
                     certificatesName.add(arrayList.get(i).getQualiName());
-
                 }
 
                 for(int i=0; i<placeGroup.getChildCount();i++){
@@ -215,7 +219,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                     }
                 }
 
-                Toast.makeText(getApplicationContext(),selectedPlace,Toast.LENGTH_SHORT).show();
 
                 //객체 생성
                 mentoProfile = new MyPageMentoProfile(
@@ -309,9 +312,10 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
 
-                        tempProfile = new MyPageMentoProfile();
-                        tempProfile.setQualiImg(rImg);
-                        arrayList.add(tempProfile);
+
+                        certiInfo = new MyPageMentoCertiInfo();
+                        certiInfo.setQualiImg(rImg);
+                        arrayList.add(certiInfo);
                         adapter.notifyDataSetChanged();//새로 고침
 
 

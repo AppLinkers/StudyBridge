@@ -21,9 +21,6 @@ public class MyPageMentoProfile {
     private List<File> certificateImg;
     private List<String> certificateName;
 
-    //임시 데이터
-    private String qualiName;
-    private Bitmap qualiImg; //자격증 이미지
 
     public MyPageMentoProfile(){
 
@@ -70,8 +67,6 @@ public class MyPageMentoProfile {
                 ", schoolImg=" + schoolImg +
                 ", certificateImg=" + certificateImg +
                 ", certificateName=" + certificateName +
-                ", qualiName='" + qualiName + '\'' +
-                ", qualiImg=" + qualiImg +
                 '}';
     }
 
@@ -140,14 +135,6 @@ public class MyPageMentoProfile {
         this.subject = subject;
     }
 
-    public Bitmap getQualiImg() {
-        return qualiImg;
-    }
-
-    public void setQualiImg(Bitmap qualiImg) {
-        this.qualiImg = qualiImg;
-    }
-
     public String getExpeience() {
         return expeience;
     }
@@ -180,11 +167,4 @@ public class MyPageMentoProfile {
         this.certificateName = certificateName;
     }
 
-    public String getQualiName() {
-        return qualiName;
-    }
-
-    public void setQualiName(String qualiName) {
-        this.qualiName = qualiName;
-    }
 }
