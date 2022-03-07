@@ -129,7 +129,7 @@
                         style="@style/Widget.StudyBridge.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="영어" />
+                        android:text="영어"/>
 
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.StudyBridge.Chip.Filter"

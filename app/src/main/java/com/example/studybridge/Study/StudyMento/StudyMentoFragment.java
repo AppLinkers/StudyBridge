@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
@@ -94,9 +95,9 @@ public class StudyMentoFragment extends Fragment {
                 Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
                 try {
                     for(ProfileRes res : call.execute().body()) {
-                        if(res.getNickName() != null) {
-                            StudyMento m = new StudyMento(res.getSubject(), res.getLocation(), res.getNickName(), res.getInfo(), res.getSchool(), null, false);
-                            adapter.addItem(m);
+                        if(res.getNickName() != null) {  //임시 조건
+                            MyPageMentoProfile mentoProfile = new MyPageMentoProfile(res.getUserName(),res.getLocation(),res.getSubject(),res.getSchool(),res.getInfo(),res.getNickName(),res.getCurriculum(),res.getExperience(),res.getAppeal(),null,null,null);
+                            adapter.addItem(mentoProfile);
                         }
                     }
                     recyclerView.setAdapter(adapter);

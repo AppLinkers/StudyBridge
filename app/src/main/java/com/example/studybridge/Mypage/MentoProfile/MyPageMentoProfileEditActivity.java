@@ -95,7 +95,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +111,16 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         experience = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_experience);
         appeal = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_appeal);
 
+        //기존 입력값
+        Intent intent = getIntent();
+        mentoProfile = (MyPageMentoProfile) intent.getSerializableExtra("profile");
+        school.setText(mentoProfile.getSchool());
+        intro.setText(mentoProfile.getIntro());
+        nickName.setText(mentoProfile.getNickName());
+        curi.setText(mentoProfile.getCuri());
+        experience.setText(mentoProfile.getExpeience());
+        appeal.setText(mentoProfile.getAppeal());
+
         //이름 데이터
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userName = sharedPreferences.getString(USER_NAME, "사용자");
@@ -125,6 +134,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         subjectGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_subjectSelect);
 
 
+        Chip chip = (Chip) subjectGroup.getChildAt(checkChip(mentoProfile.getSubject()));
+        chip.setChecked(true);
 
         //툴바 설정
         setSupportActionBar(toolbar);
@@ -390,6 +401,23 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         }
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
         return getCacheDir() + "/" +fileName;
+    }
+
+    //기존 과목&&지역 선택 함수
+    public static int checkChip(String str){
+        switch (str)
+        {
+            case "영어" :
+                return 0;
+            case "수학" :
+                return 1;
+            case "개발" :
+                return 2;
+            case "기타" :
+                return 3;
+            default:
+                return -1;
+        }
     }
 
 }

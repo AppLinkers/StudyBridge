@@ -1,8 +1,9 @@
 package com.example.studybridge.Study.StudyMento;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StudyMento {
+public class StudyMento implements Serializable {
 
     String subject;
     String place;

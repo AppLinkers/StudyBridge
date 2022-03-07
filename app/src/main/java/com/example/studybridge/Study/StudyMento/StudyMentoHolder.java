@@ -9,16 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
     private TextView subject,place,mentoName,mentoIntro,mentoSchool,mentoQualification;
     private ImageButton heart;
+//    StudyMento mentoProfile;
+    private MyPageMentoProfile profile;
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -50,23 +55,11 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
 
 
-                String passName = mentoName.getText() +"";
-                String passSubject = subject.getText() +"";
-                String passPlace = place.getText() +"";
-                String passIntro = mentoIntro.getText() +"";
-                String passSchool = mentoSchool.getText() +"";
-                String passQualifi = mentoQualification.getText() +"";
+
                 boolean passHeart = heart.isSelected();
 
-
-
-                intent.putExtra("name",passName);
-                intent.putExtra("intro",passIntro);
-                intent.putExtra("subject",passSubject);
-                intent.putExtra("place",passPlace);
-                intent.putExtra("school",passSchool);
-                intent.putExtra("qualify",passQualifi);
                 intent.putExtra("heart",passHeart);
+                intent.putExtra("profile", profile);
 
 
                 view.getContext().startActivity(intent);
@@ -76,13 +69,15 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void onBind(StudyMento data) {
+    public void onBind(MyPageMentoProfile data) {
         subject.setText(data.getSubject());
         place.setText(data.getPlace());
-        mentoName.setText(data.getMentoName());
-        mentoIntro.setText(data.getMetnoIntro());
-        mentoSchool.setText(data.getMetnoSchool());
+        mentoName.setText(data.getNickName());
+        mentoIntro.setText(data.getIntro());
+        mentoSchool.setText(data.getSchool());
         mentoQualification.setText("data.getMetnoQualification()");
+//        mentoProfile = data;
+        profile = data;
 
     }
 }

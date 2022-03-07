@@ -161,11 +161,6 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
-//        adapter.addItem("test");
-//        adapter.addItem("test2");
-
-
-
 
 
     }
@@ -193,9 +188,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     applyBtn.setText("신청완료");
                     applyBtn.setEnabled(false);
-//                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-//                    intent.putExtra("study", study);
-//                    startActivity(intent);
                 }
             }
             @Override

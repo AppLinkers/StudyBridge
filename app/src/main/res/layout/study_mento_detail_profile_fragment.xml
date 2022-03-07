@@ -122,7 +122,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:text="어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal 어필appeal어필appeal어필appeal어필appeal어필appeal어필appeal어필appeal"
+            android:text="어필appeal"
             android:textColor="@color/textColorPrimary"
             android:lineSpacingExtra="8dp"
             android:letterSpacing="0.03"/>

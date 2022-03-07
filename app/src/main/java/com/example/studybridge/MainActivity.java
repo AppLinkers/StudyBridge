@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.studybridge.Home.HomeFragment;
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileShowActivity;
 import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         Bundle bundle = new Bundle(2);
         bundle.putString("name", userName);
         bundle.putString("id", userId);
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()

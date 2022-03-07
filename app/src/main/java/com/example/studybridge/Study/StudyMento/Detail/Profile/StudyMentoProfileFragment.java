@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
@@ -60,47 +61,49 @@ public class StudyMentoProfileFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        StringBuilder sb;
+        final StringBuilder[] sb = new StringBuilder[2];
         Bundle extras = getArguments();
 
+        MyPageMentoProfile profile = (MyPageMentoProfile) extras.getSerializable("profile");
 
 
-
-
-        //경로1 : 멘토 찾기에서 불러오는 것
-        if(extras != null){
-            sb = new StringBuilder();
-            String introStr = sb.append("\"").append(extras.getString("intro")).append("\"").toString();
-            intro.setText(introStr);
-            school.setText(extras.getString("school"));
-            place.setText(extras.getString("place"));
-            subject.setText(extras.getString("subject"));
-        }
-
-        //경로 2 : 스터디 신청한 멘토를 클릭한 경우
         final String mentoId = extras.getString("mentoId");
-        dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
-            @Override
-            public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
-                if (response.isSuccessful())
-                {
-                    intro.setText(response.body().getInfo());
-                    school.setText(response.body().getSchool());
-                    place.setText(response.body().getLocation());
-                    subject.setText(response.body().getSubject());
-                    appeal.setText(response.body().getAppeal());
+
+        if(mentoId == null || mentoId.equals("")) {
+            //경로1 : 멘토 찾기에서 불러오는 것
+            if(extras != null){
+
+                sb[0] = new StringBuilder();
+                String introStr = sb[0].append("\"").append(profile.getIntro()).append("\"").toString();
+                intro.setText(introStr);
+                school.setText(profile.getSchool());
+                place.setText(profile.getPlace());
+                subject.setText(profile.getSubject());
+                appeal.setText(profile.getAppeal());
+            }
+        }
+        else {
+            dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
+                @Override
+                public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                    if (response.isSuccessful())
+                    {
+                        sb[1] = new StringBuilder();
+                        String introStr = sb[1].append("\"").append(response.body().getInfo()).append("\"").toString();
+                        intro.setText(introStr);
+                        school.setText(response.body().getSchool());
+                        place.setText(response.body().getLocation());
+                        subject.setText(response.body().getSubject());
+                        appeal.setText(response.body().getAppeal());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ProfileRes> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ProfileRes> call, Throwable t) {
 
-            }
-        });
-
-
-
-
+                }
+            });
+        }
 
 
 

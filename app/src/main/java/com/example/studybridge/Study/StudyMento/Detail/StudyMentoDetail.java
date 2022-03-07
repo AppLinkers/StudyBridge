@@ -14,12 +14,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMento.StudyMento;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -36,7 +39,7 @@ public class StudyMentoDetail extends AppCompatActivity {
     private LinearLayout buttonLayout;
 //    private String[] intentArr;
     private ImageButton heart;
-    private ArrayList intentArray;
+//    private ArrayList intentArray;
 
     DataService dataService = new DataService();
 
@@ -54,37 +57,38 @@ public class StudyMentoDetail extends AppCompatActivity {
         buttonLayout = (LinearLayout) findViewById(R.id.mento_detail_layout_button);
 
         Intent intent = getIntent();
-        //툴바 설정
-        toolbar.setTitle(intent.getExtras().getString("name"));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        MyPageMentoProfile profile = (MyPageMentoProfile) intent.getSerializableExtra("profile");
+
 
         //신청한 멘티에서 불러온 것
         String mentoId = intent.getExtras().getString("mentoId");
 
-        intentArray = new ArrayList();
-        intentArray.add(intent.getExtras().getString("subject"));
-        intentArray.add(intent.getExtras().getString("place"));
-        intentArray.add(intent.getExtras().getString("school"));
-        intentArray.add(intent.getExtras().getString("qualify"));
-        intentArray.add(intent.getExtras().getString("intro"));
-        intentArray.add(mentoId);
-
-        dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
-            @Override
-            public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
-                if (response.isSuccessful())
-                {
-                    toolbar.setTitle(response.body().getNickName());
-                    buttonLayout.setVisibility(View.VISIBLE);
+        //툴바 설정
+        if(mentoId == null || mentoId.equals("")){
+            toolbar.setTitle(profile.getNickName());
+        } else {
+            dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
+                @Override
+                public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                    if (response.isSuccessful())
+                    {
+                        toolbar.setTitle(response.body().getNickName());
+                        buttonLayout.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ProfileRes> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ProfileRes> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 
 
@@ -96,7 +100,8 @@ public class StudyMentoDetail extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
 
-        adapter.setArr(intentArray);
+        adapter.setProfile(profile);
+        adapter.setId(mentoId);
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

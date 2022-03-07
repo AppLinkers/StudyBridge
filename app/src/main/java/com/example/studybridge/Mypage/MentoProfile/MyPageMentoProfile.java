@@ -3,10 +3,11 @@ package com.example.studybridge.Mypage.MentoProfile;
 import android.graphics.Bitmap;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPageMentoProfile {
+public class MyPageMentoProfile implements Serializable {
 
     private String name;
     private String place;
