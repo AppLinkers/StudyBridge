@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +18,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ChangeStatusReq;
+import com.example.studybridge.http.dto.ProfileRes;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
+import com.example.studybridge.http.dto.StudyFindRes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +58,12 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     int enrollCount;
 
-    //멘티 리사이클러뷰
+    //멘토 리사이클러뷰
     private StudyMentiEnrollMentoAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
+    public static final int selectMento = 121;
 
 
     @SuppressLint("ResourceAsColor")
@@ -134,7 +141,7 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
-        //멘티 리사이클러뷰
+        //멘토 리사이클러뷰
         recyclerView = (RecyclerView) findViewById(R.id.menti_detail_enrollMento_RV);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -143,24 +150,34 @@ public class StudyMentiDetail extends AppCompatActivity {
         adapter = new StudyMentiEnrollMentoAdapter();
 
 
-        //멘토리스트 표시
-        dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
+
+        AsyncTask<Void, Void, List<String>> listAPI = new AsyncTask<Void, Void, List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    mentorList.setText(response.body().toString());
-                    for(int i=0; i<response.body().size(); i++){
-                        adapter.addItem(response.body().get(i));
+            protected List<String> doInBackground(Void... params) {
+                Call<List<String>> call = dataService.study.mentorList(studyId);
+                try {
+                    for(String res : call.execute().body()) {
+                        adapter.addItem(res);
                     }
+                    adapter.setStudyId(studyId);
                     recyclerView.setAdapter(adapter);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                return null;
             }
+
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            protected void onPostExecute(List<String> s) {super.onPostExecute(s);}
+        }.execute();
 
-            }
-        });
+        List<String> result = null;
 
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -346,5 +363,20 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode==RESULT_OK)
+        {
+            switch (requestCode)
+            {
+                case selectMento:
+            }
+        }
+        else if(resultCode==RESULT_CANCELED)
+        {
+
+        }
+    }
 }

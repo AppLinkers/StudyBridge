@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
 import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
@@ -54,6 +55,7 @@ public class StudyMentoFragment extends Fragment {
         filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
         subjectFilter = (TextView) view.findViewById(R.id.mento_subjectFilter);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeFilter);
+
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +63,7 @@ public class StudyMentoFragment extends Fragment {
                 bottomSheet.show(getChildFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
                 bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
                     @Override
-                    public void onButtonClick(String subject, String place) {
+                    public void onFilterBtnClick(String subject, String place) {
                         subjectFilter.setText(subject);
                         placeFilter.setText(place);
                     }

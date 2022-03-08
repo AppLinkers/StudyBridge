@@ -193,7 +193,7 @@
                         style="@style/Widget.StudyBridge.Button"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:text="신청하기"
+                        android:text="선택하기"
                         android:textColor="@color/white"
                         android:textStyle="bold"/>
                 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.studybridge.Study.StudyMento.Detail;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +19,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
+import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiSelectMentoDialog;
 import com.example.studybridge.Study.StudyMento.StudyMento;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ProfileRes;
@@ -37,11 +42,13 @@ public class StudyMentoDetail extends AppCompatActivity {
     private Toolbar toolbar;
     private MaterialButton button;
     private LinearLayout buttonLayout;
-//    private String[] intentArr;
+
     private ImageButton heart;
-//    private ArrayList intentArray;
+
 
     DataService dataService = new DataService();
+
+    private int selectOK;
 
 
     @Override
@@ -63,6 +70,7 @@ public class StudyMentoDetail extends AppCompatActivity {
 
         //신청한 멘티에서 불러온 것
         String mentoId = intent.getExtras().getString("mentoId");
+        Long studyId = intent.getExtras().getLong("studyId");
 
         //툴바 설정
         if(mentoId == null || mentoId.equals("")){
@@ -145,6 +153,17 @@ public class StudyMentoDetail extends AppCompatActivity {
             }
         });
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                showSelectDialog(mentoId,studyId);
+
+
+            }
+        });
+
 
     }
 
@@ -158,4 +177,38 @@ public class StudyMentoDetail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void showSelectDialog(String mentoId,Long studyId){
+        FragmentManager fm = getSupportFragmentManager();
+        StudyMentiSelectMentoDialog dialog = StudyMentiSelectMentoDialog.newInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("mentoId",mentoId);
+        bundle.putLong("studyId",studyId);
+        dialog.setArguments(bundle);
+
+        dialog.show(fm,"selectMetno");
+        dialog.setDialogInterfacer(new DialogInterfaces() {
+            @Override
+            public void onButtonClick(int selectCode) {
+                selectOK = selectCode;
+            }
+
+            @Override
+            public void onFilterBtnClick(String a, String b) {
+                //안씀
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if (selectOK==1){
+                    Intent resultIntent = new Intent();
+                    setResult(Activity.RESULT_OK,resultIntent);
+                    finish();
+                }
+            }
+        });
+    }
+
 }

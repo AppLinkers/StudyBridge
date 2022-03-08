@@ -1,23 +1,28 @@
 package com.example.studybridge.Study.StudyMenti;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
+
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.studybridge.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 
-import java.lang.reflect.Field;
 
-public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
+public class StudyMentiFilterDialog extends DialogFragment {
 
     private RadioGroup subjectGroup,placeGroup;
     private RadioButton filterSubject, filterPlace;
@@ -25,55 +30,49 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
     private LinearLayout applyBtn;
     private DialogInterface.OnDismissListener onDismissListener;
 
+    private DialogInterfacer dialogInterfacer;
+
     ////dialog --> fragment 로 값 전달
     public static StudyMentiFilterDialog getInstance(){
         StudyMentiFilterDialog dialog = new StudyMentiFilterDialog();
         return dialog;
     }
+
     public interface DialogInterfacer{
-        void onButtonClick(String subject,String place);
+        void onFilterBtnClick(String subject, String place);
     }
-    private DialogInterfacer dialogInterfacer;
+
 
     public void setDialogInterfacer(DialogInterfacer dialogInterfacer) {
         this.dialogInterfacer = dialogInterfacer;
     }
 
-
-
-    @SuppressLint("RestrictedApi")
+    @Nullable
     @Override
-    public void setupDialog(Dialog dialog, int style) {
-        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialog;
-        bottomSheetDialog.setContentView(R.layout.study_filter);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.study_filter,container,false);
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        //다이얼로그 확장 방지
-        try {
-            Field behaviorField = bottomSheetDialog.getClass().getDeclaredField("behavior");
-            behaviorField.setAccessible(true);
-            final BottomSheetBehavior behavior = (BottomSheetBehavior) behaviorField.get(bottomSheetDialog);
-            behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }
-                }
+        final int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,350,getResources().getDisplayMetrics());
 
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        getDialog().getWindow().setLayout(width,height);
+        getDialog().getWindow().setGravity(Gravity.BOTTOM);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
 
-                }
-            });
-        } catch (NoSuchFieldException e) { e.printStackTrace(); }
-        catch (IllegalAccessException e) { e.printStackTrace(); }
-
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //필터 선택
-        subjectGroup = (RadioGroup) bottomSheetDialog.findViewById(R.id.menti_filter_subjectGroup);
-        placeGroup = (RadioGroup) bottomSheetDialog.findViewById(R.id.menti_filter_placeGroup);
+        subjectGroup = (RadioGroup) view.findViewById(R.id.menti_filter_subjectGroup);
+        placeGroup = (RadioGroup) view.findViewById(R.id.menti_filter_placeGroup);
 
         subjectGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -114,17 +113,17 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
 
 
         //적용하기 클릭 이벤트
-        applyBtn = (LinearLayout) bottomSheetDialog.findViewById(R.id.menti_filter_btn);
+        applyBtn = (LinearLayout) view.findViewById(R.id.menti_filter_btn);
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                filterSubject =bottomSheetDialog.findViewById(subjectGroup.getCheckedRadioButtonId());
-                filterPlace =bottomSheetDialog.findViewById(placeGroup.getCheckedRadioButtonId());
+                filterSubject =view.findViewById(subjectGroup.getCheckedRadioButtonId());
+                filterPlace =view.findViewById(placeGroup.getCheckedRadioButtonId());
                 passSubject = filterSubject.getText().toString()+"";
                 passPlace = filterPlace.getText().toString()+"";
 
-                dialogInterfacer.onButtonClick(passSubject,passPlace);
+                dialogInterfacer.onFilterBtnClick(passSubject,passPlace);
 
                 dismiss();
 
@@ -132,18 +131,18 @@ public class StudyMentiFilterDialog extends BottomSheetDialogFragment {
         });
     }
 
+
     public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull android.content.DialogInterface dialog) {
         super.onDismiss(dialog);
         if (onDismissListener != null) {
             onDismissListener.onDismiss(dialog);
         }
     }
-
 }
 
 
