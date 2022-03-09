@@ -49,4 +49,7 @@ public interface Study {
 
     @DELETE("study/mentor")
     Call<Integer> deleteMentor(@Query("studyId") Long studyId);
+
+    @POST("study/mentor")
+    Call<Integer> chooseMentor(@Query("studyId") Long studyId, @Query("mentorId") Long mentorId);
 }
