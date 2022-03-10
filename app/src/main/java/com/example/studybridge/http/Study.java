@@ -52,5 +52,5 @@ public interface Study {
     Call<Integer> deleteMentor(@Query("studyId") Long studyId);
 
     @POST("study/mentor")
-    Call<ChooseMentorRes> chooseMentor(@Query("studyId") Long studyId, @Query("mentorId") Long mentorId);
+    Call<ChooseMentorRes> chooseMentor(@Query("studyId") Long studyId, @Query("mentorLoginId") String mentorLoginId);
 }
