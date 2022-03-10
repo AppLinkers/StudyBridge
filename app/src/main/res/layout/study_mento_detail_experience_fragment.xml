@@ -18,10 +18,11 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
         <TextView
+            android:id="@+id/mento_experience_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항경력사항"
+            android:text="경력사항"
             android:textColor="@color/textColorPrimary"
             android:lineSpacingExtra="8dp"
             android:letterSpacing="0.03"/>

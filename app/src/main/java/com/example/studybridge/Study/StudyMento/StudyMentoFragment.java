@@ -1,5 +1,7 @@
 package com.example.studybridge.Study.StudyMento;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
 
 
 public class StudyMentoFragment extends Fragment {
@@ -25,17 +34,20 @@ public class StudyMentoFragment extends Fragment {
     ArrayList<StudyMento> arrayList;
     private FloatingActionButton filterFab;
     private TextView subjectFilter, placeFilter;
+    DataService dataService;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_mento_fragment,container,false);
+        dataService = new DataService();
 
         //filter
         filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
         subjectFilter = (TextView) view.findViewById(R.id.mento_subjectFilter);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeFilter);
+
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,7 +55,7 @@ public class StudyMentoFragment extends Fragment {
                 bottomSheet.show(getChildFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
                 bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
                     @Override
-                    public void onButtonClick(String subject, String place) {
+                    public void onFilterBtnClick(String subject, String place) {
                         subjectFilter.setText(subject);
                         placeFilter.setText(place);
                     }
@@ -58,25 +70,50 @@ public class StudyMentoFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new StudyMentoAdapter();
         getData();
-        recyclerView.setAdapter(adapter);
+
+
+
 
         return view;
     }
 
+    @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData() {
-        StudyMento m1 = new StudyMento("운전","하남","4대대 베스트드라이버","믿고 맡겨주세요","홍익대학교","1종보통",false);
-        StudyMento m2 = new StudyMento("코딩","해남","4대대 베스트통신","믿고 맡겨주세요","과학기술대학교","스프링",true);
-        StudyMento m3 = new StudyMento("수학","서울","수능수학1등급","무조건 1등급","서울대학교","올림피아드",false);
-        StudyMento m4 = new StudyMento("영어","미국","안주전에 한잔","미국사관학교출신","펜실베니아대학교","",true);
 
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
-        adapter.addItem(m1);
-        adapter.addItem(m2);
-        adapter.addItem(m3);
-        adapter.addItem(m4);
+
+
+
+        AsyncTask<Void, Void, List<ProfileRes>> listAPI = new AsyncTask<Void, Void, List<ProfileRes>>() {
+            @Override
+            protected List<ProfileRes> doInBackground(Void... params) {
+                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
+                try {
+                    for(ProfileRes res : call.execute().body()) {
+                        if(res.getNickName() != null) {  //임시 조건
+                            MyPageMentoProfile mentoProfile = new MyPageMentoProfile(res.getUserName(),res.getLocation(),res.getSubject(),res.getSchool(),res.getInfo(),res.getNickName(),res.getCurriculum(),res.getExperience(),res.getAppeal(),null,null,null);
+                            adapter.addItem(mentoProfile);
+                        }
+                    }
+                    recyclerView.setAdapter(adapter);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(List<ProfileRes> s) {super.onPostExecute(s);}
+        }.execute();
+
+
+        List<ProfileRes> result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

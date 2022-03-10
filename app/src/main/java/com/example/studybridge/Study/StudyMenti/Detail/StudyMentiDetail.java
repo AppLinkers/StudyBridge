@@ -1,11 +1,11 @@
-package com.example.studybridge.Study.StudyMenti;
+package com.example.studybridge.Study.StudyMenti.Detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +15,22 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Chat.ChatActivity;
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ChangeStatusReq;
+import com.example.studybridge.http.dto.ProfileRes;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
+import com.example.studybridge.http.dto.StudyFindRes;
 
-import java.util.List;
-
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +57,13 @@ public class StudyMentiDetail extends AppCompatActivity {
     String managerId;
 
     int enrollCount;
+
+    //멘토 리사이클러뷰
+    private StudyMentiEnrollMentoAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+
+    public static final int selectMento = 121;
 
 
     @SuppressLint("ResourceAsColor")
@@ -105,6 +117,8 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
 
+
+
         // 신청된 menteeLoginIdList
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
@@ -127,22 +141,49 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
+        //멘토 리사이클러뷰
+        recyclerView = (RecyclerView) findViewById(R.id.menti_detail_enrollMento_RV);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        //멘토리스트 표시
-        dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
+        adapter = new StudyMentiEnrollMentoAdapter();
+
+
+
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<Void, Void, List<String>> listAPI = new AsyncTask<Void, Void, List<String>>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()) {
-                    mentorList.setText(response.body().toString());
+            protected List<String> doInBackground(Void... params) {
+                Call<List<String>> call = dataService.study.mentorList(studyId);
+                try {
+                    for(String res : call.execute().body()) {
+                        adapter.addItem(res);
+                    }
+                    adapter.setStudyId(studyId);
+                    recyclerView.setAdapter(adapter);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                return null;
             }
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
 
-            }
-        });
+            @Override
+            protected void onPostExecute(List<String> s) {super.onPostExecute(s);}
+        }.execute();
+
+        List<String> result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -165,9 +206,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     applyBtn.setText("신청완료");
                     applyBtn.setEnabled(false);
-//                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-//                    intent.putExtra("study", study);
-//                    startActivity(intent);
                 }
             }
             @Override
@@ -326,5 +364,20 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode==RESULT_OK)
+        {
+            switch (requestCode)
+            {
+                case selectMento:
+            }
+        }
+        else if(resultCode==RESULT_CANCELED)
+        {
+
+        }
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 
 public class StudyMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<StudyMento> listData = new ArrayList<>();
+    private ArrayList<MyPageMentoProfile> listData = new ArrayList<>();
+
 
     @NonNull
     @NotNull
@@ -38,7 +40,8 @@ public class StudyMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
-    public void addItem(StudyMento data) {
+    public void addItem(MyPageMentoProfile data) {
         listData.add(data);
     }
+
 }

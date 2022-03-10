@@ -212,6 +212,7 @@
                     android:textColor="@color/textColorPrimary"
                     android:textSize="15sp" />
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -230,6 +231,14 @@
                     android:text="멘토아이디/ 이력서 보기"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="15sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/menti_detail_enrollMento_RV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:scrollbars="none"/>
+
 
 
             </LinearLayout>

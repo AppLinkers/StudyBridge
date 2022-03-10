@@ -3,10 +3,11 @@ package com.example.studybridge.Mypage.MentoProfile;
 import android.graphics.Bitmap;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPageMentoProfile {
+public class MyPageMentoProfile implements Serializable {
 
     private String name;
     private String place;
@@ -19,13 +20,25 @@ public class MyPageMentoProfile {
     private String appeal;
     private File schoolImg;
     private List<File> certificateImg;
-    private Bitmap quliImg; //자격증 이미지
+    private List<String> certificateName;
+
 
     public MyPageMentoProfile(){
 
     }
 
-    public MyPageMentoProfile(String name, String place, String subject, String school, String intro, String nickName, String curi, String expeience, String appeal, File schoolImg, List<File> certificateImg) {
+    public MyPageMentoProfile(String name,
+                              String place,
+                              String subject,
+                              String school,
+                              String intro,
+                              String nickName,
+                              String curi,
+                              String expeience,
+                              String appeal,
+                              File schoolImg,
+                              List<File> certificateImg,
+                              List<String> certificateName) {
         this.name = name;
         this.place = place;
         this.subject = subject;
@@ -37,6 +50,25 @@ public class MyPageMentoProfile {
         this.appeal = appeal;
         this.schoolImg = schoolImg;
         this.certificateImg = certificateImg;
+        this.certificateName = certificateName;
+    }
+
+    @Override
+    public String toString() {
+        return "MyPageMentoProfile{" +
+                "name='" + name + '\'' +
+                ", place='" + place + '\'' +
+                ", subject='" + subject + '\'' +
+                ", school='" + school + '\'' +
+                ", intro='" + intro + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", curi='" + curi + '\'' +
+                ", expeience='" + expeience + '\'' +
+                ", appeal='" + appeal + '\'' +
+                ", schoolImg=" + schoolImg +
+                ", certificateImg=" + certificateImg +
+                ", certificateName=" + certificateName +
+                '}';
     }
 
     //getter & setter
@@ -104,14 +136,6 @@ public class MyPageMentoProfile {
         this.subject = subject;
     }
 
-    public Bitmap getQuliImg() {
-        return quliImg;
-    }
-
-    public void setQuliImg(Bitmap quliImg) {
-        this.quliImg = quliImg;
-    }
-
     public String getExpeience() {
         return expeience;
     }
@@ -135,4 +159,13 @@ public class MyPageMentoProfile {
     public void setCertificateImg(List<File> certificateImg) {
         this.certificateImg = certificateImg;
     }
+
+    public List<String> getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(List<String> certificateName) {
+        this.certificateName = certificateName;
+    }
+
 }

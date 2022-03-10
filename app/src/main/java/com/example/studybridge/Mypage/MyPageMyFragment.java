@@ -8,18 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.studybridge.MainActivity;
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileActivity;
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileEditActivity;
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileShowActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Subscribe.SubscribeActivity;
 import com.example.studybridge.http.DataService;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -83,7 +81,7 @@ public class MyPageMyFragment extends Fragment {
         goToMentoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), MyPageMentoProfileActivity.class);
+                Intent intent = new Intent(getContext(), MyPageMentoProfileShowActivity.class);
                 startActivity(intent);
             }
         });

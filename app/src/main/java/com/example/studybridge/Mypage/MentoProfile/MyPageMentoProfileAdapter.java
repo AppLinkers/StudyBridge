@@ -1,8 +1,11 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,9 +22,11 @@ import java.util.ArrayList;
 
 public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoProfileAdapter.MyPageMentoProfileHolder>{
 
-    private ArrayList<MyPageMentoProfile> listData;
+    private ArrayList<MyPageMentoCertiInfo> listData;
 
-    public MyPageMentoProfileAdapter(ArrayList<MyPageMentoProfile> listData){
+
+
+    public MyPageMentoProfileAdapter(ArrayList<MyPageMentoCertiInfo> listData){
         this.listData = listData;
     }
     @NonNull
@@ -29,13 +34,17 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
     @Override
     public MyPageMentoProfileAdapter.MyPageMentoProfileHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mypage_mentoprofile_quali_item, parent, false);
-        MyPageMentoProfileHolder holder = new MyPageMentoProfileHolder(view);
+        MyPageMentoProfileHolder holder = new MyPageMentoProfileHolder(view,new MyCustomEditTextListener());
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyPageMentoProfileAdapter.MyPageMentoProfileHolder holder, int position) {
-        holder.qauliImg.setImageBitmap(listData.get(position).getQuliImg());
+        holder.qualiImg.setImageBitmap(listData.get(position).getQualiImg());
+
+        holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
+        holder.qualiName.setText(listData.get(holder.getAdapterPosition()).getQualiName());
+
 
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +60,7 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
         return (listData != null ? listData.size() : 0);
     }
 
-    public void addItem(MyPageMentoProfile data) {
+    public void addItem(MyPageMentoCertiInfo data) {
         listData.add(data);
     }
 
@@ -65,27 +74,71 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
         }
     }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull MyPageMentoProfileHolder holder) {
+        ((MyPageMentoProfileHolder)holder).enableTextWatcher();
+    }
+
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull MyPageMentoProfileHolder holder) {
+        ((MyPageMentoProfileHolder) holder).disableTextWatcher();
+    }
+
     public class MyPageMentoProfileHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView qauliImg;
+        protected ImageView qualiImg;
         protected MaterialCardView deleteImg;
+        protected EditText qualiName;
+        public  MyCustomEditTextListener myCustomEditTextListener;
 
 
 
-        public MyPageMentoProfileHolder(@NonNull @NotNull View itemView) {
+        public MyPageMentoProfileHolder(@NonNull @NotNull View itemView,MyCustomEditTextListener myCustomEditTextListener) {
             super(itemView);
 
-            this.qauliImg = (ImageView) itemView.findViewById(R.id.quali_img);
+            this.qualiImg = (ImageView) itemView.findViewById(R.id.quali_img);
             this.deleteImg = (MaterialCardView) itemView.findViewById(R.id.quali_delete);
+            this.qualiName = (EditText) itemView.findViewById(R.id.quali_name);
+
+            this.myCustomEditTextListener = myCustomEditTextListener;
 
         }
 
+        void enableTextWatcher() {
+            qualiName.addTextChangedListener(myCustomEditTextListener);
+        }
 
-//
-//        public void onBind(MyPageMentoProfile data) {
-//            qauliImg.setImageBitmap(data.getQuliImg());
-//        }
+        void disableTextWatcher() {
+            qualiName.removeTextChangedListener(myCustomEditTextListener);
+        }
 
+
+
+    }
+
+    private class MyCustomEditTextListener implements TextWatcher {
+        private int position;
+
+        public void updatePosition(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            // no op
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            listData.get(position).setQualiName(charSequence.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+            // no op
+        }
     }
 
 }

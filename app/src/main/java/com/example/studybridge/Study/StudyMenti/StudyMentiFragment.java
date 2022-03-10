@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.StudyFindRes;
 import com.google.android.material.chip.Chip;
@@ -98,14 +99,16 @@ public class StudyMentiFragment extends Fragment{
 
                 StudyMentiFilterDialog bottomSheet = StudyMentiFilterDialog.getInstance();
                 bottomSheet.show(getChildFragmentManager(),StudyMentiFilterDialog.getInstance().getTag());
+
                 bottomSheet.setDialogInterfacer(new StudyMentiFilterDialog.DialogInterfacer() {
                     @Override
-                    public void onButtonClick(String subject, String place) {
+                    public void onFilterBtnClick(String subject, String place) {
                         subjectFilter.setText(subject);
                         placeFilter.setText(place);
                     }
                 });
                 bottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         adapter = new StudyMentiAdapter();
@@ -131,7 +134,6 @@ public class StudyMentiFragment extends Fragment{
                     }
                 },500);
 
-//                Snackbar.make(getContext(),"새로고침 되었습니다",Snackbar.LENGTH_SHORT).show();
             }
         });
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));

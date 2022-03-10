@@ -1,6 +1,7 @@
-package com.example.studybridge.Study.StudyMento;
+package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,20 +9,30 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
+import com.example.studybridge.Study.StudyMento.Detail.Comment.StudyMentoCommentFragment;
+import com.example.studybridge.Study.StudyMento.Detail.Experience.StudyMentoExperienceFragment;
+import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileFragment;
+
 import java.util.ArrayList;
 
 
 public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
 
     private static int NUM_TABS = 3;
-    private ArrayList arr;
+    private MyPageMentoProfile profile;
+    private String id;
 
     public StudyMentoDetailPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
-    public void setArr(ArrayList arr) {
-        this.arr = arr;
+    public void setProfile(MyPageMentoProfile profile) {
+        this.profile = profile;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @NonNull
@@ -34,16 +45,21 @@ public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
                 StudyMentoProfileFragment profileFragment = new StudyMentoProfileFragment();
                 Bundle bundle = new Bundle();
 
-                bundle.putString("subject", (String) arr.get(0));
-                bundle.putString("place",(String) arr.get(1));
-                bundle.putString("school",(String) arr.get(2));
-                bundle.putString("qualify",(String) arr.get(3));
-                bundle.putString("intro",(String) arr.get(4));
+                bundle.putSerializable("profile", profile);
+                bundle.putString("mentoId",id);
 
                 profileFragment.setArguments(bundle);
                 return profileFragment;
             case 1:
                 StudyMentoExperienceFragment experienceFragment = new StudyMentoExperienceFragment();
+
+                Bundle bundleForExp = new Bundle();
+
+                bundleForExp.putSerializable("profile", profile);
+                bundleForExp.putString("mentoId",id);
+
+                experienceFragment.setArguments(bundleForExp);
+
                 return experienceFragment;
             case 2:
                 StudyMentoCommentFragment commentFragment = new StudyMentoCommentFragment();

@@ -32,10 +32,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
-
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".ToDo.ToDoDetail.ToDoDetailActivity"
             android:exported="true" />
@@ -48,11 +45,13 @@
         <activity
             android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true" />
-        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileActivity"
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileEditActivity"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMenti.StudyMentiDetail"
+        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileShowActivity"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMento.StudyMentoDetail"
+        <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>

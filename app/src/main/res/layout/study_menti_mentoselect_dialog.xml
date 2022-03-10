@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_dialog">
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:padding="25dp"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="멘토로 선택할까요?"
+        android:textColor="@color/textColorPrimary"
+        android:textStyle="bold"
+        android:textSize="21sp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="선택 시 재선택이 불가합니다"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mentoSelect_selectBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="35dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선 택"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"/>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mentoSelect_cancelBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취 소"
+            android:layout_gravity="center"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"/>
+    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+</FrameLayout>

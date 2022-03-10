@@ -1,6 +1,7 @@
 package com.example.studybridge.http;
 
 import com.example.studybridge.http.dto.ChangeStatusReq;
+import com.example.studybridge.http.dto.ChooseMentorRes;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
 import com.example.studybridge.http.dto.StudyFindRes;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -45,4 +47,10 @@ public interface Study {
 
     @GET("study/status")
     Call<String> studyStatus(@Query("studyId") Long studyId);
+
+    @DELETE("study/mentor")
+    Call<Integer> deleteMentor(@Query("studyId") Long studyId);
+
+    @POST("study/mentor")
+    Call<ChooseMentorRes> chooseMentor(@Query("studyId") Long studyId, @Query("mentorId") Long mentorId);
 }

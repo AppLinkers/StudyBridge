@@ -1,16 +1,19 @@
 package com.example.studybridge.Study.StudyMento;
 
-public class StudyMento {
+import java.io.Serializable;
+import java.util.List;
+
+public class StudyMento implements Serializable {
 
     String subject;
     String place;
     String mentoName;
     String metnoIntro;
     String metnoSchool;
-    String metnoQualification;
+    List<String> metnoQualification;
     boolean liked;
 
-    public StudyMento(String subject, String place, String mentoName, String metnoIntro, String metnoSchool, String metnoQualification, boolean liked) {
+    public StudyMento(String subject, String place, String mentoName, String metnoIntro, String metnoSchool, List<String> metnoQualification, boolean liked) {
         this.subject = subject;
         this.place = place;
         this.mentoName = mentoName;
@@ -60,13 +63,14 @@ public class StudyMento {
         this.metnoSchool = metnoSchool;
     }
 
-    public String getMetnoQualification() {
+    public List<String> getMetnoQualification() {
         return metnoQualification;
     }
 
-    public void setMetnoQualification(String metnoQualification) {
+    public void setMetnoQualification(List<String> metnoQualification) {
         this.metnoQualification = metnoQualification;
     }
+
     public boolean isLiked() {
         return liked;
     }

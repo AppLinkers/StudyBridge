@@ -12,6 +12,7 @@ public class StudyMenti implements Serializable {
     String place;
     String studyName;
     String studyIntro;
+//    String studyExplain;
     int maxNum;
 
     @Override
@@ -109,4 +110,12 @@ public class StudyMenti implements Serializable {
 
 
     }
+
+//    public String getStudyExplain() {
+//        return studyExplain;
+//    }
+//
+//    public void setStudyExplain(String studyExplain) {
+//        this.studyExplain = studyExplain;
+//    }
 }
