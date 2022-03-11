@@ -190,7 +190,7 @@
                     android:layout_marginTop="10dp"
                     android:letterSpacing="0.03"
                     android:lineSpacingExtra="8dp"
-                    android:text="스터디 설명 스터디 설명 스터디 설명 스터디 설명 스터디 설명 스터디 설명 스터디 설명 스터디 설명 스터디 설명ㅍ 스터디 설명 스터디 설명 스터디 설명 스터디 설명"
+                    android:text="스터디 설명"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="15sp" />
 
@@ -253,9 +253,8 @@
             android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/applyBtn"
+                android:id="@+id/menti_detail_BtnForMentee"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -263,14 +262,23 @@
                 android:text="신청하기"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/startStudy"
+                android:id="@+id/menti_detail_BtnForMaker"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:onClick="startStudy"
                 android:text="스터디 시작하기"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menti_detail_BtnForMento"
+                style="@style/Widget.StudyBridge.Button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:onClick="startStudy"
+                android:text="신청하기"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone" />

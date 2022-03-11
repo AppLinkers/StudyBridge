@@ -19,6 +19,8 @@ import com.example.studybridge.http.DataService;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +32,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public TextView place;
     public TextView studyName;
     public TextView studyIntro;
-    public TextView studyPeopleNum;
+    public TextView studyMaxNum,studyNowNum;
     public CardView statusColor;
 
     public static final String SHARED_PREFS = "shared_prefs";
@@ -43,6 +45,9 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     DataService dataService = new DataService();
 
+    //신청한 멘티 수
+    private int enrollMentiNum;
+
 
     public StudyMentiHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -52,40 +57,46 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         place = (TextView) itemView.findViewById(R.id.menti_place);
         studyName = (TextView) itemView.findViewById(R.id.menti_study_name);
         studyIntro = (TextView) itemView.findViewById(R.id.menti_study_intro);
-        studyPeopleNum = (TextView) itemView.findViewById(R.id.menti_study_peopleNum);
+        studyNowNum = (TextView) itemView.findViewById(R.id.menti_study_nowNum);
+        studyMaxNum = (TextView) itemView.findViewById(R.id.menti_study_maxNum);
 
         statusColor = (CardView) itemView.findViewById(R.id.menti_status_Card);
 
         sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), StudyMentiDetail.class);
-                Intent intent2 = new Intent(view.getContext(), ChatActivity.class);
+                Intent intentToDetail = new Intent(view.getContext(), StudyMentiDetail.class);
+//                Intent intentToChat = new Intent(view.getContext(), ChatActivity.class);
 
-                String passName = studyName.getText() +"";
+                String passStatus = status.getText() +"";
                 String passSubject = subject.getText() +"";
                 String passPlace = place.getText() +"";
-                String passPeople = studyPeopleNum.getText() +"";
-                String passStatus = status.getText() +"";
+                String passName = studyName.getText() +"";
                 String passIntro = studyIntro.getText() +"";
+                int maxPeople = Integer.parseInt(studyMaxNum.getText().toString());
 
 
-                StudyMenti studyMenti = new StudyMenti(study_id , statusDef(passStatus),passSubject,passPlace,passName,passIntro,10);
+                StudyMenti studyMenti = new StudyMenti(study_id , statusDef(passStatus),passSubject,passPlace,passName,passIntro,maxPeople);
 
+
+                intentToDetail.putExtra("study",studyMenti);
+                intentToDetail.putExtra("enrollMentiNum",Integer.parseInt(studyNowNum.getText().toString()));
+                view.getContext().startActivity(intentToDetail);
 
                 // 현재 스터디 id 와 사용자 로그인 아이디 필요
-                dataService.study.isApplied(study_id, userId).enqueue(new Callback<Boolean>() {
+                /*dataService.study.isApplied(study_id, userId).enqueue(new Callback<Boolean>() {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                         if (response.isSuccessful()) {
                             if (response.body()) {
                                 // if user does have the study auth
                                 if(studyMenti.getStatus()>=2){
-                                    intent2.putExtra("study", studyMenti);
-                                    view.getContext().startActivity(intent2);
+                                    intentToChat.putExtra("study", studyMenti);
+                                    view.getContext().startActivity(intentToChat);
                                 }else{
                                     intent.putExtra("study", studyMenti);
                                     intent.putExtra("hasAuth", true);
@@ -98,6 +109,8 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                                 intent.putExtra("hasAuth", false);
                                 view.getContext().startActivity(intent);
                             }
+
+
                         }
                     }
 
@@ -105,12 +118,8 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                     public void onFailure(Call<Boolean> call, Throwable t) {
 
                     }
-                });
+                });*/
 
-//
-//                // else
-//                intent2.putExtra("study", studyMenti);
-//                view.getContext().startActivity(intent2);
             }
         });
 
@@ -134,13 +143,16 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
 
     public void onBind(StudyMenti data) {
+
         study_id = data.getId();
+
+        status.setText(data.statusStr());
         subject.setText(data.getSubject());
         place.setText(data.getPlace());
         studyName.setText(data.getStudyName());
         studyIntro.setText(data.getStudyIntro());
-        studyPeopleNum.setText(String.valueOf(data.getMaxNum()));
-        status.setText(data.statusStr());
+        studyNowNum.setText(String.valueOf(showPeopleNum()));
+        studyMaxNum.setText(String.valueOf(data.getMaxNum()));
 
         if(data.status == 0){
             statusColor.setCardBackgroundColor(Color.parseColor("#FF03DAC5"));
@@ -151,4 +163,24 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         }
 
     }
+
+    // 현재 인원 보여주기 위함
+    public int showPeopleNum(){
+
+        dataService.study.menteeList(study_id).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+                    enrollMentiNum = response.body().size();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        return enrollMentiNum;
+    }
+
 }

@@ -83,29 +83,7 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
             public void onClick(View view) {
                 dialogInterfacer.onButtonClick(SELECT_CODE);
 
-                // 선택한 멘토 제외 모두 삭제
-                dataService.study.mentorList(studyNowId).enqueue(new Callback<List<String>>() {
-                    @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                        if(response.isSuccessful()){
-                            for(String mentoId : response.body()){
-                                if(mentoId.equals(mentoNowId)){
-                                    System.out.println(mentoId +"신청완료 ");
-                                }else{
-                                    System.out.println("삭제 완료");
-                                }
-
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<String>> call, Throwable t) {
-
-                    }
-                });
-                /*dataService.study.chooseMentor(studyNowId,mentoNowId).enqueue(new Callback<ChooseMentorRes>() {
+                dataService.study.chooseMentor(studyNowId,mentoNowId).enqueue(new Callback<ChooseMentorRes>() {
                     @Override
                     public void onResponse(Call<ChooseMentorRes> call, Response<ChooseMentorRes> response) {
                         if(response.isSuccessful())
@@ -118,7 +96,7 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
                     public void onFailure(Call<ChooseMentorRes> call, Throwable t) {
 
                     }
-                });*/
+                });
 
                 dismiss();
             }

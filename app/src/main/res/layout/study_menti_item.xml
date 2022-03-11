@@ -112,26 +112,58 @@
             android:textColor="@color/textColorPrimary" />
 
         <TextView
-            android:id="@+id/menti_study_peopleNum"
+            android:id="@+id/menti_study_nowNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/ic_peopleNum"
             android:layout_below="@+id/menti_study_intro"
-            android:text="인원수 (4/5)"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/ic_peopleNum"
+            android:text="현재 인원수"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/menti_study_slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menti_study_intro"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/menti_study_nowNum"
+            android:text="/"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/menti_study_maxNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menti_study_intro"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/menti_study_slash"
+            android:text="전체 인원수"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menti_study_intro"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/menti_study_maxNum"
+            android:text="명"
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ic_peopleNum"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_below="@+id/menti_study_intro"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/menti_img_card"
-            android:src="@drawable/ic_mypage"
-            android:layout_marginTop="3dp"/>
+            android:src="@drawable/ic_mypage" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
