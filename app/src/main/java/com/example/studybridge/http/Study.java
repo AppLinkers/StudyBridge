@@ -33,7 +33,7 @@ public interface Study {
     @POST("study/apply")
     Call<StudyApplyRes> apply(@Body StudyApplyReq studyApplyReq);
 
-    @GET("study/mentor")
+    @GET("study/mentor/candidate")
     Call<List<String>> mentorList(@Query("studyId") Long studyId);
 
     @GET("study/mentee")
@@ -53,4 +53,7 @@ public interface Study {
 
     @POST("study/mentor")
     Call<ChooseMentorRes> chooseMentor(@Query("studyId") Long studyId, @Query("mentorLoginId") String mentorLoginId);
+
+    @GET("study/mentor")
+    Call<String> chosenMentor(@Query("studyId") Long studyId);
 }
