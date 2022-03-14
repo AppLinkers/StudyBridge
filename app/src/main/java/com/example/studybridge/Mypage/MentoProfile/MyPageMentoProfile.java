@@ -2,6 +2,8 @@ package com.example.studybridge.Mypage.MentoProfile;
 
 import android.graphics.Bitmap;
 
+import com.example.studybridge.http.dto.Certificate;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,24 +23,27 @@ public class MyPageMentoProfile implements Serializable {
     private File schoolImg;
     private List<File> certificateImg;
     private List<String> certificateName;
+    private List<Certificate> certificates;
 
 
     public MyPageMentoProfile(){
 
     }
 
-    public MyPageMentoProfile(String name,
-                              String place,
-                              String subject,
-                              String school,
-                              String intro,
-                              String nickName,
-                              String curi,
-                              String expeience,
-                              String appeal,
-                              File schoolImg,
-                              List<File> certificateImg,
-                              List<String> certificateName) {
+    public MyPageMentoProfile(
+            String name,
+            String place,
+            String subject,
+            String school,
+            String intro,
+            String nickName,
+            String curi,
+            String expeience,
+            String appeal,
+            File schoolImg,
+            List<File> certificateImg,
+            List<String> certificateName,
+            List<Certificate> certificates) {
         this.name = name;
         this.place = place;
         this.subject = subject;
@@ -51,7 +56,10 @@ public class MyPageMentoProfile implements Serializable {
         this.schoolImg = schoolImg;
         this.certificateImg = certificateImg;
         this.certificateName = certificateName;
+        this.certificates = certificates;
     }
+
+
 
     @Override
     public String toString() {
@@ -168,4 +176,11 @@ public class MyPageMentoProfile implements Serializable {
         this.certificateName = certificateName;
     }
 
+    public List<Certificate> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(List<Certificate> certificates) {
+        this.certificates = certificates;
+    }
 }

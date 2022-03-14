@@ -1,10 +1,17 @@
 package com.example.studybridge.http.dto;
 
-public class Certificate {
+import java.io.Serializable;
+
+public class Certificate implements Serializable {
 
     private String certificate;
 
     private String imgUrl;
+
+    public Certificate(String certificate,String imgUrl) {
+        this.certificate = certificate;
+        this.imgUrl = imgUrl;
+    }
 
     @Override
     public String toString() {
@@ -12,5 +19,13 @@ public class Certificate {
                 "certificate='" + certificate + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 '}';
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 }

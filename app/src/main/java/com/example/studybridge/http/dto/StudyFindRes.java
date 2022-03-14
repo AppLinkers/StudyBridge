@@ -16,6 +16,9 @@ public class StudyFindRes {
 
     private String type;
 
+    private int menteeCnt;
+
+
     public Long getId() {
         return id;
     }
@@ -70,5 +73,13 @@ public class StudyFindRes {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getMenteeCnt() {
+        return menteeCnt;
+    }
+
+    public void setMenteeCnt(int menteeCnt) {
+        this.menteeCnt = menteeCnt;
     }
 }

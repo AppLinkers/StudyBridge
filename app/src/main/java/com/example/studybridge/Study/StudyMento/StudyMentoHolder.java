@@ -75,7 +75,12 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         mentoName.setText(data.getNickName());
         mentoIntro.setText(data.getIntro());
         mentoSchool.setText(data.getSchool());
-        mentoQualification.setText("data.getMetnoQualification()");
+        if(data.getCertificates().size()>0){
+            mentoQualification.setText(data.getCertificates().get(0).getCertificate());
+        } else {
+            mentoQualification.setText("자격증 없음");
+        }
+
 //        mentoProfile = data;
         profile = data;
 

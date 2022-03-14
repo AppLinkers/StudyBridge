@@ -82,7 +82,11 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
                             response.body().getNickName(),
                             response.body().getCurriculum(),
                             response.body().getExperience(),
-                            response.body().getAppeal(),null,null,null);
+                            response.body().getAppeal(),
+                            null,
+                            null,
+                            null,
+                            null);
 
                 }
             }

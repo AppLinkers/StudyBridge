@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
 
-    private static int NUM_TABS = 3;
+    private static int NUM_TABS = 2;
     private MyPageMentoProfile profile;
     private String id;
 
@@ -61,9 +61,9 @@ public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
                 experienceFragment.setArguments(bundleForExp);
 
                 return experienceFragment;
-            case 2:
+/*            case 2:
                 StudyMentoCommentFragment commentFragment = new StudyMentoCommentFragment();
-                return commentFragment;
+                return commentFragment;*/
 
             default:
                 return null;

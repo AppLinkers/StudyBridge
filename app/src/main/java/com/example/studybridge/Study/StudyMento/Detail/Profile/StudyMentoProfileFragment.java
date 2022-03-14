@@ -1,6 +1,7 @@
 package com.example.studybridge.Study.StudyMento.Detail.Profile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.Certificate;
 import com.example.studybridge.http.dto.ProfileRes;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +30,13 @@ import retrofit2.Response;
 
 public class StudyMentoProfileFragment extends Fragment {
 
-    private TextView school,intro,place,subject,appeal;
+    private TextView school,intro,place,subject,appeal,nullmsg;
 
     private RecyclerView recyclerView;
     private StudyMentoProfileCertiAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<String> arrayList;
+    private ArrayList<Certificate> arrayList;
+    private Certificate certificate;
 
     DataService dataService = new DataService();
 
@@ -49,16 +52,8 @@ public class StudyMentoProfileFragment extends Fragment {
         place = (TextView) view.findViewById(R.id.mento_profile_place);
         subject = (TextView) view.findViewById(R.id.mento_profile_subject);
         appeal = (TextView) view.findViewById(R.id.mento_profile_appeal);
+        nullmsg = (TextView) view.findViewById(R.id.mento_profile_noCerti_msg);
 
-        //리사이클러뷰
-        recyclerView = (RecyclerView) view.findViewById(R.id.mento_profile_certi_RV);
-        arrayList = new ArrayList<>();
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        arrayList.add("컴활 1급");
-        arrayList.add("OPIC IH");
-        adapter = new StudyMentoProfileCertiAdapter(arrayList);
-        recyclerView.setAdapter(adapter);
 
 
         final StringBuilder[] sb = new StringBuilder[2];
@@ -66,8 +61,15 @@ public class StudyMentoProfileFragment extends Fragment {
 
         MyPageMentoProfile profile = (MyPageMentoProfile) extras.getSerializable("profile");
 
+        //리사이클러뷰
+        recyclerView = (RecyclerView) view.findViewById(R.id.mento_profile_certi_RV);
+        arrayList = new ArrayList<>();
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
 
         final String mentoId = extras.getString("mentoId");
+
 
         if(mentoId == null || mentoId.equals("")) {
             //경로1 : 멘토 찾기에서 불러오는 것
@@ -80,6 +82,17 @@ public class StudyMentoProfileFragment extends Fragment {
                 place.setText(profile.getPlace());
                 subject.setText(profile.getSubject());
                 appeal.setText(profile.getAppeal());
+                if(profile.getCertificates().size()>0){
+                    for(int i=0; i<profile.getCertificates().size(); i++){
+                        certificate = new Certificate(profile.getCertificates().get(i).getCertificate(),profile.getCertificates().get(i).getImgUrl());
+                        arrayList.add(certificate);
+                    }
+                } else {
+                    nullmsg.setVisibility(View.VISIBLE);
+                }
+
+
+
             }
         }
         else {
@@ -95,6 +108,7 @@ public class StudyMentoProfileFragment extends Fragment {
                         place.setText(response.body().getLocation());
                         subject.setText(response.body().getSubject());
                         appeal.setText(response.body().getAppeal());
+
                     }
                 }
 
@@ -104,6 +118,10 @@ public class StudyMentoProfileFragment extends Fragment {
                 }
             });
         }
+
+
+        adapter = new StudyMentoProfileCertiAdapter(arrayList);
+        recyclerView.setAdapter(adapter);
 
 
 

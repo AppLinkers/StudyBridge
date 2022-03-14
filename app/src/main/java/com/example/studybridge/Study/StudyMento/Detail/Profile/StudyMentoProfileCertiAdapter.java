@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.StudyMento;
 import com.example.studybridge.Study.StudyMento.StudyMentoHolder;
+import com.example.studybridge.http.dto.Certificate;
 
 import java.util.ArrayList;
 
 public class StudyMentoProfileCertiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<String> listData = new ArrayList<>();
+    private ArrayList<Certificate> listData;
 
-    public StudyMentoProfileCertiAdapter(ArrayList<String> listData){
+    public StudyMentoProfileCertiAdapter(ArrayList<Certificate> listData){
         this.listData = listData;
     }
     @NonNull
@@ -38,7 +39,7 @@ public class StudyMentoProfileCertiAdapter extends RecyclerView.Adapter<Recycler
         return listData.size();
     }
 
-    public void addItem(String data) {
+    public void addItem(Certificate data) {
         listData.add(data);
     }
 }

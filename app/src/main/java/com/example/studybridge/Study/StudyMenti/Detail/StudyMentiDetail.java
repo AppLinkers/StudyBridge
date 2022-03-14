@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -97,6 +98,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         study = (StudyMenti)intent.getSerializableExtra("study");
         studyId = study.getId();
         enrollCount = intent.getIntExtra("enrollMentiNum",1);
+        managerId = intent.getStringExtra("managerId");
 
         //툴바 설정
         toolbar = (Toolbar) findViewById(R.id.menti_detial_bar);
@@ -134,7 +136,6 @@ public class StudyMentiDetail extends AppCompatActivity {
         //스터디 상태 확인
         checkStudyStatus(studyId);*/
 
-        getMangerId(studyId);
         Toast.makeText(getApplicationContext(),enrollCount + " "+ managerId +" "+studyId,Toast.LENGTH_SHORT).show();
 
 
@@ -194,10 +195,11 @@ public class StudyMentiDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getMangerId(Long studyId){
+/*    public void getMangerId(Long studyId){
         dataService.study.maker(studyId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("test", String.valueOf(response.body()));
                 managerId = response.body();
             }
 
@@ -206,7 +208,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
     //버튼 변경
     public void setButton(int status){
         switch (status){
@@ -222,12 +224,18 @@ public class StudyMentiDetail extends AppCompatActivity {
                 });
 
                 BtnForMentee.setText("신청 하기");
-                BtnForMentee.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //신청하기 함수 작성
-                    }
-                });
+                if(isApply){ //신청 상태일때
+                    BtnForMentee.setEnabled(false);
+                    BtnForMentee.setText("신청 완료");
+                } else {
+                    BtnForMentee.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //신청하기 함수 작성
+                        }
+                    });
+                }
+
                 BtnForMento.setText("멘티 모집중입니다");
                 BtnForMento.setEnabled(false);
 
@@ -239,16 +247,47 @@ public class StudyMentiDetail extends AppCompatActivity {
 
                 BtnForMentee.setText("멘토 모집중입니다");
                 BtnForMentee.setEnabled(false);
-                BtnForMento.setText("신청 하기기");
-                BtnForMento.setEnabled(false);
+
+                if (isApply){ // 신청 상태일때
+                    BtnForMento.setText("신청 하기");
+                    BtnForMento.setEnabled(true);
+                    BtnForMento.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //멘토 신청하기 함수 작성
+                        }
+                    });
+                } else{
+                    BtnForMento.setEnabled(false);
+                    BtnForMento.setText("신청 완료");
+                }
+
 
             case 2: //모집 완료
-                BtnForMento.setVisibility(View.VISIBLE);
-                BtnForMentee.setVisibility(View.VISIBLE);
-                BtnForMaker.setVisibility(View.VISIBLE);
-                BtnForMento.setText("스터디 시작하기");
-                BtnForMentee.setText("스터디 시작하기");
+                setRole(roleInt);
+
                 BtnForMaker.setText("스터디 시작하기");
+                BtnForMaker.setEnabled(true);
+                BtnForMaker.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //스터디 시작하기 함수 작성
+                    }
+                });
+
+                BtnForMento.setText("스터디 시작하기");
+                BtnForMento.setEnabled(true);
+                BtnForMento.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //스터디 시작하기 함수 작성
+                    }
+                });
+
+
+                BtnForMentee.setText("스터디 시작하기");
+                BtnForMentee.setEnabled(true);
+
         }
 
     }

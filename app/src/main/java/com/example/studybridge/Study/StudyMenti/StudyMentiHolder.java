@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     String userId;
 
     Long study_id;
+    String managerId;
 
     DataService dataService = new DataService();
 
@@ -85,6 +87,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
                 intentToDetail.putExtra("study",studyMenti);
                 intentToDetail.putExtra("enrollMentiNum",Integer.parseInt(studyNowNum.getText().toString()));
+                intentToDetail.putExtra("managerId",managerId);
                 view.getContext().startActivity(intentToDetail);
 
                 // 현재 스터디 id 와 사용자 로그인 아이디 필요
@@ -154,6 +157,8 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         studyNowNum.setText(String.valueOf(showPeopleNum()));
         studyMaxNum.setText(String.valueOf(data.getMaxNum()));
 
+        getManagerId(study_id);
+
         if(data.status == 0){
             statusColor.setCardBackgroundColor(Color.parseColor("#FF03DAC5"));
         } else if(data.status == 1){
@@ -181,6 +186,21 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             }
         });
         return enrollMentiNum;
+    }
+
+    //스터디 방장 찾기 위함
+    public void getManagerId(Long studyId){
+        dataService.study.maker(studyId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                managerId = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
 }

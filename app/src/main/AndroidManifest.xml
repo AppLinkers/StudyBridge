@@ -55,6 +55,8 @@
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>
+        <activity android:name=".Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg"
+            android:exported="true"/>
 
         <activity
             android:name=".Login.LoginActivity"

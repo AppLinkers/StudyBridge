@@ -244,7 +244,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                         appeal.getText().toString(),
                         schoolImg,
                         certificatesImg,
-                        certificatesName
+                        certificatesName,
+                        null
                 );
 
                 Map<String, RequestBody> profileReq = new HashMap<>();

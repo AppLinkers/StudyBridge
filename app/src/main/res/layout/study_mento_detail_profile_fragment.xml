@@ -95,6 +95,14 @@
             android:textColor="@color/textColorPrimary"
             android:textStyle="bold"
             android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/mento_profile_noCerti_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="등록된 자격증이 없습니다"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mento_profile_certi_RV"
             android:layout_width="match_parent"

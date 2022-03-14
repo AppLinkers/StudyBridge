@@ -17,6 +17,7 @@ import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.Certificate;
 import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -90,7 +91,20 @@ public class StudyMentoFragment extends Fragment {
                 try {
                     for(ProfileRes res : call.execute().body()) {
                         if(res.getNickName() != null) {  //임시 조건
-                            MyPageMentoProfile mentoProfile = new MyPageMentoProfile(res.getUserName(),res.getLocation(),res.getSubject(),res.getSchool(),res.getInfo(),res.getNickName(),res.getCurriculum(),res.getExperience(),res.getAppeal(),null,null,null);
+                            MyPageMentoProfile mentoProfile = new MyPageMentoProfile(
+                                    res.getUserName(),
+                                    res.getLocation(),
+                                    res.getSubject(),
+                                    res.getSchool(),
+                                    res.getInfo(),
+                                    res.getNickName(),
+                                    res.getCurriculum(),
+                                    res.getExperience(),
+                                    res.getAppeal(),
+                                    null,
+                                    null,
+                                    null,
+                                    res.getCertificates());
                             adapter.addItem(mentoProfile);
                         }
                     }
