@@ -5,13 +5,22 @@ import lombok.Data;
 @Data
 public class UserLoginRes {
 
+    private Long id;
     private String loginId;
     private String name;
 
-    UserLoginRes(String loginId, String name){
+    public UserLoginRes(Long id, String loginId, String name) {
+        this.id = id;
         this.loginId = loginId;
         this.name = name;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLoginId() {

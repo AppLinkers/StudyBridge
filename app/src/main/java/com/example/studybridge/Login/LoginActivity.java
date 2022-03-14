@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
 
@@ -82,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                                 UserLoginRes data = gson.fromJson(response.body().toString(), UserLoginRes.class);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
+                                editor.putLong(USER_PK_ID_KEY, data.getId());
                                 editor.putString(USER_ID_KEY, data.getLoginId());
                                 editor.putString(USER_NAME, data.getName());
                                 editor.apply();

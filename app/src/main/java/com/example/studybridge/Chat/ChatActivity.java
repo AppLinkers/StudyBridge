@@ -5,31 +5,44 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.FindRoomRes;
+import com.example.studybridge.http.dto.Message;
+import com.example.studybridge.http.dto.Room;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ua.naiksoftware.stomp.Stomp;
+import ua.naiksoftware.stomp.StompClient;
 
 public class ChatActivity extends AppCompatActivity {
 
     public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
     SharedPreferences sharedPreferences;
 
 
     StudyMenti study;
+    Long userPkId;
     String userName;
     String userId;
     String newChat;
@@ -40,6 +53,18 @@ public class ChatActivity extends AppCompatActivity {
     ChatAdapter adapter;
     RecyclerView rcChat;
 
+    private static final String TAG = "Chat";
+
+    private StompClient stompClient;
+
+    FindRoomRes findRoomRes;
+    Long studyId;
+
+    Gson gson = new Gson();
+    int chk = 0;
+
+    DataService dataService = new DataService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +74,10 @@ public class ChatActivity extends AppCompatActivity {
         study = (StudyMenti) intent.getSerializableExtra("study");
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 1L);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+        studyId = study.getId();
 
         chatEt = findViewById(R.id.mycontext);
 
@@ -66,25 +93,127 @@ public class ChatActivity extends AppCompatActivity {
         rcChat.setLayoutManager(linearLayoutManager);
         adapter = new ChatAdapter();
         getData();
-        System.out.println(adapter.getItemCount());
-        rcChat.setAdapter(adapter);
+        rcChat.scrollToPosition(adapter.getItemCount()-1);
+
+        // 채팅 방 받아오기
+        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
+            @Override
+            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
+                findRoomRes = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<FindRoomRes> call, Throwable t) {
+
+            }
+        });
+
+        initStomp();
+
+    }
+
+    @SuppressLint("CheckResult")
+    private void initStomp() {
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://3.141.122.128:8080/ws-stomp/websocket");
+        stompClient.lifecycle().subscribe(lifecycleEvent -> {
+            switch (lifecycleEvent.getType()) {
+                case OPENED:
+                    Log.d(TAG, "Stomp connection opened");
+                    break;
+                case ERROR:
+                    Log.e(TAG, "Error", lifecycleEvent.getException());
+                    if(lifecycleEvent.getException().getMessage().contains("EOF")){
+                    }
+                    break;
+                case CLOSED:
+                    Log.d(TAG, "Stomp connection closed");
+                    break;
+            }
+        });
+        stompClient.connect();
+
+        // message 수신
+        stompClient.topic("/sub/chat/room/" + findRoomRes.getRoomId()).subscribe(topicMessage -> {
+            Log.d(TAG, topicMessage.getPayload());
+            Message message = gson.fromJson(topicMessage.getPayload(), Message.class);
+            runOnUiThread(new Runnable(){
+                @Override
+                public void run() {
+                    Chat chat = new Chat(message.getSenderName(), message.getMessage());
+                    adapter.addItem(chat);
+                    rcChat.setAdapter(adapter);
+                }
+            });
+        });
+
+        // 채팅방 입장 메시지 송신
+        if (chk == 0) {
+            Message message = new Message("ENTER", new Room(findRoomRes.getRoomId()), userPkId, userName, "ENTER");
+            String enter = gson.toJson(message);
+            stompClient.send("/pub/chat/message", enter).subscribe();
+        }
+
     }
 
 
-
+    @SuppressLint({"staticFieldLeak", "NewApi"})
     public void getData(){
-        Chat c1 = new Chat("admin", "welcome to the study chat");
-        Chat c2 = new Chat("system", "First Chat");
-        Chat c3 = new Chat("system", "Second Chat");
-        adapter.addItem(c1);
-        adapter.addItem(c2);
-        adapter.addItem(c3);
+
+        AsyncTask<Void, Void, List<Message>> listApi = new AsyncTask<Void, Void, List<Message>>() {
+            @Override
+            protected List<Message> doInBackground(Void... voids) {
+                Call<List<Message>> call = dataService.chat.messageList(findRoomRes.getRoomId());
+                try {
+                    return call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(List<Message> s) {
+                super.onPostExecute(s);
+            }
+        }.execute();
+
+        List<Message> result = null;
+
+        try {
+            result = listApi.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, String.valueOf(result));
+
+        if (result.size() > 0) {
+            result.forEach(c -> {
+                if (c.getSenderId().equals(userName)) {
+                    chk++;
+                }
+
+                Chat chat = new Chat(c.getSenderName(), c.getMessage());
+                adapter.addItem(chat);
+            });
+        }
+
+        System.out.println(adapter.getItemCount());
+        rcChat.setAdapter(adapter);
     }
 
 
     public void send(View view) {
         newChat = chatEt.getText()+"";
         Chat chatSend = new Chat(userId, newChat);
+
+        // send to server
+        Message message = new Message("TALK", new Room(findRoomRes.getRoomId()), userPkId, userName, newChat);
+        String sendMessage = gson.toJson(message);
+        stompClient.send("/pub/chat/message", sendMessage).subscribe();
+
+        // edit UI
         adapter.addItem(chatSend);
         rcChat.setAdapter(adapter);
         rcChat.scrollToPosition(adapter.getItemCount()-1);
