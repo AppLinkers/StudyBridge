@@ -4,6 +4,8 @@ import java.util.List;
 
 public class ProfileRes {
 
+    private Long userId;
+
     private String userName;
 
     private String location;
@@ -29,7 +31,8 @@ public class ProfileRes {
     @Override
     public String toString() {
         return "ProfileRes{" +
-                "userName='" + userName + '\'' +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", location='" + location + '\'' +
                 ", info='" + info + '\'' +
                 ", nickName='" + nickName + '\'' +
@@ -41,6 +44,14 @@ public class ProfileRes {
                 ", curriculum='" + curriculum + '\'' +
                 ", appeal='" + appeal + '\'' +
                 '}';
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

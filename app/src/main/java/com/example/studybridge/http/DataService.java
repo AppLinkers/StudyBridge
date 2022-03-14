@@ -23,5 +23,6 @@ public class DataService {
     public UserAuth userAuth = retrofitClient.create(UserAuth.class);
     public Study study = retrofitClient.create(Study.class);
     public UserMentor userMentor = retrofitClient.create(UserMentor.class);
+    public UserMentee userMentee = retrofitClient.create(UserMentee.class);
 
 }
