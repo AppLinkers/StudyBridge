@@ -4,6 +4,8 @@ import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.ChooseMentorRes;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
+import com.example.studybridge.http.dto.StudyDeleteReq;
+import com.example.studybridge.http.dto.StudyDeleteRes;
 import com.example.studybridge.http.dto.StudyFindRes;
 import com.example.studybridge.http.dto.StudyMakeReq;
 import com.example.studybridge.http.dto.StudyMakeRes;
@@ -56,4 +58,7 @@ public interface Study {
 
     @GET("study/mentor")
     Call<String> chosenMentor(@Query("studyId") Long studyId);
+
+    @DELETE("study/delete")
+    Call<StudyDeleteRes> delete(@Body StudyDeleteReq studyDeleteReq);
 }
