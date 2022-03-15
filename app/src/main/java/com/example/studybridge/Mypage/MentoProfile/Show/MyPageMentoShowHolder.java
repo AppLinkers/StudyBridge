@@ -15,6 +15,7 @@ import com.example.studybridge.http.dto.Certificate;
 public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
 
     private TextView certiName;
+    private String imgUrl;
 
     public MyPageMentoShowHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,7 +23,7 @@ public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
         certiName = (TextView) itemView.findViewById(R.id.mento_profile_certi_name);
 
 
-/*        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -35,14 +36,14 @@ public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
 
 
             }
-        });*/
+        });
 
     }
 
     public void onBind(Certificate data) {
 
         certiName.setText(data.getCertificate());
-
+        imgUrl = data.getImgUrl();
     }
 
 }

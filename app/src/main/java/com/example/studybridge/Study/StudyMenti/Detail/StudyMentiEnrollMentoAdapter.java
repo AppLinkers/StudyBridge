@@ -25,6 +25,9 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
     private ArrayList<String> listData = new ArrayList<>();
     public static final int selectMento = 121;
     private Long studyId;
+    private String managerId;
+
+
 
     @NonNull
     @NotNull
@@ -45,6 +48,7 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
                 intent.putExtra("mentoId",holder.enrollMentiId.getText());
                 intent.putExtra("studyId",studyId.longValue());
+                intent.putExtra("managerId",managerId);
                 ((Activity) view.getContext()).startActivityForResult(intent,selectMento);
             }
         });
@@ -61,6 +65,9 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
 
     public void setStudyId(Long studyId) {
         this.studyId = studyId;
+    }
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
     }
 
     public class StudyMentiEnrollMentoHolder extends RecyclerView.ViewHolder{

@@ -3,11 +3,13 @@ package com.example.studybridge.Mypage.MentoProfile.Show;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +33,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
 
     //화면 위 데이터
     private FloatingActionButton editBtn;
-    private TextView nickName, intro, place, subject, school, curi, experience, appeal;
+    private TextView nickName, intro, place, subject, school, curi, experience, appeal, noCertiMsg;
 
     //자격증 리사이클러
     private RecyclerView recyclerView;
@@ -51,7 +53,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
     private String userName;
 
     //null값 처리
-    public static final String VALUE_NULL_STR = "입력해 주세요!";
+    public static final String VALUE_NULL_STR = "입력해 주세요";
 
     //이동 용도
     private MyPageMentoProfile mentoProfile;
@@ -73,6 +75,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
         curi = (TextView) findViewById(R.id.mypage_mentoShow_curi);
         experience = (TextView) findViewById(R.id.mypage_mentoShow_experience);
         appeal = (TextView) findViewById(R.id.mypage_mentoShow_appeal);
+        noCertiMsg = (TextView) findViewById(R.id.mypage_mentoShow_noCerti_msg);
 
         //shared preference
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -87,6 +90,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
 
 
         dataService.userMentor.getProfile(userId).enqueue(new Callback<ProfileRes>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                 if(response.isSuccessful())
@@ -102,10 +106,17 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
 
                     if(response.body().getCertificates().size()>0){
                         for(int i=0; i<response.body().getCertificates().size(); i++){
-                            certificate = new Certificate(response.body().getCertificates().get(i).getCertificate(),response.body().getCertificates().get(i).getImgUrl());
+                            certificate = new Certificate(
+                                    response.body().getCertificates().get(i).getCertificate(),
+                                    response.body().getCertificates().get(i).getImgUrl());
                             arrayList.add(certificate);
                         }
+                    } else {
+                        noCertiMsg.setVisibility(View.VISIBLE);
                     }
+
+                    adapter = new MyPageMentoShowAdapter(arrayList);
+                    recyclerView.setAdapter(adapter);
 
                     mentoProfile = new MyPageMentoProfile(
                             userName,
@@ -131,11 +142,6 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new MyPageMentoShowAdapter(arrayList);
-        recyclerView.setAdapter(adapter);
-
-
-
 
 
         editBtn.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +157,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
     }
 
     public String checkNull(String str){
-        if(str.equals("")){
+        if(str==null){
             return VALUE_NULL_STR;
         }
         else

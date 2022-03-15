@@ -148,6 +148,14 @@
                 android:text="자격증"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/mypage_mentoShow_noCerti_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="등록된 자격증이 없습니다"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mypage_mentoShow_RV"

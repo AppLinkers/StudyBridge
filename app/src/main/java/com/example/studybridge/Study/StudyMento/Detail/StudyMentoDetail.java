@@ -1,8 +1,10 @@
 package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiSelectMentoDialog;
 import com.example.studybridge.Study.StudyMento.StudyMento;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.ProfileRes;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
@@ -48,7 +51,17 @@ public class StudyMentoDetail extends AppCompatActivity {
 
     DataService dataService = new DataService();
 
+    //SharedPref
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "user_id_key";
+
+    private String mentoId, managerId,userId;
+    private Long studyId;
+
     private int selectOK;
+
+    public static final String CONFIRM_APPLY = "MATCHED";
 
 
     @Override
@@ -56,6 +69,8 @@ public class StudyMentoDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_mento_detail_activity);
 
+
+        //화면 위 데이터
         tabLayout = (TabLayout) findViewById(R.id.mento_detail_tab);
         toolbar = (Toolbar) findViewById(R.id.mento_detail_bar);
         heart = (ImageButton) findViewById(R.id.mento_detail_heart);
@@ -63,14 +78,21 @@ public class StudyMentoDetail extends AppCompatActivity {
         button = (MaterialButton) findViewById(R.id.mento_detail_button);
         buttonLayout = (LinearLayout) findViewById(R.id.mento_detail_layout_button);
 
+        //sharedPreference, 현재 이용자 아이디 불러옴
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+
+        //멘토 찾기에서 불러온 것
         Intent intent = getIntent();
 
         MyPageMentoProfile profile = (MyPageMentoProfile) intent.getSerializableExtra("profile");
 
 
         //신청한 멘티에서 불러온 것
-        String mentoId = intent.getExtras().getString("mentoId");
-        Long studyId = intent.getExtras().getLong("studyId");
+        mentoId = intent.getExtras().getString("mentoId");
+        studyId = intent.getExtras().getLong("studyId");
+        managerId = intent.getExtras().getString("managerId");
+
 
         //툴바 설정
         if(mentoId == null || mentoId.equals("")){
@@ -82,7 +104,12 @@ public class StudyMentoDetail extends AppCompatActivity {
                     if (response.isSuccessful())
                     {
                         toolbar.setTitle(response.body().getNickName());
-                        buttonLayout.setVisibility(View.VISIBLE);
+                        if(userId.equals(managerId)){
+                            buttonLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            buttonLayout.setVisibility(View.GONE);
+                        }
+
                     }
                 }
 
@@ -199,10 +226,27 @@ public class StudyMentoDetail extends AppCompatActivity {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 if (selectOK==1){
-                    Intent resultIntent = new Intent();
-                    setResult(Activity.RESULT_OK,resultIntent);
+/*                    Intent resultIntent = new Intent();*/
+/*                    setResult(Activity.RESULT_OK,resultIntent);*/
+                    toMatched();
                     finish();
                 }
+            }
+        });
+    }
+
+    //매칭 종료 메서드
+    public void toMatched(){
+        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, CONFIRM_APPLY);
+
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                System.out.println(CONFIRM_APPLY);
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
             }
         });
     }

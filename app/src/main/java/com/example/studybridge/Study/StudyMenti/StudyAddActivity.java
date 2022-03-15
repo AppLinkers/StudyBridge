@@ -62,7 +62,6 @@ public class StudyAddActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        subjectEt = findViewById(R.id.study_add_subject);
 
         titleEt = findViewById(R.id.study_add_title);
         introEt = findViewById(R.id.study_add_intro);
@@ -121,8 +120,7 @@ public class StudyAddActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d("test", String.valueOf(response.raw()));
                             Toast.makeText(StudyAddActivity.this, "추가가 완료되었습니다. ", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
+                            finish();
                         }
                     }
 

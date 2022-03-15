@@ -1,7 +1,6 @@
 package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,11 +9,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
-import com.example.studybridge.Study.StudyMento.Detail.Comment.StudyMentoCommentFragment;
 import com.example.studybridge.Study.StudyMento.Detail.Experience.StudyMentoExperienceFragment;
 import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileFragment;
-
-import java.util.ArrayList;
 
 
 public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {

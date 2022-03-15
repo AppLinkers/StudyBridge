@@ -40,6 +40,9 @@ public class StudyMentoProfileFragment extends Fragment {
 
     DataService dataService = new DataService();
 
+    //null값 처리
+    public static final String VALUE_NULL_STR = "내용이 없습니다";
+
 
     @Nullable
     @Override
@@ -90,24 +93,39 @@ public class StudyMentoProfileFragment extends Fragment {
                 } else {
                     nullmsg.setVisibility(View.VISIBLE);
                 }
+                adapter = new StudyMentoProfileCertiAdapter(arrayList);
+                recyclerView.setAdapter(adapter);
 
 
 
             }
         }
-        else {
+        else { //신청한 멘토
             dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
                 @Override
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                     if (response.isSuccessful())
                     {
                         sb[1] = new StringBuilder();
-                        String introStr = sb[1].append("\"").append(response.body().getInfo()).append("\"").toString();
+                        String introStr = sb[1].append("\"").append(checkNull(response.body().getInfo())).append("\"").toString();
                         intro.setText(introStr);
-                        school.setText(response.body().getSchool());
-                        place.setText(response.body().getLocation());
-                        subject.setText(response.body().getSubject());
-                        appeal.setText(response.body().getAppeal());
+                        school.setText(checkNull(response.body().getSchool()));
+                        place.setText(checkNull(response.body().getLocation()));
+                        subject.setText(checkNull(response.body().getSubject()));
+                        appeal.setText(checkNull(response.body().getAppeal()));
+
+                        if(response.body().getCertificates().size()>0){
+                            for(int i=0; i<response.body().getCertificates().size(); i++){
+                                certificate = new Certificate(
+                                        response.body().getCertificates().get(i).getCertificate(),
+                                        response.body().getCertificates().get(i).getImgUrl());
+                                arrayList.add(certificate);
+                            }
+                        } else {
+                            nullmsg.setVisibility(View.VISIBLE);
+                        }
+                        adapter = new StudyMentoProfileCertiAdapter(arrayList);
+                        recyclerView.setAdapter(adapter);
 
                     }
                 }
@@ -120,13 +138,20 @@ public class StudyMentoProfileFragment extends Fragment {
         }
 
 
-        adapter = new StudyMentoProfileCertiAdapter(arrayList);
-        recyclerView.setAdapter(adapter);
+
 
 
 
 
         return view;
+    }
+
+    public static String checkNull(String str){
+        if(str==null){
+            return VALUE_NULL_STR;
+        }
+        else
+            return str;
     }
 
 

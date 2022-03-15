@@ -83,6 +83,7 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
             public void onClick(View view) {
                 dialogInterfacer.onButtonClick(SELECT_CODE);
 
+
                 dataService.study.chooseMentor(studyNowId,mentoNowId).enqueue(new Callback<ChooseMentorRes>() {
                     @Override
                     public void onResponse(Call<ChooseMentorRes> call, Response<ChooseMentorRes> response) {

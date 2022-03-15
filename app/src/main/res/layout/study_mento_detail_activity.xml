@@ -180,19 +180,17 @@
                 <LinearLayout
                     android:id="@+id/mento_detail_layout_button"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
                     android:visibility="gone">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/mento_detail_button"
                         style="@style/Widget.StudyBridge.Button"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="match_parent"
                         android:text="선택하기"
                         android:textColor="@color/white"
                         android:textStyle="bold"/>

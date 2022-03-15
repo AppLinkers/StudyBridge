@@ -214,31 +214,73 @@
 
 
                 <TextView
+                    android:id="@+id/menti_detail_mentoList_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
-                    android:text="신청한 멘토 리스트"
+                    android:text="신청한 멘토 프로필"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
                 <TextView
-                    android:id="@+id/enroll_mentor"
+                    android:id="@+id/menti_detail_selectMento_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="30dp"
-                    android:text="멘토아이디/ 이력서 보기"
+                    android:layout_marginTop="60dp"
+                    android:text="선정 멘토"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/menti_detail_enrollMento_RV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
                     android:orientation="horizontal"
-                    android:scrollbars="none"/>
+                    android:scrollbars="none" />
 
+                <RelativeLayout
+                    android:id="@+id/menti_detail_chosenMento"
+                    android:layout_width="90dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/menti_detail_chosenMento_id"
+                        android:gravity="center">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:cardCornerRadius="30dp">
+
+                            <ImageView
+                                android:id="@+id/menti_detail_chosenMento_img"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_launcher_foreground" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/menti_detail_chosenMento_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:text="멘티 아이디"
+                        android:gravity="center"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -247,41 +289,35 @@
         <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            android:gravity="center"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:background="@color/white">
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMentee"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:onClick="applyStudy"
-                android:text="신청하기"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:enabled="false"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMaker"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:onClick="startStudy"
-                android:text="스터디 시작하기"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:enabled="false"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMento"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:onClick="startStudy"
-                android:text="신청하기"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone"

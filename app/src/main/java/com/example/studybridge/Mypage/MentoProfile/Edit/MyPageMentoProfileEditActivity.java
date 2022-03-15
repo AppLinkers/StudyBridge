@@ -130,12 +130,13 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
 
         //지역, 과목 선택
-        placeGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_placeSelect);
         subjectGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_subjectSelect);
+        placeGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_placeSelect);
 
-
-        Chip chip = (Chip) subjectGroup.getChildAt(checkChip(mentoProfile.getSubject()));
-        chip.setChecked(true);
+        Chip chipForSubject = (Chip) subjectGroup.getChildAt(checkChipForSubject(mentoProfile.getSubject()));
+        Chip chipForPlace = (Chip) placeGroup.getChildAt(checkChipForPlace(mentoProfile.getPlace()));
+        chipForSubject.setChecked(true);
+        chipForPlace.setChecked(true);
 
         //툴바 설정
         setSupportActionBar(toolbar);
@@ -405,20 +406,47 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     }
 
     //기존 과목&&지역 선택 함수
-    public static int checkChip(String str){
-        switch (str)
-        {
-            case "영어" :
-                return 0;
-            case "수학" :
-                return 1;
-            case "개발" :
-                return 2;
-            case "기타" :
-                return 3;
-            default:
-                return -1;
+    public static int checkChipForSubject(String str){
+        if(str!=null){
+            switch (str)
+            {
+                case "영어" :
+                    return 0;
+                case "수학" :
+                    return 1;
+                case "개발" :
+                    return 2;
+                case "기타" :
+                    return 3;
+                default:
+                    return 0;
+
+            }
+        } else {
+            return 0;
         }
+    }
+    public static int checkChipForPlace(String str){
+
+        if(str!=null){
+            switch (str)
+            {
+                case "서울" :
+                    return 0;
+                case "경기" :
+                    return 1;
+                case "인천" :
+                    return 2;
+                case "기타" :
+                    return 3;
+                default:
+                    return 0;
+
+            }
+        } else {
+            return 0;
+        }
+
     }
 
 }
