@@ -47,9 +47,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     DataService dataService = new DataService();
 
-    //신청한 멘티 수
-    private int enrollMentiNum;
-
 
     public StudyMentiHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -145,16 +142,15 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void onBind(StudyMenti data) {
+    public void onBind(StudyMenti data, int count) {
 
         study_id = data.getId();
-
         status.setText(data.statusStr());
         subject.setText(data.getSubject());
         place.setText(data.getPlace());
         studyName.setText(data.getStudyName());
         studyIntro.setText(data.getStudyIntro());
-        studyNowNum.setText(String.valueOf(showPeopleNum()));
+        studyNowNum.setText(String.valueOf(count));
         studyMaxNum.setText(String.valueOf(data.getMaxNum()));
 
         getManagerId(study_id);
@@ -169,24 +165,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     }
 
-    // 현재 인원 보여주기 위함
-    public int showPeopleNum(){
-
-        dataService.study.menteeList(study_id).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()){
-                    enrollMentiNum = response.body().size();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-        return enrollMentiNum;
-    }
 
     //스터디 방장 찾기 위함
     public void getManagerId(Long studyId){

@@ -45,15 +45,15 @@
         <activity
             android:name=".Mypage.Edit.MyPageEditActivity"
             android:exported="true" />
-        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileEditActivity"
+        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity"
             android:exported="true"/>
-        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileShowActivity"
+        <activity android:name=".Mypage.MentoProfile.Show.MyPageMentoProfileShowActivity"
             android:exported="true"/>
         <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
             android:exported="true"/>
-        <activity android:name=".Mypage.MentoProfile.MyPageMentoProfileSchoolCheck"
+        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg"
             android:exported="true"/>

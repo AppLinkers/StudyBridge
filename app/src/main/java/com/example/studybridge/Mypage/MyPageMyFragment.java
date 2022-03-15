@@ -13,8 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileEditActivity;
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfileShowActivity;
+import com.example.studybridge.Mypage.MentoProfile.Show.MyPageMentoProfileShowActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Subscribe.SubscribeActivity;
 import com.example.studybridge.http.DataService;

@@ -1,4 +1,4 @@
-package com.example.studybridge.Mypage.MentoProfile;
+package com.example.studybridge.Mypage.MentoProfile.Edit;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,9 +11,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.MyPageMentoCertiInfo;
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.StudyMenti;
-import com.example.studybridge.Study.StudyMenti.StudyMentiHolder;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.NotNull;

@@ -187,7 +187,9 @@ public class StudyMentiFragment extends Fragment{
 
                     StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
                     Log.d("test", studyMenti.toString());
+                    System.out.println("a: "+s.getMenteeCnt());
                     adapter.addItem(studyMenti);
+                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
 
 
                 });
@@ -201,6 +203,7 @@ public class StudyMentiFragment extends Fragment{
                     StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
+                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
                 });
             }
             else if(subjectFilter.getText().toString().equals("전체")&&!placeFilter.getText().toString().equals("전체")){
@@ -211,6 +214,7 @@ public class StudyMentiFragment extends Fragment{
                     StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
+                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
                 });
             }
             else {
@@ -221,6 +225,7 @@ public class StudyMentiFragment extends Fragment{
                     StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
+                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
                 });
             }
 

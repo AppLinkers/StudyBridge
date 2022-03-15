@@ -261,27 +261,31 @@
                 android:onClick="applyStudy"
                 android:text="신청하기"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:enabled="false"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMaker"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:onClick="startStudy"
                 android:text="스터디 시작하기"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:enabled="false"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMento"
                 style="@style/Widget.StudyBridge.Button"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:onClick="startStudy"
                 android:text="신청하기"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:enabled="false"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -80,6 +80,55 @@
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="장소"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/study_add_placeGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="서울" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경기" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인천" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.StudyBridge.TextInputLayout"
                 android:layout_width="match_parent"
@@ -111,20 +160,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.StudyBridge.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="스터디 온/오프라인 위치">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/study_add_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.StudyBridge.TextInputLayout"
@@ -145,7 +181,8 @@
                 style="@style/Widget.StudyBridge.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="스터디 설명">
+                android:hint="스터디 설명"
+                android:layout_marginBottom="30dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/study_add_explain"

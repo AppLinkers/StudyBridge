@@ -28,8 +28,8 @@ import retrofit2.Response;
 public class StudyAddActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private TextInputEditText titleEt,introEt,placeEt,maxNumEt,explainEt;
-    private ChipGroup subjectGroup;
+    private TextInputEditText titleEt,introEt,maxNumEt,explainEt;
+    private ChipGroup subjectGroup,placeGroup;
 
     String subject;
     String title;
@@ -66,12 +66,12 @@ public class StudyAddActivity extends AppCompatActivity {
 
         titleEt = findViewById(R.id.study_add_title);
         introEt = findViewById(R.id.study_add_intro);
-        placeEt = findViewById(R.id.study_add_place);
         maxNumEt = findViewById(R.id.study_add_max);
         explainEt = findViewById(R.id.study_add_intro);
 
         //지역 선택 chip
         subjectGroup = (ChipGroup) findViewById(R.id.study_add_subjectGroup);
+        placeGroup = (ChipGroup) findViewById(R.id.study_add_placeGroup);
 
 
 
@@ -94,7 +94,6 @@ public class StudyAddActivity extends AppCompatActivity {
             case R.id.study_add:
 
                 title = titleEt.getText().toString()+"";
-                studyPlace = placeEt.getText().toString()+"";
                 maxNum = Integer.parseInt(maxNumEt.getText().toString()+"");
                 studyIntro = introEt.getText().toString()+"";
 //                studyExplain = explainEt.getText().toString()+"";
@@ -102,6 +101,12 @@ public class StudyAddActivity extends AppCompatActivity {
                     Chip chip = (Chip) subjectGroup.getChildAt(i);
                     if(chip.isChecked()){
                         subject = chip.getText().toString();
+                    }
+                }
+                for(int i=0; i<placeGroup.getChildCount();i++){
+                    Chip chip = (Chip) placeGroup.getChildAt(i);
+                    if(chip.isChecked()){
+                        studyPlace = chip.getText().toString();
                     }
                 }
 

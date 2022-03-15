@@ -1,4 +1,4 @@
-package com.example.studybridge.Mypage.MentoProfile;
+package com.example.studybridge.Mypage.MentoProfile.Edit;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

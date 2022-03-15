@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -129,14 +130,9 @@ public class StudyMentiDetail extends AppCompatActivity {
         mentorList = (TextView) findViewById(R.id.enroll_mentor);
 
 
-        //버튼 재설정
-        //auth, 멘토 멘티 확인
-/*        buttonChange(userId);
+        checkStudyStatus();
 
-        //스터디 상태 확인
-        checkStudyStatus(studyId);*/
-
-        Toast.makeText(getApplicationContext(),enrollCount + " "+ managerId +" "+studyId,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),roleInt + managerId,Toast.LENGTH_SHORT).show();
 
 
 
@@ -195,12 +191,180 @@ public class StudyMentiDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/*    public void getMangerId(Long studyId){
-        dataService.study.maker(studyId).enqueue(new Callback<String>() {
+    //(1) 역할을 정해준다 (방장, 멘티, 멘토)
+    public void checkRole(){
+
+        if(userId.equals(managerId)){
+            BtnForMaker.setVisibility(View.VISIBLE);
+            BtnForMento.setVisibility(View.GONE);
+            BtnForMentee.setVisibility(View.GONE);
+        } else {
+
+
+            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if (response.body()) {//멘티인 경우
+                        BtnForMaker.setVisibility(View.GONE);
+                        BtnForMento.setVisibility(View.GONE);
+                        BtnForMentee.setVisibility(View.VISIBLE);
+                    } else { //멘토인 경우
+                        BtnForMaker.setVisibility(View.GONE);
+                        BtnForMento.setVisibility(View.VISIBLE);
+                        BtnForMentee.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    //(2) 상태마다 역할마다 버튼의 기능, 텍스트를 달리한다
+    public void checkStudyStatus(){
+
+        AsyncTask<Void, Void, String> listAPI = new AsyncTask<Void, Void, String>() {
+            @SuppressLint({"ResourceAsColor", "StaticFieldLeak"})
+            @Override
+            protected String doInBackground(Void... params) {
+                Call<String> call = dataService.study.studyStatus(studyId);
+                try {
+                    String response = call.execute().body();
+                    checkRole();
+
+                    if (response.equals(MENTEE_APPLY)){
+                        //멘티 모집중
+                        BtnForMaker.setText("모집 종료하기");
+                        BtnForMaker.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //모집 종료 함수 작성
+                                toWait();
+                            }
+                        });
+
+                        applyStudy(BtnForMentee);
+
+                        BtnForMento.setText("멘티 모집중입니다");
+                        BtnForMento.setBackgroundColor(R.color.disableBtn);
+                        BtnForMento.setEnabled(false);
+
+                   } else if (response.equals(MENTO_APPLY)){
+                         //멘토 모집중
+
+                        BtnForMaker.setText("멘토 모집중입니다");
+                        BtnForMaker.setBackgroundColor(R.color.disableBtn);
+                        BtnForMaker.setEnabled(false);
+
+                        BtnForMentee.setText("멘토 모집중입니다");
+                        BtnForMentee.setBackgroundColor(R.color.disableBtn);
+                        BtnForMentee.setEnabled(false);
+
+                        applyStudy(BtnForMento);
+                    } else {
+                        //모집 완료
+                        matchedBtn(BtnForMaker);
+                        matchedBtn(BtnForMentee);
+                        matchedBtn(BtnForMento);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {super.onPostExecute(s);}
+        }.execute();
+
+        String result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+    public void matchedBtn(Button button){
+        button.setText("스터디 시작하기");
+        button.setEnabled(true);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //스터디 시작하기 함수 작성
+            }
+        });
+    }
+
+
+    //스터디 신청 메서드
+    public void applyStudy(Button button){
+
+        dataService.study.isApplied(studyId,userId).enqueue(new Callback<Boolean>() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.isSuccessful()){
+                    if(response.body()==true){
+                        //이미 신청 했으면
+                        button.setEnabled(false);
+                        button.setBackgroundColor(R.color.disableBtn);
+                        button.setText("신청 완료");
+                    } else {
+                        //신청 전이면
+                        button.setEnabled(true);
+                        button.setText("신청하기");
+
+                        StudyApplyReq studyApplyReq = new StudyApplyReq(userId,studyId);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dataService.study.apply(studyApplyReq).enqueue(new Callback<StudyApplyRes>() {
+                                    @Override
+                                    public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
+                                        if(response.isSuccessful()){
+                                            button.setEnabled(false);
+                                            button.setBackgroundColor(R.color.disableBtn);
+                                            button.setText("신청 완료");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<StudyApplyRes> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    //멘토 모집으로 넘어가는 메서드
+    public void toWait(){
+        ChangeStatusReq csReq = new ChangeStatusReq(studyId,MENTO_APPLY);
+
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("test", String.valueOf(response.body()));
-                managerId = response.body();
+
             }
 
             @Override
@@ -208,9 +372,11 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
     //버튼 변경
-    public void setButton(int status){
+/*    public void setButton(int status){
         switch (status){
             case 0: //멘티 모집중
                 setRole(roleInt);
@@ -220,21 +386,11 @@ public class StudyMentiDetail extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //모집 종료 함수 작성
+                        toWait();
                     }
                 });
 
-                BtnForMentee.setText("신청 하기");
-                if(isApply){ //신청 상태일때
-                    BtnForMentee.setEnabled(false);
-                    BtnForMentee.setText("신청 완료");
-                } else {
-                    BtnForMentee.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //신청하기 함수 작성
-                        }
-                    });
-                }
+                applyStudy(BtnForMentee);
 
                 BtnForMento.setText("멘티 모집중입니다");
                 BtnForMento.setEnabled(false);
@@ -248,19 +404,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                 BtnForMentee.setText("멘토 모집중입니다");
                 BtnForMentee.setEnabled(false);
 
-                if (isApply){ // 신청 상태일때
-                    BtnForMento.setText("신청 하기");
-                    BtnForMento.setEnabled(true);
-                    BtnForMento.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //멘토 신청하기 함수 작성
-                        }
-                    });
-                } else{
-                    BtnForMento.setEnabled(false);
-                    BtnForMento.setText("신청 완료");
-                }
+                applyStudy(BtnForMento);
 
 
             case 2: //모집 완료
@@ -287,50 +431,27 @@ public class StudyMentiDetail extends AppCompatActivity {
 
                 BtnForMentee.setText("스터디 시작하기");
                 BtnForMentee.setEnabled(true);
+                BtnForMentee.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //스터디 시작하기 함수 작성
+                    }
+                });
 
         }
 
-    }
+    }*/
 
-    public void setRole(int role){
-        switch (role){
-            case 0: //방장
-                BtnForMaker.setVisibility(View.VISIBLE);
-                BtnForMento.setVisibility(View.GONE);
-                BtnForMentee.setVisibility(View.GONE);
-            case 1: //멘티
-                BtnForMaker.setVisibility(View.GONE);
-                BtnForMento.setVisibility(View.GONE);
-                BtnForMentee.setVisibility(View.VISIBLE);
-            case 2: //멘토
-                BtnForMaker.setVisibility(View.GONE);
-                BtnForMento.setVisibility(View.VISIBLE);
-                BtnForMentee.setVisibility(View.GONE);
-        }
-    }
 
-    public void isApplied(){
-        dataService.study.isApplied(studyId,userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.isSuccessful())
-                {
-                    isApply = response.body();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
 
-            }
-        });
-    }
+
 
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
     //스터디 상태
-   /* public void checkStudyStatus(Long studyId){
+/*    public void checkStudyStatus(Long studyId){
         dataService.study.studyStatus(studyId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -361,20 +482,26 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
-    //버튼 변경
-    public void buttonChange(){
-        if(hasAuth){
-            checkAuth();
-        }else{
-            checkMentee();
-        }
+/*    //스터디 대기
+    public void toWait(){
+        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, "WAIT");
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    startStudy.setText("스터디 시작하기");
+                    Toast.makeText(StudyMentiDetail.this, "멘토모집이 시작되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }*/
 
-    }
-
-
-    //스터디 신청
+/*    //스터디 신청
     public void applyStudy(View view) {
 
         //give auth to mentee for the study.
@@ -391,7 +518,52 @@ public class StudyMentiDetail extends AppCompatActivity {
             @Override
             public void onFailure(Call<StudyApplyRes> call, Throwable t) {  }
         });
+    }*/
+    //스터디 상태
+/*    public void checkStudyStatus(Long studyId){
+        dataService.study.studyStatus(studyId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    if(response.body().equals("APPLY")){
+                        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                            @Override
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                if(response.body()){
+                                    startStudy.setText("멘토 모집하기");
+                                }else{
+                                    startStudy.setText("스터디 시작하기");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Boolean> call, Throwable t) {
+
+                            }
+                        });
+                    }else if(response.body().equals("WAIT")){
+                        startStudy.setText("스터디 시작하기");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }*/
+
+    /*//버튼 변경
+    public void buttonChange(){
+        if(hasAuth){
+            checkAuth();
+        }else{
+            checkMentee();
+        }
+
     }
+
+
 
 
     //스터디 시작하기
@@ -420,22 +592,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
 
-    //스터디 대기
-    public void toWait(){
-        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, "WAIT");
-        dataService.study.status(csReq).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
-                    startStudy.setText("스터디 시작하기");
-                    Toast.makeText(StudyMentiDetail.this, "멘토모집이 시작되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-            }
-        });
-    }
+
 
 
 

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<StudyMenti> listData = new ArrayList<>();
+    private ArrayList<Integer> count = new ArrayList<>();
+
+
     @NonNull
     @NotNull
     @Override
@@ -26,7 +29,7 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        ((StudyMentiHolder) holder).onBind(listData.get(position));
+        ((StudyMentiHolder) holder).onBind(listData.get(position), count.get(position));
     }
 
     @Override
@@ -36,6 +39,10 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addItem(StudyMenti data) {
         listData.add(data);
+    }
+
+    public void setEnrollMenteeCtn(int enrollMenteeCt) {
+        count.add(enrollMenteeCt);
     }
 
 }
