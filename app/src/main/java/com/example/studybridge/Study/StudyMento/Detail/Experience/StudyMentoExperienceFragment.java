@@ -23,9 +23,12 @@ import retrofit2.Response;
 
 public class StudyMentoExperienceFragment extends Fragment {
 
-    private TextView experience;
+    private TextView curi,experience;
 
     DataService dataService = new DataService();
+
+    //null값 처리
+    public static final String VALUE_NULL_STR = "내용이 없습니다";
 
     @Nullable
     @Override
@@ -33,6 +36,7 @@ public class StudyMentoExperienceFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.study_mento_detail_experience_fragment,container,false);
 
+        curi = (TextView) view.findViewById(R.id.mento_curi_tv);
         experience = (TextView) view.findViewById(R.id.mento_experience_tv);
 
         Bundle extras = getArguments();
@@ -43,7 +47,8 @@ public class StudyMentoExperienceFragment extends Fragment {
 
         if(mentoId == null || mentoId.equals("")) {
             if (extras != null) {
-                experience.setText(profile.getExpeience());
+                curi.setText(checkNull(profile.getCuri()));
+                experience.setText(checkNull(profile.getExpeience()));
             }
         }
         else {
@@ -52,7 +57,8 @@ public class StudyMentoExperienceFragment extends Fragment {
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                     if (response.isSuccessful())
                     {
-                        experience.setText(response.body().getExperience());
+                        curi.setText(checkNull(response.body().getCurriculum()));
+                        experience.setText(checkNull(response.body().getExperience()));
                     }
                 }
 
@@ -65,6 +71,14 @@ public class StudyMentoExperienceFragment extends Fragment {
 
 
         return view;
+    }
+
+    public static String checkNull(String str){
+        if(str==null){
+            return VALUE_NULL_STR;
+        }
+        else
+            return str;
     }
 
 

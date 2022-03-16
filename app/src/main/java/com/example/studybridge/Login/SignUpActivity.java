@@ -135,7 +135,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
 
         mentRad =  findViewById(signupRole.getCheckedRadioButtonId());
         genderRad = findViewById(signupGender.getCheckedRadioButtonId());
-        id = signupId.getText().toString();
+        id = signupId.getText().toString().trim();
         name = signupName.getText().toString();
         signupPwStr = "";
         phone = signupPhone.getText().toString();

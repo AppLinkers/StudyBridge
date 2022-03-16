@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="커리큘럼"
+                android:text="커리큘럼 History"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp" />
 

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                    UserLoginReq userLoginReq = new UserLoginReq(loginIdEditText.getText().toString(), passwordEditText.getText().toString());
+                    UserLoginReq userLoginReq = new UserLoginReq(loginIdEditText.getText().toString().trim(), passwordEditText.getText().toString());
 
 
 
