@@ -300,8 +300,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:enabled="false"/>
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMaker"
@@ -310,8 +309,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:enabled="false"/>
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMento"
@@ -320,8 +318,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:enabled="false"/>
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

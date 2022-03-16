@@ -263,7 +263,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                     if (response.equals(MENTEE_APPLY)){
                         //멘티 모집중
                         BtnForMaker.setText("모집 종료하기");
-                        BtnForMento.setEnabled(true);
 
                         BtnForMaker.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -282,12 +281,10 @@ public class StudyMentiDetail extends AppCompatActivity {
                          //멘토 모집중
                             BtnForMaker.setText("멘토 모집중입니다");
                             BtnForMaker.setBackgroundColor(R.color.disableBtn);
-                            BtnForMaker.setEnabled(false);
 
 
                             BtnForMentee.setText("멘토 모집중입니다");
                             BtnForMentee.setBackgroundColor(R.color.disableBtn);
-                            BtnForMento.setEnabled(false);
 
                         btn = BtnForMento;
 
@@ -303,9 +300,8 @@ public class StudyMentiDetail extends AppCompatActivity {
                         mentolistTv.setVisibility(View.GONE);
 
                         chosenMentoRL.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
+//                        recyclerView.setVisibility(View.GONE);
                     }
-                    btn.setEnabled(true);
                     applyStudy(btn);
 
                 } catch (IOException e) {
