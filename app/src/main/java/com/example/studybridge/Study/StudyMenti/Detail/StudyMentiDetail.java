@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
+import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.ProfileRes;
@@ -154,6 +155,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new StudyMentiEnrollMentoAdapter();
 
+        // 멘티 리스트 찍어보기 (나중에 지울꺼)
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -199,6 +201,9 @@ public class StudyMentiDetail extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //선정 멘토 확인
+        chosenMentoProfile(chosenMentoRL);
 
 
     }
@@ -319,7 +324,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
     public void matchedBtn(MaterialButton button){
-        button.setText("스터디 시작하기");
+        button.setText("스터디 입장하기");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -515,6 +520,18 @@ public class StudyMentiDetail extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
 
+            }
+        });
+    }
+
+    //선정 멘토 보기
+    public void chosenMentoProfile(RelativeLayout view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
+                intent.putExtra("mentoId",chosenMentoId.getText());
+                startActivity(intent);
             }
         });
     }
