@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,8 @@ import com.example.studybridge.http.dto.ChangeStatusReq;
 import com.example.studybridge.http.dto.ProfileRes;
 import com.example.studybridge.http.dto.StudyApplyReq;
 import com.example.studybridge.http.dto.StudyApplyRes;
+import com.example.studybridge.http.dto.StudyDeleteReq;
+import com.example.studybridge.http.dto.StudyDeleteRes;
 import com.example.studybridge.http.dto.StudyFindRes;
 import com.google.android.material.button.MaterialButton;
 
@@ -45,7 +49,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     // 화면 위 데이터들
     private Toolbar toolbar;
-    private TextView subject,place,peopleNum,status,intro,mentolistTv,selectMentoTv;
+    private TextView subject,place,peopleNum,status,intro,mentolistTv,selectMentoTv,delBtn;
     private int studyMaxNum;
     private MaterialButton BtnForMaker,BtnForMentee,BtnForMento;
 
@@ -53,11 +57,13 @@ public class StudyMentiDetail extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
 
     //역할 체크
     private String userId; // 사용자 아이디
     private Long studyId;  // 스터디 아이디
     private String managerId;  //방장 아이디
+    private Long userPkId;
 
 
 
@@ -96,6 +102,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+        userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
 
         //holder에서 데이터 불러오기
@@ -198,6 +205,17 @@ public class StudyMentiDetail extends AppCompatActivity {
         }
 
 
+
+    }
+
+    //추가된 소스, ToolBar에 menu.xml을 인플레이트함
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.study_detail_toolbar, menu);
+        return true;
     }
 
 
@@ -206,9 +224,14 @@ public class StudyMentiDetail extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+
+            case R.id.detail_del:
+                delStudy();
+                break;
+
             case android.R.id.home:
                 finish();
-                return true;
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -459,6 +482,25 @@ public class StudyMentiDetail extends AppCompatActivity {
         });
     }
 
+    public void delStudy() {
+        StudyDeleteReq delReq = new StudyDeleteReq(studyId,userPkId);
+        Toast.makeText(StudyMentiDetail.this, studyId+ "  "+ userPkId, Toast.LENGTH_SHORT).show();
+        dataService.study.delete(delReq).enqueue(new Callback<StudyDeleteRes>() {
+            @Override
+            public void onResponse(Call<StudyDeleteRes> call, Response<StudyDeleteRes> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(StudyMentiDetail.this, "삭제가 완료되었습니다. ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<StudyDeleteRes> call, Throwable t) {
+
+            }
+        });
+
+    }
 
 
     //////////////////////////////////////////////////////////////////////////////////////////

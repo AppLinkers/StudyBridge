@@ -18,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -59,6 +60,6 @@ public interface Study {
     @GET("study/mentor")
     Call<String> chosenMentor(@Query("studyId") Long studyId);
 
-    @DELETE("study/delete")
+    @POST("study/delete")
     Call<StudyDeleteRes> delete(@Body StudyDeleteReq studyDeleteReq);
 }
