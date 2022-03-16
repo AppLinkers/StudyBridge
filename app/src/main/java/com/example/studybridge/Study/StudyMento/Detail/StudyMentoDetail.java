@@ -104,6 +104,7 @@ public class StudyMentoDetail extends AppCompatActivity {
                     if (response.isSuccessful())
                     {
                         toolbar.setTitle(response.body().getNickName());
+                        System.out.println(managerId);
                         if(userId.equals(managerId)){
                             buttonLayout.setVisibility(View.VISIBLE);
                         } else {

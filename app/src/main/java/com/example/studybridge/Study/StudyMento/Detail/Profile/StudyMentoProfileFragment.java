@@ -76,31 +76,29 @@ public class StudyMentoProfileFragment extends Fragment {
 
         if(mentoId == null || mentoId.equals("")) {
             //경로1 : 멘토 찾기에서 불러오는 것
-            if(extras != null){
 
-                sb[0] = new StringBuilder();
-                String introStr = sb[0].append("\"").append(profile.getIntro()).append("\"").toString();
-                intro.setText(introStr);
-                school.setText(profile.getSchool());
-                place.setText(profile.getPlace());
-                subject.setText(profile.getSubject());
-                appeal.setText(profile.getAppeal());
-                if(profile.getCertificates().size()>0){
-                    for(int i=0; i<profile.getCertificates().size(); i++){
-                        certificate = new Certificate(profile.getCertificates().get(i).getCertificate(),profile.getCertificates().get(i).getImgUrl());
-                        arrayList.add(certificate);
-                    }
-                } else {
-                    nullmsg.setVisibility(View.VISIBLE);
+            sb[0] = new StringBuilder();
+            String introStr = sb[0].append("\"").append(profile.getIntro()).append("\"").toString();
+            intro.setText(introStr);
+            school.setText(profile.getSchool());
+            place.setText(profile.getPlace());
+            subject.setText(profile.getSubject());
+            appeal.setText(profile.getAppeal());
+
+            if(profile.getCertificates().size()>0){
+                for(int i=0; i<profile.getCertificates().size(); i++){
+                    certificate = new Certificate(profile.getCertificates().get(i).getCertificate(),profile.getCertificates().get(i).getImgUrl());
+                    arrayList.add(certificate);
                 }
-                adapter = new StudyMentoProfileCertiAdapter(arrayList);
-                recyclerView.setAdapter(adapter);
-
-
-
+            } else {
+                nullmsg.setVisibility(View.VISIBLE);
             }
+            adapter = new StudyMentoProfileCertiAdapter(arrayList);
+            recyclerView.setAdapter(adapter);
+
+
         }
-        else { //신청한 멘토
+        else { //신청한 멘토에서 불러온 것
             dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
                 @Override
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {

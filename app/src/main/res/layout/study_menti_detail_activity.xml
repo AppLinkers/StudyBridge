@@ -105,15 +105,46 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_mypage_white"/>
-                <TextView
-                    android:id="@+id/menti_detail_peopleNum"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="인원 수"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/menti_detail_peopleNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="현재"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="13sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="2dp"/>
+                    <TextView
+                        android:id="@+id/menti_detail_maxNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전체"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="2dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="명"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="2dp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -241,13 +272,13 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
                     android:orientation="horizontal"
-                    android:scrollbars="none" />
+                    android:scrollbars="none"/>
 
                 <RelativeLayout
                     android:id="@+id/menti_detail_chosenMento"
                     android:layout_width="90dp"
                     android:layout_height="120dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="30dp"
                     android:visibility="gone">
 
@@ -261,7 +292,6 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             app:cardCornerRadius="30dp">
-
                             <ImageView
                                 android:id="@+id/menti_detail_chosenMento_img"
                                 android:layout_width="match_parent"
@@ -270,15 +300,16 @@
                                 android:src="@drawable/ic_launcher_foreground" />
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/menti_detail_chosenMento_id"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
-                        android:text="멘티 아이디"
                         android:gravity="center"
+                        android:text="멘토 아이디"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
@@ -291,7 +322,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:paddingTop="2dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMentee"
