@@ -250,8 +250,8 @@ public class StudyMentiDetail extends AppCompatActivity {
     public void checkStudyStatus(){
 
 
+        @SuppressLint({"ResourceAsColor", "StaticFieldLeak"})
         AsyncTask<Void, Void, String> listAPI = new AsyncTask<Void, Void, String>() {
-            @SuppressLint("ResourceAsColor")
             @Override
             protected String doInBackground(Void... params) {
                 Call<String> call = dataService.study.studyStatus(studyId);
