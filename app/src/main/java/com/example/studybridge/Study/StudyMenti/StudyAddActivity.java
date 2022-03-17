@@ -1,7 +1,6 @@
 package com.example.studybridge.Study.StudyMenti;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +11,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.StudyMakeReq;
-import com.example.studybridge.http.dto.StudyMakeRes;
+import com.example.studybridge.http.dto.study.StudyMakeReq;
+import com.example.studybridge.http.dto.study.StudyMakeRes;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -112,7 +110,7 @@ public class StudyAddActivity extends AppCompatActivity {
 
                 study = new StudyMenti(0L, 0, subject, studyPlace, title,studyIntro,maxNum);
 
-                StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, studyPlace, maxNum);
+                StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, "studyExplain",  studyPlace, maxNum);
 
                 dataService.study.make(studyMakeReq).enqueue(new Callback<StudyMakeRes>() {
                     @Override

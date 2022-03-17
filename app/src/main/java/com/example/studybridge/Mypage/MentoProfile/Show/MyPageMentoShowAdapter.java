@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileCertiHolder;
-import com.example.studybridge.http.dto.Certificate;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 
 import java.util.ArrayList;
 

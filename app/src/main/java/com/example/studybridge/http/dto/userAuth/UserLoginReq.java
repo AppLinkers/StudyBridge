@@ -1,13 +1,5 @@
-package com.example.studybridge.http.dto;
+package com.example.studybridge.http.dto.userAuth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@Builder
 public class UserLoginReq {
 
     private String loginId;

@@ -1,4 +1,6 @@
-package com.example.studybridge.http.dto;
+package com.example.studybridge.http.dto.message;
+
+import com.example.studybridge.http.dto.message.Room;
 
 public class Message {
 

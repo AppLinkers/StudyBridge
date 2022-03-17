@@ -1,10 +1,7 @@
 package com.example.studybridge.http.dto.toDo;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Data
 public class AssignToDoReq {
 
     private Long studyId;
@@ -15,4 +12,10 @@ public class AssignToDoReq {
 
     private LocalDateTime dueDate;
 
+    public AssignToDoReq(Long studyId, Long mentorId, String task, LocalDateTime dueDate) {
+        this.studyId = studyId;
+        this.mentorId = mentorId;
+        this.task = task;
+        this.dueDate = dueDate;
+    }
 }

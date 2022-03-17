@@ -1,7 +1,7 @@
 package com.example.studybridge.http;
 
-import com.example.studybridge.http.dto.Message;
-import com.example.studybridge.http.dto.FindRoomRes;
+import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.FindRoomRes;
 
 import java.util.List;
 

@@ -1,8 +1,5 @@
 package com.example.studybridge.http.dto.toDo;
 
-import lombok.Builder;
-
-@Builder
 public class ChangeToDoStatusRes {
 
     private Long menteeId;
@@ -10,4 +7,16 @@ public class ChangeToDoStatusRes {
     private Long toDoId;
 
     private ToDoStatus status;
+
+    public Long getMenteeId() {
+        return menteeId;
+    }
+
+    public Long getToDoId() {
+        return toDoId;
+    }
+
+    public ToDoStatus getStatus() {
+        return status;
+    }
 }

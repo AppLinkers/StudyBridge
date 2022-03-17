@@ -17,10 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileCertiAdapter;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.Certificate;
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.userMentor.Certificate;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

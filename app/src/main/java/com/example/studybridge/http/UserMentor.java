@@ -1,6 +1,6 @@
 package com.example.studybridge.http;
 
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 import java.util.List;
 import java.util.Map;

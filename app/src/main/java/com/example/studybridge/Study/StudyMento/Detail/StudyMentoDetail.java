@@ -1,6 +1,5 @@
 package com.example.studybridge.Study.StudyMento.Detail;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,16 +21,13 @@ import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiSelectMentoDialog;
-import com.example.studybridge.Study.StudyMento.StudyMento;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.ChangeStatusReq;
-import com.example.studybridge.http.dto.LikeMentorRes;
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.study.ChangeStatusReq;
+import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

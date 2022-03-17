@@ -1,4 +1,4 @@
-package com.example.studybridge.http.dto;
+package com.example.studybridge.http.dto.message;
 
 public class Room {
 

@@ -4,13 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,16 +14,13 @@ import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.UserLoginReq;
-import com.example.studybridge.http.dto.UserSignUpReq;
-import com.example.studybridge.http.dto.UserSignUpRes;
+import com.example.studybridge.http.dto.userAuth.UserSignUpReq;
+import com.example.studybridge.http.dto.userAuth.UserSignUpRes;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-
-import java.sql.SQLOutput;
 
 import retrofit2.Call;
 import retrofit2.Callback;

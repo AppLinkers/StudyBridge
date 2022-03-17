@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 import org.jetbrains.annotations.NotNull;
 

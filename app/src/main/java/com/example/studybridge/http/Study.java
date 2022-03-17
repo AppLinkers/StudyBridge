@@ -1,16 +1,14 @@
 package com.example.studybridge.http;
 
-import com.example.studybridge.http.dto.ChangeStatusReq;
-import com.example.studybridge.http.dto.ChooseMentorRes;
-import com.example.studybridge.http.dto.StudyApplyReq;
-import com.example.studybridge.http.dto.StudyApplyRes;
-import com.example.studybridge.http.dto.StudyDeleteReq;
-import com.example.studybridge.http.dto.StudyDeleteRes;
-import com.example.studybridge.http.dto.StudyFindRes;
-import com.example.studybridge.http.dto.StudyMakeReq;
-import com.example.studybridge.http.dto.StudyMakeRes;
-import com.example.studybridge.http.dto.UserSignUpReq;
-import com.example.studybridge.http.dto.UserSignUpRes;
+import com.example.studybridge.http.dto.study.ChangeStatusReq;
+import com.example.studybridge.http.dto.study.ChooseMentorRes;
+import com.example.studybridge.http.dto.study.StudyApplyReq;
+import com.example.studybridge.http.dto.study.StudyApplyRes;
+import com.example.studybridge.http.dto.study.StudyDeleteReq;
+import com.example.studybridge.http.dto.study.StudyDeleteRes;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.study.StudyMakeReq;
+import com.example.studybridge.http.dto.study.StudyMakeRes;
 
 import java.util.List;
 
