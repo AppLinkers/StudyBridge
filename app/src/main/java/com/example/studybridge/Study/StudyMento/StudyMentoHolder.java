@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
+import com.example.studybridge.http.DataService;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
     private ImageButton heart;
 //    StudyMento mentoProfile;
     private MyPageMentoProfile profile;
+    private DataService dataService = new DataService();
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -60,7 +62,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
                 intent.putExtra("heart",passHeart);
                 intent.putExtra("profile", profile);
-
 
                 view.getContext().startActivity(intent);
             }
