@@ -86,7 +86,7 @@ public class StudyMentoFragment extends Fragment {
         AsyncTask<Void, Void, List<ProfileRes>> listAPI = new AsyncTask<Void, Void, List<ProfileRes>>() {
             @Override
             protected List<ProfileRes> doInBackground(Void... params) {
-                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
+                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile("mentee");
                 try {
                     for(ProfileRes res : call.execute().body()) {
                         if(res.getNickName() != null) {  //임시 조건

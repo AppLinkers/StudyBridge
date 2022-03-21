@@ -24,7 +24,7 @@ public interface UserMentor {
     @GET("user/mentor/profile")
     Call<ProfileRes> getProfile(@Query("mentorLoginId") String mentorLoginId, @Query("userLoginId") String userLoginId);
 
-
     @GET("user/mentor/allProfile")
-    Call<List<ProfileRes>> getAllProfile();
+    Call<List<ProfileRes>> getAllProfile(@Query("userLoginId") String userLoginId);
+
 }
