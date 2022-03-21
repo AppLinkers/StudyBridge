@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
@@ -356,6 +357,9 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onClick(View view) {
                 //스터디 시작하기 함수 작성
                 Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
+                Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                chatIntent.putExtra("studyId",studyId);
+                startActivity(chatIntent);
             }
         });
     }

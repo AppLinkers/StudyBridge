@@ -41,7 +41,6 @@ public class ChatActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
 
-    StudyMenti study;
     Long userPkId;
     String userName;
     String userId;
@@ -71,19 +70,19 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Intent intent = getIntent();
-        study = (StudyMenti) intent.getSerializableExtra("study");
+        studyId = intent.getLongExtra("studyId",0);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 1L);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
-        studyId = study.getId();
+
 
         chatEt = findViewById(R.id.mycontext);
 
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(study.getStudyName());
+        toolbar.setTitle("예시 스터디");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
