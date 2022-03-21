@@ -22,11 +22,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
-=======
->>>>>>> 2bbbdcd1b8d844839195acf684e9594098139617
+
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
@@ -499,10 +497,11 @@ public class StudyMentiDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                BtnForMaker.setText("멘토 모집중입니다");
-                BtnForMaker.setBackgroundColor(R.color.disableBtn);
-                BtnForMaker.setEnabled(false);
-
+                if(response.isSuccessful()){
+                    BtnForMaker.setText("멘토 모집중입니다");
+                    BtnForMaker.setBackgroundColor(R.color.disableBtn);
+                    BtnForMaker.setEnabled(false);
+                }
             }
 
             @Override

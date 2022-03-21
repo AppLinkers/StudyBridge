@@ -88,23 +88,28 @@ public class StudyMentoFragment extends Fragment {
             protected List<ProfileRes> doInBackground(Void... params) {
                 Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
                 try {
-                    for(ProfileRes res : call.execute().body()) {
-                        if(res.getNickName() != null) {  //임시 조건
-                            MyPageMentoProfile mentoProfile = new MyPageMentoProfile(
-                                    res.getUserName(),
-                                    res.getLocation(),
-                                    res.getSubject(),
-                                    res.getSchool(),
-                                    res.getInfo(),
-                                    res.getNickName(),
-                                    res.getCurriculum(),
-                                    res.getExperience(),
-                                    res.getAppeal(),
-                                    null,
-                                    null,
-                                    null,
-                                    res.getCertificates());
-                            adapter.addItem(mentoProfile);
+                    if(call.execute().body() == null){
+                        
+                    }else {
+
+                        for (ProfileRes res : call.execute().body()) {
+                            if (res.getNickName() != null) {  //임시 조건
+                                MyPageMentoProfile mentoProfile = new MyPageMentoProfile(
+                                        res.getUserName(),
+                                        res.getLocation(),
+                                        res.getSubject(),
+                                        res.getSchool(),
+                                        res.getInfo(),
+                                        res.getNickName(),
+                                        res.getCurriculum(),
+                                        res.getExperience(),
+                                        res.getAppeal(),
+                                        null,
+                                        null,
+                                        null,
+                                        res.getCertificates());
+                                adapter.addItem(mentoProfile);
+                            }
                         }
                     }
                     recyclerView.setAdapter(adapter);
