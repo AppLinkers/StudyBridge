@@ -88,7 +88,7 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        dataService.userMentor.getProfile(userId).enqueue(new Callback<ProfileRes>() {
+        dataService.userMentor.getProfile(userId, userId).enqueue(new Callback<ProfileRes>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {

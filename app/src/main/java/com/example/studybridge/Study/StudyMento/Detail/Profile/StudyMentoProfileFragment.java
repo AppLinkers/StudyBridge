@@ -1,5 +1,7 @@
 package com.example.studybridge.Study.StudyMento.Detail.Profile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,15 @@ public class StudyMentoProfileFragment extends Fragment {
 
     DataService dataService = new DataService();
 
+    //SharedPref
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "user_id_key";
+
+
+    //넘어온 데이터들
+    private String userId;
+
     //null값 처리
     public static final String VALUE_NULL_STR = "내용이 없습니다";
 
@@ -47,6 +58,10 @@ public class StudyMentoProfileFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable  Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.study_mento_detail_profile_fragment,container,false);
+
+        //sharedPreference, 현재 이용자 아이디 불러옴
+        sharedPreferences = this.getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
         intro = (TextView) view.findViewById(R.id.mento_profile_intro);
         school = (TextView) view.findViewById(R.id.mento_profile_school);
@@ -97,7 +112,7 @@ public class StudyMentoProfileFragment extends Fragment {
 
         }
         else { //신청한 멘토에서 불러온 것
-            dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
+            dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
                 @Override
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                     if (response.isSuccessful())

@@ -158,7 +158,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         bundle.putLong("studyId",studyId);
         dialog.setArguments(bundle);
 
-        dialog.show(fm,"selectMetno");
+        dialog.show(fm,"selectMentor");
         dialog.setDialogInterfacer(new DialogInterfaces() {
             @Override
             public void onButtonClick(int selectCode) {
@@ -257,7 +257,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         if(mentoId == null || mentoId.equals("")){
             toolbar.setTitle(profile.getNickName());
         } else {
-            dataService.userMentor.getProfile(mentoId).enqueue(new Callback<ProfileRes>() {
+            dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
                 @Override
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                     if (response.isSuccessful())

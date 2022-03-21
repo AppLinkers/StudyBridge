@@ -2,6 +2,8 @@ package com.example.studybridge.http.dto.userMentor;
 
 import java.util.List;
 
+import retrofit2.http.Body;
+
 public class ProfileRes {
 
     private Long userId;
@@ -28,6 +30,8 @@ public class ProfileRes {
 
     private String appeal;
 
+    private Boolean liked;
+
     @Override
     public String toString() {
         return "ProfileRes{" +
@@ -43,6 +47,7 @@ public class ProfileRes {
                 ", experience='" + experience + '\'' +
                 ", curriculum='" + curriculum + '\'' +
                 ", appeal='" + appeal + '\'' +
+                ", liked=" + liked +
                 '}';
     }
 
@@ -50,9 +55,6 @@ public class ProfileRes {
         return userId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -96,5 +98,9 @@ public class ProfileRes {
 
     public String getAppeal() {
         return appeal;
+    }
+
+    public Boolean getLiked() {
+        return liked;
     }
 }

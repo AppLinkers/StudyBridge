@@ -22,7 +22,7 @@ public interface UserMentor {
     Call<ProfileRes> profile(@Part MultipartBody.Part schoolImg, @Part List<MultipartBody.Part> certificatesImg, @PartMap Map<String, RequestBody> profileTextReq);
 
     @GET("user/mentor/profile")
-    Call<ProfileRes> getProfile(@Query("userLoginId") String userLoginId);
+    Call<ProfileRes> getProfile(@Query("mentorLoginId") String mentorLoginId, @Query("userLoginId") String userLoginId);
 
 
     @GET("user/mentor/allProfile")
