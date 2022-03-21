@@ -92,10 +92,6 @@ public class StudyMentoFragment extends Fragment {
 
     @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData() {
-
-
-
-
         AsyncTask<Void, Void, List<ProfileRes>> listAPI = new AsyncTask<Void, Void, List<ProfileRes>>() {
             @Override
             protected List<ProfileRes> doInBackground(Void... params) {

@@ -127,9 +127,11 @@ public class ChatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable(){
                 @Override
                 public void run() {
-                    Chat chat = new Chat(message.getSenderName(), message.getMessage());
-                    adapter.addItem(chat);
-                    rcChat.setAdapter(adapter);
+                    if (!message.getSenderId().equals(userPkId)) {
+                        Chat chat = new Chat(message.getSenderName(), message.getMessage());
+                        adapter.addItem(chat);
+                        rcChat.setAdapter(adapter);
+                    }
                 }
             });
         });
@@ -178,7 +180,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (result.size() > 0) {
             result.forEach(c -> {
-                if (c.getSenderId().equals(userName)) {
+                if (c.getSenderId().equals(userPkId)) {
                     chk++;
                 }
 
@@ -200,6 +202,7 @@ public class ChatActivity extends AppCompatActivity {
         Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
         String sendMessage = gson.toJson(message);
         stompClient.send("/pub/chat/message", sendMessage).subscribe();
+        Log.d(TAG, sendMessage);
 
         // edit UI
         adapter.addItem(chatSend);
