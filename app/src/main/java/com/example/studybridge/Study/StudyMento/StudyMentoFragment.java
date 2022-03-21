@@ -89,7 +89,7 @@ public class StudyMentoFragment extends Fragment {
                 Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
                 try {
                     if(call.execute().body() == null){
-                        
+
                     }else {
 
                         for (ProfileRes res : call.execute().body()) {

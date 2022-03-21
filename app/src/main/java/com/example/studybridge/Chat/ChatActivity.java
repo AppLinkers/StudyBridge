@@ -56,8 +56,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private StompClient stompClient;
 
-    FindRoomRes findRoomRes;
     Long studyId;
+    Long roomId;
 
     Gson gson = new Gson();
     int chk = 0;
@@ -71,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         studyId = intent.getLongExtra("studyId",0);
+        roomId = intent.getLongExtra("roomId", 0);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 1L);
@@ -94,22 +95,10 @@ public class ChatActivity extends AppCompatActivity {
         getData();
         rcChat.scrollToPosition(adapter.getItemCount()-1);
 
-        // 채팅 방 받아오기
-        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
-            @Override
-            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
-                findRoomRes = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<FindRoomRes> call, Throwable t) {
-
-            }
-        });
-
         initStomp();
 
     }
+
 
     @SuppressLint("CheckResult")
     private void initStomp() {
@@ -132,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
         stompClient.connect();
 
         // message 수신
-        stompClient.topic("/sub/chat/room/" + findRoomRes.getRoomId()).subscribe(topicMessage -> {
+        stompClient.topic("/sub/chat/room/" + roomId).subscribe(topicMessage -> {
             Log.d(TAG, topicMessage.getPayload());
             Message message = gson.fromJson(topicMessage.getPayload(), Message.class);
             runOnUiThread(new Runnable(){
@@ -147,7 +136,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // 채팅방 입장 메시지 송신
         if (chk == 0) {
-            Message message = new Message("ENTER", new Room(findRoomRes.getRoomId()), userPkId, userName, "ENTER");
+            Message message = new Message("ENTER", new Room(roomId), userPkId, userName, "ENTER");
             String enter = gson.toJson(message);
             stompClient.send("/pub/chat/message", enter).subscribe();
         }
@@ -161,7 +150,7 @@ public class ChatActivity extends AppCompatActivity {
         AsyncTask<Void, Void, List<Message>> listApi = new AsyncTask<Void, Void, List<Message>>() {
             @Override
             protected List<Message> doInBackground(Void... voids) {
-                Call<List<Message>> call = dataService.chat.messageList(findRoomRes.getRoomId());
+                Call<List<Message>> call = dataService.chat.messageList(roomId);
                 try {
                     return call.execute().body();
                 } catch (IOException e) {
@@ -208,7 +197,7 @@ public class ChatActivity extends AppCompatActivity {
         Chat chatSend = new Chat(userId, newChat);
 
         // send to server
-        Message message = new Message("TALK", new Room(findRoomRes.getRoomId()), userPkId, userName, newChat);
+        Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
         String sendMessage = gson.toJson(message);
         stompClient.send("/pub/chat/message", sendMessage).subscribe();
 

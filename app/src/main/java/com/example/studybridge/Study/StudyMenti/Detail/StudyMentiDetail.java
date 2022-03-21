@@ -29,6 +29,7 @@ import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.ChangeStatusReq;
 import com.example.studybridge.http.dto.study.StudyApplyReq;
 import com.example.studybridge.http.dto.study.StudyApplyRes;
@@ -87,6 +88,8 @@ public class StudyMentiDetail extends AppCompatActivity {
     public static final String CONFIRM_APPLY = "MATCHED";
 
     TextView enrollList;
+
+    FindRoomRes findRoomRes;
 /*    //resultForActivity 용
     public static final int selectMento = 121;*/
 
@@ -212,6 +215,18 @@ public class StudyMentiDetail extends AppCompatActivity {
         chosenMentoProfile(chosenMentoRL);
 
 
+        // 채팅 방 받아오기
+        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
+            @Override
+            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
+                findRoomRes = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<FindRoomRes> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -354,6 +369,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                 //스터디 시작하기 함수 작성
                 Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
                 Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                chatIntent.putExtra("roomId", findRoomRes.getRoomId());
                 chatIntent.putExtra("studyId",studyId);
                 startActivity(chatIntent);
             }
