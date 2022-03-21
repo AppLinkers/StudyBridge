@@ -1,6 +1,8 @@
 package com.example.studybridge.Study.StudyMento;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,6 +38,13 @@ public class StudyMentoFragment extends Fragment {
     private TextView subjectFilter, placeFilter;
     DataService dataService;
 
+    //SharedPref
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
+    private String userId;
+
 
     @Nullable
     @Override
@@ -47,6 +56,10 @@ public class StudyMentoFragment extends Fragment {
         filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
         subjectFilter = (TextView) view.findViewById(R.id.mento_subjectFilter);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeFilter);
+
+        //sharedPreference, 현재 이용자 아이디 불러옴
+        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,12 +99,8 @@ public class StudyMentoFragment extends Fragment {
         AsyncTask<Void, Void, List<ProfileRes>> listAPI = new AsyncTask<Void, Void, List<ProfileRes>>() {
             @Override
             protected List<ProfileRes> doInBackground(Void... params) {
-                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile();
+                Call<List<ProfileRes>> call = dataService.userMentor.getAllProfile(userId);
                 try {
-                    if(call.execute().body() == null){
-
-                    }else {
-
                         for (ProfileRes res : call.execute().body()) {
                             if (res.getNickName() != null) {  //임시 조건
                                 MyPageMentoProfile mentoProfile = new MyPageMentoProfile(
@@ -111,7 +120,6 @@ public class StudyMentoFragment extends Fragment {
                                 adapter.addItem(mentoProfile);
                             }
                         }
-                    }
                     recyclerView.setAdapter(adapter);
                 } catch (IOException e) {
                     e.printStackTrace();

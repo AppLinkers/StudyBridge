@@ -569,7 +569,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     public void delStudy() {
         StudyDeleteReq delReq = new StudyDeleteReq(studyId,userPkId);
-        Toast.makeText(StudyMentiDetail.this, studyId+ "  "+ userPkId, Toast.LENGTH_SHORT).show();
         dataService.study.delete(delReq).enqueue(new Callback<StudyDeleteRes>() {
             @Override
             public void onResponse(Call<StudyDeleteRes> call, Response<StudyDeleteRes> response) {

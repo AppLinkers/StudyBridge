@@ -41,6 +41,8 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         listData.add(data);
     }
 
+    public void clearItem(){listData.clear();}
+
     public void setEnrollMenteeCtn(int enrollMenteeCt) {
         count.add(enrollMenteeCt);
     }

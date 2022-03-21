@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -78,8 +79,7 @@ public class StudyMentiFragment extends Fragment{
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new StudyMentiAdapter();
-        getData();
-        recyclerView.setAdapter(adapter);
+
 
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +131,13 @@ public class StudyMentiFragment extends Fragment{
         return view;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.clearItem();
+        getData();
+        recyclerView.setAdapter(adapter);
+    }
 
 
     @SuppressLint({"StaticFieldLeak", "NewApi"})
