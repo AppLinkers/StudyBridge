@@ -1,12 +1,9 @@
 package com.example.studybridge.Mypage.MentoProfile;
 
-import android.graphics.Bitmap;
-
-import com.example.studybridge.http.dto.Certificate;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyPageMentoProfile implements Serializable {

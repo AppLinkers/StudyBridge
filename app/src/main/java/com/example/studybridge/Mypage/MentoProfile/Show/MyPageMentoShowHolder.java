@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg;
-import com.example.studybridge.http.dto.Certificate;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 
 
 public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{

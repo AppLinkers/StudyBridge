@@ -1,7 +1,6 @@
 package com.example.studybridge.Study.StudyMento.Detail.Profile;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.http.dto.Certificate;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 
 
 public class StudyMentoProfileCertiHolder extends RecyclerView.ViewHolder{

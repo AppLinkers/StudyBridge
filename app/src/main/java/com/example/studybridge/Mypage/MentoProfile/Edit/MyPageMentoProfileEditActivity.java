@@ -29,7 +29,7 @@ import com.example.studybridge.Mypage.MentoProfile.MyPageMentoCertiInfo;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;

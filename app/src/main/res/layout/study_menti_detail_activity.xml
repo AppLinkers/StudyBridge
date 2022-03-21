@@ -320,10 +320,9 @@
         <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="65dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            android:paddingTop="2dp">
+            android:background="@color/white">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menti_detail_BtnForMentee"

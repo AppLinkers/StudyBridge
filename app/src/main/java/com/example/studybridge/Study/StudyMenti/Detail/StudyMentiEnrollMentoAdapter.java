@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
-import com.example.studybridge.Study.StudyMento.StudyMentoAdapter;
-import com.example.studybridge.http.dto.UserSignUpReq;
 
 import org.jetbrains.annotations.NotNull;
 

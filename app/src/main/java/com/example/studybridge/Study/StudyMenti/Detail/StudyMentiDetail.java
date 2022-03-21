@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,23 +22,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+<<<<<<< HEAD
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
+=======
+>>>>>>> 2bbbdcd1b8d844839195acf684e9594098139617
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.ChangeStatusReq;
-import com.example.studybridge.http.dto.ProfileRes;
-import com.example.studybridge.http.dto.StudyApplyReq;
-import com.example.studybridge.http.dto.StudyApplyRes;
-import com.example.studybridge.http.dto.StudyDeleteReq;
-import com.example.studybridge.http.dto.StudyDeleteRes;
-import com.example.studybridge.http.dto.StudyFindRes;
+import com.example.studybridge.http.dto.study.ChangeStatusReq;
+import com.example.studybridge.http.dto.study.StudyApplyReq;
+import com.example.studybridge.http.dto.study.StudyApplyRes;
+import com.example.studybridge.http.dto.study.StudyDeleteReq;
+import com.example.studybridge.http.dto.study.StudyDeleteRes;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -587,7 +585,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////
 
 
 

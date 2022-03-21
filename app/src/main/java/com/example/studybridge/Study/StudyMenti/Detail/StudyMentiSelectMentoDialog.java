@@ -1,32 +1,22 @@
 package com.example.studybridge.Study.StudyMenti.Detail;
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.StudyMentiFilterDialog;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.ChooseMentorRes;
+import com.example.studybridge.http.dto.study.ChooseMentorRes;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

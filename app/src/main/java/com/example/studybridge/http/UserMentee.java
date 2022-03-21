@@ -1,6 +1,6 @@
 package com.example.studybridge.http;
 
-import com.example.studybridge.http.dto.LikeMentorRes;
+import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
 
 import java.util.List;
 

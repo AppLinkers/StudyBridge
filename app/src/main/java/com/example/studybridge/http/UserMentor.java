@@ -1,6 +1,6 @@
 package com.example.studybridge.http;
 
-import com.example.studybridge.http.dto.ProfileRes;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ public interface UserMentor {
     Call<ProfileRes> profile(@Part MultipartBody.Part schoolImg, @Part List<MultipartBody.Part> certificatesImg, @PartMap Map<String, RequestBody> profileTextReq);
 
     @GET("user/mentor/profile")
-    Call<ProfileRes> getProfile(@Query("userLoginId") String userLoginId);
+    Call<ProfileRes> getProfile(@Query("mentorLoginId") String mentorLoginId, @Query("userLoginId") String userLoginId);
 
 
     @GET("user/mentor/allProfile")

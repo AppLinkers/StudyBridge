@@ -292,7 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_marginTop="15dp"
-                android:hint="커리큘럼">
+                android:hint="커리큘럼 History">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/mypage_mentoProfile_curi"

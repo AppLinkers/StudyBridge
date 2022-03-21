@@ -1,15 +1,6 @@
-package com.example.studybridge.http.dto;
+package com.example.studybridge.http.dto.userAuth;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import retrofit2.http.Multipart;
-
-@Data
-@NoArgsConstructor
-@Builder
 public class UserSignUpReq {
 
     private String name;

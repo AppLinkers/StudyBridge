@@ -18,9 +18,9 @@ import android.widget.EditText;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.FindRoomRes;
-import com.example.studybridge.http.dto.Message;
-import com.example.studybridge.http.dto.Room;
+import com.example.studybridge.http.dto.message.FindRoomRes;
+import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.Room;
 import com.google.gson.Gson;
 
 import java.io.IOException;

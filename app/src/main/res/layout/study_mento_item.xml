@@ -58,7 +58,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/button_clicked_gray"/>
+            android:background="@drawable/button_clicked" />
 
     </RelativeLayout>
     <RelativeLayout

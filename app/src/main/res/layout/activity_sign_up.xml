@@ -190,34 +190,36 @@
                     android:layout_marginTop="30dp"
                     app:singleLine="true"
                     app:singleSelection="true"
-                    android:layout_gravity="center_horizontal"
-                    app:chipSpacingHorizontal="10dp">
+                    app:chipSpacingHorizontal="8dp">
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.StudyBridge.Chip.Choice"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="서울"
-                        android:checked="true"/>
+                        android:checked="true"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal" />
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.StudyBridge.Chip.Choice"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="경기남부"/>
+                        android:text="경기"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal"/>
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.StudyBridge.Chip.Choice"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="경기북부"/>
+                        android:text="인천"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal"/>
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.StudyBridge.Chip.Choice"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="인천"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.StudyBridge.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="기타"/>
+                        android:text="기타"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal"/>
                 </com.google.android.material.chip.ChipGroup>
 
 

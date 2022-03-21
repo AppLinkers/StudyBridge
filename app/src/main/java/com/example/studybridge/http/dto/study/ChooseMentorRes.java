@@ -1,4 +1,4 @@
-package com.example.studybridge.http.dto;
+package com.example.studybridge.http.dto.study;
 
 public class ChooseMentorRes {
 
@@ -21,23 +21,11 @@ public class ChooseMentorRes {
         return studyId;
     }
 
-    public void setStudyId(Long studyId) {
-        this.studyId = studyId;
-    }
-
     public Long getMentorId() {
         return mentorId;
     }
 
-    public void setMentorId(Long mentorId) {
-        this.mentorId = mentorId;
-    }
-
     public String getStudyName() {
         return studyName;
-    }
-
-    public void setStudyName(String studyName) {
-        this.studyName = studyName;
     }
 }
