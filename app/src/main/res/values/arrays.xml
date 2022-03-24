@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="todo_spinner">
+        <item>Ready</item>
+        <item>Progress</item>
+        <item>Done</item>
+        <item>Confirm</item>
+    </string-array>
 
 </resources>

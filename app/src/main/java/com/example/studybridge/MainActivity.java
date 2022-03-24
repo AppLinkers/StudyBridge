@@ -14,7 +14,7 @@ import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
-import com.example.studybridge.ToDo.ToDoMain.ToDoFragment;
+import com.example.studybridge.ToDo.ToDoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;

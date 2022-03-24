@@ -1,81 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/todo_detail_barLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:layout_alignParentTop="true">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/todo_bar"
+            android:id="@+id/todo_toolbar"
             style="@style/Widget.StudyBridge.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/todo_toolbar_menu"/>
+            android:layout_height="?attr/actionBarSize"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/todo_detail_comment_ET"
+        android:layout_below="@id/todo_detail_barLayout">
 
-        <TextView
-            android:id="@+id/todyDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="yyyy년 mm월 dd일"
-            android:textColor="@color/black"
-            android:textSize="21sp"
-            android:textStyle="bold"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"/>
-        <TextView
-            android:id="@+id/todayDay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="EE요일"
-            android:textSize="16sp"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/todo_detail_num"
+                android:id="@+id/todo_detail_taskName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="할 일 n개 남음"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:paddingTop="25dp"
-                android:paddingBottom="10dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:text="과제명"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/todo_detail_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="15dp"/>
+
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/viewUnderline" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="담당 멘토"
+                    android:textColor="@color/textColorPrimary70"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/todo_detail_mentorId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="멘토 아이디"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/todo_detail_mentorId"
+                    app:cardCornerRadius="15dp">
+
+                    <ImageView
+                        android:id="@+id/todo_detail_mentorImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_foreground" />
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/viewUnderline" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="멘티"
+                    android:textColor="@color/textColorPrimary70"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/todo_detail_menteeId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="멘티 아이디"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/todo_detail_menteeId"
+                    app:cardCornerRadius="15dp">
+
+                    <ImageView
+                        android:id="@+id/todo_detail_menteeImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_foreground" />
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/viewUnderline" />
+
             <TextView
-                android:id="@+id/todo_remain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:text="총 0.0%"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:text="상세 설명"
+                android:textColor="@color/textColorPrimary70"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/todo_detail_taskInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:text="상세 설명"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/viewUnderline" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="마감일"
+                    android:textColor="@color/textColorPrimary70"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="@color/colorAccent"
+                    app:cardCornerRadius="15dp">
+
+                    <TextView
+                        android:id="@+id/todo_detail_dueDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="YYYY/MM/DD"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/viewUnderline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:text="Comments"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp" />
+
+
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/viewUnderline"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/todo_detail_RCView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/todo_detail_comment_ET"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="댓글 추가"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="15dp"/>
+</RelativeLayout>

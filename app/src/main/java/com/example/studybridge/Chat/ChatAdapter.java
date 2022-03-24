@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.ToDoDetail.ToDoDetailHolder;
 
 import java.util.ArrayList;
 

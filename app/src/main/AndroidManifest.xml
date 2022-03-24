@@ -15,48 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBridge"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".Chat.ChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Login.SignUpActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ToDo.ToDoManageActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Subscribe.PaymentActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AtuhActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ToDo.ToDoDetail.ToDoDetailActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Study.StudyMenti.StudyAddActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Subscribe.SubscribeActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Mypage.Edit.MyPageEditActivity"
-            android:exported="true" />
-        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity"
-            android:exported="true"/>
-        <activity android:name=".Mypage.MentoProfile.Show.MyPageMentoProfileShowActivity"
-            android:exported="true"/>
-        <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
-            android:exported="true"/>
-        <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
-            android:exported="true"/>
-        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileSchoolCheck"
-            android:exported="true"/>
-        <activity android:name=".Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg"
-            android:exported="true"/>
 
         <activity
             android:name=".Login.LoginActivity"
@@ -67,6 +25,49 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <activity
+            android:name=".Login.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Subscribe.PaymentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AtuhActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Subscribe.SubscribeActivity"
+            android:exported="true" />
 
+        <activity
+            android:name=".Study.StudyMenti.StudyAddActivity"
+            android:exported="true" />
+
+
+        <activity android:name=".Study.StudyMenti.Detail.StudyMentiDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
+            android:exported="true"/>
+        <activity android:name=".Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg"
+            android:exported="true"/>
+
+        <activity
+            android:name=".Mypage.Edit.MyPageEditActivity"
+            android:exported="true" />
+        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity"
+            android:exported="true"/>
+        <activity android:name=".Mypage.MentoProfile.Show.MyPageMentoProfileShowActivity"
+            android:exported="true"/>
+        <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileSchoolCheck"
+            android:exported="true"/>
+
+        <activity android:name=".ToDo.ToDoDetailActivity"
+            android:exported="true"/>
+
+    </application>
 </manifest>
