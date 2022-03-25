@@ -15,9 +15,14 @@ import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.ToDo.ToDoFragment;
+import com.example.studybridge.http.DataService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost{
 
@@ -26,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
     Fragment ToDoFragment;
     Fragment MyPageFragment;
     BottomNavigationView bottomNavigationView;
+
+    DataService dataService;
+
+    boolean isMentee;
 
     StudyMenti newStudy;
 
@@ -57,9 +66,16 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         ToDoFragment = new ToDoFragment();
         MyPageFragment = new MyPageFragment();
 
-        Bundle bundle = new Bundle(2);
+        defineMentee();
+
+        Bundle bundle = new Bundle(3);
         bundle.putString("name", userName);
         bundle.putString("id", userId);
+
+        HomeFragment.setArguments(bundle);
+        StudyFragment.setArguments(bundle);
+        ToDoFragment.setArguments(bundle);
+        MyPageFragment.setArguments(bundle);
 
 
         if (savedInstanceState == null) {
@@ -69,10 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
                     .commit();
         }
 
-        HomeFragment.setArguments(bundle);
-        StudyFragment.setArguments(bundle);
-        ToDoFragment.setArguments(bundle);
-        MyPageFragment.setArguments(bundle);
+
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -112,5 +125,36 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
         transaction.commit();
 
+    }
+
+    private void defineMentee(){
+        dataService = new DataService();
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.isSuccessful()){
+                    if(response.body()==true){
+                        isMentee = true;
+                    }else{
+                        isMentee = false;
+                    }
+
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("name", userName);
+                    bundle.putString("id", userId);
+                    bundle.putBoolean("isMentee", isMentee);
+
+                    HomeFragment.setArguments(bundle);
+                    StudyFragment.setArguments(bundle);
+                    ToDoFragment.setArguments(bundle);
+                    MyPageFragment.setArguments(bundle);
+
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
     }
 }
