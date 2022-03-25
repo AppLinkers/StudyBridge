@@ -85,17 +85,17 @@ public class ToDoFragment extends Fragment {
     }
 
     private void setRecyclerView(){
-        setData();
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ToDoMentiAdapter(data));
+        recyclerView.setAdapter(new ToDoMentiAdapter());
     }
 
     private void defineMentee(){
         dataService = new DataService();
         AsyncTask<Void, Void, Boolean> listAPI = new AsyncTask<Void, Void, Boolean>() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Boolean doInBackground(Void... params) {
                 Call<Boolean> call = dataService.userAuth.isMentee(userId);
@@ -124,17 +124,6 @@ public class ToDoFragment extends Fragment {
     }
 
 
-    private void setData(){
-        ToDo toDo1 = new ToDo(null,1,"mentor",null,"문제집 5페이지 풀기",null,"2022/03/28",null);
-//        ToDo toDo2 = new ToDo(null,1,null,null,"알고리즘 문제 복습",null,"2022/03/26",null);
-        ToDo toDo3 = new ToDo(null,0,"mentor",null,"턱걸이 15회.",null,"2022/04/28",null);
-        ToDo toDo4 = new ToDo(null,2,"mentor",null,"벤치프레스 10회",null,"2022/03/23",null);
 
-        data = new ArrayList<>();
-        data.add(toDo1);
-//        data.add(toDo2);
-        data.add(toDo3);
-        data.add(toDo4);
-    }
 
 }
