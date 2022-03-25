@@ -131,6 +131,7 @@ public class ChatActivity extends AppCompatActivity {
                         Chat chat = new Chat(message.getSenderName(), message.getMessage());
                         adapter.addItem(chat);
                         rcChat.setAdapter(adapter);
+                        //scroll 설정
                     }
                 }
             });

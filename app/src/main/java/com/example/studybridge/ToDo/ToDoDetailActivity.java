@@ -59,5 +59,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         ToDo toDo = (ToDo) intent.getSerializableExtra("toDo");
         taskName.setText(toDo.getTaskName());
         dueDate.setText(toDo.getDueDate());
+        spinner.setSelection(toDo.getStatus());
+        mentorId.setText(toDo.getMentoId());
     }
 }
