@@ -1,10 +1,12 @@
-package com.example.studybridge.http.dto.toDo;
+package com.example.studybridge.http.dto.assignedToDo;
+
+import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
 public class ConfirmToDoRes {
 
     private Long mentorId;
 
-    private Long toDoId;
+    private Long assignedToDoId;
 
     private ToDoStatus toDoStatus;
 
@@ -12,8 +14,8 @@ public class ConfirmToDoRes {
         return mentorId;
     }
 
-    public Long getToDoId() {
-        return toDoId;
+    public Long getAssignedToDoId() {
+        return assignedToDoId;
     }
 
     public ToDoStatus getToDoStatus() {

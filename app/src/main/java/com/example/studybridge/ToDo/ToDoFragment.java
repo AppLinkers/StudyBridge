@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,20 +18,19 @@ import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.http.DataService;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ToDoFragment extends Fragment {
 
-    private int resource=0;
+    private int resource = 0;
 
-    private TextView year,month,day,taskCount;
+    private TextView year, month, day, taskCount;
     //리사이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -55,19 +53,19 @@ public class ToDoFragment extends Fragment {
         Bundle bundle = getArguments();
         userId = bundle.getString("id");
         isMentee = bundle.getBoolean("isMentee");
-        if(isMentee==true){
+        if (isMentee == true) {
             resource = R.layout.todo_menti_fragment;
-            view = inflater.inflate(resource,container,false);
+            view = inflater.inflate(resource, container, false);
             setMenteeUI(view);
-        }else{
+        } else {
             resource = R.layout.todo_mentor_fragment;
-            view = inflater.inflate(resource,container,false);
+            view = inflater.inflate(resource, container, false);
         }
 
         return view;
     }
 
-    private void setMenteeUI(View view){
+    private void setMenteeUI(View view) {
         //화면 위 데이터
         year = (TextView) view.findViewById(R.id.todo_year_tv);
         month = (TextView) view.findViewById(R.id.todo_month_tv);
@@ -84,7 +82,7 @@ public class ToDoFragment extends Fragment {
 
 
     @SuppressLint("SimpleDateFormat")
-    private void setTime(){
+    private void setTime() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         year.setText(new SimpleDateFormat("yyyy").format(date));
@@ -92,12 +90,13 @@ public class ToDoFragment extends Fragment {
         day.setText(new SimpleDateFormat("dd").format(date));
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView() {
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
+
 
 }

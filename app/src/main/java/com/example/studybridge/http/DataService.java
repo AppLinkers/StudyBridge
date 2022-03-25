@@ -26,5 +26,7 @@ public class DataService {
     public UserMentee userMentee = retrofitClient.create(UserMentee.class);
     public Chat chat = retrofitClient.create(Chat.class);
     public ToDo toDo = retrofitClient.create(ToDo.class);
+    public S3 s3 = retrofitClient.create(S3.class);
+    public AssignedToDo assignedToDo = retrofitClient.create(AssignedToDo.class);
 
 }
