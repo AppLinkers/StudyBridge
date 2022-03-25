@@ -20,8 +20,10 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
+    ToDoMentiInsideAdapter toDoAdapter;
+
     ///
-    private ArrayList<ToDo> data = new ArrayList<>();
+    private ArrayList<ToDo> datas = new ArrayList<>();
 
 
     public ToDoMentiHolder(@NonNull View itemView) {
@@ -31,14 +33,15 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
         recyclerView = (RecyclerView) itemView.findViewById(R.id.todo_menti_inside_RV);
 
-        setRecyclerView();
+
+
     }
 
-    public void onBind(String statusName,ToDo data){
+    public void onBind(String statusName){
 
         status.setText(statusName);
-
-        this.data.add(data);
+      setData(statusName);
+      setRecyclerView();
 
     }
 
@@ -46,7 +49,37 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
         linearLayoutManager = new LinearLayoutManager(itemView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ToDoMentiInsideAdapter(data));
+        recyclerView.setAdapter(toDoAdapter);
+    }
+
+    private void setData(String statusName){
+        int statusNum=0;
+        if(statusName.equals("Ready")){
+            statusNum = 0;
+        }else if(statusName.equals("Progress")){
+            statusNum = 1;
+        }else{
+            statusNum = 2;
+        }
+        toDoAdapter = new ToDoMentiInsideAdapter();
+
+        ToDo toDo1 = new ToDo(null,0,"mentor","mentee","문제집 5페이지 풀기",null,"2022/03/28",null);
+        ToDo toDo2 = new ToDo(null,1,null,null,"알고리즘 문제 복습",null,"2022/03/26",null);
+        ToDo toDo3 = new ToDo(null,0,"mentor",null,"턱걸이 15회.",null,"2022/04/28",null);
+        ToDo toDo4 = new ToDo(null,2,"mentor",null,"벤치프레스 10회",null,"2022/03/23",null);
+
+        datas.add(toDo1);
+        datas.add(toDo2);
+        datas.add(toDo3);
+        datas.add(toDo4);
+
+        for(ToDo data : datas){
+            if(statusNum == data.getStatus()){
+                toDoAdapter.addItem(data);
+            }
+        }
+
+
     }
 
 }

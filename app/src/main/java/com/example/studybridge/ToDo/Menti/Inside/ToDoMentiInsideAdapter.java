@@ -14,11 +14,7 @@ import java.util.ArrayList;
 
 public class ToDoMentiInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<ToDo> data;
-
-    public ToDoMentiInsideAdapter(ArrayList<ToDo> data) {
-        this.data = data;
-    }
+    private ArrayList<ToDo> data = new ArrayList<ToDo>();
 
     @NonNull
     @Override
@@ -33,6 +29,10 @@ public class ToDoMentiInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         ((ToDoMentiInsideHolder)holder).onBind(data.get(position));
+    }
+
+    public void addItem(ToDo todo){
+        data.add(todo);
     }
 
     @Override

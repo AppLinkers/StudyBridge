@@ -16,8 +16,10 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private ArrayList<String> statusList;
     private ArrayList<ToDo> data;
+    private ToDo todo;
+    int status;
 
-    public ToDoMentiAdapter(ArrayList<ToDo> data) {
+    public ToDoMentiAdapter() {
         this.data = data;
         statusList = new ArrayList<>();
         statusList.add("Ready");
@@ -34,13 +36,7 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        if(data.get(position).getStatus()==0){
-            ((ToDoMentiHolder) holder).onBind(statusList.get(0),data.get(position));
-        } else if (data.get(position).getStatus()==1){
-            ((ToDoMentiHolder) holder).onBind(statusList.get(1),data.get(position));
-        } else
-            ((ToDoMentiHolder) holder).onBind(statusList.get(2),data.get(position));
+        ((ToDoMentiHolder) holder).onBind(statusList.get(position));
 
     }
 
