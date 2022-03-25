@@ -62,7 +62,7 @@ public class ToDoFragment extends Fragment {
             resource = R.layout.todo_mentor_fragment;
             view = inflater.inflate(resource,container,false);
         }
-        
+
         return view;
     }
 
