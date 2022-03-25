@@ -34,7 +34,9 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
+    public static final String USER_ID_KEY = "user_id_key";
     Long userIdPk;
+    String userId
     ///
     private ArrayList<ToDo> datas = new ArrayList<>();
 
@@ -44,6 +46,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
         sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+        userId = sharedPreferences.getString(USER_ID_KEY,"user");
 
         status = (TextView) itemView.findViewById(R.id.todo_menti_RV_status);
 
@@ -78,16 +81,16 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
                 if(response.isSuccessful()){
                     for(FindAssignedToDoRes data : response.body()){
-                        ToDo todo = new ToDo(data.getStudyId(),0,null, data.getMenteeId()+"",data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
+                        ToDo todo = new ToDo(data.getStudyId(),null,data.getMentorId()+"", data.getMenteeId()+"",data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
                         datas.add(todo);
                     }
 
                     int statusNum=0;
-                    if(statusName.equals("Ready")){
+                    if(statusName.equals("READY")){
                         statusNum = 0;
-                    }else if(statusName.equals("Progress")){
+                    }else if(statusName.equals("PROGRESS")){
                         statusNum = 1;
-                    }else{
+                    }else if(statusName.equals("DONE")){
                         statusNum = 2;
                     }
 
