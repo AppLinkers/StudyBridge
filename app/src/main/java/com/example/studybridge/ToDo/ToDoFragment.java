@@ -93,6 +93,9 @@ public class ToDoFragment extends Fragment {
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 58ee4734fd07cd7671c26a1da4a02ccfffa2c711
 }
 

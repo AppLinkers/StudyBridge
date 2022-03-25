@@ -12,7 +12,7 @@ public class FindToDoRes {
 
     private String explain;
 
-    private LocalDateTime dueDate;
+    private String dueDate;
 
     public Long getId() {
         return id;
@@ -30,7 +30,7 @@ public class FindToDoRes {
         return explain;
     }
 
-    public LocalDateTime getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 }

@@ -18,7 +18,7 @@ public class FindAssignedToDoRes {
 
     private String explain;
 
-    private LocalDateTime dueDate;
+    private String dueDate;
 
     private String feedBack;
 
@@ -52,7 +52,7 @@ public class FindAssignedToDoRes {
         return explain;
     }
 
-    public LocalDateTime getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
