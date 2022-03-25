@@ -1,7 +1,6 @@
 package com.example.studybridge.ToDo;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.study.StudyFindRes;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -46,18 +42,31 @@ public class ToDoFragment extends Fragment {
     private ArrayList<ToDo> data;
 
     private String userId;
+    private boolean isMentee;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.todo_menti_fragment,container,false);
 
-        defineMentee();
+        View view;
 
         Bundle bundle = getArguments();
         userId = bundle.getString("id");
+        isMentee = bundle.getBoolean("isMentee");
+        if(isMentee==true){
+            resource = R.layout.todo_menti_fragment;
+            view = inflater.inflate(resource,container,false);
+            setMenteeUI(view);
+        }else{
+            resource = R.layout.todo_mentor_fragment;
+            view = inflater.inflate(resource,container,false);
+        }
+        
+        return view;
+    }
 
+    private void setMenteeUI(View view){
         //화면 위 데이터
         year = (TextView) view.findViewById(R.id.todo_year_tv);
         month = (TextView) view.findViewById(R.id.todo_month_tv);
@@ -70,8 +79,6 @@ public class ToDoFragment extends Fragment {
 
         //리사이클러뷰 설정
         setRecyclerView();
-
-        return view;
     }
 
 
@@ -93,35 +100,7 @@ public class ToDoFragment extends Fragment {
         recyclerView.setAdapter(new ToDoMentiAdapter(data));
     }
 
-    private void defineMentee(){
-        dataService = new DataService();
-        AsyncTask<Void, Void, Boolean> listAPI = new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                Call<Boolean> call = dataService.userAuth.isMentee(userId);
-                try {
-                    return call.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Boolean s) {
-                super.onPostExecute(s);
-            }
-        }.execute();
-        Boolean result = null;
-        try {
-            result = listAPI.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
 
 
     private void setData(){
