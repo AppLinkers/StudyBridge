@@ -1,6 +1,7 @@
 package com.example.studybridge.ToDo;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.http.DataService;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,17 +31,14 @@ import retrofit2.Response;
 
 public class ToDoFragment extends Fragment {
 
-    private int resource=0;
+    private int resource = 0;
 
-    private TextView year,month,day,taskCount;
+    private TextView year, month, day, taskCount;
     //리사이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    //dataservice
-    private DataService dataService;
 
-    private ArrayList<ToDo> data;
 
     private String userId;
     private boolean isMentee;
@@ -54,19 +53,19 @@ public class ToDoFragment extends Fragment {
         Bundle bundle = getArguments();
         userId = bundle.getString("id");
         isMentee = bundle.getBoolean("isMentee");
-        if(isMentee==true){
+        if (isMentee == true) {
             resource = R.layout.todo_menti_fragment;
-            view = inflater.inflate(resource,container,false);
+            view = inflater.inflate(resource, container, false);
             setMenteeUI(view);
-        }else{
+        } else {
             resource = R.layout.todo_mentor_fragment;
-            view = inflater.inflate(resource,container,false);
+            view = inflater.inflate(resource, container, false);
         }
-        
+
         return view;
     }
 
-    private void setMenteeUI(View view){
+    private void setMenteeUI(View view) {
         //화면 위 데이터
         year = (TextView) view.findViewById(R.id.todo_year_tv);
         month = (TextView) view.findViewById(R.id.todo_month_tv);
@@ -80,10 +79,8 @@ public class ToDoFragment extends Fragment {
         //리사이클러뷰 설정
         setRecyclerView();
     }
-
-
     @SuppressLint("SimpleDateFormat")
-    private void setTime(){
+    private void setTime() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         year.setText(new SimpleDateFormat("yyyy").format(date));
@@ -91,47 +88,12 @@ public class ToDoFragment extends Fragment {
         day.setText(new SimpleDateFormat("dd").format(date));
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView() {
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
-
-<<<<<<< HEAD
-    private void defineMentee(){
-        dataService = new DataService();
-        AsyncTask<Void, Void, Boolean> listAPI = new AsyncTask<Void, Void, Boolean>() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                Call<Boolean> call = dataService.userAuth.isMentee(userId);
-                try {
-                    return call.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean s) {
-                super.onPostExecute(s);
-            }
-        }.execute();
-        Boolean result = null;
-        try {
-            result = listAPI.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-=======
->>>>>>> c047cd1d530e73969fc37e55143f01e7c061e4ff
-
-
-
-
 
 }

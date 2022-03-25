@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ToDoMentiInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<ToDo> data = new ArrayList<ToDo>();
+    private ArrayList<ToDo> data = new ArrayList<>();
 
     @NonNull
     @Override

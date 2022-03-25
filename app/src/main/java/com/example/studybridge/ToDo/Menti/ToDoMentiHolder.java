@@ -19,10 +19,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     //리시이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-
-    ToDoMentiInsideAdapter toDoAdapter;
-
-    ///
+    private ToDoMentiInsideAdapter toDoAdapter;
     private ArrayList<ToDo> datas = new ArrayList<>();
 
 
@@ -40,20 +37,17 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     public void onBind(String statusName){
 
         status.setText(statusName);
-      setData(statusName);
-      setRecyclerView();
+        setData(statusName);
+        setRecyclerView();
 
     }
 
-    private void setRecyclerView(){
 
-        linearLayoutManager = new LinearLayoutManager(itemView.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(toDoAdapter);
-    }
 
     private void setData(String statusName){
-        int statusNum=0;
+
+        int statusNum;
+
         if(statusName.equals("Ready")){
             statusNum = 0;
         }else if(statusName.equals("Progress")){
@@ -61,6 +55,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         }else{
             statusNum = 2;
         }
+
         toDoAdapter = new ToDoMentiInsideAdapter();
 
         ToDo toDo1 = new ToDo(null,0,"mentor","mentee","문제집 5페이지 풀기",null,"2022/03/28",null);
@@ -80,6 +75,12 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         }
 
 
+    }
+    private void setRecyclerView(){
+
+        linearLayoutManager = new LinearLayoutManager(itemView.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(toDoAdapter);
     }
 
 }
