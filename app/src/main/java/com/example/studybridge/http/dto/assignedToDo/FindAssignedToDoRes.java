@@ -10,9 +10,9 @@ public class FindAssignedToDoRes {
 
     private Long studyId;
 
-    private Long menteeId;
+    private String menteeName;
 
-    private Long mentorId;
+    private String mentorName;
 
     private String task;
 
@@ -36,12 +36,12 @@ public class FindAssignedToDoRes {
         return studyId;
     }
 
-    public Long getMenteeId() {
-        return menteeId;
+    public String getMenteeName() {
+        return menteeName;
     }
 
-    public Long getMentorId() {
-        return mentorId;
+    public String getMentorName() {
+        return mentorName;
     }
 
     public String getTask() {
