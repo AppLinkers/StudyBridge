@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +59,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
         setData();
 
         setDatePicker();
+
+
 
     }
 
@@ -114,14 +117,17 @@ public class ToDoDetailActivity extends AppCompatActivity {
     //데이트 피커
     private void setDatePicker(){
 
+        String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+
         DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-                calendar.set(calendar.get(Calendar.YEAR),year);
-                calendar.set(calendar.get(Calendar.MONTH),month);
-                calendar.set(calendar.get(Calendar.DAY_OF_MONTH),day);
-                updateLabel();
+                calendar.set(year,month,day);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd",Locale.KOREA);
+
+                dueDate.setText(sdf.format(calendar.getTime()));
 
             }
         };
@@ -130,21 +136,17 @@ public class ToDoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+
                 new DatePickerDialog(
                         ToDoDetailActivity.this,datePicker,
                         Integer.parseInt(splitDate[0]),
-                        Integer.parseInt(splitDate[1]),
+                        Integer.parseInt(splitDate[1])-1,
                         Integer.parseInt(splitDate[2])).show();
+
             }
+
+
         });
-    }
-
-    private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
-        dueDate.setText(sdf.format(calendar.getTime()));
     }
 
 

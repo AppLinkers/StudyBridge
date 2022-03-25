@@ -93,35 +93,6 @@ public class ToDoFragment extends Fragment {
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
 
-<<<<<<< HEAD
-=======
-    private void defineMentee() {
-        dataService = new DataService();
-        AsyncTask<Void, Void, Boolean> listAPI = new AsyncTask<Void, Void, Boolean>() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                Call<Boolean> call = dataService.userAuth.isMentee(userId);
-                try {
-                    return call.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Boolean s) {
-                super.onPostExecute(s);
-            }
-        }.execute();
-        Boolean result = null;
-        try {
-            result = listAPI.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
->>>>>>> 78faad12cb9c0f6a589cde5bbb56bd85dfc4667a
 }
+
