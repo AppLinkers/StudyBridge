@@ -10,15 +10,15 @@ public class FindAssignedToDoRes {
 
     private Long studyId;
 
-    private Long menteeId;
+    private String menteeName;
 
-    private Long mentorId;
+    private String mentorName;
 
     private String task;
 
     private String explain;
 
-    private LocalDateTime dueDate;
+    private String dueDate;
 
     private String feedBack;
 
@@ -36,12 +36,12 @@ public class FindAssignedToDoRes {
         return studyId;
     }
 
-    public Long getMenteeId() {
-        return menteeId;
+    public String getMenteeName() {
+        return menteeName;
     }
 
-    public Long getMentorId() {
-        return mentorId;
+    public String getMentorName() {
+        return mentorName;
     }
 
     public String getTask() {
@@ -52,7 +52,7 @@ public class FindAssignedToDoRes {
         return explain;
     }
 
-    public LocalDateTime getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 

@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class ToDo implements Serializable {
 
     private Long studyId;
-    private int status;
+    private String status;
     private String mentoId,mentiId,taskName,taskInfo,dueDate,feedBack;
 
     // constructor
-    public ToDo(Long studyId, int status, String mentoId, String mentiId, String taskName, String taskInfo, String dueDate, String feedBack) {
+    public ToDo(Long studyId, String status, String mentoId, String mentiId, String taskName, String taskInfo, String dueDate, String feedBack) {
         this.studyId = studyId;
         this.status = status;
         this.mentoId = mentoId;
@@ -29,11 +29,11 @@ public class ToDo implements Serializable {
         this.studyId = studyId;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

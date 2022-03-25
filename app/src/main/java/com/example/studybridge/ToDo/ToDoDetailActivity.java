@@ -15,7 +15,7 @@ import com.example.studybridge.R;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
-    private TextView taskName,mentorId,menteeId,dueDate;
+    private TextView taskName,mentorId,menteeId,dueDate,taskInfo;
     private Spinner spinner;
 
     @Override
@@ -29,6 +29,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         menteeId = (TextView) findViewById(R.id.todo_detail_menteeId);
         dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
         spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
+        taskInfo = (TextView) findViewById(R.id.todo_detail_taskInfo) ;
 
         setSpinner();
 
@@ -57,9 +58,20 @@ public class ToDoDetailActivity extends AppCompatActivity {
     private void setData(){
         Intent intent = getIntent();
         ToDo toDo = (ToDo) intent.getSerializableExtra("toDo");
+
+        if(toDo.getStatus().equals("READY")){
+            spinner.setSelection(0);
+        }else if(toDo.getStatus().equals("PORGRESS")){
+            spinner.setSelection(1);
+        }else if(toDo.getStatus().equals("DONE")){
+            spinner.setSelection(2);
+        }
+
         taskName.setText(toDo.getTaskName());
         dueDate.setText(toDo.getDueDate());
-        spinner.setSelection(toDo.getStatus());
         mentorId.setText(toDo.getMentoId());
+        menteeId.setText(toDo.getMentiId());
+        taskInfo.setText(toDo.getTaskInfo());
     }
+
 }

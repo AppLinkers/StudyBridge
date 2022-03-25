@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +25,7 @@ import retrofit2.Response;
 
 public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
-    private TextView status;
+    private TextView status,taskInfo;
     //리시이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -36,7 +37,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
     Long userIdPk;
-    String userId
+    String userId;
     ///
     private ArrayList<ToDo> datas = new ArrayList<>();
 
@@ -57,10 +58,9 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     }
 
     public void onBind(String statusName){
-
         status.setText(statusName);
-      setData(statusName);
-      setRecyclerView();
+        setData(statusName);
+        setRecyclerView();
 
     }
 
@@ -68,41 +68,35 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
         linearLayoutManager = new LinearLayoutManager(itemView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(toDoAdapter);
+
     }
 
     private void setData(String statusName){
         dataService = new DataService();
-
         toDoAdapter = new ToDoMentiInsideAdapter();
 
         dataService.assignedToDo.findByMentee(userIdPk).enqueue(new Callback<List<FindAssignedToDoRes>>() {
             @Override
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
+                System.out.println(response.raw());
                 if(response.isSuccessful()){
+
                     for(FindAssignedToDoRes data : response.body()){
-                        ToDo todo = new ToDo(data.getStudyId(),null,data.getMentorId()+"", data.getMenteeId()+"",data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
+                        ToDo todo = new ToDo(data.getStudyId(),data.getStatus(),data.getMentorName(), data.getMenteeName(),data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
                         datas.add(todo);
                     }
 
-                    int statusNum=0;
-                    if(statusName.equals("READY")){
-                        statusNum = 0;
-                    }else if(statusName.equals("PROGRESS")){
-                        statusNum = 1;
-                    }else if(statusName.equals("DONE")){
-                        statusNum = 2;
-                    }
+                    System.out.println(datas.size());
 
                     for(ToDo data : datas){
-                        if(statusNum == data.getStatus()){
+                        if(data.getStatus().equals(statusName)){
                             toDoAdapter.addItem(data);
                         }
                     }
+                    recyclerView.setAdapter(toDoAdapter);
 
                 }
             }
-
             @Override
             public void onFailure(Call<List<FindAssignedToDoRes>> call, Throwable t) {
 

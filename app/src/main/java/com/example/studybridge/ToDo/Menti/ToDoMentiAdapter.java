@@ -22,9 +22,9 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public ToDoMentiAdapter() {
         this.data = data;
         statusList = new ArrayList<>();
-        statusList.add("Ready");
-        statusList.add("Progress");
-        statusList.add("Done");
+        statusList.add("READY");
+        statusList.add("PROGRESS");
+        statusList.add("DONE");
     }
     @NonNull
     @Override
