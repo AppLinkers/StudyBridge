@@ -14,7 +14,9 @@
             android:id="@+id/todo_toolbar"
             style="@style/Widget.StudyBridge.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/todo_toolbar_menu"
+            app:title=" "/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -194,10 +196,11 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/todo_detail_editDate"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:backgroundTint="@color/colorAccent"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     app:cardCornerRadius="15dp">
 
                     <TextView
@@ -208,9 +211,8 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:text="YYYY/MM/DD"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="12sp"/>
 
                 </com.google.android.material.card.MaterialCardView>
             </RelativeLayout>

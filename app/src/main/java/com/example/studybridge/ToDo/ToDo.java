@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class ToDo implements Serializable {
 
-    private Long studyId;
+    private Long studyId, todoId;
     private String status;
     private String mentoId,mentiId,taskName,taskInfo,dueDate,feedBack;
 
     // constructor
-    public ToDo(Long studyId, String status, String mentoId, String mentiId, String taskName, String taskInfo, String dueDate, String feedBack) {
+    public ToDo(Long todoId,Long studyId, String status, String mentoId, String mentiId, String taskName, String taskInfo, String dueDate, String feedBack) {
+        this.todoId = todoId;
         this.studyId = studyId;
         this.status = status;
         this.mentoId = mentoId;
@@ -21,6 +22,15 @@ public class ToDo implements Serializable {
     }
 
     // getter & setter
+
+    public Long getTodoId() {
+        return todoId;
+    }
+
+    public void setTodoId(Long todoId) {
+        this.todoId = todoId;
+    }
+
     public Long getStudyId() {
         return studyId;
     }

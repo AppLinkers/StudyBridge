@@ -29,7 +29,6 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     //리시이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-
     ToDoMentiInsideAdapter toDoAdapter;
     DataService dataService;
     SharedPreferences sharedPreferences;
@@ -38,7 +37,6 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     public static final String USER_ID_KEY = "user_id_key";
     Long userIdPk;
     String userId;
-    ///
     private ArrayList<ToDo> datas = new ArrayList<>();
 
 
@@ -59,16 +57,14 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
     public void onBind(String statusName){
         status.setText(statusName);
-        setData(statusName);
         setRecyclerView();
-
+        setData(statusName);
     }
 
-    private void setRecyclerView(){
 
+    public void setRecyclerView(){
         linearLayoutManager = new LinearLayoutManager(itemView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-
     }
 
     private void setData(String statusName){
@@ -82,7 +78,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                 if(response.isSuccessful()){
 
                     for(FindAssignedToDoRes data : response.body()){
-                        ToDo todo = new ToDo(data.getStudyId(),data.getStatus(),data.getMentorName(), data.getMenteeName(),data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
+                        ToDo todo = new ToDo(data.getToDoId(),data.getStudyId(),data.getStatus(),data.getMentorName(), data.getMenteeName(),data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
                         datas.add(todo);
                     }
 

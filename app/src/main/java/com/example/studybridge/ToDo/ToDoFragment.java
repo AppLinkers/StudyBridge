@@ -35,10 +35,7 @@ public class ToDoFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    //dataservice
-    private DataService dataService;
 
-    private ArrayList<ToDo> data;
 
     private String userId;
     private boolean isMentee;
@@ -79,8 +76,6 @@ public class ToDoFragment extends Fragment {
         //리사이클러뷰 설정
         setRecyclerView();
     }
-
-
     @SuppressLint("SimpleDateFormat")
     private void setTime() {
         long now = System.currentTimeMillis();
@@ -97,6 +92,5 @@ public class ToDoFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
-
 
 }
