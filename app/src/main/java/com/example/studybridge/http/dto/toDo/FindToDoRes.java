@@ -6,24 +6,16 @@ public class FindToDoRes {
 
     private Long id;
 
-    private Long menteeId;
-
     private Long studyId;
 
     private String task;
 
+    private String explain;
+
     private LocalDateTime dueDate;
-
-    private String feedBack;
-
-    private ToDoStatus toDoStatus;
 
     public Long getId() {
         return id;
-    }
-
-    public Long getMenteeId() {
-        return menteeId;
     }
 
     public Long getStudyId() {
@@ -34,15 +26,11 @@ public class FindToDoRes {
         return task;
     }
 
+    public String getExplain() {
+        return explain;
+    }
+
     public LocalDateTime getDueDate() {
         return dueDate;
-    }
-
-    public String getFeedBack() {
-        return feedBack;
-    }
-
-    public ToDoStatus getToDoStatus() {
-        return toDoStatus;
     }
 }
