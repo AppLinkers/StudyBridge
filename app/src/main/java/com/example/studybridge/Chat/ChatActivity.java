@@ -23,9 +23,18 @@ import com.example.studybridge.http.dto.message.Message;
 import com.example.studybridge.http.dto.message.Room;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,10 +137,15 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (!message.getSenderId().equals(userPkId)) {
-                        Chat chat = new Chat(message.getSenderName(), message.getMessage());
-                        adapter.addItem(chat);
-                        rcChat.setAdapter(adapter);
-                        //scroll 설정
+                        if (message.getMessageType().equals("TALK")) {
+                            Chat chat = new Chat(message.getSenderName(), message.getMessage());
+                            adapter.addItem(chat);
+                            rcChat.setAdapter(adapter);
+                        } else if (message.getMessageType().equals("PHOTO")) {
+                            /**
+                             * recycler view 이미지 처리 필요
+                             */
+                        }
                     }
                 }
             });
@@ -195,20 +209,83 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    public void send(View view) {
-        newChat = chatEt.getText()+"";
-        Chat chatSend = new Chat(userId, newChat);
+    public void send(View view) throws URISyntaxException {
 
-        // send to server
-        Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
-        String sendMessage = gson.toJson(message);
-        stompClient.send("/pub/chat/message", sendMessage).subscribe();
-        Log.d(TAG, sendMessage);
+        String messageType = "PHOTO";
 
-        // edit UI
-        adapter.addItem(chatSend);
-        rcChat.setAdapter(adapter);
-        rcChat.scrollToPosition(adapter.getItemCount()-1);
-        chatEt.setText("");
+        if (messageType.equals("TALK")) {
+            newChat = chatEt.getText()+"";
+            Chat chatSend = new Chat(userId, newChat);
+
+            // send to server
+            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
+            String sendMessage = gson.toJson(message);
+            stompClient.send("/pub/chat/message", sendMessage).subscribe();
+            Log.d(TAG, sendMessage);
+
+            // edit UI
+            adapter.addItem(chatSend);
+            rcChat.setAdapter(adapter);
+            rcChat.scrollToPosition(adapter.getItemCount()-1);
+            chatEt.setText("");
+        } else if (messageType.equals("PHOTO")) {
+//            String img_url = null;
+//
+//            /**
+//             * File 형의 image input 필요
+//             */
+//            RequestBody img = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//            MultipartBody.Part chatImg = MultipartBody.Part.createFormData("chatImg", "chatImg", img);
+//
+//            // save img to S3
+//            @SuppressLint("StaticFieldLeak")
+//            AsyncTask<Void, Void, String> save_img = new AsyncTask<Void, Void, String>() {
+//                @Override
+//                protected String doInBackground(Void... params) {
+//                    Call<String> call = dataService.s3.chatImg(chatImg);
+//
+//                    try {
+//                        return call.execute().body();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void onProgressUpdate(Void... values) {
+//                    // 파일 업로드 퍼센트 표시 가능
+//                }
+//
+//
+//            }.execute();
+//
+//            try {
+//                img_url = save_img.get();
+//                Log.d(TAG, "endSave");
+//                Log.d(TAG, img_url);
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Log.d(TAG, "sendChat");
+//
+//            // send to server
+//            Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
+//            String sendMessage = gson.toJson(message);
+//            stompClient.send("/pub/chat/message", sendMessage).subscribe();
+//            Log.d(TAG, sendMessage);
+//
+//            // edit UI
+//            /**
+//             * image 표시 필요
+//             */
+
+
+        }
+
     }
 }

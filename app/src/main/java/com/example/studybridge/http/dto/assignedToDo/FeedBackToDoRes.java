@@ -1,9 +1,9 @@
-package com.example.studybridge.http.dto.toDo;
+package com.example.studybridge.http.dto.assignedToDo;
 
 public class FeedBackToDoRes {
     private Long mentorId;
 
-    private Long toDoId;
+    private Long assignedToDoId;
 
     private String feedBack;
 
@@ -11,8 +11,8 @@ public class FeedBackToDoRes {
         return mentorId;
     }
 
-    public Long getToDoId() {
-        return toDoId;
+    public Long getAssignedToDoId() {
+        return assignedToDoId;
     }
 
     public String getFeedBack() {
