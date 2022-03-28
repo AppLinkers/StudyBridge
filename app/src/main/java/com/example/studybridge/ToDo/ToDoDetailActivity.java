@@ -29,6 +29,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -55,8 +56,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     public static final String USER_ID_KEY = "user_id_key";
     Long userIdPk;
     long todoId;
-
-
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+        userId = sharedPreferences.getString(USER_ID_KEY, "user");
 
         dataService = new DataService();
         //화면 위 데이터
@@ -83,11 +84,32 @@ public class ToDoDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        setSpinner();
+
 
         setData();
 
-        setDatePicker();
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    String[] array = getResources().getStringArray(R.array.todo_spinner);
+                    String[] menteeArray = Arrays.copyOfRange(array,0,3);
+                    setSpinner(menteeArray);
+                }else{
+                    //멘토 접근 수정 코드
+                    String[] array = getResources().getStringArray(R.array.todo_spinner);
+                    setSpinner(array);
+                    setDatePicker();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+
+
 
 
 
@@ -128,8 +150,10 @@ public class ToDoDetailActivity extends AppCompatActivity {
     }
 
     //spinner
-    private void setSpinner(){
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.todo_spinner,android.R.layout.simple_spinner_dropdown_item);
+    private void setSpinner(String[] array){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
+                array);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -157,6 +181,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
             spinner.setSelection(1);
         }else if(toDo.getStatus().equals("DONE")){
             spinner.setSelection(2);
+        }else{
+            spinner.setSelection(3);
         }
 
         StringBuilder date = new StringBuilder();
