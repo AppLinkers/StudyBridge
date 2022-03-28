@@ -15,12 +15,8 @@ import java.util.ArrayList;
 public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<String> statusList;
-    private ArrayList<ToDo> data;
-    private ToDo todo;
-    int status;
 
     public ToDoMentiAdapter() {
-        this.data = data;
         statusList = new ArrayList<>();
         statusList.add("READY");
         statusList.add("PROGRESS");
