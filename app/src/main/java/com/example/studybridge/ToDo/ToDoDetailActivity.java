@@ -27,9 +27,13 @@ import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
 import com.google.android.material.card.MaterialCardView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -155,12 +159,21 @@ public class ToDoDetailActivity extends AppCompatActivity {
             spinner.setSelection(2);
         }
 
+        StringBuilder date = new StringBuilder();
+        date.append(toDo.getDueDate().substring(0,4))
+                .append("/")
+                .append(toDo.getDueDate().substring(5,7))
+                .append("/")
+                .append(toDo.getDueDate().substring(8,10));
+
+
         taskName.setText(toDo.getTaskName());
-        dueDate.setText(toDo.getDueDate());
+        dueDate.setText(date.toString());
         mentorId.setText(toDo.getMentoId());
         menteeId.setText(toDo.getMentiId());
         taskInfo.setText(toDo.getTaskInfo());
         todoId = toDo.getTodoId();
+
     }
 
     //데이트 피커
@@ -184,6 +197,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
 
                 new DatePickerDialog(

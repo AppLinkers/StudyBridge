@@ -76,13 +76,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.78"
-        android:paddingBottom="15dp"
         android:paddingTop="10dp"
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:background="@drawable/colorprimary_dark_gradient"/>
+            android:background="@color/colorPrimaryDark"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/todo_mentor_study"
             android:layout_width="match_parent"
