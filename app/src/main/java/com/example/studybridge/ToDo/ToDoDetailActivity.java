@@ -86,7 +86,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
 
-        setData();
+
 
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
@@ -100,7 +100,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
                     setDatePicker();
+
                 }
+                setData();
             }
 
             @Override
