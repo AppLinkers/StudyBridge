@@ -87,39 +87,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("managerId",managerId);
                 view.getContext().startActivity(intentToDetail);
 
-                // 현재 스터디 id 와 사용자 로그인 아이디 필요
-                /*dataService.study.isApplied(study_id, userId).enqueue(new Callback<Boolean>() {
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body()) {
-                                // if user does have the study auth
-                                if(studyMenti.getStatus()>=2){
-                                    intentToChat.putExtra("study", studyMenti);
-                                    view.getContext().startActivity(intentToChat);
-                                }else{
-                                    intent.putExtra("study", studyMenti);
-                                    intent.putExtra("hasAuth", true);
-                                    view.getContext().startActivity(intent);
-                                }
-
-                            } else {
-                                // else
-                                intent.putExtra("study", studyMenti);
-                                intent.putExtra("hasAuth", false);
-                                view.getContext().startActivity(intent);
-                            }
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-
-                    }
-                });*/
-
             }
         });
 
