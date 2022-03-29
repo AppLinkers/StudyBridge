@@ -64,6 +64,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
     Long userIdPk;
     long todoId;
     String userId;
+    Intent gIntent;
+    ToDo toDo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
         userId = sharedPreferences.getString(USER_ID_KEY, "user");
+        gIntent = getIntent();
+        toDo = (ToDo) gIntent.getSerializableExtra("toDo");
 
         dataService = new DataService();
         //화면 위 데이터
@@ -148,7 +152,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
                     @Override
                     public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
-                        Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
+                        if(response.isSuccessful()){
+                            Toast.makeText(ToDoDetailActivity.this, changeToDoStatusReq.getMenteeId()+"성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ToDoDetailActivity.this, changeToDoStatusReq.getStatus()+"", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
 
                     @Override
@@ -186,8 +195,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
     //데이터
     private void setData(){
-        Intent intent = getIntent();
-        ToDo toDo = (ToDo) intent.getSerializableExtra("toDo");
 
         if(toDo.getStatus().equals("READY")){
             spinner.setSelection(0);

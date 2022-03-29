@@ -13,4 +13,16 @@ public class ChangeToDoStatusReq {
         this.assignedToDoId = assignedToDoId;
         this.status = status;
     }
+
+    public Long getMenteeId() {
+        return menteeId;
+    }
+
+    public Long getAssignedToDoId() {
+        return assignedToDoId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }
