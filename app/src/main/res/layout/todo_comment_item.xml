@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todo_comment_container"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    android:paddingBottom="15dp">
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/todo_comment_cardView"
         android:layout_width="30dp"
@@ -30,15 +34,16 @@
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/todo_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comments"
-        android:textSize="18sp"
-        android:textColor="@color/textColorPrimary"
-        android:layout_toRightOf="@+id/todo_comment_cardView"
         android:layout_below="@+id/todo_comment_id"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/todo_comment_cardView"
+        android:text="Comments"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp" />
 
 </RelativeLayout>

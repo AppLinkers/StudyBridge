@@ -9,6 +9,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +36,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
 
     private TextView chatIDTv;
     private TextView chatTv;
-    private ImageView chatUserPic;
-    private LinearLayout chatItem;
+    private ImageView chatUserImg;
 
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
@@ -51,9 +51,9 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     public CommentHolder(@NonNull View itemview) {
         super(itemview);
 
-        chatIDTv = (TextView) itemview.findViewById(R.id.todo_comment_id);
-        chatTv = (TextView) itemview.findViewById(R.id.todo_comment_text);
-/*        chatUserPic = itemview.findViewById(R.id.chat_user_pic);*/
+        chatIDTv = (TextView) itemview.findViewById(R.id.chatID);
+        chatTv = (TextView) itemview.findViewById(R.id.chat);
+        chatUserImg = (ImageView) itemview.findViewById(R.id.chat_user_pic);
 
         dataService = new DataService();
         sharedPreferences = itemview.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -81,12 +81,12 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         chatTv.setText(data.getComment());
         commentId = data.getId();
 
-        if(data.getWriterId()==userPkId) {
-            chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        if(data.getWriterId().equals(userPkId)) {
+            itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             isSameUser = true;
 
         }else{
-            chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
     }
 
@@ -105,7 +105,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                            chatItem.setVisibility(View.GONE);
+                            itemView.setVisibility(View.GONE);
                         }
                     }
                     @Override
