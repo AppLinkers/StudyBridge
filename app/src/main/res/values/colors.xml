@@ -16,6 +16,7 @@
     <color name="viewUnderline">#DDDCDC</color>
     <color name="disableBtn">#D3D3D3</color>
     <color name="red">#FF5722</color>
+    <color name="redDark">#9b111e</color>
     <color name="gray30">#4DE0E0E0</color>
 </resources>
 

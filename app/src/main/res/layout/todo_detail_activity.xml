@@ -44,7 +44,7 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/todo_detail_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="40dp"
@@ -212,7 +212,7 @@
                         android:paddingRight="15dp"
                         android:text="YYYY/MM/DD"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                 </com.google.android.material.card.MaterialCardView>
             </RelativeLayout>
@@ -236,11 +236,14 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/todo_detail_comment_ET"
+        android:theme="@style/Widget.StudyBridge.TextInputEditText"
+        style="@style/Widget.StudyBridge.TextInputEditText"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:hint="댓글 추가"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="15dp"/>
+        android:hint="댓글 추가"
+        android:padding="15dp" />
 </RelativeLayout>

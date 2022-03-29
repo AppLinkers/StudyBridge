@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -227,13 +228,15 @@ public class ToDoDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-
+                DatePickerDialog datePickerDialog =
                 new DatePickerDialog(
                         ToDoDetailActivity.this,datePicker,
                         Integer.parseInt(splitDate[0]),
                         Integer.parseInt(splitDate[1])-1,
-                        Integer.parseInt(splitDate[2])).show();
+                        Integer.parseInt(splitDate[2]));
 
+                datePickerDialog.show();
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FBB8AC"));
             }
 
 

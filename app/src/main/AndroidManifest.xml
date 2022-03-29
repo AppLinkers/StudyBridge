@@ -68,6 +68,10 @@
 
         <activity android:name=".ToDo.ToDoDetailActivity"
             android:exported="true"/>
+        <activity android:name=".ToDo.Mento.Inside.ToDoMentoInsideActivity"
+            android:exported="true"/>
+        <activity android:name=".ToDo.Mento.Inside.Add.ToDoMentoAddActivity"
+            android:exported="true"/>
 
     </application>
 </manifest>

@@ -78,7 +78,16 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                 if(response.isSuccessful()){
 
                     for(FindAssignedToDoRes data : response.body()){
-                        ToDo todo = new ToDo(data.getToDoId(),data.getStudyId(),data.getStatus(),data.getMentorName(), data.getMenteeName(),data.getTask(),data.getExplain(),data.getDueDate()+"",data.getFeedBack());
+                        ToDo todo = new ToDo(
+                                data.getToDoId(),
+                                data.getStudyId(),
+                                data.getStatus(),
+                                data.getMentorName(),
+                                data.getMenteeName(),
+                                data.getTask(),
+                                data.getExplain(),
+                                data.getDueDate()+"",
+                                data.getFeedBack());
                         datas.add(todo);
                     }
 
@@ -98,18 +107,6 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
             }
         });
-
-//        ToDo toDo1 = new ToDo(null,0,"mentor","mentee","문제집 5페이지 풀기",null,"2022/03/28",null);
-//        ToDo toDo2 = new ToDo(null,1,null,null,"알고리즘 문제 복습",null,"2022/03/26",null);
-//        ToDo toDo3 = new ToDo(null,0,"mentor",null,"턱걸이 15회.",null,"2022/04/28",null);
-//        ToDo toDo4 = new ToDo(null,2,"mentor",null,"벤치프레스 10회",null,"2022/03/23",null);
-//
-//        datas.add(toDo1);
-//        datas.add(toDo2);
-//        datas.add(toDo3);
-//        datas.add(toDo4);
-
-
 
     }
 

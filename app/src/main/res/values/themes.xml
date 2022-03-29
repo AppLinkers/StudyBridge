@@ -7,6 +7,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
     </style>
 
     //textInput
@@ -23,6 +24,13 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="boxStrokeColor">@color/textColorPrimary</item>
 
+    </style>
+
+    <style name="Widget.StudyBridge.TextInputEditText" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/viewUnderline</item> //unFocus일때
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="android:textCursorDrawable">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
@@ -50,7 +58,18 @@
     </style>
 
 
-    //ActionBar
+    //Dialog
+    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.ButtonForPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.Button</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogTheme.Button" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/black30</item>
+    </style>
+    <style name="AppTheme.AlertDialogTheme.ButtonForPositive" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/redDark</item>
+    </style>
 
 
     //Chip
