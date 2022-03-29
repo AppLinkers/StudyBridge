@@ -20,13 +20,19 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.toDo.AssignToDoReq;
+import com.example.studybridge.http.dto.toDo.AssignToDoRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ToDoMentoAddActivity extends AppCompatActivity {
 
@@ -38,7 +44,7 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
     private LinearLayout addBtn;
     private TextInputEditText taskName,explain;
 
-    private DataService dataService;
+    private DataService dataService = new DataService();
 
     private LocalDateTime localDateTime;
     Long study_id;
@@ -62,6 +68,9 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
         //툴바 설정
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Toast.makeText(this, study_id.toString()+" "+mento_id.toString(), Toast.LENGTH_SHORT).show();
+
 
         setDatePicker();
 
@@ -113,9 +122,11 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
                         ,now.get(Calendar.MONTH)
                         ,now.get(Calendar.DAY_OF_MONTH)
                         );
+
                 datePickerDialog.show();
                 datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FBB8AC"));
                 datePickerDialog.getDatePicker().setMinDate(now.getTime().getTime());
+
 
             }
 
@@ -137,18 +148,29 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
                         Integer.parseInt(splitDate[2]),12,12);
 
 
-/*                dataService = new DataService();
-                dataService.toDo.assign(
-                        new AssignToDoReq(
-                                study_id,
-                                mento_id,
-                                taskName.getText().toString(),
-                                explain.getText().toString(),
-                                localDateTime));*/
+                AssignToDoReq assignToDoReq = new AssignToDoReq(
+                        study_id,
+                        mento_id,
+                        taskName.getText().toString()+"",
+                        explain.getText().toString()+"",
+                        localDateTime);
 
+                dataService.toDo.assign(assignToDoReq).enqueue(new Callback<AssignToDoRes>() {
+                    @Override
+                    public void onResponse(Call<AssignToDoRes> call, Response<AssignToDoRes> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("성공");
+                            Toast.makeText(ToDoMentoAddActivity.this, "추가 완료", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else
+                            System.out.println("실패");
+                    }
 
-                Toast.makeText(ToDoMentoAddActivity.this, taskName.getText().toString()+""+" "+localDateTime.toString(), Toast.LENGTH_SHORT).show();
-                finish();
+                    @Override
+                    public void onFailure(Call<AssignToDoRes> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
