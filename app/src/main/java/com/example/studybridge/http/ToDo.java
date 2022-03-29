@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface ToDo {
 
-    @POST("/toDo")
+    @POST("/toDo/")
     Call<AssignToDoRes> assign(@Body AssignToDoReq assignToDoReq);
 
     @GET("/toDo/mentor")
@@ -23,6 +23,6 @@ public interface ToDo {
     @GET("/toDo/study")
     Call<List<FindToDoRes>> findOfStudy(@Query("studyId") Long studyId, @Query("mentorId") Long mentorId);
 
-    @POST("toDo/delete")
+    @POST("/toDo/delete")
     Call<Integer> delete(@Query("toDoId") Long toDoId);
 }

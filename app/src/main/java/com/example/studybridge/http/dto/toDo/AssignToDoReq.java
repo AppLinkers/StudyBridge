@@ -12,9 +12,9 @@ public class AssignToDoReq {
 
     private String explain;
 
-    private LocalDateTime dueDate;
+    private String dueDate;
 
-    public AssignToDoReq(Long studyId, Long mentorId, String task, String explain, LocalDateTime dueDate) {
+    public AssignToDoReq(Long studyId, Long mentorId, String task, String explain, String dueDate) {
         this.studyId = studyId;
         this.mentorId = mentorId;
         this.task = task;

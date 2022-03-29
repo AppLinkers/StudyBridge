@@ -52,6 +52,7 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
@@ -133,12 +134,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setDatePicker();
                     setComment();
                 }
-<<<<<<< HEAD
-                setData();
-                setRecyclerView();
-=======
 
->>>>>>> 23a6078e039c7935cad7d0b84ffdee54d3f92918
+                setRecyclerView();
             }
 
             @Override
