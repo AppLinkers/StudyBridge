@@ -62,10 +62,17 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         chatItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                setAlertDialog(view);
-                return true;
+                if(isSameUser){
+                    setAlertDialog(view);
+                    return true;
+                }else{
+                    return false;
+                }
+
             }
         });
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -94,24 +101,19 @@ public class CommentHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //삭제 메서드 작성
-                if(isSameUser){
-                    dataService.feedBack.delete(commentId).enqueue(new Callback<Integer>() {
-                        @Override
-                        public void onResponse(Call<Integer> call, Response<Integer> response) {
-                            if(response.isSuccessful()){
-                                Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                                chatItem.setVisibility(View.GONE);
-                            }
+                dataService.feedBack.delete(commentId).enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            chatItem.setVisibility(View.GONE);
                         }
-                        @Override
-                        public void onFailure(Call<Integer> call, Throwable t) {
+                    }
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
 
-                        }
-                    });
-                }else{
-                    Toast.makeText(view.getContext(), "자신의 글만 삭제하실 수 있습니다.", Toast.LENGTH_SHORT).show();
-                }
-
+                    }
+                });
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
