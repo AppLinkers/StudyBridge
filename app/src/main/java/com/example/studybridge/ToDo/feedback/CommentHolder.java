@@ -100,7 +100,6 @@ public class CommentHolder extends RecyclerView.ViewHolder {
                         public void onResponse(Call<Integer> call, Response<Integer> response) {
                             if(response.isSuccessful()){
                                 Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                                toDoDetailActivity.setRecyclerView(toDoDetailActivity.getApplicationContext());
                             }
                         }
                         @Override

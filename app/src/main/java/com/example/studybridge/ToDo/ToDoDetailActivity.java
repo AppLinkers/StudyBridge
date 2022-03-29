@@ -134,7 +134,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setDatePicker();
                     setComment();
                 }
-                setRecyclerView(getApplicationContext());
+                setRecyclerView();
             }
 
             @Override
@@ -274,9 +274,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void setRecyclerView(Context context){
+    public void setRecyclerView(){
         adapter = new CommentAdapter();
-        linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentRv.setLayoutManager(linearLayoutManager);
 
         dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
@@ -335,7 +335,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                             public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {
                                 if(response.isSuccessful()){
                                     comment.setText("");
-                                    setRecyclerView(getApplicationContext());
+                                    setRecyclerView();
                                 }
                             }
 
