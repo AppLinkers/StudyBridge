@@ -52,6 +52,7 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
@@ -116,9 +117,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                setData();
                 if(response.body()){
                     //멘티 접근 수정 코드
-                    setData();
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     String[] menteeArray = Arrays.copyOfRange(array,0,3);
                     taskName.setEnabled(false);
@@ -127,7 +128,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setComment();
                 }else{
                     //멘토 접근 수정 코드
-                    setData();
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
                     setDatePicker();

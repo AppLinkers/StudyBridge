@@ -46,7 +46,7 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
 
     private DataService dataService = new DataService();
 
-    private LocalDateTime localDateTime;
+    private String localDateTime;
     Long study_id;
     Long mento_id;
 
@@ -68,9 +68,6 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
         //툴바 설정
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Toast.makeText(this, study_id.toString()+" "+mento_id.toString(), Toast.LENGTH_SHORT).show();
-
 
         setDatePicker();
 
@@ -140,12 +137,9 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+/*                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜*/
                 //클릭시 함수 작성
-                localDateTime = LocalDateTime.of(
-                        Integer.parseInt(splitDate[0]),
-                        Integer.parseInt(splitDate[1]),
-                        Integer.parseInt(splitDate[2]),12,12);
+                localDateTime = "2019-01-02T12:34:00";
 
 
                 AssignToDoReq assignToDoReq = new AssignToDoReq(
@@ -154,6 +148,8 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
                         taskName.getText().toString()+"",
                         explain.getText().toString()+"",
                         localDateTime);
+
+
 
                 dataService.toDo.assign(assignToDoReq).enqueue(new Callback<AssignToDoRes>() {
                     @Override

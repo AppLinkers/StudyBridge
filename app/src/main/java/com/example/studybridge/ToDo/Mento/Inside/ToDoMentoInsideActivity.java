@@ -95,10 +95,12 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         dataService.toDo.findOfStudy(study.getId(),userId).enqueue(new Callback<List<FindToDoRes>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<List<FindToDoRes>> call, Response<List<FindToDoRes>> response) {
                 for(FindToDoRes todo : response.body()){
                     adapter.addItem(todo);
+                    adapter.notifyDataSetChanged();
                 }
                 recyclerView.setAdapter(adapter);
             }

@@ -86,6 +86,7 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
                 for(FindAssignedToDoRes todo : response.body()){
                     adapter.addItem(todo);
+                    adapter.notifyDataSetChanged();/////////////////비동기 처리시 삭제
                 }
                 recyclerView.setAdapter(adapter);
             }
@@ -105,7 +106,19 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //삭제 메서드 작성
-                Toast.makeText(view.getContext(), taskName.getText()+" 삭제되었습니다", Toast.LENGTH_SHORT).show();
+                dataService.toDo.delete(todo.getId()).enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(view.getContext(), taskName.getText()+" 삭제되었습니다", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+
+                    }
+                });
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
