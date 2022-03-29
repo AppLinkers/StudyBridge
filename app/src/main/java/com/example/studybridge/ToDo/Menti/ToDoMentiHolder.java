@@ -87,7 +87,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                                 data.getTask(),
                                 data.getExplain(),
                                 data.getDueDate()+"",
-                                data.getFeedBack());
+                                null);
                         datas.add(todo);
                     }
 
