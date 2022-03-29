@@ -71,10 +71,12 @@
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_payment.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/chat_item.xml" value="0.13722826086956522" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/payment_item.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/study_fragment.xml" value="0.15425531914893617" />
         <entry key="app/src/main/res/layout/study_menti_fragment.xml" value="0.23697916666666666" />
+        <entry key="app/src/main/res/layout/study_mento_fragment.xml" value="0.24947916666666667" />
         <entry key="app/src/main/res/layout/subscribe_activity.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/todo_add_dialog.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/todo_detail_activity.xml" value="0.16822916666666668" />
@@ -88,6 +90,8 @@
         <entry key="app/src/main/res/layout/todo_mento_inside_activity.xml" value="0.2390625" />
         <entry key="app/src/main/res/layout/todo_mentor_fragment.xml" value="0.27162322998046884" />
         <entry key="app/src/main/res/layout/todo_mentor_inside_detail_item.xml" value="0.2390625" />
+        <entry key="app/src/main/res/layout/todo_mentor_inside_item.xml" value="0.24947916666666667" />
+        <entry key="app/src/main/res/layout/todo_mentor_rc_item.xml" value="0.24947916666666667" />
         <entry key="app/src/main/res/layout/todo_studylist_item.xml" value="0.16822916666666668" />
       </map>
     </option>

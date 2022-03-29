@@ -22,12 +22,19 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.feedback.CommentAdapter;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
+import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.feedBack.FindFeedBackRes;
+import com.example.studybridge.http.dto.feedBack.WriteFeedBackReq;
+import com.example.studybridge.http.dto.feedBack.WriteFeedBackRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -48,6 +56,7 @@ import retrofit2.Response;
 public class ToDoDetailActivity extends AppCompatActivity {
 
     private TextView mentorId,menteeId,dueDate;
+    private LinearLayoutManager linearLayoutManager;
     private TextInputEditText taskName,taskInfo,comment;
     private TextInputLayout commentLayout;
     private Spinner spinner;
@@ -56,6 +65,10 @@ public class ToDoDetailActivity extends AppCompatActivity {
     private Calendar calendar = Calendar.getInstance();
     private DataService dataService;
     ChangeToDoStatusReq changeToDoStatusReq;
+
+    //comment recycler
+    private RecyclerView commentRv;
+    private CommentAdapter adapter;
 
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -86,8 +99,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
         dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
         spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
         taskInfo = (TextInputEditText) findViewById(R.id.todo_detail_taskInfo) ;
-        comment = (TextInputEditText) findViewById(R.id.todo_detail_comment_ET);
+        comment = (TextInputEditText) findViewById(R.id.todo_comment);
         commentLayout = (TextInputLayout) findViewById(R.id.todo_detail_comment_layout);
+        commentRv = (RecyclerView) findViewById(R.id.comment_rv);
 
         editDate = (MaterialCardView) findViewById(R.id.todo_detail_editDate);
         toolbar = (Toolbar) findViewById(R.id.todo_toolbar);
@@ -95,9 +109,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
         //툴바 설정
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
 
 
 
@@ -119,6 +130,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setComment();
                 }
                 setData();
+                setRecyclerView();
             }
 
             @Override
@@ -126,11 +138,28 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void setRecyclerView(){
+        adapter = new CommentAdapter();
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        commentRv.setLayoutManager(linearLayoutManager);
 
+        dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
+            @Override
+            public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
+                if(response.isSuccessful()){
+                    for(FindFeedBackRes data : response.body()){
+                        adapter.addItem(data);
+                    }
+                    commentRv.setAdapter(adapter);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<FindFeedBackRes>> call, Throwable t) {
 
-
-
+            }
+        });
     }
 
     //툴바 설정
@@ -149,14 +178,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
             case R.id.todo_save:
                 String statusReq = spinner.getSelectedItem().toString();
                 changeToDoStatusReq = new ChangeToDoStatusReq(userIdPk, todoId, statusReq);
+
                 dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
                     @Override
                     public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(ToDoDetailActivity.this, changeToDoStatusReq.getMenteeId()+"성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(ToDoDetailActivity.this, changeToDoStatusReq.getStatus()+"", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -273,11 +300,38 @@ public class ToDoDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
                 commentLayout.setEndIconDrawable(R.drawable.ic_send);
+
+
+//                private Long id;
+//
+//                private Long assignedToDoId;
+//
+//                private Long writerId;
+//
+//                private String writerName;
+//
+//                private String comment;
+
+
                 commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //comment 다는 메서드 작성
-                        Toast.makeText(ToDoDetailActivity.this, comment.getText(), Toast.LENGTH_SHORT).show();
+                        WriteFeedBackReq com = new WriteFeedBackReq(toDo.getTodoId(),userIdPk,comment.getText()+"");
+                        dataService.feedBack.write(com).enqueue(new Callback<WriteFeedBackRes>() {
+                            @Override
+                            public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {
+                                if(response.isSuccessful()){
+                                    comment.setText("");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<WriteFeedBackRes> call, Throwable t) {
+
+                            }
+                        });
+
                     }
                 });
             }

@@ -31,7 +31,6 @@ public class ToDoMentiInsideHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),ToDoDetailActivity.class);
                 intent.putExtra("toDo", toDo);
-                Toast.makeText(itemView.getContext(), toDo.getMentiId()+"", Toast.LENGTH_SHORT).show();
                 view.getContext().startActivity(intent);
             }
         });

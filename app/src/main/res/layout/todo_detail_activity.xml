@@ -239,6 +239,11 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="18sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comment_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -249,7 +254,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/todo_detail_comment_ET"
+            android:id="@+id/todo_comment"
             style="@style/Widget.StudyBridge.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"

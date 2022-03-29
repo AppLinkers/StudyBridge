@@ -79,7 +79,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
                     for(FindAssignedToDoRes data : response.body()){
                         ToDo todo = new ToDo(
-                                data.getToDoId(),
+                                data.getId(),
                                 data.getStudyId(),
                                 data.getStatus(),
                                 data.getMentorName(),
