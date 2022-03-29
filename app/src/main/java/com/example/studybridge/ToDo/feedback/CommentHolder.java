@@ -48,21 +48,18 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     boolean isSameUser = false;
     Long commentId;
 
-    public CommentHolder(@NonNull View view) {
-        super(view);
-        chatIDTv = (TextView) view.findViewById(R.id.todo_comment_id);
-        chatTv = (TextView) view.findViewById(R.id.todo_comment_text);
-/*        chatItem = view.findViewById(R.id.chatItem);
-        chatUserPic = view.findViewById(R.id.chat_user_pic);
+    public CommentHolder(@NonNull View itemview) {
+        super(itemview);
+
+        chatIDTv = (TextView) itemview.findViewById(R.id.todo_comment_id);
+        chatTv = (TextView) itemview.findViewById(R.id.todo_comment_text);
+/*        chatUserPic = itemview.findViewById(R.id.chat_user_pic);*/
 
         dataService = new DataService();
-        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-<<<<<<< HEAD
-        userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);*/
-=======
+        sharedPreferences = itemview.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
-        chatItem.setOnLongClickListener(new View.OnLongClickListener() {
+        itemview.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if(isSameUser){
@@ -75,23 +72,22 @@ public class CommentHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
->>>>>>> 86546d789006230d268f7e13f713c9c34e50e12c
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void onBind(FindFeedBackRes data) {
 
         chatIDTv.setText(data.getWriterName());
         chatTv.setText(data.getComment());
         commentId = data.getId();
 
-/*        if(data.getWriterId()==userPkId) {
+        if(data.getWriterId()==userPkId) {
             chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             isSameUser = true;
 
         }else{
             chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        }*/
+        }
     }
 
 
