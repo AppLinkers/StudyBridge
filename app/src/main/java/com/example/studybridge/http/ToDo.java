@@ -2,12 +2,6 @@ package com.example.studybridge.http;
 
 import com.example.studybridge.http.dto.toDo.AssignToDoReq;
 import com.example.studybridge.http.dto.toDo.AssignToDoRes;
-import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
-import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
-import com.example.studybridge.http.dto.assignedToDo.ConfirmToDoReq;
-import com.example.studybridge.http.dto.assignedToDo.ConfirmToDoRes;
-import com.example.studybridge.http.dto.assignedToDo.FeedBackToDoReq;
-import com.example.studybridge.http.dto.assignedToDo.FeedBackToDoRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
 
 import java.util.List;
