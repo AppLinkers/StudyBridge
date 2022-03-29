@@ -52,14 +52,13 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         super(view);
         chatIDTv = (TextView) view.findViewById(R.id.todo_comment_id);
         chatTv = (TextView) view.findViewById(R.id.todo_comment_text);
-/*        chatItem = view.findViewById(R.id.chatItem);
+        chatItem = view.findViewById(R.id.chatItem);
         chatUserPic = view.findViewById(R.id.chat_user_pic);
 
         dataService = new DataService();
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-<<<<<<< HEAD
-        userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);*/
-=======
+
+
         userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         chatItem.setOnLongClickListener(new View.OnLongClickListener() {
@@ -75,8 +74,6 @@ public class CommentHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
->>>>>>> 86546d789006230d268f7e13f713c9c34e50e12c
     }
 
     public void onBind(FindFeedBackRes data) {
@@ -85,13 +82,13 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         chatTv.setText(data.getComment());
         commentId = data.getId();
 
-/*        if(data.getWriterId()==userPkId) {
-            chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        if(data.getWriterId()==userPkId) {
+           // chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             isSameUser = true;
 
         }else{
-            chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        }*/
+          //  chatItem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
     }
 
 
