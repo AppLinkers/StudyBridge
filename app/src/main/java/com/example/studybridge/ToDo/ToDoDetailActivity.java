@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -133,7 +134,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setDatePicker();
                     setComment();
                 }
-                setRecyclerView();
+                setRecyclerView(getApplicationContext());
             }
 
             @Override
@@ -273,12 +274,13 @@ public class ToDoDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void setRecyclerView(){
+    public void setRecyclerView(Context context){
         adapter = new CommentAdapter();
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager = new LinearLayoutManager(context);
         commentRv.setLayoutManager(linearLayoutManager);
 
         dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
                 if(response.isSuccessful()){
@@ -333,6 +335,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                             public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {
                                 if(response.isSuccessful()){
                                     comment.setText("");
+                                    setRecyclerView(getApplicationContext());
                                 }
                             }
 
