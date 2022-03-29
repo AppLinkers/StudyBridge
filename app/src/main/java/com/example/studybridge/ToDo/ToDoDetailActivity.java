@@ -133,12 +133,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setDatePicker();
                     setComment();
                 }
-<<<<<<< HEAD
-                setData();
                 setRecyclerView();
-=======
-
->>>>>>> 23a6078e039c7935cad7d0b84ffdee54d3f92918
             }
 
             @Override
@@ -148,27 +143,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void setRecyclerView(){
-        adapter = new CommentAdapter();
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        commentRv.setLayoutManager(linearLayoutManager);
 
-        dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
-            @Override
-            public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
-                if(response.isSuccessful()){
-                    for(FindFeedBackRes data : response.body()){
-                        adapter.addItem(data);
-                    }
-                    commentRv.setAdapter(adapter);
-                }
-            }
-            @Override
-            public void onFailure(Call<List<FindFeedBackRes>> call, Throwable t) {
-
-            }
-        });
-    }
 
     //툴바 설정
     @Override
@@ -297,6 +272,31 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         });
     }
+
+    public void setRecyclerView(){
+        adapter = new CommentAdapter();
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        commentRv.setLayoutManager(linearLayoutManager);
+
+        dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
+            @Override
+            public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
+                if(response.isSuccessful()){
+
+                    for(FindFeedBackRes data : response.body()){
+                        adapter.addItem(data);
+                    }
+                    commentRv.setAdapter(adapter);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<FindFeedBackRes>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     //댓글 추가 버튼
     private void setComment(){
 
