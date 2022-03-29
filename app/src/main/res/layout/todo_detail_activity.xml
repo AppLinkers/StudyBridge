@@ -22,7 +22,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/todo_detail_comment_ET"
+        android:layout_above="@+id/todo_detail_comment_layout"
         android:layout_below="@id/todo_detail_barLayout">
 
         <LinearLayout
@@ -38,8 +38,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
-                android:maxLines="1"
                 android:inputType="text"
+                android:maxLines="1"
                 android:text="과제명"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -177,7 +177,7 @@
                 android:paddingBottom="15dp"
                 android:text="상세 설명"
                 android:textSize="14sp"
-                android:theme="@style/Widget.StudyBridge.TextInputEditText.White"/>
+                android:theme="@style/Widget.StudyBridge.TextInputEditText.White" />
 
 
             <View
@@ -212,13 +212,13 @@
                         android:id="@+id/todo_detail_dueDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/colorprimary_dark_gradient45"
                         android:gravity="center"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:text="YYYY/MM/DD"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="12sp"
-                        android:background="@drawable/colorprimary_dark_gradient45"/>
+                        android:textSize="12sp" />
 
                 </com.google.android.material.card.MaterialCardView>
             </RelativeLayout>
@@ -242,7 +242,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comment_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"/>
 
 
         </LinearLayout>
