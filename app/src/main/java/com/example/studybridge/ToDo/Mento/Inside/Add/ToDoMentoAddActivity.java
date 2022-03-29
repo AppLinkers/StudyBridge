@@ -137,10 +137,12 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-/*                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜*/
-                //클릭시 함수 작성
-                localDateTime = "2019-01-02T12:34:00";
-
+                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+                LocalDateTime dateTime = LocalDateTime.of(
+                        Integer.parseInt(splitDate[0]),
+                        Integer.parseInt(splitDate[1]),
+                        Integer.parseInt(splitDate[2]),0,0);
+                localDateTime = dateTime+":00";
 
                 AssignToDoReq assignToDoReq = new AssignToDoReq(
                         study_id,

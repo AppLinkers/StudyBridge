@@ -260,7 +260,7 @@
             android:id="@+id/todo_comment"
             style="@style/Widget.StudyBridge.TextInputEditText"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:padding="15dp"
             android:theme="@style/Widget.StudyBridge.TextInputEditText"
             android:hint="댓글 추가.."/>

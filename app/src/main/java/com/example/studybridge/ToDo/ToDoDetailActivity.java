@@ -163,6 +163,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
             case R.id.todo_save:
                 String statusReq = spinner.getSelectedItem().toString();
+
                 changeToDoStatusReq = new ChangeToDoStatusReq(userIdPk, todoId, statusReq);
 
                 dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
