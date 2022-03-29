@@ -24,6 +24,7 @@
         android:layout_below="@id/todo_add_barLayout"
         android:orientation="vertical">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/todo_add_taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.StudyBridge.TextInputEditText"
@@ -34,6 +35,7 @@
             android:inputType="text"
             android:maxLines="1"/>
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/todo_add_explain"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             style="@style/Widget.StudyBridge.TextInputEditText"

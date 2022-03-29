@@ -33,8 +33,8 @@ import retrofit2.Response;
 
 public class ToDoMentoInsideActivity extends AppCompatActivity {
 
-    private TextView year,month,day,studyTitle;
 
+    private TextView year,month,day,studyTitle;
     private DataService dataService;
 
     //리사이클러뷰
@@ -63,9 +63,12 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         Intent intent = getIntent();
         study = (StudyFindRes) intent.getSerializableExtra("study");
 
+
         year = (TextView) findViewById(R.id.todo_year_tv);
         month = (TextView) findViewById(R.id.todo_month_tv);
         day = (TextView) findViewById(R.id.todo_day_tv);
+
+
         recyclerView = (RecyclerView) findViewById(R.id.todo_mentor_inside_RV);
         todoAdd = (FloatingActionButton) findViewById(R.id.todo_addBtn);
         studyTitle = (TextView) findViewById(R.id.toDo_studyTitle);
@@ -113,6 +116,8 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ToDoMentoAddActivity.class);
+                intent.putExtra("studyId", study.getId());
+                intent.putExtra("mentorId", userId);
                 startActivity(intent);
             }
         });
