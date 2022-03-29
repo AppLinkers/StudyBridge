@@ -54,6 +54,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     private MaterialCardView editDate;
     private Toolbar toolbar;
     private Calendar calendar = Calendar.getInstance();
+    private Calendar now = Calendar.getInstance();
     private DataService dataService;
     ChangeToDoStatusReq changeToDoStatusReq;
 
@@ -105,6 +106,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if(response.body()){
+                    //멘티 접근 수정 코드
+                    setData();
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     String[] menteeArray = Arrays.copyOfRange(array,0,3);
                     taskName.setEnabled(false);
@@ -113,12 +116,13 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setComment();
                 }else{
                     //멘토 접근 수정 코드
+                    setData();
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
                     setDatePicker();
                     setComment();
                 }
-                setData();
+
             }
 
             @Override
@@ -255,6 +259,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
                 datePickerDialog.show();
                 datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FBB8AC"));
+                datePickerDialog.getDatePicker().setMinDate(now.getTime().getTime());
+
             }
 
 
