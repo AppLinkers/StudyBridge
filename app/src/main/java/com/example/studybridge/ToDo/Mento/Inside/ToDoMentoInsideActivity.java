@@ -24,6 +24,7 @@ import java.util.Locale;
 public class ToDoMentoInsideActivity extends AppCompatActivity {
 
     private TextView year,month,day;
+    private TextView studyName;
 
     //리사이클러뷰
     private LinearLayoutManager linearLayoutManager;
@@ -36,9 +37,12 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_mento_inside_activity);
 
+        //화면 위 데이터
         year = (TextView) findViewById(R.id.todo_year_tv);
         month = (TextView) findViewById(R.id.todo_month_tv);
         day = (TextView) findViewById(R.id.todo_day_tv);
+        studyName = (TextView) findViewById(R.id.todo_mentor_inside_studyName);
+
         recyclerView = (RecyclerView) findViewById(R.id.todo_mentor_inside_RV);
         todoAdd = (FloatingActionButton) findViewById(R.id.todo_addBtn);
 
