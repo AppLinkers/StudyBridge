@@ -28,6 +28,9 @@ public interface Study {
     @GET("study")
     Call<List<StudyFindRes>> find();
 
+    @GET("study/user")
+    Call<List<StudyFindRes>> findByUserId(@Query("userId") Long userId);
+
     @GET("study/isApplied")
     Call<Boolean> isApplied(@Query("studyId") Long studyId, @Query("userLoginId") String userLoginId);
 

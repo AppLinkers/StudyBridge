@@ -13,6 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Mento.Inside.Detail.ToDoMentoInsideDetailAdapter;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.toDo.FindToDoRes;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
 
@@ -20,6 +29,9 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
     private RecyclerView recyclerView;
     private ImageView arrow;
     private LinearLayoutManager linearLayoutManager;
+    private ToDoMentoInsideDetailAdapter adapter;
+    private DataService dataService;
+    private FindToDoRes todo;
 
     public ToDoMentorInsdieHolder(@NonNull View itemView) {
         super(itemView);
@@ -54,18 +66,35 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
         });
     }
 
-    public void onBind(String example){
-        taskName.setText(example);
+    public void onBind(FindToDoRes data){
+        todo = data;
+        taskName.setText(data.getTask());
     }
-    private void setRecyclerView(){
 
+
+    private void setRecyclerView(){
+        adapter= new ToDoMentoInsideDetailAdapter();
+        dataService = new DataService();
         recyclerView.setVisibility(View.VISIBLE);
         arrow.setImageResource(R.drawable.ic_arrow_up);
-
         linearLayoutManager = new LinearLayoutManager(itemView.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ToDoMentoInsideDetailAdapter());
+
+        dataService.assignedToDo.findByToDo(todo.getId()).enqueue(new Callback<List<FindAssignedToDoRes>>() {
+            @Override
+            public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
+                for(FindAssignedToDoRes todo : response.body()){
+                    adapter.addItem(todo);
+                }
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<FindAssignedToDoRes>> call, Throwable t) {
+
+            }
+        });
 
     }
     private void setAlertDialog(View view){

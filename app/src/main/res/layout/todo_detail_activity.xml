@@ -30,21 +30,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/todo_detail_taskName"
-                android:layout_width="wrap_content"
+                style="@style/Widget.StudyBridge.TextInputEditText.White"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
+                android:maxLines="1"
+                android:inputType="text"
                 android:text="과제명"
-                android:textColor="@color/textColorPrimary"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText.White" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/todo_detail_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="40dp"
@@ -163,21 +166,24 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/todo_detail_taskInfo"
-                android:layout_width="wrap_content"
+                style="@style/Widget.StudyBridge.TextInputEditText.White"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:text="상세 설명"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText.White"/>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/viewUnderline" />
 
             <RelativeLayout
@@ -200,7 +206,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:backgroundTint="@color/colorPrimaryDark"
                     app:cardCornerRadius="15dp">
 
                     <TextView
@@ -212,7 +217,8 @@
                         android:paddingRight="15dp"
                         android:text="YYYY/MM/DD"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:background="@drawable/colorprimary_dark_gradient45"/>
 
                 </com.google.android.material.card.MaterialCardView>
             </RelativeLayout>
@@ -236,14 +242,19 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/todo_detail_comment_ET"
-        android:theme="@style/Widget.StudyBridge.TextInputEditText"
-        style="@style/Widget.StudyBridge.TextInputEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/todo_detail_comment_layout"
+        style="@style/Widget.StudyBridge.TextInputEditText.White"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:hint="댓글 추가"
-        android:padding="15dp" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/todo_detail_comment_ET"
+            style="@style/Widget.StudyBridge.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="15dp"
+            android:theme="@style/Widget.StudyBridge.TextInputEditText"
+            android:hint="댓글 추가.."/>
+    </com.google.android.material.textfield.TextInputLayout>
 </RelativeLayout>

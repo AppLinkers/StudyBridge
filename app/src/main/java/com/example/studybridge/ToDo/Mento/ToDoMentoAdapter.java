@@ -8,18 +8,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.Study;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.toDo.FindToDoRes;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<String> exampleList;
+    private ArrayList<StudyFindRes> todoStudy = new ArrayList<>();
+    DataService dataService = new DataService();
 
     public ToDoMentoAdapter() {
-        exampleList = new ArrayList<>();
-        exampleList.add("A스터디");
-        exampleList.add("B스터디");
-        exampleList.add("C스터디");
+
     }
 
     @NonNull
@@ -29,13 +36,17 @@ public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return new ToDoMentoHolder(view);
     }
 
+    public void addItem(StudyFindRes study){
+        todoStudy.add(study);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ToDoMentoHolder) holder).onBind(exampleList.get(position));
+        ((ToDoMentoHolder) holder).onBind(todoStudy.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return exampleList.size();
+        return todoStudy.size();
     }
 }
