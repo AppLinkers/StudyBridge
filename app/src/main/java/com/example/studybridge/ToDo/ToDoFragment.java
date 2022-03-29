@@ -117,7 +117,7 @@ public class ToDoFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new ToDoMentiAdapter());
     }
-<<<<<<< HEAD
+
 
     private void setMentorRecyclerView() {
 
@@ -128,7 +128,5 @@ public class ToDoFragment extends Fragment {
 
     }
 
-=======
->>>>>>> 1cc7675963b6ddc229bd119ae478b890ad736396
 }
 

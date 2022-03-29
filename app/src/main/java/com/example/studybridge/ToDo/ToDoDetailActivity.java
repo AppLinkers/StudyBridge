@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,8 @@ import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +47,9 @@ import retrofit2.Response;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
-    private TextView taskName,mentorId,menteeId,dueDate,taskInfo;
+    private TextView mentorId,menteeId,dueDate;
+    private TextInputEditText taskName,taskInfo,comment;
+    private TextInputLayout commentLayout;
     private Spinner spinner;
     private MaterialCardView editDate;
     private Toolbar toolbar;
@@ -70,12 +76,14 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         dataService = new DataService();
         //화면 위 데이터
-        taskName = (TextView) findViewById(R.id.todo_detail_taskName);
+        taskName = (TextInputEditText) findViewById(R.id.todo_detail_taskName);
         mentorId = (TextView) findViewById(R.id.todo_detail_mentorId);
         menteeId = (TextView) findViewById(R.id.todo_detail_menteeId);
         dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
         spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
-        taskInfo = (TextView) findViewById(R.id.todo_detail_taskInfo) ;
+        taskInfo = (TextInputEditText) findViewById(R.id.todo_detail_taskInfo) ;
+        comment = (TextInputEditText) findViewById(R.id.todo_detail_comment_ET);
+        commentLayout = (TextInputLayout) findViewById(R.id.todo_detail_comment_layout);
 
         editDate = (MaterialCardView) findViewById(R.id.todo_detail_editDate);
         toolbar = (Toolbar) findViewById(R.id.todo_toolbar);
@@ -87,7 +95,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
 
-        setData();
+
 
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
@@ -95,13 +103,18 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 if(response.body()){
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     String[] menteeArray = Arrays.copyOfRange(array,0,3);
+                    taskName.setEnabled(false);
+                    taskInfo.setEnabled(false);
                     setSpinner(menteeArray);
+                    setComment();
                 }else{
                     //멘토 접근 수정 코드
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
                     setDatePicker();
+                    setComment();
                 }
+                setData();
             }
 
             @Override
@@ -240,6 +253,33 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         });
     }
+    //댓글 추가 버튼
+    private void setComment(){
 
+        comment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                commentLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                commentLayout.setEndIconDrawable(R.drawable.ic_send);
+                commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //comment 다는 메서드 작성
+                        Toast.makeText(ToDoDetailActivity.this, comment.getText(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
 
 }
