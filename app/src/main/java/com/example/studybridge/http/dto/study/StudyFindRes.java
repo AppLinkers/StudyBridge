@@ -1,6 +1,8 @@
 package com.example.studybridge.http.dto.study;
 
-public class StudyFindRes {
+import java.io.Serializable;
+
+public class StudyFindRes implements Serializable {
 
     private Long id;
 

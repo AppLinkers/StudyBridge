@@ -8,20 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.dto.toDo.FindToDoRes;
 
 import java.util.ArrayList;
 
 public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<String> exampleList;
+    private ArrayList<FindToDoRes> todoAssigned = new ArrayList<FindToDoRes>();
 
-    public ToDoMentoInsideAdapter() {
-        exampleList = new ArrayList<>();
-        exampleList.add("A과제");
-        exampleList.add("B과제");
-        exampleList.add("C과제");
-
-    }
 
     @NonNull
     @Override
@@ -33,12 +27,16 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        ((ToDoMentorInsdieHolder) holder).onBind(exampleList.get(position));
+        ((ToDoMentorInsdieHolder) holder).onBind(todoAssigned.get(position));
 
+    }
+
+    public void addItem(FindToDoRes data){
+        todoAssigned.add(data);
     }
 
     @Override
     public int getItemCount() {
-        return exampleList.size();
+        return todoAssigned.size();
     }
 }

@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDo;
 import com.example.studybridge.ToDo.ToDoDetailActivity;
+import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 
 public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
 
     private TextView menteeId,menteeStaus;
+    private ToDo todo;
 
     public ToDoMentorInsdieDetailHolder(@NonNull View itemView) {
         super(itemView);
@@ -24,14 +27,17 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ToDoDetailActivity.class);
+                intent.putExtra("toDo",todo);
                 view.getContext().startActivity(intent);
             }
         });
     }
 
-    public void onBind(String example){
+    public void onBind(FindAssignedToDoRes data){
 
-        menteeId.setText(example);
+        todo = new ToDo(data.getToDoId(), data.getStudyId(), data.getStatus(), data.getMentorName(), data.getMenteeName(), data.getTask(), data.getExplain(), data.getDueDate(), null);
+        menteeId.setText(data.getMenteeName());
+        menteeStaus.setText(data.getStatus());
 
     }
 }

@@ -28,5 +28,6 @@ public class DataService {
     public ToDo toDo = retrofitClient.create(ToDo.class);
     public S3 s3 = retrofitClient.create(S3.class);
     public AssignedToDo assignedToDo = retrofitClient.create(AssignedToDo.class);
+    public FeedBack feedBack = retrofitClient.create(FeedBack.class);
 
 }

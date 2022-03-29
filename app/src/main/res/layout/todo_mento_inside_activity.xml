@@ -19,7 +19,7 @@
             android:paddingTop="15dp">
 
             <TextView
-                android:id="@+id/todo_mentor_inside_studyName"
+                android:id="@+id/toDo_studyTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

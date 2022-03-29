@@ -4,8 +4,6 @@ import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
 import com.example.studybridge.http.dto.assignedToDo.ConfirmToDoReq;
 import com.example.studybridge.http.dto.assignedToDo.ConfirmToDoRes;
-import com.example.studybridge.http.dto.assignedToDo.FeedBackToDoReq;
-import com.example.studybridge.http.dto.assignedToDo.FeedBackToDoRes;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
@@ -22,9 +20,6 @@ public interface AssignedToDo {
 
     @POST("/toDo/assigned/status")
     Call<ChangeToDoStatusRes> changeStatus(@Body ChangeToDoStatusReq changeToDoStatusReq);
-
-    @POST("toDo/assigned/feedBack")
-    Call<FeedBackToDoRes> feedBack(@Body FeedBackToDoReq feedBackToDoReq);
 
     @POST("/toDo/assigned/confirm")
     Call<ConfirmToDoRes> confirm(@Body ConfirmToDoReq confirmToDoReq);

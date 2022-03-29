@@ -20,14 +20,19 @@ import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.ToDo.Mento.ToDoMentoAdapter;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.toDo.FindToDoRes;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ToDoFragment extends Fragment {
 
@@ -46,6 +51,7 @@ public class ToDoFragment extends Fragment {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     Long userIdPk;
+    ToDoMentoAdapter toDoMentoAdapter;
 
     @Nullable
     @Override
@@ -53,6 +59,7 @@ public class ToDoFragment extends Fragment {
 
 
         View view;
+        dataService = new DataService();
 
         Bundle bundle = getArguments();
         userId = bundle.getString("id");
@@ -73,6 +80,7 @@ public class ToDoFragment extends Fragment {
 
         return view;
     }
+
 
     private void setMenteeUI(View view) {
         //멘티 화면 위 데이터
@@ -119,12 +127,34 @@ public class ToDoFragment extends Fragment {
     }
 
 
-    private void setMentorRecyclerView() {
 
+
+
+    private void setMentorRecyclerView() {
+        toDoMentoAdapter = new ToDoMentoAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ToDoMentoAdapter());
+
+        dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
+            @Override
+            public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
+                if(response.isSuccessful()){
+                    for(StudyFindRes study : response.body()){
+                        toDoMentoAdapter.addItem(study);
+                    }
+                    recyclerView.setAdapter(toDoMentoAdapter);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
+
+            }
+        });
+
+
 
     }
 

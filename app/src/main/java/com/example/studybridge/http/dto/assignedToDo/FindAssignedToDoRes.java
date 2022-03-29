@@ -20,8 +20,6 @@ public class FindAssignedToDoRes {
 
     private String dueDate;
 
-    private String feedBack;
-
     private String status;
 
     public Long getId() {
@@ -54,10 +52,6 @@ public class FindAssignedToDoRes {
 
     public String getDueDate() {
         return dueDate;
-    }
-
-    public String getFeedBack() {
-        return feedBack;
     }
 
     public String getStatus() {
