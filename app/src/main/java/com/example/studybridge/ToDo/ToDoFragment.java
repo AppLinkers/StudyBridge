@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.example.studybridge.ToDo.Mento.ToDoMentoAdapter;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
+import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,8 +39,11 @@ import retrofit2.Response;
 public class ToDoFragment extends Fragment {
 
     private int resource = 0;
+    private int totalTask= 0;
+    private int confirmedTask =0;
+    private double confPerc=0.0;
 
-    private TextView year, month, day, taskCount;
+    private TextView year, month, day, taskCount, taskPerc;
     //리사이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -81,6 +86,16 @@ public class ToDoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //날짜 설정
+        setTime();
+        //Todolist 갯수확인
+        setTaskCount();
+        //리사이클러뷰 설정
+        setMenteeRecyclerView();
+    }
 
     private void setMenteeUI(View view) {
         //멘티 화면 위 데이터
@@ -88,15 +103,10 @@ public class ToDoFragment extends Fragment {
         month = (TextView) view.findViewById(R.id.todo_month_tv);
         day = (TextView) view.findViewById(R.id.todo_day_tv);
         taskCount = (TextView) view.findViewById(R.id.todo_taskCount);
+        taskPerc = (TextView) view.findViewById(R.id.toDo_perc) ;
+
         recyclerView = (RecyclerView) view.findViewById(R.id.todo_menti_RV);
 
-
-        //날짜 설정
-        setTime();
-        //Todolist 갯수확인
-        setTaskCount();
-        //리사이클러뷰 설정
-        setMenteeRecyclerView();
     }
 
     private void setMentorUI(View view){
@@ -112,12 +122,35 @@ public class ToDoFragment extends Fragment {
     }
 
     private void setTaskCount(){
-        dataService.assignedToDo.countOfMentee(userIdPk).enqueue(new Callback<Integer>() {
+        dataService.assignedToDo.countByMentee(userIdPk).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()){
-                    taskCount.setText(response.body()+"");
+                    totalTask = response.body();
+                    setConfirmedCount(totalTask);
                 }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void setConfirmedCount(int totalTask){
+        dataService.assignedToDo.countByMenteeAndStatus(userIdPk, ToDoStatus.CONFIRMED).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()){
+                    confirmedTask = response.body();
+                    confPerc = (double)confirmedTask / (double)totalTask;
+                    taskPerc.setText(String.format("%.2f", confPerc)+"%");
+                    taskCount.setText(totalTask-confirmedTask+"");
+
+                }
+
             }
 
             @Override

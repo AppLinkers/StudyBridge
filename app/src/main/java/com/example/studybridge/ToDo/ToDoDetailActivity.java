@@ -121,7 +121,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                setData();
+
                 if(response.body()){
                     //멘티 접근 수정 코드
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
@@ -130,10 +130,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     taskInfo.setEnabled(false);
                     setSpinner(menteeArray);
                     setComment();
+                    setData();
                 }else{
                     //멘토 접근 수정 코드
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
+                    setData();
                     setDatePicker();
                     setComment();
                 }
@@ -180,8 +182,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
                     }
                 });
-                Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -316,19 +317,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
                 commentLayout.setEndIconDrawable(R.drawable.ic_send);
-
-
-//                private Long id;
-//
-//                private Long assignedToDoId;
-//
-//                private Long writerId;
-//
-//                private String writerName;
-//
-//                private String comment;
-
-
                 commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
