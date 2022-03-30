@@ -60,19 +60,20 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="21sp"
                 android:textStyle="bold"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:text="10%"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/textColorPrimary70"
                 android:textSize="21sp"
-                android:textStyle="bold"
-                android:layout_alignParentRight="true"/>
+                android:textStyle="bold" />
         </RelativeLayout>
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             app:cardCornerRadius="16dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,21 +109,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="15dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/home_readyNum"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@id/home_readyNum"
-                    android:text="Ready"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
+                android:layout_weight="0.25"
+                android:gravity="center">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/home_readyNum"
@@ -130,63 +124,96 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="#fa7470"
-                    android:textSize="36sp" />
-            </RelativeLayout>
-            <RelativeLayout
+                    android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/home_readyNum"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_toRightOf="@id/home_readyNum"
+                        android:text="Ready"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25">
+                android:layout_weight="0.25"
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/home_progressNum"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="#83aae5"
-                    android:textSize="36sp" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/home_progressNum"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@id/home_progressNum"
-                    android:text="Progress"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-            <RelativeLayout
+                    <TextView
+                        android:id="@+id/home_progressNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="#83aae5"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/home_progressNum"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_toRightOf="@id/home_progressNum"
+                        android:text="Progress"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_weight="0.25">
-
-                <TextView
-                    android:id="@+id/home_doneNum"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="13dp"
-                    android:text="0"
-                    android:textColor="#f7ba7b"
-                    android:textSize="36sp" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/home_doneNum"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@id/home_doneNum"
-                    android:text="Done"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-            <RelativeLayout
+
+                    <TextView
+                        android:id="@+id/home_doneNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="#f7ba7b"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/home_doneNum"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_toRightOf="@id/home_doneNum"
+                        android:text="Done"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25">
+                android:layout_weight="0.25"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/home_confirmNum"
@@ -195,7 +222,7 @@
                     android:layout_centerVertical="true"
                     android:text="0"
                     android:textColor="#54c242"
-                    android:textSize="36sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -206,11 +233,21 @@
                     android:layout_toRightOf="@id/home_confirmNum"
                     android:text="Confirm"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
 
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_RV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"/>
 
     </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>
