@@ -56,7 +56,6 @@
                 android:background="@drawable/slider_round"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:visibility=""
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp">
 

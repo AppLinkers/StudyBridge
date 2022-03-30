@@ -78,7 +78,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
-    Long userIdPk;
+    Long userIdPk,menteePKId;
     long todoId;
     String userId;
     Intent gIntent;
@@ -90,10 +90,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
         setContentView(R.layout.todo_detail_activity);
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+
         userId = sharedPreferences.getString(USER_ID_KEY, "user");
+        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
         gIntent = getIntent();
         toDo = (ToDo) gIntent.getSerializableExtra("toDo");
+
 
         dataService = new DataService();
         //화면 위 데이터
@@ -121,19 +123,23 @@ public class ToDoDetailActivity extends AppCompatActivity {
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                setData();
+
                 if(response.body()){
                     //멘티 접근 수정 코드
+                    menteePKId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     String[] menteeArray = Arrays.copyOfRange(array,0,3);
                     taskName.setEnabled(false);
                     taskInfo.setEnabled(false);
                     setSpinner(menteeArray);
+                    setData();
                     setComment();
                 }else{
                     //멘토 접근 수정 코드
+                    menteePKId = gIntent.getLongExtra("menteePKId",0);
                     String[] array = getResources().getStringArray(R.array.todo_spinner);
                     setSpinner(array);
+                    setData();
                     setDatePicker();
                     setComment();
                 }
@@ -165,7 +171,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
             case R.id.todo_save:
                 String statusReq = spinner.getSelectedItem().toString();
 
-                changeToDoStatusReq = new ChangeToDoStatusReq(userIdPk, todoId, statusReq);
+                changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, todoId, statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
 
                 dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
                     @Override
@@ -180,8 +186,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
                     }
                 });
-                Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -279,6 +284,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     }
 
     public void setRecyclerView(){
+
         adapter = new CommentAdapter();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentRv.setLayoutManager(linearLayoutManager);
@@ -316,18 +322,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
                 commentLayout.setEndIconDrawable(R.drawable.ic_send);
-
-
-//                private Long id;
-//
-//                private Long assignedToDoId;
-//
-//                private Long writerId;
-//
-//                private String writerName;
-//
-//                private String comment;
-
 
                 commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
                     @Override

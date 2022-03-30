@@ -86,7 +86,6 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
                 for(FindAssignedToDoRes todo : response.body()){
                     adapter.addItem(todo);
-                    adapter.notifyDataSetChanged();/////////////////비동기 처리시 삭제
                 }
                 recyclerView.setAdapter(adapter);
             }
@@ -99,6 +98,8 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
 
     }
     private void setAlertDialog(View view){
+
+        dataService = new DataService();
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
         builder.setTitle("Todo 삭제").setMessage("삭제하시겠습니까?");

@@ -16,6 +16,7 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
 
     private TextView menteeId,menteeStaus;
     private ToDo todo;
+    private Long menteePKId;
 
     public ToDoMentorInsdieDetailHolder(@NonNull View itemView) {
         super(itemView);
@@ -28,6 +29,7 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ToDoDetailActivity.class);
                 intent.putExtra("toDo",todo);
+                intent.putExtra("menteePKId",menteePKId);
                 view.getContext().startActivity(intent);
             }
         });
@@ -35,9 +37,20 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
 
     public void onBind(FindAssignedToDoRes data){
 
-        todo = new ToDo(data.getId(), data.getStudyId(), data.getStatus(), data.getMentorName(), data.getMenteeName(), data.getTask(), data.getExplain(), data.getDueDate(), null);
+        todo = new ToDo(
+                data.getId(),
+                data.getStudyId(),
+                data.getStatus(),
+                data.getMentorName(),
+                data.getMenteeName(),
+                data.getTask(),
+                data.getExplain(),
+                data.getDueDate(),
+                null);
         menteeId.setText(data.getMenteeName());
         menteeStaus.setText(data.getStatus());
+        menteePKId = data.getMenteeId();
+
 
     }
 }
