@@ -90,7 +90,8 @@ public class ToDoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (isMentee == true) {
+
+        if(isMentee==true){
             //날짜 설정
             setTime();
             //Todolist 갯수확인
@@ -145,6 +146,7 @@ public class ToDoFragment extends Fragment {
 
 
     private void setConfirmedCount(int totalTask){
+
         dataService.assignedToDo.countByMenteeAndStatus(userIdPk, ToDoStatus.CONFIRMED).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
