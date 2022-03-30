@@ -134,6 +134,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     setSpinner(menteeArray);
                     setData();
                     setComment();
+                    setData();
                 }else{
                     //멘토 접근 수정 코드
                     menteePKId = gIntent.getLongExtra("menteePKId",0);
@@ -322,7 +323,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
                 commentLayout.setEndIconDrawable(R.drawable.ic_send);
-
                 commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

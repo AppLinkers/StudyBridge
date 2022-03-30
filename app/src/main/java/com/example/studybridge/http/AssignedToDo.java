@@ -25,7 +25,10 @@ public interface AssignedToDo {
     Call<ConfirmToDoRes> confirm(@Body ConfirmToDoReq confirmToDoReq);
 
     @GET("/toDo/assigned/mentee/cnt")
-    Call<Integer> countOfMentee(@Query("menteeId") Long menteeId);
+    Call<Integer> countByMentee(@Query("menteeId") Long menteeId);
+
+    @GET("/toDo/assigned/mentee/cnt/status")
+    Call<Integer> countByMenteeAndStatus(@Query("menteeId") Long menteeId, @Query("status") ToDoStatus status);
 
     @GET("toDo/assigned/mentee/status")
     Call<List<FindAssignedToDoRes>> findByMenteeAndStatus(@Query("menteeId") Long menteeId, @Query("status") ToDoStatus status);

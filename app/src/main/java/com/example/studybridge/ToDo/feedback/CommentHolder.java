@@ -48,6 +48,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
     boolean isSameUser = false;
     Long commentId;
 
+
     public CommentHolder(@NonNull View itemview) {
         super(itemview);
 
@@ -80,6 +81,7 @@ public class CommentHolder extends RecyclerView.ViewHolder {
         chatIDTv.setText(data.getWriterName());
         chatTv.setText(data.getComment());
         commentId = data.getId();
+
 
         if(data.getWriterId().equals(userPkId)) {
             itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
