@@ -1,7 +1,5 @@
 package com.example.studybridge.http.dto.assignedToDo;
 
-import java.time.LocalDateTime;
-
 public class FindAssignedToDoRes {
 
     private Long id;
@@ -9,6 +7,8 @@ public class FindAssignedToDoRes {
     private Long toDoId;
 
     private Long studyId;
+
+    private Long menteeId;
 
     private String menteeName;
 
@@ -32,6 +32,10 @@ public class FindAssignedToDoRes {
 
     public Long getStudyId() {
         return studyId;
+    }
+
+    public Long getMenteeId() {
+        return menteeId;
     }
 
     public String getMenteeName() {
