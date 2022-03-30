@@ -90,9 +90,11 @@ public class ToDoFragment extends Fragment {
         taskCount = (TextView) view.findViewById(R.id.todo_taskCount);
         recyclerView = (RecyclerView) view.findViewById(R.id.todo_menti_RV);
 
+
         //날짜 설정
         setTime();
-
+        //Todolist 갯수확인
+        setTaskCount();
         //리사이클러뷰 설정
         setMenteeRecyclerView();
     }
@@ -105,10 +107,27 @@ public class ToDoFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.todo_mentor_RV);
 
         setTime();
-
         setMentorRecyclerView();
 
     }
+
+    private void setTaskCount(){
+        dataService.assignedToDo.countOfMentee(userIdPk).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()){
+                    taskCount.setText(response.body()+"");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     @SuppressLint("SimpleDateFormat")
     private void setTime() {
         long now = System.currentTimeMillis();
