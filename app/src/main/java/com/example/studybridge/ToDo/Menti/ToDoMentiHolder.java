@@ -15,6 +15,7 @@ import com.example.studybridge.ToDo.Menti.Inside.ToDoMentiInsideAdapter;
 import com.example.studybridge.ToDo.ToDo;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +96,8 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
                     for(ToDo data : datas){
                         if(data.getStatus().equals(statusName)){
+                            toDoAdapter.addItem(data);
+                        }else if(data.getStatus().equals("CONFIRMED") && statusName.equals("DONE")){
                             toDoAdapter.addItem(data);
                         }
                     }

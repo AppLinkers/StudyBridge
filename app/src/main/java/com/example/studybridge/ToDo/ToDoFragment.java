@@ -89,12 +89,17 @@ public class ToDoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //날짜 설정
-        setTime();
-        //Todolist 갯수확인
-        setTaskCount();
-        //리사이클러뷰 설정
-        setMenteeRecyclerView();
+
+        if (isMentee == true) {
+            //날짜 설정
+            setTime();
+            //Todolist 갯수확인
+            setTaskCount();
+            //리사이클러뷰 설정
+            setMenteeRecyclerView();
+        } else {}
+
+
     }
 
     private void setMenteeUI(View view) {
