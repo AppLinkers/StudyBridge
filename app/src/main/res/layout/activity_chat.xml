@@ -34,18 +34,23 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         android:backgroundTint="@color/colorAccent"
-        android:background="@color/white">
-
+        android:paddingLeft="10dp">
+        <ImageView
+            android:id="@+id/chat_addImg"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_add"
+            android:layout_centerVertical="true"/>
         <EditText
             android:id="@+id/mycontext"
-            android:layout_width="330dp"
+            android:layout_width="300dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/send"
             android:background="@drawable/slider_round"
-
             android:paddingLeft="20dp"
             android:paddingRight="20dp" />
 
