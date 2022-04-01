@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
 
     //todo progress bar
     LinearLayout readyBar,progressBar,doneBar,confirmBar;
-    TextView readyNum, progressNum, doneNum, confirmNum;
+    TextView readyNum, progressNum, doneNum, confirmNum,totalPercent;
     int totalTask;
     int todoCount;
     float todoPerc;
@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment {
         progressNum = (TextView) view.findViewById(R.id.home_progressNum);
         doneNum = (TextView) view.findViewById(R.id.home_doneNum);
         confirmNum = (TextView) view.findViewById(R.id.home_confirmNum);
+        totalPercent = (TextView) view.findViewById(R.id.home_totalPercent);
 
         //sharedpreference & 넘어온 데이터
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -110,6 +111,7 @@ public class HomeFragment extends Fragment {
                 insertBar(totalTask, ToDoStatus.PROGRESS,progressBar,progressNum);
                 insertBar(totalTask, ToDoStatus.DONE, doneBar,doneNum);
                 insertBar(totalTask, ToDoStatus.CONFIRMED, confirmBar,confirmNum);
+
             }
 
             @Override
@@ -127,8 +129,19 @@ public class HomeFragment extends Fragment {
                 if(response.isSuccessful()){
                     todoCount = response.body();
                     num.setText(todoCount+"");
-                    todoPerc = (float) todoCount / (float) totalTask;
+                    if(totalTask==0){
+                        todoPerc = 0;
+                    } else todoPerc = (float) todoCount / (float) totalTask;
+
                     bar.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,todoPerc));
+
+                    if(status.equals(ToDoStatus.CONFIRMED)){
+                        if(totalTask==0){
+                            totalPercent.setText("0 %");
+                        } else {
+                            totalPercent.setText(String.format("%.0f %%",((float)response.body()/(float) totalTask)*100));
+                        }
+                    }
 
                 }
             }

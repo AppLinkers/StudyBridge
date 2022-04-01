@@ -17,8 +17,9 @@
             android:layout_height="wrap_content"
             android:text="ToDoList"
             android:textColor="@color/textColorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"/>
 
         <TextView
             android:id="@+id/todo_day_tv"
