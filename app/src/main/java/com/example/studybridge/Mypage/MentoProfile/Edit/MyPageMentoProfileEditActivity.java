@@ -261,9 +261,11 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCuri()));
                 profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
                 Log.d("test", mentoProfile.getCertificateName().toString());
+
+                List<MultipartBody.Part> certificates = new ArrayList<>();
                 if (mentoProfile.getCertificateName().size() > 0) {
                     mentoProfile.getCertificateName().forEach(cn -> {
-                        profileReq.put("profileTextReq.certificates", RequestBody.create(MultipartBody.FORM, cn));
+                        certificates.add(MultipartBody.Part.createFormData("certificates", cn));
                     });
                 }
 
@@ -281,7 +283,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                     );
                 }
 
-                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,profileReq).enqueue(new Callback<ProfileRes>() {
+                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
                     @Override
                     public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                         if (response.isSuccessful()) {
