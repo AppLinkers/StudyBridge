@@ -99,20 +99,20 @@ public class StudyMentoFragment extends Fragment {
                 try {
                         for (ProfileRes res : call.execute().body()) {
                             if (res.getNickName() != null) {  //임시 조건
-                                MyPageMentoProfile mentoProfile = new MyPageMentoProfile(
+                                ProfileRes mentoProfile = new ProfileRes(
+                                        res.getUserId(),
                                         res.getUserName(),
                                         res.getLocation(),
-                                        res.getSubject(),
-                                        res.getSchool(),
                                         res.getInfo(),
                                         res.getNickName(),
-                                        res.getCurriculum(),
+                                        res.getSchool(),
+                                        res.getSchoolImg(),
+                                        res.getSubject(),
+                                        res.getCertificates(),
                                         res.getExperience(),
+                                        res.getCurriculum(),
                                         res.getAppeal(),
-                                        null,
-                                        null,
-                                        null,
-                                        res.getCertificates());
+                                        res.getLiked());
                                 adapter.addItem(mentoProfile);
                             }
                         }

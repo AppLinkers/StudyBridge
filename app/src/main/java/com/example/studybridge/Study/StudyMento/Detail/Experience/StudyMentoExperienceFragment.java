@@ -58,14 +58,14 @@ public class StudyMentoExperienceFragment extends Fragment {
 
         Bundle extras = getArguments();
 
-        MyPageMentoProfile profile = (MyPageMentoProfile) extras.getSerializable("profile");
+        ProfileRes profile = (ProfileRes) extras.getSerializable("profile");
         final String mentoId = extras.getString("mentoId");
 
 
         if(mentoId == null || mentoId.equals("")) {
             if (extras != null) {
-                curi.setText(checkNull(profile.getCuri()));
-                experience.setText(checkNull(profile.getExpeience()));
+                curi.setText(checkNull(profile.getCurriculum()));
+                experience.setText(checkNull(profile.getExperience()));
             }
         }
         else {

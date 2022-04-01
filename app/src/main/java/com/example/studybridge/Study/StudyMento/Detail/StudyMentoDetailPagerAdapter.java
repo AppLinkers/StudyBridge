@@ -11,19 +11,20 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.Study.StudyMento.Detail.Experience.StudyMentoExperienceFragment;
 import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileFragment;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 
 public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
 
     private static int NUM_TABS = 2;
-    private MyPageMentoProfile profile;
+    private ProfileRes profile;
     private String id;
 
     public StudyMentoDetailPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
-    public void setProfile(MyPageMentoProfile profile) {
+    public void setProfile(ProfileRes profile) {
         this.profile = profile;
     }
 

@@ -1,10 +1,11 @@
 package com.example.studybridge.http.dto.userMentor;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.http.Body;
 
-public class ProfileRes {
+public class ProfileRes implements Serializable {
 
     private Long userId;
 
@@ -31,6 +32,34 @@ public class ProfileRes {
     private String appeal;
 
     private Boolean liked;
+
+    public ProfileRes(Long userId,
+                      String userName,
+                      String location,
+                      String info,
+                      String nickName,
+                      String school,
+                      String schoolImg,
+                      String subject,
+                      List<Certificate> certificates,
+                      String experience,
+                      String curriculum,
+                      String appeal,
+                      Boolean liked) {
+        this.userId = userId;
+        this.userName = userName;
+        this.location = location;
+        this.info = info;
+        this.nickName = nickName;
+        this.school = school;
+        this.schoolImg = schoolImg;
+        this.subject = subject;
+        this.certificates = certificates;
+        this.experience = experience;
+        this.curriculum = curriculum;
+        this.appeal = appeal;
+        this.liked = liked;
+    }
 
     @Override
     public String toString() {

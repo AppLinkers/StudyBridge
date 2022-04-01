@@ -75,7 +75,7 @@ public class StudyMentoProfileFragment extends Fragment {
         final StringBuilder[] sb = new StringBuilder[2];
         Bundle extras = getArguments();
 
-        MyPageMentoProfile profile = (MyPageMentoProfile) extras.getSerializable("profile");
+        ProfileRes profile = (ProfileRes) extras.getSerializable("profile");
 
         //리사이클러뷰
         recyclerView = (RecyclerView) view.findViewById(R.id.mento_profile_certi_RV);
@@ -91,10 +91,10 @@ public class StudyMentoProfileFragment extends Fragment {
             //경로1 : 멘토 찾기에서 불러오는 것
 
             sb[0] = new StringBuilder();
-            String introStr = sb[0].append("\"").append(checkNull(profile.getIntro())).append("\"").toString();
+            String introStr = sb[0].append("\"").append(checkNull(profile.getInfo())).append("\"").toString();
             intro.setText(introStr);
             school.setText(checkNull(profile.getSchool()));
-            place.setText(checkNull(profile.getPlace()));
+            place.setText(checkNull(profile.getLocation()));
             subject.setText(checkNull(profile.getSubject()));
             appeal.setText(checkNull(profile.getAppeal()));
 

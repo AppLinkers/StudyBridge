@@ -53,7 +53,7 @@
                 android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/mento_heart"
             android:layout_width="25dp"
             android:layout_height="25dp"

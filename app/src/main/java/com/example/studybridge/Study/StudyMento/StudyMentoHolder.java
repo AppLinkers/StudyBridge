@@ -4,6 +4,7 @@ package com.example.studybridge.Study.StudyMento;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +24,8 @@ import java.io.Serializable;
 public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
     private TextView subject,place,mentoName,mentoIntro,mentoSchool,mentoQualification;
-    private ImageButton heart;
-    private MyPageMentoProfile profile;
+    private ImageView heart;
+    private ProfileRes profile;
     private DataService dataService = new DataService();
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
@@ -35,20 +37,8 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         mentoIntro = (TextView) itemView.findViewById(R.id.mento_study_intro);
         mentoSchool = (TextView) itemView.findViewById(R.id.mento_study_school);
         mentoQualification = (TextView) itemView.findViewById(R.id.mento_study_qualification);
-        heart = (ImageButton) itemView.findViewById(R.id.mento_heart);
+        heart = (ImageView) itemView.findViewById(R.id.mento_heart);
 
-
-        heart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(heart.isSelected() == true){
-                    heart.setSelected(false);
-                } else {
-                    Snackbar.make(itemView.getRootView(),"관심멘토로 등록되었습니다",Snackbar.LENGTH_SHORT).show();
-                    heart.setSelected(true);
-                }
-            }
-        });
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +59,16 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void onBind(MyPageMentoProfile data) {
+    public void onBind(ProfileRes data) {
         subject.setText(data.getSubject());
-        place.setText(data.getPlace());
+        place.setText(data.getLocation());
         mentoName.setText(data.getNickName());
-        mentoIntro.setText(data.getIntro());
+        mentoIntro.setText(data.getInfo());
         mentoSchool.setText(data.getSchool());
+
+        if(data.getLiked()){
+            heart.setSelected(true);
+        } else heart.setSelected(false);
 
         if(data.getCertificates().size()>0){
             mentoQualification.setText(data.getCertificates().get(0).getCertificate());

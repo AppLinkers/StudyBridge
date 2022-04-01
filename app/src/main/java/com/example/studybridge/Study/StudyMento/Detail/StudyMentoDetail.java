@@ -43,7 +43,7 @@ public class StudyMentoDetail extends AppCompatActivity {
     private MaterialButton button;
     private LinearLayout buttonLayout;
 
-    private MyPageMentoProfile profile;
+    private ProfileRes profile;
 
     private ImageButton heart;
 
@@ -88,7 +88,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         //멘토 찾기에서 불러온 것
         Intent intent = getIntent();
 
-        profile = (MyPageMentoProfile) intent.getSerializableExtra("profile");
+        profile = (ProfileRes) intent.getSerializableExtra("profile");
 
         //신청한 멘티에서 불러온 것
         mentoId = intent.getExtras().getString("mentoId");
@@ -103,25 +103,8 @@ public class StudyMentoDetail extends AppCompatActivity {
         // viewpager & tablayout
         setTabLayout();
 
-        //좋아요 버튼
-        setLikeButton();
+        isLiked();
 
-
-
-/*        heart.setSelected(intent.getExtras().getBoolean("heart"));
-
-        //좋아요 클릭
-        heart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(heart.isSelected() == true){
-                    heart.setSelected(false);
-                } else {
-                    Toast.makeText(getApplicationContext(),"Liked!",Toast.LENGTH_SHORT).show();
-                    heart.setSelected(true);
-                }
-            }
-        });*/
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +160,68 @@ public class StudyMentoDetail extends AppCompatActivity {
         });
     }
 
+    private void setHeart(){
+
+        heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(heart.isSelected()){
+
+                    dataService.userMentee.unLikeMentor(userLong,profile.getUserId()).enqueue(new Callback<LikeMentorRes>() {
+                        @Override
+                        public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
+                            if(response.isSuccessful()){
+                                heart.setSelected(false);
+                                Toast.makeText(StudyMentoDetail.this, "관심멘토 등록 해제", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<LikeMentorRes> call, Throwable t) {
+
+                        }
+                    });
+                }
+                else if(!heart.isSelected()){
+                    dataService.userMentee.likeMentor(userLong,profile.getUserId()).enqueue(new Callback<LikeMentorRes>() {
+                        @Override
+                        public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
+                            if(response.isSuccessful()) {
+                                heart.setSelected(true);
+                                Toast.makeText(StudyMentoDetail.this, "관심멘토 등록 성공", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LikeMentorRes> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void isLiked(){
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    if(profile.getLiked()){
+                        heart.setSelected(true);
+                    } else heart.setSelected(false);
+                    setHeart();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
     //매칭 종료 메서드
     public void toMatched(){
         ChangeStatusReq csReq =  new ChangeStatusReq(studyId, CONFIRM_APPLY);
@@ -193,63 +238,6 @@ public class StudyMentoDetail extends AppCompatActivity {
         });
     }
 
-    //좋아요 버튼
-    public void setLikeButton(){
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body()){
-                    //멘티인 경우
-                    isAlreadyLike();
-
-                    heart.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(heart.isSelected()){ // 눌려있을 때
-                                heart.setSelected(false);
-                                dataService.userMentee.unLikeMentor(userLong,mentoLong);
-                            } else {
-                                Toast.makeText(getApplicationContext(),"관심 멘토에 추가되었습니다",Toast.LENGTH_SHORT).show();
-                                heart.setSelected(true);
-                                dataService.userMentee.likeMentor(userLong,mentoLong);
-                            }
-                        }
-                    });
-
-                }
-                else {
-                    //멘토인 경우
-                    heart.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    public void isAlreadyLike(){
-
-        dataService.userMentee.findLikedMentors(userLong).enqueue(new Callback<List<LikeMentorRes>>() {
-            @Override
-            public void onResponse(Call<List<LikeMentorRes>> call, Response<List<LikeMentorRes>> response) {
-                for(int i=0; i<response.body().size(); i++){
-                    if(mentoLong.equals(response.body().get(i).getMentorId())){
-                        heart.setSelected(true);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<LikeMentorRes>> call, Throwable t) {
-
-            }
-        });
-    }
 
     //툴바 설정
     public void setToolbar(){
