@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +61,7 @@ public class ToDoFragment extends Fragment {
     private String userId;
     private boolean isMentee;
     Long filter;
+    Long key;
 
     private DataService dataService;
     SharedPreferences sharedPreferences;
@@ -98,7 +100,13 @@ public class ToDoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        setSpinnerData();
+
+    }
 
     private void setMenteeUI(View view) {
         //멘티 화면 위 데이터
@@ -135,7 +143,6 @@ public class ToDoFragment extends Fragment {
                         filtedList.add(new FilterSpinner(data.getId(),data.getName()));
                     }
                     setSpinner(filtedList);
-
                 }
             }
 
@@ -150,14 +157,11 @@ public class ToDoFragment extends Fragment {
     private void setSpinner(ArrayList<FilterSpinner> filtList){
         ArrayAdapter<FilterSpinner> categoryAdapter = new ArrayAdapter<FilterSpinner>(getContext(), android.R.layout.simple_spinner_item , filtList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
         for(int j=0; j<filtList.size();j++){
             if(filtList.get(j).getKey()==filter){
                 pos = j;
             }
         }
-
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -166,12 +170,11 @@ public class ToDoFragment extends Fragment {
                 }
 
                 FilterSpinner spinnerItem  = (FilterSpinner)adapterView.getItemAtPosition(i);
-
+                key = spinnerItem.getKey();
                 if(isMentee==true){
-                    //날짜 설정
-                    setTime();
                     //Todolist 갯수확인
-                    setTaskCount();
+                    //setTaskCount();
+                    setEachStudyCount(spinnerItem.getKey());
                     //리사이클러뷰 설정
                     setMenteeRecyclerView(spinnerItem.getKey());
 
@@ -198,7 +201,6 @@ public class ToDoFragment extends Fragment {
                     setConfirmedCount(totalTask);
                 }
             }
-
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
 
@@ -206,6 +208,31 @@ public class ToDoFragment extends Fragment {
         });
     }
 
+
+    private void setEachStudyCount(Long filt){
+        Long a = Long.valueOf(0);
+        if(filt == a){
+            setTaskCount();
+        }else{
+            dataService.assignedToDo.countByMenteeAndStudy(userIdPk,filt).enqueue(new Callback<Map<String, Integer>>() {
+                @Override
+                public void onResponse(Call<Map<String, Integer>> call, Response<Map<String, Integer>> response) {
+                    if(response.isSuccessful()){
+                        int total = response.body().get("total");
+                        int confirmed = response.body().get("confirmed");
+                        taskCount.setText(total-confirmed+"");
+                        taskPerc.setText((double)confirmed/(double)total * 100 +"%");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, Integer>> call, Throwable t) {
+
+                }
+            });
+        }
+
+    }
 
     private void setConfirmedCount(int totalTask){
 
@@ -217,11 +244,8 @@ public class ToDoFragment extends Fragment {
                     confPerc = (double)confirmedTask / (double)totalTask;
                     taskPerc.setText(String.format("%.2f", confPerc)+"%");
                     taskCount.setText(totalTask-confirmedTask+"");
-
                 }
-
             }
-
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
 
