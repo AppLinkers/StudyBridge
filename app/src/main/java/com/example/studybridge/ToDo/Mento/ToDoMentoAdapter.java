@@ -23,11 +23,7 @@ import retrofit2.Response;
 public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<StudyFindRes> todoStudy = new ArrayList<>();
-    DataService dataService = new DataService();
 
-    public ToDoMentoAdapter() {
-
-    }
 
     @NonNull
     @Override

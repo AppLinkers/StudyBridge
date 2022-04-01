@@ -90,6 +90,7 @@ public class ToDoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+
         if(isMentee==true){
             //날짜 설정
             setTime();
@@ -97,7 +98,8 @@ public class ToDoFragment extends Fragment {
             setTaskCount();
             //리사이클러뷰 설정
             setMenteeRecyclerView();
-        }
+        } else {}
+
 
     }
 

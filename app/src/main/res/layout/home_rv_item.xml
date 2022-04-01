@@ -8,20 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right">
+        android:gravity="right"
+        android:paddingTop="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="진행률"
             android:textStyle="bold"
+            android:textSize="10sp"
             android:layout_marginRight="10dp"/>
         <TextView
-            android:id="@+id/home_RV_percent"
+            android:id="@+id/home_progress_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="진행률"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textColor="@color/textColorPrimary70"/>
     </LinearLayout>
     <LinearLayout
@@ -36,7 +38,7 @@
             android:paddingRight="5dp">
 
             <TextView
-                android:id="@+id/home_RV_studyName"
+                android:id="@+id/home_progress_studyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -59,17 +61,17 @@
                     android:weightSum="1"
                     android:orientation="horizontal">
                     <LinearLayout
-                        android:id="@+id/home_RV_progress"
+                        android:id="@+id/home_progress_confirmBar"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.7"
                         android:background="#83aae5"
                         android:orientation="horizontal" />
                     <LinearLayout
+                        android:id="@+id/home_progress_todoBar"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.3"
-                        android:background="@color/viewUnderline"/>
+                        android:background="@color/viewUnderline"
+                        android:orientation="horizontal" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>

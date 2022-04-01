@@ -8,8 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+
+import java.util.ArrayList;
 
 public class HomeProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    private ArrayList<StudyFindRes> todoStudy = new ArrayList<>();
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -19,11 +24,14 @@ public class HomeProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((HomeProgressHolder)holder).onBind();
+        ((HomeProgressHolder)holder).onBind(todoStudy.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return todoStudy.size();
+    }
+    public void addItem(StudyFindRes study){
+        todoStudy.add(study);
     }
 }

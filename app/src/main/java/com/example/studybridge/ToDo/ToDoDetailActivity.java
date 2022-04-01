@@ -58,7 +58,7 @@ import retrofit2.http.HEAD;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
-    private TextView mentorId,menteeId,dueDate;
+    private TextView mentorId,menteeId,dueDate,confMent;
     private LinearLayoutManager linearLayoutManager;
     private TextInputEditText taskName,taskInfo,comment;
     private TextInputLayout commentLayout;
@@ -103,6 +103,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         mentorId = (TextView) findViewById(R.id.todo_detail_mentorId);
         menteeId = (TextView) findViewById(R.id.todo_detail_menteeId);
         dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
+        confMent = (TextView) findViewById(R.id.conf_ment);
         spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
         taskInfo = (TextInputEditText) findViewById(R.id.todo_detail_taskInfo) ;
         comment = (TextInputEditText) findViewById(R.id.todo_comment);
@@ -170,23 +171,23 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 return true;
 
             case R.id.todo_save:
-                String statusReq = spinner.getSelectedItem().toString();
-
-                changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, todoId, statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
-
-                dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
-                    @Override
-                    public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
+                if(spinner.getVisibility() == View.VISIBLE) {
+                    String statusReq = spinner.getSelectedItem().toString();
+                    changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, todoId, statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
+                    dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
+                        @Override
+                        public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
+                            if(response.isSuccessful()){
+                                Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ChangeToDoStatusRes> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<ChangeToDoStatusRes> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }
                 finish();
                 return true;
         }
@@ -217,15 +218,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     //데이터
     private void setData(){
 
-        if(toDo.getStatus().equals("READY")){
-            spinner.setSelection(0);
-        }else if(toDo.getStatus().equals("PROGRESS")){
-            spinner.setSelection(1);
-        }else if(toDo.getStatus().equals("DONE")){
-            spinner.setSelection(2);
-        }else{
-            spinner.setSelection(3);
-        }
+        setSpinner();
 
         StringBuilder date = new StringBuilder();
         date.append(toDo.getDueDate().substring(0,4))
@@ -242,6 +235,34 @@ public class ToDoDetailActivity extends AppCompatActivity {
         taskInfo.setText(toDo.getTaskInfo());
         todoId = toDo.getTodoId();
 
+    }
+
+
+
+    private void setSpinner(){
+        if(toDo.getStatus().equals("READY")){
+            spinner.setSelection(0);
+        }else if(toDo.getStatus().equals("PROGRESS")){
+            spinner.setSelection(1);
+        }else if(toDo.getStatus().equals("DONE")){
+            spinner.setSelection(2);
+        }else{
+            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if(response.body()){
+                        spinner.setVisibility(View.GONE);
+                        confMent.setVisibility(View.VISIBLE);
+                    }else{
+                        spinner.setSelection(3);
+                    }
+                }
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     //데이트 피커
