@@ -2,16 +2,19 @@ package com.example.studybridge.Home.Progress;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoFragment;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -30,6 +33,7 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
     private TextView studyName,percentage;
     private LinearLayout todoBar,confirmBar;
 
+    //퍼센트 계산 데이터
     int totalTask;
     float todoPerc;
 
@@ -37,6 +41,7 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
     private Long studyId;
 
     private ArrayList<FindAssignedToDoRes> toDoRes = new ArrayList<>();
+    private ToDoFragment toDoFragment;
 
     private DataService dataService;
 
@@ -59,6 +64,20 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
         dataService =new DataService();
 
         findStudy();
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                toDoFragment = new ToDoFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putLong("studyId",studyId);
+
+                toDoFragment.setArguments(bundle);
+
+            }
+        });
 
 
 
