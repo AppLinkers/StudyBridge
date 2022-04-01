@@ -19,7 +19,7 @@ public interface UserMentor {
 
     @Multipart
     @POST("user/mentor/profile")
-    Call<ProfileRes> profile(@Part MultipartBody.Part schoolImg, @Part List<MultipartBody.Part> certificatesImg, @PartMap Map<String, RequestBody> profileTextReq);
+    Call<ProfileRes> profile(@Part MultipartBody.Part schoolImg, @Part List<MultipartBody.Part> certificatesImg, @Part List<MultipartBody.Part> certificates, @PartMap Map<String, RequestBody> profileTextReq);
 
     @GET("user/mentor/profile")
     Call<ProfileRes> getProfile(@Query("mentorLoginId") String mentorLoginId, @Query("userLoginId") String userLoginId);
