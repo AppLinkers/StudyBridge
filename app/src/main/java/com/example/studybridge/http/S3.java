@@ -10,6 +10,6 @@ public interface S3 {
 
     @Multipart
     @POST("/s3/chat/one")
-    public Call<String> chatImg(@Part MultipartBody.Part image);
+    Call<String> chatImg(@Part MultipartBody.Part image);
 
 }

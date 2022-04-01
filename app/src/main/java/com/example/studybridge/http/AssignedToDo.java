@@ -8,6 +8,7 @@ import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,8 +28,11 @@ public interface AssignedToDo {
     @GET("/toDo/assigned/mentee/cnt")
     Call<Integer> countByMentee(@Query("menteeId") Long menteeId);
 
-    @GET("/toDo/assigned/mentee/cnt/status")
+    @GET("/toDo/assigned/mentee/status/cnt")
     Call<Integer> countByMenteeAndStatus(@Query("menteeId") Long menteeId, @Query("status") ToDoStatus status);
+
+    @GET("toDo/assigned/mentee/studyId/cnt")
+    Call<Map<String, Integer>> countByMenteeAndStudy(@Query("menteeId") Long menteeId, @Query("studyId") Long studyId);
 
     @GET("toDo/assigned/mentee/status")
     Call<List<FindAssignedToDoRes>> findByMenteeAndStatus(@Query("menteeId") Long menteeId, @Query("status") ToDoStatus status);
