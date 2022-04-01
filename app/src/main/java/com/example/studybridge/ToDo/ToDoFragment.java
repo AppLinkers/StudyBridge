@@ -224,7 +224,7 @@ public class ToDoFragment extends Fragment {
                         int total = response.body().get("total");
                         int confirmed = response.body().get("confirmed");
                         taskCount.setText(total-confirmed+"");
-                        taskPerc.setText((double)confirmed/(double)total * 100 +"%");
+                        taskPerc.setText(((double)confirmed/(double)total) * 100 +"%");
                     }
                 }
 
@@ -244,7 +244,7 @@ public class ToDoFragment extends Fragment {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()){
                     confirmedTask = response.body();
-                    confPerc = (double)confirmedTask / (double)totalTask;
+                    confPerc = ((double)confirmedTask / (double)totalTask ) * 100;
                     taskPerc.setText(String.format("%.2f", confPerc)+"%");
                     taskCount.setText(totalTask-confirmedTask+"");
                 }
