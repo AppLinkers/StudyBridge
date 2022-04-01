@@ -27,6 +27,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new CommentHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((CommentHolder) holder).onBind(commentList.get(position));

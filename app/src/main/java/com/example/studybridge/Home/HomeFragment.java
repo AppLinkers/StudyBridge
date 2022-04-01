@@ -12,10 +12,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Home.Progress.HomeProgressAdapter;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +41,11 @@ public class HomeFragment extends Fragment {
     int todoCount;
     float todoPerc;
 
+    //progress RecyclerView
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private HomeProgressAdapter adapter;
+
     //Dataservice
     DataService dataService;
 
@@ -45,20 +56,12 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+
+        //화면 위 데이터
         userNameTv = view.findViewById(R.id.home_name);
-
-        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
-
-        Bundle bundle = getArguments();
-        userId = bundle.getString("id");
-        userName = bundle.getString("name");
-        userNameTv.setText(userName);
-
-        dataService = new DataService();
-
+        recyclerView = (RecyclerView) view.findViewById(R.id.home_RV);
 
         //ToDoItem
         readyBar = (LinearLayout) view.findViewById(R.id.home_readyBar);
@@ -71,7 +74,22 @@ public class HomeFragment extends Fragment {
         doneNum = (TextView) view.findViewById(R.id.home_doneNum);
         confirmNum = (TextView) view.findViewById(R.id.home_confirmNum);
 
+        //sharedpreference & 넘어온 데이터
+        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
+
+        Bundle bundle = getArguments();
+        userId = bundle.getString("id");
+        userName = bundle.getString("name");
+        userNameTv.setText(userName);
+
+        //데이터서비스
+        dataService = new DataService();
+
+
         setToDoBar();
+
+        setRecyclerView();
 
 
         return view;
@@ -115,6 +133,30 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setRecyclerView(){
+        adapter = new HomeProgressAdapter();
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
+            @Override
+            public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
+                if(response.isSuccessful()){
+                    for(StudyFindRes study : response.body()){
+                        adapter.addItem(study);
+                    }
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 

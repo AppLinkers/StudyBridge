@@ -1,0 +1,112 @@
+package com.example.studybridge.Home.Progress;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.studybridge.R;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.toDo.FindToDoRes;
+import com.example.studybridge.http.dto.toDo.ToDoStatus;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class HomeProgressHolder extends RecyclerView.ViewHolder{
+
+    private TextView studyName,percentage;
+    private LinearLayout todoBar,confirmBar;
+
+    int totalTask;
+    float todoPerc;
+
+    private Long userIdPk;
+    private Long studyId;
+
+    private ArrayList<FindAssignedToDoRes> toDoRes = new ArrayList<>();
+
+    private DataService dataService;
+
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
+    SharedPreferences sharedPreferences;
+
+    public HomeProgressHolder(@NonNull View itemView) {
+        super(itemView);
+
+        studyName = (TextView) itemView.findViewById(R.id.home_progress_studyName);
+        percentage = (TextView) itemView.findViewById(R.id.home_progress_percent);
+        todoBar = (LinearLayout) itemView.findViewById(R.id.home_progress_todoBar);
+        confirmBar = (LinearLayout) itemView.findViewById(R.id.home_progress_confirmBar);
+
+        //sharedpreference & 넘어온 데이터
+        sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
+
+        dataService =new DataService();
+
+        findStudy();
+
+
+
+    }
+
+    public void onBind(StudyFindRes data){
+        studyName.setText(data.getName());
+        studyId = data.getId();
+    }
+
+    private void findStudy(){
+        dataService.assignedToDo.findByMentee(userIdPk).enqueue(new Callback<List<FindAssignedToDoRes>>() {
+            @Override
+            public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
+                if(response.isSuccessful()){
+                    for(FindAssignedToDoRes f: response.body()){
+                        if(f.getStudyId().equals(studyId)){
+                            toDoRes.add(f);
+                        }
+                    }
+                }
+                setPercentage();
+            }
+
+            @Override
+            public void onFailure(Call<List<FindAssignedToDoRes>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setPercentage(){
+        totalTask = toDoRes.size();
+        int confirmCount=0;
+        for(int i=0; i<totalTask ; i++){
+            if(toDoRes.get(i).getStatus().equals("CONFIRMED")) confirmCount++;
+        }
+
+        if(totalTask==0){
+            todoPerc = 0;
+        } else todoPerc = (float) confirmCount / (float) totalTask;
+
+
+        todoBar.setLayoutParams(new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT,1-todoPerc));
+        confirmBar.setLayoutParams(new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT,todoPerc));
+
+        percentage.setText(String.format("%.1f %% 완료",todoPerc*100));
+    }
+
+
+}

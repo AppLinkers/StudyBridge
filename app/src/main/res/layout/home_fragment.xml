@@ -52,14 +52,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="100dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="전체 진행률"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="21sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,17 +115,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:gravity="center">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/home_readyNum"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="#fa7470"
-                    android:textSize="30sp" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/home_readyNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#fa7470"
+                        android:textSize="30sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -215,39 +216,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
-                <TextView
-                    android:id="@+id/home_confirmNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="#54c242"
-                    android:textSize="30sp" />
+                    <TextView
+                        android:id="@+id/home_confirmNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="#54c242"
+                        android:textSize="30sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/home_confirmNum"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@id/home_confirmNum"
-                    android:text="Confirm"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="12sp" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/home_confirmNum"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_toRightOf="@id/home_confirmNum"
+                        android:text="Confirm"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
         </LinearLayout>
-
-        </LinearLayout>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_RV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="40dp"/>
 
     </LinearLayout>
-
 
 </androidx.core.widget.NestedScrollView>

@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
 
 
-
         HomeFragment = new HomeFragment();
         StudyFragment = new StudyFragment();
         ToDoFragment = new ToDoFragment();
