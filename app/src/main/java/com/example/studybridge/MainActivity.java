@@ -156,4 +156,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
             }
         });
     }
+
+    public void navigationBlink(int menuItem){
+        MenuItem selectedItem = bottomNavigationView.getMenu().findItem(menuItem);
+        selectedItem.setChecked(true);
+    }
 }
