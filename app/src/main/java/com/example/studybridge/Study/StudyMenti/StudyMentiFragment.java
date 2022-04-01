@@ -57,9 +57,7 @@ public class StudyMentiFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), StudyAddActivity.class);
-                ActivityOptions options = ActivityOptions
-                        .makeSceneTransitionAnimation(getActivity(), mentiFab, "transition_fab");
-                startActivity(intent,options.toBundle());
+                startActivity(intent);
             }
         });
 

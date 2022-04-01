@@ -4,10 +4,12 @@ public class Chat {
 
     String chatID;
     String chat;
+    String imgUrl;
 
-    public Chat(String chatID, String chat){
+    public Chat(String chatID, String chat,String imgUrl){
         this.chatID = chatID;
         this.chat = chat;
+        this.imgUrl = imgUrl;
     }
 
     public String getChatID() {

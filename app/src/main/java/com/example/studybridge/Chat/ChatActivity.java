@@ -19,10 +19,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMenti;
@@ -76,7 +78,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private EditText chatEt;
-    private ImageView addImg;
+    private ImageView addImg,exampleImg;
 
     ChatAdapter adapter;
     RecyclerView rcChat;
@@ -107,6 +109,7 @@ public class ChatActivity extends AppCompatActivity {
 
         chatEt = findViewById(R.id.mycontext);
         addImg = (ImageView) findViewById(R.id.chat_addImg);
+        exampleImg = (ImageView) findViewById(R.id.exapleImg);
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -158,7 +161,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void run() {
                     if (!message.getSenderId().equals(userPkId)) {
                         if (message.getMessageType().equals("TALK")) {
-                            Chat chat = new Chat(message.getSenderName(), message.getMessage());
+                            Chat chat = new Chat(message.getSenderName(), message.getMessage(),null);
                             adapter.addItem(chat);
                             rcChat.setAdapter(adapter);
                         } else if (message.getMessageType().equals("PHOTO")) {
@@ -219,7 +222,7 @@ public class ChatActivity extends AppCompatActivity {
                     chk++;
                 }
 
-                Chat chat = new Chat(c.getSenderName(), c.getMessage());
+                Chat chat = new Chat(c.getSenderName(), c.getMessage(),null);
                 adapter.addItem(chat);
             });
         }
@@ -235,7 +238,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (messageType.equals("TALK")) {
             newChat = chatEt.getText()+"";
-            Chat chatSend = new Chat(userId, newChat);
+            Chat chatSend = new Chat(userId, newChat,null);
 
             // send to server
             Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
@@ -305,8 +308,6 @@ public class ChatActivity extends AppCompatActivity {
             /**
              * image 표시 필요
              */
-
-
         }
     }
     private void setAddImg(){
@@ -322,7 +323,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     //사진 돌아감 방지 메서드
-    @RequiresApi(api = Build.VERSION_CODES.N)
+/*    @RequiresApi(api = Build.VERSION_CODES.N)
     private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
         InputStream in = getContentResolver().openInputStream(uri);
         ExifInterface exif = new ExifInterface(in);
@@ -344,7 +345,7 @@ public class ChatActivity extends AppCompatActivity {
         return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
 
-    }
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -356,7 +357,7 @@ public class ChatActivity extends AppCompatActivity {
                 case PICK_IMAGE: //사진 선택시
 
                     try {
-                        InputStream in = getContentResolver().openInputStream(data.getData());
+/*                        InputStream in = getContentResolver().openInputStream(data.getData());
 
 
                         Bitmap img = BitmapFactory.decodeStream(in);
@@ -364,9 +365,14 @@ public class ChatActivity extends AppCompatActivity {
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
 
-                        String dir = saveBitmapToJpg(rImg,"testPath");
+                        exampleImg.setImageBitmap(rImg);
 
-                        imgFile = new File(dir);
+                        dir = saveBitmapToJpg(rImg,"testPath");*/
+                        Uri uri = data.getData();
+                        exampleImg.setImageURI(uri);
+                        imgFile = new File(uri.getPath());
+
+
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -379,7 +385,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    public String saveBitmapToJpg(Bitmap bitmap , String name) {
+/*    public String saveBitmapToJpg(Bitmap bitmap , String name) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = name + ".jpg";
@@ -397,5 +403,5 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
 
         return getCacheDir() + "/" +fileName;
-    }
+    }*/
 }

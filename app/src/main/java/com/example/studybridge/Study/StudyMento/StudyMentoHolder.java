@@ -23,7 +23,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
     private TextView subject,place,mentoName,mentoIntro,mentoSchool,mentoQualification;
     private ImageButton heart;
-//    StudyMento mentoProfile;
     private MyPageMentoProfile profile;
     private DataService dataService = new DataService();
 
@@ -76,13 +75,13 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         mentoName.setText(data.getNickName());
         mentoIntro.setText(data.getIntro());
         mentoSchool.setText(data.getSchool());
+
         if(data.getCertificates().size()>0){
             mentoQualification.setText(data.getCertificates().get(0).getCertificate());
         } else {
             mentoQualification.setText("자격증 없음");
         }
 
-//        mentoProfile = data;
         profile = data;
 
     }

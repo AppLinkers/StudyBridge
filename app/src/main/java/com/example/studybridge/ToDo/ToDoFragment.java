@@ -104,7 +104,9 @@ public class ToDoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        setSpinnerData();
+        if(isMentee){
+            setSpinnerData();
+        }
 
     }
 
@@ -117,6 +119,7 @@ public class ToDoFragment extends Fragment {
         taskPerc = (TextView) view.findViewById(R.id.toDo_perc) ;
         filterSpinner = (Spinner) view.findViewById(R.id.todo_filter);
         recyclerView = (RecyclerView) view.findViewById(R.id.todo_menti_RV);
+        setTime();
         setSpinnerData();
     }
 
