@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.FilterSpinner;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
@@ -58,7 +59,7 @@ public class ToDoFragment extends Fragment {
 
     private String userId;
     private boolean isMentee;
-    String filter;
+    Long filter;
 
     private DataService dataService;
     SharedPreferences sharedPreferences;
@@ -78,7 +79,7 @@ public class ToDoFragment extends Fragment {
         Bundle bundle = getArguments();
         userId = bundle.getString("id");
         isMentee = bundle.getBoolean("isMentee");
-
+        filter = bundle.getLong("studyId");
         sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
@@ -91,6 +92,8 @@ public class ToDoFragment extends Fragment {
             view = inflater.inflate(resource, container, false);
             setMentorUI(view);
         }
+
+        ((MainActivity)getActivity()).navigationBlink(R.id.navigation_toDo);
 
         return view;
     }
@@ -132,6 +135,7 @@ public class ToDoFragment extends Fragment {
                         filtedList.add(new FilterSpinner(data.getId(),data.getName()));
                     }
                     setSpinner(filtedList);
+
                 }
             }
 
@@ -142,16 +146,27 @@ public class ToDoFragment extends Fragment {
         });
     }
 
-
-    private void setSpinner(ArrayList<FilterSpinner> filter){
-
-        ArrayAdapter<FilterSpinner> categoryAdapter = new ArrayAdapter<FilterSpinner>(getContext(), android.R.layout.simple_spinner_item , filter);
+    int pos = 1;
+    private void setSpinner(ArrayList<FilterSpinner> filtList){
+        ArrayAdapter<FilterSpinner> categoryAdapter = new ArrayAdapter<FilterSpinner>(getContext(), android.R.layout.simple_spinner_item , filtList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        for(int j=0; j<filtList.size();j++){
+            if(filtList.get(j).getKey()==filter){
+                pos = j;
+            }
+        }
 
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                FilterSpinner spinnerItem = (FilterSpinner)adapterView.getItemAtPosition(i);
+                if(pos !=0){
+                    filterSpinner.setSelection(pos);
+                }
+
+                FilterSpinner spinnerItem  = (FilterSpinner)adapterView.getItemAtPosition(i);
+
                 if(isMentee==true){
                     //날짜 설정
                     setTime();
@@ -159,7 +174,9 @@ public class ToDoFragment extends Fragment {
                     setTaskCount();
                     //리사이클러뷰 설정
                     setMenteeRecyclerView(spinnerItem.getKey());
+
                 } else {}
+                pos=0;
             }
 
             @Override

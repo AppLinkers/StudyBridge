@@ -34,12 +34,13 @@
             android:id="@+id/todo_menti_inside_taskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:layout_centerInParent="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/todo_menti_inside_CV"
             android:text="과제명"
             android:textColor="@color/textColorPrimary"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/todo_menti_inside_confiredMsg"
             android:layout_width="wrap_content"

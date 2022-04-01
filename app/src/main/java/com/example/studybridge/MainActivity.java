@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.Mypage.MyPageFragment;
@@ -40,9 +41,11 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
 
     // creating constant keys for shared preferences.
+    SharedPreferences.Editor editor;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
+    public static final String USER_ISMENTEE = "user_mentee_key";
     SharedPreferences sharedPreferences;
     String userName;
     String userId;
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+
+        editor = sharedPreferences.edit();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -142,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
                     bundle.putString("name", userName);
                     bundle.putString("id", userId);
                     bundle.putBoolean("isMentee", isMentee);
+
+                    editor.putBoolean(USER_ISMENTEE, isMentee);
+                    editor.apply();
 
                     HomeFragment.setArguments(bundle);
                     StudyFragment.setArguments(bundle);

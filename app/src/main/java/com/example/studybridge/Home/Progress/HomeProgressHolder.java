@@ -2,16 +2,22 @@ package com.example.studybridge.Home.Progress;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.ToDoFragment;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -30,6 +36,7 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
     private TextView studyName,percentage;
     private LinearLayout todoBar,confirmBar;
 
+    //퍼센트 계산 데이터
     int totalTask;
     float todoPerc;
 
@@ -37,11 +44,16 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
     private Long studyId;
 
     private ArrayList<FindAssignedToDoRes> toDoRes = new ArrayList<>();
+    private ToDoFragment toDoFragment;
+    FragmentTransaction transaction;
 
     private DataService dataService;
 
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
+    public static final String USER_ISMENTEE = "user_mentee_key";
+
+    boolean isMentee;
     SharedPreferences sharedPreferences;
 
     public HomeProgressHolder(@NonNull View itemView) {
@@ -55,18 +67,34 @@ public class HomeProgressHolder extends RecyclerView.ViewHolder{
         //sharedpreference & 넘어온 데이터
         sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
+        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE, false);
 
         dataService =new DataService();
 
         findStudy();
 
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("studyId", studyId);
+                bundle.putBoolean("isMentee", isMentee);
+                ToDoFragment toDoFragment = new ToDoFragment();//프래그먼트2 선언
+                toDoFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
+                transaction.replace(R.id.container, toDoFragment);
+                transaction.commit();
+
+            }
+        });
+
 
 
     }
 
-    public void onBind(StudyFindRes data){
+    public void onBind(StudyFindRes data, FragmentTransaction ft){
         studyName.setText(data.getName());
         studyId = data.getId();
+        transaction = ft;
     }
 
     private void findStudy(){

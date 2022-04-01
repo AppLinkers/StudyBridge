@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class HomeProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<StudyFindRes> todoStudy = new ArrayList<>();
+    FragmentTransaction transaction;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -24,7 +26,7 @@ public class HomeProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((HomeProgressHolder)holder).onBind(todoStudy.get(position));
+        ((HomeProgressHolder)holder).onBind(todoStudy.get(position),transaction);
     }
 
     @Override
@@ -33,5 +35,8 @@ public class HomeProgressAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
     public void addItem(StudyFindRes study){
         todoStudy.add(study);
+    }
+    public void setFragmentManager(FragmentTransaction ft){
+        transaction = ft;
     }
 }

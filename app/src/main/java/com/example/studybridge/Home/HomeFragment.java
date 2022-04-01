@@ -12,14 +12,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Home.Progress.HomeProgressAdapter;
+import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -45,6 +49,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private HomeProgressAdapter adapter;
+    private BottomNavigationView bottomNavigationView;
 
     //Dataservice
     DataService dataService;
@@ -135,10 +140,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
     private void setRecyclerView(){
         adapter = new HomeProgressAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
             @Override
@@ -147,6 +154,7 @@ public class HomeFragment extends Fragment {
                     for(StudyFindRes study : response.body()){
                         adapter.addItem(study);
                     }
+                    adapter.setFragmentManager(transaction);
                     recyclerView.setAdapter(adapter);
                 }
             }
