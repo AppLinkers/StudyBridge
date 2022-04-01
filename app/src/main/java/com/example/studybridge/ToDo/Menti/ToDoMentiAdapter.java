@@ -3,6 +3,7 @@ package com.example.studybridge.ToDo.Menti;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<String> statusList;
+    Long filter;
 
     public ToDoMentiAdapter() {
         statusList = new ArrayList<>();
@@ -32,8 +34,12 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ToDoMentiHolder) holder).onBind(statusList.get(position));
+        ((ToDoMentiHolder) holder).onBind(statusList.get(position),filter);
 
+    }
+
+    public void setFilter(Long filt){
+        filter = filt;
     }
 
     @Override

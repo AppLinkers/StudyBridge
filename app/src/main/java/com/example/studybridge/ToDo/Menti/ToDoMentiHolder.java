@@ -27,15 +27,19 @@ import retrofit2.Response;
 public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
     private TextView status,taskInfo;
+
     //리시이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     ToDoMentiInsideAdapter toDoAdapter;
+
+
     DataService dataService;
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
+
     Long userIdPk;
     String userId;
     private ArrayList<ToDo> datas = new ArrayList<>();
@@ -52,14 +56,13 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
         recyclerView = (RecyclerView) itemView.findViewById(R.id.todo_menti_inside_RV);
 
-
-
     }
 
-    public void onBind(String statusName){
+    public void onBind(String statusName, Long filter){
         status.setText(statusName);
         setRecyclerView();
-        setData(statusName);
+        setData(statusName,filter);
+
     }
 
 
@@ -68,16 +71,15 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    private void setData(String statusName){
+    private void setData(String statusName, Long filter){
         dataService = new DataService();
         toDoAdapter = new ToDoMentiInsideAdapter();
-
         dataService.assignedToDo.findByMentee(userIdPk).enqueue(new Callback<List<FindAssignedToDoRes>>() {
             @Override
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
                 System.out.println(response.raw());
+                Long all = Long.valueOf(0);
                 if(response.isSuccessful()){
-
                     for(FindAssignedToDoRes data : response.body()){
                         ToDo todo = new ToDo(
                                 data.getId(),
@@ -89,10 +91,15 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                                 data.getExplain(),
                                 data.getDueDate()+"",
                                 null);
-                        datas.add(todo);
+                        if(filter.equals(all)){
+                            datas.add(todo);
+                        }else if(todo.getStudyId().equals(filter)){
+                            datas.add(todo);
+                        }
+
                     }
 
-                    System.out.println(datas.size());
+
 
                     for(ToDo data : datas){
                         if(data.getStatus().equals(statusName)){

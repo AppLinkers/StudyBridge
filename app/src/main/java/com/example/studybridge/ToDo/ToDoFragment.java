@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.Menti.FilterSpinner;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.ToDo.Mento.ToDoMentoAdapter;
 import com.example.studybridge.http.DataService;
@@ -26,9 +30,12 @@ import com.example.studybridge.http.dto.toDo.FindToDoRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,12 +51,14 @@ public class ToDoFragment extends Fragment {
     private double confPerc=0.0;
 
     private TextView year, month, day, taskCount, taskPerc;
+    private Spinner filterSpinner;
     //리사이클러뷰
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
     private String userId;
     private boolean isMentee;
+    String filter;
 
     private DataService dataService;
     SharedPreferences sharedPreferences;
@@ -86,22 +95,7 @@ public class ToDoFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-
-        if(isMentee==true){
-            //날짜 설정
-            setTime();
-            //Todolist 갯수확인
-            setTaskCount();
-            //리사이클러뷰 설정
-            setMenteeRecyclerView();
-        } else {}
-
-
-    }
 
     private void setMenteeUI(View view) {
         //멘티 화면 위 데이터
@@ -110,9 +104,9 @@ public class ToDoFragment extends Fragment {
         day = (TextView) view.findViewById(R.id.todo_day_tv);
         taskCount = (TextView) view.findViewById(R.id.todo_taskCount);
         taskPerc = (TextView) view.findViewById(R.id.toDo_perc) ;
-
+        filterSpinner = (Spinner) view.findViewById(R.id.todo_filter);
         recyclerView = (RecyclerView) view.findViewById(R.id.todo_menti_RV);
-
+        setSpinnerData();
     }
 
     private void setMentorUI(View view){
@@ -124,6 +118,57 @@ public class ToDoFragment extends Fragment {
 
         setTime();
         setMentorRecyclerView();
+    }
+
+    private void setSpinnerData(){
+        dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
+            @Override
+            public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
+                if(response.isSuccessful()){
+                    Long a = Long.valueOf(0);
+                    ArrayList<FilterSpinner> filtedList = new ArrayList<FilterSpinner>();
+                    filtedList.add(new FilterSpinner(a,"전체"));
+                    for(StudyFindRes data : response.body()){
+                        filtedList.add(new FilterSpinner(data.getId(),data.getName()));
+                    }
+                    setSpinner(filtedList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void setSpinner(ArrayList<FilterSpinner> filter){
+
+        ArrayAdapter<FilterSpinner> categoryAdapter = new ArrayAdapter<FilterSpinner>(getContext(), android.R.layout.simple_spinner_item , filter);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                FilterSpinner spinnerItem = (FilterSpinner)adapterView.getItemAtPosition(i);
+                if(isMentee==true){
+                    //날짜 설정
+                    setTime();
+                    //Todolist 갯수확인
+                    setTaskCount();
+                    //리사이클러뷰 설정
+                    setMenteeRecyclerView(spinnerItem.getKey());
+                } else {}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        filterSpinner.setAdapter(categoryAdapter);
 
     }
 
@@ -177,12 +222,13 @@ public class ToDoFragment extends Fragment {
         day.setText(new SimpleDateFormat("dd").format(date));
     }
 
-    private void setMenteeRecyclerView() {
-
+    private void setMenteeRecyclerView(Long filter) {
+        ToDoMentiAdapter adapter = new ToDoMentiAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new ToDoMentiAdapter());
+        adapter.setFilter(filter);
+        recyclerView.setAdapter(adapter);
     }
 
 
