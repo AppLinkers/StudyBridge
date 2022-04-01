@@ -23,6 +23,7 @@ public class HomeFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+
         userNameTv = view.findViewById(R.id.home_name);
 
         Bundle bundle = getArguments();

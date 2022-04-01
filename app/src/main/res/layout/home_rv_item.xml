@@ -6,6 +6,26 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="진행률"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/home_RV_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="진행률"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary70"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -14,20 +34,15 @@
             android:layout_height="match_parent"
             android:layout_weight="0.3"
             android:paddingRight="5dp">
-            <ImageView
-                android:id="@+id/home_item_arrow"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_arrow_right"
-                android:layout_centerVertical="true"/>
+
             <TextView
+                android:id="@+id/home_RV_studyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="스터디 이름"
                 android:textColor="@color/textColorPrimary"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/home_item_arrow"/>
+                android:textStyle="bold" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -44,10 +59,12 @@
                     android:weightSum="1"
                     android:orientation="horizontal">
                     <LinearLayout
+                        android:id="@+id/home_RV_progress"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.7"
-                        android:background="#83aae5"/>
+                        android:background="#83aae5"
+                        android:orientation="horizontal" />
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -58,10 +75,5 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
     </LinearLayout>
 </LinearLayout>

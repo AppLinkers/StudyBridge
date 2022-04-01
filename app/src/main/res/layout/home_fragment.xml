@@ -99,7 +99,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.1"
-                    android:background="#54c242"/>
+                    android:background="@color/viewUnderline"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <LinearLayout
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="1"
-                        android:textColor="#54c242"
+                        android:textColor="@color/viewUnderline"
                         android:textSize="30sp" />
 
                     <TextView
