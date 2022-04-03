@@ -74,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
     Long roomId;
 
     //이미지 업로드
+    String dir;
     File imgFile;
 
     private Toolbar toolbar;
@@ -214,8 +215,6 @@ public class ChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d(TAG, String.valueOf(result));
-
         if (result.size() > 0) {
             result.forEach(c -> {
                 if (c.getSenderId().equals(userPkId)) {
@@ -244,7 +243,6 @@ public class ChatActivity extends AppCompatActivity {
             Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
             String sendMessage = gson.toJson(message);
             stompClient.send("/pub/chat/message", sendMessage).subscribe();
-            Log.d(TAG, sendMessage);
 
             // edit UI
             adapter.addItem(chatSend);
@@ -255,18 +253,13 @@ public class ChatActivity extends AppCompatActivity {
 
             String img_url = null;
 
-            /**
-             * File 형의 image input 필요
-             */
-            RequestBody img = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
-            MultipartBody.Part chatImg = MultipartBody.Part.createFormData("chatImg", "chatImg", img);
+            RequestBody image = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
+            MultipartBody.Part chatImg = MultipartBody.Part.createFormData("image", "image", image);
 
-            // save img to S3
             @SuppressLint("StaticFieldLeak")
-            AsyncTask<Void, Void, String> save_img = new AsyncTask<Void, Void, String>() {
+            AsyncTask<Void, Void, String> API = new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
-                    Log.d(TAG,"test");
                     Call<String> call = dataService.s3.chatImg(chatImg);
 
                     try {
@@ -274,40 +267,34 @@ public class ChatActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     return null;
                 }
 
                 @Override
-                protected void onProgressUpdate(Void... values) {
-                    // 파일 업로드 퍼센트 표시 가능
-                }
-
-
+                protected void onPostExecute(String s) {super.onPostExecute(s);}
             }.execute();
 
             try {
-                img_url = save_img.get();
-                Log.d(TAG, "endSave");
-                Log.d(TAG, img_url);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+                img_url = API.get();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            Log.d(TAG, "sendChat");
 
             // send to server
             Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
             String sendMessage = gson.toJson(message);
             stompClient.send("/pub/chat/message", sendMessage).subscribe();
-            Log.d(TAG, sendMessage);
 
             // edit UI
             /**
              * image 표시 필요
              */
+            Chat chatSend = new Chat(userId, img_url, null);
+            // edit UI
+            adapter.addItem(chatSend);
+            rcChat.setAdapter(adapter);
+            rcChat.scrollToPosition(adapter.getItemCount()-1);
+            chatEt.setText("");
         }
     }
     private void setAddImg(){
@@ -322,8 +309,48 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            switch (requestCode) {
+                case PICK_IMAGE: //사진 선택시
+
+                    try {
+                        InputStream in = getContentResolver().openInputStream(data.getData());
+
+
+                        Bitmap img = BitmapFactory.decodeStream(in);
+
+                        Bitmap rImg = rotateImage(data.getData(), img);
+                        in.close();
+
+                        exampleImg.setImageBitmap(rImg);
+
+                        dir = saveBitmapToJpg(rImg,"testPath");
+                        Uri uri = data.getData();
+                        exampleImg.setImageURI(uri);
+                        imgFile = new File(dir);
+
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+            }
+        }
+        else if(requestCode == RESULT_CANCELED){
+            //취소할 경우
+        }
+    }
+
     //사진 돌아감 방지 메서드
-/*    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
         InputStream in = getContentResolver().openInputStream(uri);
         ExifInterface exif = new ExifInterface(in);
@@ -343,49 +370,9 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-
-    }*/
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK){
-            switch (requestCode) {
-                case PICK_IMAGE: //사진 선택시
-
-                    try {
-/*                        InputStream in = getContentResolver().openInputStream(data.getData());
-
-
-                        Bitmap img = BitmapFactory.decodeStream(in);
-
-                        Bitmap rImg = rotateImage(data.getData(), img);
-                        in.close();
-
-                        exampleImg.setImageBitmap(rImg);
-
-                        dir = saveBitmapToJpg(rImg,"testPath");*/
-                        Uri uri = data.getData();
-                        exampleImg.setImageURI(uri);
-                        imgFile = new File(uri.getPath());
-
-
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-            }
-        }
-        else if(requestCode == RESULT_CANCELED){
-            //취소할 경우
-        }
     }
 
-/*    public String saveBitmapToJpg(Bitmap bitmap , String name) {
+      public String saveBitmapToJpg(Bitmap bitmap , String name) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = name + ".jpg";
@@ -403,5 +390,5 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
 
         return getCacheDir() + "/" +fileName;
-    }*/
+    }
 }
