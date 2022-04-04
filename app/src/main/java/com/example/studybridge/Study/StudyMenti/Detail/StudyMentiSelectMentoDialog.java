@@ -79,7 +79,7 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
                     public void onResponse(Call<ChooseMentorRes> call, Response<ChooseMentorRes> response) {
                         if(response.isSuccessful())
                         {
-
+                            dismiss();
                         }
                     }
 
@@ -88,8 +88,6 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
 
                     }
                 });
-
-                dismiss();
             }
         });
 

@@ -229,7 +229,11 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     }
 
-    //추가된 소스, ToolBar에 menu.xml을 인플레이트함
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkStudyStatus();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -26,7 +26,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
     private TextView subject,place,mentoName,mentoIntro,mentoSchool,mentoQualification;
     private ImageView heart;
     private ProfileRes profile;
-    private DataService dataService = new DataService();
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -44,14 +43,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
-
-
-
-                boolean passHeart = heart.isSelected();
-
-                intent.putExtra("heart",passHeart);
                 intent.putExtra("profile", profile);
-
                 view.getContext().startActivity(intent);
             }
         });

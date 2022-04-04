@@ -109,21 +109,7 @@ public class StudyMentoFragment extends Fragment {
                 try {
                         for (ProfileRes res : call.execute().body()) {
                             if (res.getNickName() != null) {  //임시 조건
-                                ProfileRes mentoProfile = new ProfileRes(
-                                        res.getUserId(),
-                                        res.getUserName(),
-                                        res.getLocation(),
-                                        res.getInfo(),
-                                        res.getNickName(),
-                                        res.getSchool(),
-                                        res.getSchoolImg(),
-                                        res.getSubject(),
-                                        res.getCertificates(),
-                                        res.getExperience(),
-                                        res.getCurriculum(),
-                                        res.getAppeal(),
-                                        res.getLiked());
-                                adapter.addItem(mentoProfile);
+                                adapter.addItem(res);
                             }
                         }
                     recyclerView.setAdapter(adapter);

@@ -221,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
                     chk++;
                 }
 
-/*                Message message = new Message(c.getMessageType(),c.getRoom(),c.getSenderId(),c.getSenderName(),c.getMessage());*/
+
                 adapter.addItem(c);
             });
         }
@@ -234,10 +234,11 @@ public class ChatActivity extends AppCompatActivity {
     public void send(View view) throws URISyntaxException {
 
         String messageType = "PHOTO";
+        //메세지 타입 설정 필요
 
         if (messageType.equals("TALK")) {
             newChat = chatEt.getText()+"";
-/*            Chat chatSend = new Chat(userId, newChat,null);*/
+
 
             // send to server
             Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
@@ -288,7 +289,7 @@ public class ChatActivity extends AppCompatActivity {
             /**
              * image 표시 필요
              */
-/*            Chat chatSend = new Chat(userId, null, img_url);*/
+
             // edit UI
             adapter.addItem(message);
             rcChat.setAdapter(adapter);
@@ -331,8 +332,7 @@ public class ChatActivity extends AppCompatActivity {
                         exampleImg.setImageBitmap(rImg);
 
                         dir = saveBitmapToJpg(rImg,"testPath");
-/*                        Uri uri = data.getData();
-                        exampleImg.setImageURI(uri);*/
+
                         imgFile = new File(dir);
 
 

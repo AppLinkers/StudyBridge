@@ -97,13 +97,12 @@ public class StudyMentoDetail extends AppCompatActivity {
 
 
 
-        //툴바 설정
-        setToolbar();
+        //들어온 경로에 따라
+        setPath();
 
         // viewpager & tablayout
         setTabLayout();
 
-        isLiked();
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +153,7 @@ public class StudyMentoDetail extends AppCompatActivity {
             public void onDismiss(DialogInterface dialogInterface) {
                 if (selectOK==1){
                     toMatched();
-                    finish();
+
                 }
             }
         });
@@ -167,7 +166,7 @@ public class StudyMentoDetail extends AppCompatActivity {
             public void onClick(View view) {
                 if(heart.isSelected()){
 
-                    dataService.userMentee.unLikeMentor(userLong,profile.getUserId()).enqueue(new Callback<LikeMentorRes>() {
+                    dataService.userMentee.unLikeMentor(userLong,mentoLong).enqueue(new Callback<LikeMentorRes>() {
                         @Override
                         public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
                             if(response.isSuccessful()){
@@ -184,7 +183,7 @@ public class StudyMentoDetail extends AppCompatActivity {
                     });
                 }
                 else if(!heart.isSelected()){
-                    dataService.userMentee.likeMentor(userLong,profile.getUserId()).enqueue(new Callback<LikeMentorRes>() {
+                    dataService.userMentee.likeMentor(userLong,mentoLong).enqueue(new Callback<LikeMentorRes>() {
                         @Override
                         public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
                             if(response.isSuccessful()) {
@@ -203,47 +202,26 @@ public class StudyMentoDetail extends AppCompatActivity {
         });
     }
 
-    private void isLiked(){
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body()){
-                    if(profile.getLiked()){
-                        heart.setSelected(true);
-                    } else heart.setSelected(false);
-                    setHeart();
-                }
-            }
+    private void setPath(){
 
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });
-    }
-
-    //매칭 종료 메서드
-    public void toMatched(){
-        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, CONFIRM_APPLY);
-
-        dataService.study.status(csReq).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                System.out.println(CONFIRM_APPLY);
-
-            }
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-            }
-        });
-    }
-
-
-    //툴바 설정
-    public void setToolbar(){
-        //툴바 설정
         if(mentoId == null || mentoId.equals("")){
             toolbar.setTitle(profile.getNickName());
+            mentoLong = profile.getUserId();
+            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if(response.body()){
+                        if(profile.getLiked()){
+                            heart.setSelected(true);
+                        } else heart.setSelected(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
         } else {
             dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
                 @Override
@@ -252,6 +230,10 @@ public class StudyMentoDetail extends AppCompatActivity {
                     {
                         toolbar.setTitle(response.body().getNickName());
                         mentoLong = response.body().getUserId();
+                        if(response.body().getLiked()){
+                            heart.setSelected(true);
+                        } else heart.setSelected(false);
+
                         if(userId.equals(managerId)){
                             buttonLayout.setVisibility(View.VISIBLE);
                         } else {
@@ -268,9 +250,29 @@ public class StudyMentoDetail extends AppCompatActivity {
             });
         }
 
+        setHeart();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
+
+    //매칭 종료 메서드
+    public void toMatched(){
+        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, CONFIRM_APPLY);
+
+        dataService.study.status(csReq).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                System.out.println(CONFIRM_APPLY);
+                finish();
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
+    }
+
 
     //tabLayout, Viewpager 설정
     public void setTabLayout(){

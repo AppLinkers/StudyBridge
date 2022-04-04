@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
     boolean isMentee;
 
-    StudyMenti newStudy;
-
 
     // creating constant keys for shared preferences.
     SharedPreferences.Editor editor;
