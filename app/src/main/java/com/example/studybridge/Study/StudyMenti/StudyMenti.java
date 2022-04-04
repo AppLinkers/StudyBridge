@@ -12,7 +12,7 @@ public class StudyMenti implements Serializable {
     String place;
     String studyName;
     String studyIntro;
-//    String studyExplain;
+    String studyExplain;
     int maxNum;
 
     @Override
@@ -27,13 +27,14 @@ public class StudyMenti implements Serializable {
                 '}';
     }
 
-    public StudyMenti(Long id, int status, String subject, String place, String studyName, String studyIntro, int maxNum) {
+    public StudyMenti(Long id, int status, String subject, String place, String studyName, String studyIntro,String studyExplain, int maxNum) {
         this.id = id;
         this.status = status;
         this.subject = subject;
         this.place = place;
         this.studyName = studyName;
         this.studyIntro = studyIntro;
+        this.studyExplain = studyExplain;
         this.maxNum = maxNum;
     }
 
@@ -110,12 +111,11 @@ public class StudyMenti implements Serializable {
 
 
     }
+    public String getStudyExplain() {
+        return studyExplain;
+    }
 
-//    public String getStudyExplain() {
-//        return studyExplain;
-//    }
-//
-//    public void setStudyExplain(String studyExplain) {
-//        this.studyExplain = studyExplain;
-//    }
+    public void setStudyExplain(String studyExplain) {
+        this.studyExplain = studyExplain;
+    }
 }

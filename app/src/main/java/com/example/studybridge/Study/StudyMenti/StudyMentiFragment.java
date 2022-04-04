@@ -35,6 +35,7 @@ import retrofit2.Call;
 public class StudyMentiFragment extends Fragment{
     //리사이클러
     private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     private SwipeRefreshLayout refreshLayout;
     private StudyMentiAdapter adapter;
     private FloatingActionButton mentiFab,filterFab;
@@ -73,9 +74,10 @@ public class StudyMentiFragment extends Fragment{
         recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_menti_swipeRC);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new StudyMentiAdapter();
 
 
@@ -175,7 +177,7 @@ public class StudyMentiFragment extends Fragment{
 
                     String status = s.getStatus();
 
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getExplain(),s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     System.out.println("a: "+s.getMenteeCnt());
                     adapter.addItem(studyMenti);
@@ -190,7 +192,7 @@ public class StudyMentiFragment extends Fragment{
                 result.stream().filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
                     String status = s.getStatus();
 
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
                     adapter.setEnrollMenteeCtn(s.getMenteeCnt());
@@ -201,7 +203,7 @@ public class StudyMentiFragment extends Fragment{
                 result.stream().filter(s -> s.getType().equals(placeFilter.getText())).forEach(s -> {
                     String status = s.getStatus();
 
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
                     adapter.setEnrollMenteeCtn(s.getMenteeCnt());
@@ -212,7 +214,7 @@ public class StudyMentiFragment extends Fragment{
                 result.stream().filter(s -> s.getType().equals(placeFilter.getText())).filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
                     String status = s.getStatus();
 
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getMaxNum());
+                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
                     Log.d("test", studyMenti.toString());
                     adapter.addItem(studyMenti);
                     adapter.setEnrollMenteeCtn(s.getMenteeCnt());

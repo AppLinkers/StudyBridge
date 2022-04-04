@@ -33,7 +33,9 @@ public class StudyMentoFragment extends Fragment {
     //리사이클러
     private RecyclerView recyclerView;
     private StudyMentoAdapter adapter;
-    ArrayList<StudyMento> arrayList;
+    private LinearLayoutManager linearLayoutManager;
+
+    //화면 위 데이터
     private FloatingActionButton filterFab;
     private TextView subjectFilter, placeFilter;
     DataService dataService;
@@ -56,11 +58,23 @@ public class StudyMentoFragment extends Fragment {
         filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
         subjectFilter = (TextView) view.findViewById(R.id.mento_subjectFilter);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeFilter);
+        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
 
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
+        setFilterFab();
+
+        setRecyclerView();
+
+
+
+
+        return view;
+    }
+
+    private void setFilterFab(){
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,19 +89,15 @@ public class StudyMentoFragment extends Fragment {
                 });
             }
         });
+    }
 
-        //recycler
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
-        arrayList = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+    private void setRecyclerView(){
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new StudyMentoAdapter();
         getData();
-
-
-
-
-        return view;
     }
 
     @SuppressLint({"StaticFieldLeak", "NewApi"})

@@ -36,11 +36,14 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public TextView studyMaxNum,studyNowNum;
     public CardView statusColor;
 
+
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
 
     SharedPreferences sharedPreferences;
     String userId;
+
+    private StudyMenti studyMenti;
 
     Long study_id;
     String managerId;
@@ -69,18 +72,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intentToDetail = new Intent(view.getContext(), StudyMentiDetail.class);
-//                Intent intentToChat = new Intent(view.getContext(), ChatActivity.class);
-
-                String passStatus = status.getText() +"";
-                String passSubject = subject.getText() +"";
-                String passPlace = place.getText() +"";
-                String passName = studyName.getText() +"";
-                String passIntro = studyIntro.getText() +"";
-                int maxPeople = Integer.parseInt(studyMaxNum.getText().toString());
-
-
-                StudyMenti studyMenti = new StudyMenti(study_id , statusDef(passStatus),passSubject,passPlace,passName,passIntro,maxPeople);
-
 
                 intentToDetail.putExtra("study",studyMenti);
                 intentToDetail.putExtra("enrollMentiNum",Integer.parseInt(studyNowNum.getText().toString()));
@@ -92,21 +83,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public int statusDef(String status){
-        if(status.equals("멘티 모집중")){
-            return 0;
-        }
-        else if(status.equals("멘토 모집중")){
-            return 1;
-        }
-        else if(status.equals("매칭 완료")){
-            return 2;
-        }else{
-            return 3;
-        }
-
-
-    }
 
 
     public void onBind(StudyMenti data, int count) {
@@ -129,6 +105,8 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         } else{
             statusColor.setCardBackgroundColor(Color.parseColor("#E0E0E0"));
         }
+
+        studyMenti = data;
 
     }
 

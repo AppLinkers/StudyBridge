@@ -165,7 +165,9 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
                 if(response.isSuccessful()){
                     for(StudyFindRes study : response.body()){
-                        adapter.addItem(study);
+                        if(study.getStatus().equals("MATCHED")){
+                            adapter.addItem(study);
+                        }
                     }
                     adapter.setFragmentManager(transaction);
                     recyclerView.setAdapter(adapter);

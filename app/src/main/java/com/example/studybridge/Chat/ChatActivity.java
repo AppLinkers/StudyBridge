@@ -162,8 +162,8 @@ public class ChatActivity extends AppCompatActivity {
                 public void run() {
                     if (!message.getSenderId().equals(userPkId)) {
                         if (message.getMessageType().equals("TALK")) {
-                            Chat chat = new Chat(message.getSenderName(), message.getMessage(),null);
-                            adapter.addItem(chat);
+/*                            Chat chat = new Chat(message.getSenderName(), message.getMessage(),null);*/
+                            adapter.addItem(message);
                             rcChat.setAdapter(adapter);
                         } else if (message.getMessageType().equals("PHOTO")) {
                             /**
@@ -221,8 +221,8 @@ public class ChatActivity extends AppCompatActivity {
                     chk++;
                 }
 
-                Chat chat = new Chat(c.getSenderName(), c.getMessage(),null);
-                adapter.addItem(chat);
+/*                Message message = new Message(c.getMessageType(),c.getRoom(),c.getSenderId(),c.getSenderName(),c.getMessage());*/
+                adapter.addItem(c);
             });
         }
 
@@ -237,15 +237,14 @@ public class ChatActivity extends AppCompatActivity {
 
         if (messageType.equals("TALK")) {
             newChat = chatEt.getText()+"";
-            Chat chatSend = new Chat(userId, newChat,null);
+/*            Chat chatSend = new Chat(userId, newChat,null);*/
 
             // send to server
             Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
             String sendMessage = gson.toJson(message);
             stompClient.send("/pub/chat/message", sendMessage).subscribe();
-
             // edit UI
-            adapter.addItem(chatSend);
+            adapter.addItem(message);
             rcChat.setAdapter(adapter);
             rcChat.scrollToPosition(adapter.getItemCount()-1);
             chatEt.setText("");
@@ -289,9 +288,9 @@ public class ChatActivity extends AppCompatActivity {
             /**
              * image 표시 필요
              */
-            Chat chatSend = new Chat(userId, img_url, null);
+/*            Chat chatSend = new Chat(userId, null, img_url);*/
             // edit UI
-            adapter.addItem(chatSend);
+            adapter.addItem(message);
             rcChat.setAdapter(adapter);
             rcChat.scrollToPosition(adapter.getItemCount()-1);
             chatEt.setText("");
@@ -332,8 +331,8 @@ public class ChatActivity extends AppCompatActivity {
                         exampleImg.setImageBitmap(rImg);
 
                         dir = saveBitmapToJpg(rImg,"testPath");
-                        Uri uri = data.getData();
-                        exampleImg.setImageURI(uri);
+/*                        Uri uri = data.getData();
+                        exampleImg.setImageURI(uri);*/
                         imgFile = new File(dir);
 
 

@@ -136,7 +136,9 @@ public class ToDoFragment extends Fragment {
                     ArrayList<FilterSpinner> filtedList = new ArrayList<FilterSpinner>();
                     filtedList.add(new FilterSpinner(a,"전체"));
                     for(StudyFindRes data : response.body()){
-                        filtedList.add(new FilterSpinner(data.getId(),data.getName()));
+                        if(data.getStatus().equals("MATCHED")){
+                            filtedList.add(new FilterSpinner(data.getId(),data.getName()));
+                        }
                     }
                     setSpinner(filtedList);
                 }

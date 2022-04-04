@@ -34,8 +34,7 @@ public class StudyAddActivity extends AppCompatActivity {
     String studyPlace;
     int maxNum;
     String studyIntro;
-//    String studyExplain;
-    StudyMenti study;
+    String studyExplain;
 
     private DataService dataService = new DataService();
 
@@ -64,7 +63,7 @@ public class StudyAddActivity extends AppCompatActivity {
         titleEt = findViewById(R.id.study_add_title);
         introEt = findViewById(R.id.study_add_intro);
         maxNumEt = findViewById(R.id.study_add_max);
-        explainEt = findViewById(R.id.study_add_intro);
+        explainEt = findViewById(R.id.study_add_explain);
 
         //지역 선택 chip
         subjectGroup = (ChipGroup) findViewById(R.id.study_add_subjectGroup);
@@ -93,7 +92,7 @@ public class StudyAddActivity extends AppCompatActivity {
                 title = titleEt.getText().toString()+"";
                 maxNum = Integer.parseInt(maxNumEt.getText().toString()+"");
                 studyIntro = introEt.getText().toString()+"";
-//                studyExplain = explainEt.getText().toString()+"";
+                studyExplain = explainEt.getText().toString()+"";
                 for(int i=0; i<subjectGroup.getChildCount();i++){
                     Chip chip = (Chip) subjectGroup.getChildAt(i);
                     if(chip.isChecked()){
@@ -108,9 +107,7 @@ public class StudyAddActivity extends AppCompatActivity {
                 }
 
 
-                study = new StudyMenti(0L, 0, subject, studyPlace, title,studyIntro,maxNum);
-
-                StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, "studyExplain",  studyPlace, maxNum);
+                StudyMakeReq studyMakeReq = new StudyMakeReq(userId, title, subject, studyIntro, studyExplain,  studyPlace, maxNum);
 
                 dataService.study.make(studyMakeReq).enqueue(new Callback<StudyMakeRes>() {
                     @Override
