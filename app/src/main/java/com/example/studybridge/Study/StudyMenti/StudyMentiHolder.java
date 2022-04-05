@@ -17,6 +17,7 @@ import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +44,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     SharedPreferences sharedPreferences;
     String userId;
 
-    private StudyMenti studyMenti;
+    private StudyFindRes studyFindRes;
 
     Long study_id;
     String managerId;
@@ -73,8 +74,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent intentToDetail = new Intent(view.getContext(), StudyMentiDetail.class);
 
-                intentToDetail.putExtra("study",studyMenti);
-                intentToDetail.putExtra("enrollMentiNum",Integer.parseInt(studyNowNum.getText().toString()));
+                intentToDetail.putExtra("study",studyFindRes);
                 intentToDetail.putExtra("managerId",managerId);
                 view.getContext().startActivity(intentToDetail);
 
@@ -85,28 +85,20 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
 
 
-    public void onBind(StudyMenti data, int count) {
+    public void onBind(StudyFindRes data) {
 
         study_id = data.getId();
-        status.setText(data.statusStr());
-        subject.setText(data.getSubject());
+        subject.setText(data.getType());
         place.setText(data.getPlace());
-        studyName.setText(data.getStudyName());
-        studyIntro.setText(data.getStudyIntro());
-        studyNowNum.setText(String.valueOf(count));
+        studyName.setText(data.getName());
+        studyIntro.setText(data.getInfo());
+        studyNowNum.setText(String.valueOf(data.getMenteeCnt()));
         studyMaxNum.setText(String.valueOf(data.getMaxNum()));
+        status.setText(data.statusSet(statusColor));
 
         getManagerId(study_id);
 
-        if(data.status == 0){
-            statusColor.setCardBackgroundColor(Color.parseColor("#FF03DAC5"));
-        } else if(data.status == 1){
-            statusColor.setCardBackgroundColor(Color.parseColor("#FBB8AC"));
-        } else{
-            statusColor.setCardBackgroundColor(Color.parseColor("#E0E0E0"));
-        }
-
-        studyMenti = data;
+        studyFindRes = data;
 
     }
 
@@ -125,5 +117,4 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             }
         });
     }
-
 }

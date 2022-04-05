@@ -30,6 +30,8 @@ import retrofit2.Call;
 
 
 public class StudyMentoFragment extends Fragment {
+
+
     //리사이클러
     private RecyclerView recyclerView;
     private StudyMentoAdapter adapter;
@@ -72,6 +74,12 @@ public class StudyMentoFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setRecyclerView();
     }
 
     private void setFilterFab(){

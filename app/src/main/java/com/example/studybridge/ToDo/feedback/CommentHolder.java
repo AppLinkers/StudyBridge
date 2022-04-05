@@ -1,26 +1,20 @@
 package com.example.studybridge.ToDo.feedback;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.ToDo.ToDoDetailActivity;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.feedBack.FindFeedBackRes;

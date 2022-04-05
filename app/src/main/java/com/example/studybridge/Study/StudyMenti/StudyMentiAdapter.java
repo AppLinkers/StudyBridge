@@ -5,9 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyFilter;
+import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,8 +18,7 @@ import java.util.ArrayList;
 
 public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<StudyMenti> listData = new ArrayList<>();
-    private ArrayList<Integer> count = new ArrayList<>();
+    private ArrayList<StudyFindRes> listData = new ArrayList<>();
 
 
     @NonNull
@@ -29,7 +31,7 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        ((StudyMentiHolder) holder).onBind(listData.get(position), count.get(position));
+        ((StudyMentiHolder) holder).onBind(listData.get(position));
     }
 
     @Override
@@ -37,14 +39,23 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
-    public void addItem(StudyMenti data) {
-        listData.add(data);
+    public void addItem(StudyFindRes data, StudyFilter filter) {
+        if(isEqual(data.getStatus(),filter.getStatus())
+                &&isEqual(data.getType(),filter.getType())
+                &&isEqual(data.getPlace(),filter.getPlace())){
+            listData.add(data);
+        }
     }
 
     public void clearItem(){listData.clear();}
 
-    public void setEnrollMenteeCtn(int enrollMenteeCt) {
-        count.add(enrollMenteeCt);
+    private boolean isEqual(String s1,String s2){
+        if(s1.equals(s2)){
+            return true;
+        }
+        else if(s2.equals("전체")){
+            return true;
+        }
+        else return false;
     }
-
 }

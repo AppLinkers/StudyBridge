@@ -15,7 +15,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/menti_status_Card"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="23dp"
             app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             android:layout_marginRight="5dp">
@@ -26,14 +26,14 @@
                 android:gravity="center"
                 android:text="모집중"
                 android:textColor="@color/white"
-                android:textSize="11sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="23dp"
             app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/colorPrimary"
             android:layout_marginRight="5dp">
@@ -44,14 +44,14 @@
                 android:text="과목"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="11sp"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="23dp"
             app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/colorPrimary">
             <TextView
@@ -61,7 +61,7 @@
                 android:text="지역"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="11sp"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"/>
@@ -92,12 +92,12 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/menti_img_card"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="-10dp"
             android:layout_toRightOf="@+id/menti_img_card"
             android:text="스터디 이름"
             android:textColor="@color/textColorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="-10dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/menti_study_intro"

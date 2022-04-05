@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
     private TextView dueDate;
     private LinearLayout addBtn;
     private TextInputEditText taskName,explain;
+    private ImageView backBtn;
 
     private DataService dataService = new DataService();
 
@@ -58,16 +60,13 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
         study_id = intent.getLongExtra("studyId",0);
         mento_id = intent.getLongExtra("mentorId",0);
 
-        toolbar = (Toolbar) findViewById(R.id.todo_add_toolbar);
         editDate = (MaterialCardView) findViewById(R.id.todo_add_editDate);
         dueDate = (TextView) findViewById(R.id.todo_add_dueDate);
         addBtn = (LinearLayout) findViewById(R.id.todo_add_btn);
         taskName = (TextInputEditText) findViewById(R.id.todo_add_taskName);
         explain = (TextInputEditText) findViewById(R.id.todo_add_explain);
+        backBtn = (ImageView) findViewById(R.id.todo_add_backBtn);
 
-        //툴바 설정
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setDatePicker();
 
@@ -75,17 +74,6 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
 
 
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     //데이트 피커
@@ -169,6 +157,12 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

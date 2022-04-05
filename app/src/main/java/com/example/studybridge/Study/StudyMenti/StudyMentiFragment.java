@@ -1,18 +1,15 @@
 package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -22,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyAddActivity;
+import com.example.studybridge.Study.StudyFilter;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +32,7 @@ import retrofit2.Call;
 
 
 public class StudyMentiFragment extends Fragment{
+
     //리사이클러
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -41,7 +41,7 @@ public class StudyMentiFragment extends Fragment{
     private FloatingActionButton mentiFab,filterFab;
     private TextView subjectFilter, placeFilter;
 
-
+    private StudyFilter filter;
 
     private DataService dataService = new DataService();
 
@@ -67,18 +67,17 @@ public class StudyMentiFragment extends Fragment{
         subjectFilter = (TextView) view.findViewById(R.id.menti_subjectFilter);
         placeFilter = (TextView) view.findViewById(R.id.menti_placeFilter);
 
-
-
-
         //recycler
         recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_menti_swipeRC);
-
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new StudyMentiAdapter();
+
+
+
+        setRecyclerView();
 
 
         filterFab.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +99,7 @@ public class StudyMentiFragment extends Fragment{
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         adapter = new StudyMentiAdapter();
+                        filter = new StudyFilter("전체",subjectFilter.getText().toString(),placeFilter.getText().toString());
                         getData();
                         adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
@@ -135,6 +135,15 @@ public class StudyMentiFragment extends Fragment{
     public void onResume() {
         super.onResume();
         adapter.clearItem();
+        filter = new StudyFilter("전체",subjectFilter.getText().toString(),placeFilter.getText().toString());
+        getData();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setRecyclerView(){
+
+        adapter = new StudyMentiAdapter();
+        filter = new StudyFilter("전체",subjectFilter.getText().toString(),placeFilter.getText().toString());
         getData();
         recyclerView.setAdapter(adapter);
     }
@@ -171,79 +180,13 @@ public class StudyMentiFragment extends Fragment{
 
         if (result != null) {
 
-            if(subjectFilter.getText().equals("전체")&&placeFilter.getText().equals("전체")) {
-
                 result.forEach(s -> {
 
-                    String status = s.getStatus();
-
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(), s.getExplain(),s.getMaxNum());
-                    Log.d("test", studyMenti.toString());
-                    System.out.println("a: "+s.getMenteeCnt());
-                    adapter.addItem(studyMenti);
-                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
-
+                    adapter.addItem(s,filter);
 
                 });
-            }
-
-            else if(!subjectFilter.getText().toString().equals("전체")&&placeFilter.getText().toString().equals("전체")){
-
-                result.stream().filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
-                    String status = s.getStatus();
-
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
-                    Log.d("test", studyMenti.toString());
-                    adapter.addItem(studyMenti);
-                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
-                });
-            }
-            else if(subjectFilter.getText().toString().equals("전체")&&!placeFilter.getText().toString().equals("전체")){
-
-                result.stream().filter(s -> s.getType().equals(placeFilter.getText())).forEach(s -> {
-                    String status = s.getStatus();
-
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
-                    Log.d("test", studyMenti.toString());
-                    adapter.addItem(studyMenti);
-                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
-                });
-            }
-            else {
-
-                result.stream().filter(s -> s.getType().equals(placeFilter.getText())).filter(s -> s.getType().equals(subjectFilter.getText())).forEach(s -> {
-                    String status = s.getStatus();
-
-                    StudyMenti studyMenti = new StudyMenti(s.getId(), statusVal(status), s.getType(), s.getPlace(), s.getName(), s.getInfo(),  s.getExplain(),s.getMaxNum());
-                    Log.d("test", studyMenti.toString());
-                    adapter.addItem(studyMenti);
-                    adapter.setEnrollMenteeCtn(s.getMenteeCnt());
-                });
-            }
-
-
-
-
-
         }
 
-
     }
-
-
-
-
-    public int statusVal(String s){
-        if (s.equals("APPLY")) {
-            return  0;
-        } else if (s.equals("WAIT")) {
-            return  1;
-        } else if (s.equals("MATCHED")) {
-            return 2;
-        } else {
-            return  3;
-        }
-    }
-
 
 }

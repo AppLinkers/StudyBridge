@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/study_add_btn">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+                <ImageView
+                    android:id="@+id/study_add_backBtn"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_arrow_left"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="스터디 만들기"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="25dp"/>
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="과목"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/study_add_subjectGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="영어"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="수학"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="개발"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="기타"
+                    android:textAlignment="center"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="장소"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/study_add_placeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="서울"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="경기"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="인천"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.StudyBridge.Chip.Filter"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="기타"
+                    android:textAlignment="center"/>
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/study_add_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.StudyBridge.TextInputEditText"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText"
+                android:hint="스터디 이름"
+                android:padding="15dp"
+                android:layout_marginTop="15dp"
+                android:inputType="text"
+                android:maxLines="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/study_add_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.StudyBridge.TextInputEditText"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText"
+                android:hint="한줄 소개"
+                android:padding="15dp"
+                android:layout_marginTop="15dp"
+                android:inputType="text"
+                android:maxLines="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/study_add_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.StudyBridge.TextInputEditText"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText"
+                android:hint="희망 인원수"
+                android:padding="15dp"
+                android:layout_marginTop="15dp"
+                android:inputType="number"
+                android:maxLines="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/study_add_explain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.StudyBridge.TextInputEditText"
+                android:theme="@style/Widget.StudyBridge.TextInputEditText"
+                android:hint="상세 설명"
+                android:padding="15dp"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="true"
+                android:maxLines="10"
+                android:lineSpacingMultiplier="1.5"/>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/study_add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/colorprimary_dark_gradient45"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="추가하기"
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,19 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:id="@+id/todo_add_barLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:layout_alignParentTop="true">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/todo_add_toolbar"
-            style="@style/Widget.StudyBridge.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Todo 추가하기"/>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:orientation="horizontal"
+        android:padding="15dp">
+        <ImageView
+            android:id="@+id/todo_add_backBtn"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="ToDo 추가하기"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,25 +32,28 @@
         android:layout_above="@id/todo_add_btn"
         android:layout_below="@id/todo_add_barLayout"
         android:orientation="vertical">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/todo_add_taskName"
+            style="@style/Widget.StudyBridge.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.StudyBridge.TextInputEditText"
-            android:theme="@style/Widget.StudyBridge.TextInputEditText"
-            android:hint="과제명"
-            android:padding="15dp"
             android:layout_marginTop="10dp"
+            android:hint="과제명"
             android:inputType="text"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:padding="15dp"
+            android:theme="@style/Widget.StudyBridge.TextInputEditText" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/todo_add_explain"
+            style="@style/Widget.StudyBridge.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="280dp"
-            style="@style/Widget.StudyBridge.TextInputEditText"
-            android:theme="@style/Widget.StudyBridge.TextInputEditText"
             android:hint="상세설명"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:theme="@style/Widget.StudyBridge.TextInputEditText" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +72,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/todo_add_editDate"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 app:cardCornerRadius="15dp">
 
@@ -68,13 +80,13 @@
                     android:id="@+id/todo_add_dueDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/colorprimary_dark_gradient45"
                     android:gravity="center"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="YYYY/MM/DD"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="12sp"
-                    android:background="@drawable/colorprimary_dark_gradient45"/>
+                    android:textSize="13sp" />
 
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>

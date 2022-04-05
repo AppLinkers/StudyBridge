@@ -37,9 +37,10 @@ public class StudyFragment extends Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.study_tab);
         viewPager = (ViewPager2) view.findViewById(R.id.study_pager);
 
+
+
         FragmentManager fm = getChildFragmentManager();
         adapter = new StudyFragmentPagerAdapter(fm,getLifecycle());
-
         viewPager.setAdapter(adapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

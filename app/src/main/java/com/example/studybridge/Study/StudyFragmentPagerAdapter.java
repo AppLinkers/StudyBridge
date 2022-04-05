@@ -44,4 +44,5 @@ public class StudyFragmentPagerAdapter extends FragmentStateAdapter {
         return super.getItemId(position);
     }
 
+
 }

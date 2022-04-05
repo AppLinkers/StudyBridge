@@ -159,6 +159,48 @@ public class StudyMentoDetail extends AppCompatActivity {
         });
     }
 
+
+
+
+
+    private void setPath(){
+
+        if(mentoId == null || mentoId.equals("")){
+            toolbar.setTitle(profile.getNickName());
+            mentoLong = profile.getUserId();
+            isMentee(profile);
+        } else {
+            dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
+                @Override
+                public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                    if (response.isSuccessful())
+                    {
+                        toolbar.setTitle(response.body().getNickName());
+                        mentoLong = response.body().getUserId();
+
+                        isMentee(response.body());
+
+                        if(userId.equals(managerId)){
+                            buttonLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            buttonLayout.setVisibility(View.GONE);
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProfileRes> call, Throwable t) {
+
+                }
+            });
+        }
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+    //좋아요 설정
     private void setHeart(){
 
         heart.setOnClickListener(new View.OnClickListener() {
@@ -201,59 +243,23 @@ public class StudyMentoDetail extends AppCompatActivity {
             }
         });
     }
-
-    private void setPath(){
-
-        if(mentoId == null || mentoId.equals("")){
-            toolbar.setTitle(profile.getNickName());
-            mentoLong = profile.getUserId();
-            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.body()){
-                        if(profile.getLiked()){
-                            heart.setSelected(true);
-                        } else heart.setSelected(false);
-                    }
+    private void isMentee(ProfileRes res){
+        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.body()){
+                    if(res.getLiked()){
+                        heart.setSelected(true);
+                    } else heart.setSelected(false);
+                    setHeart();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
 
-                }
-            });
-        } else {
-            dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
-                @Override
-                public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
-                    if (response.isSuccessful())
-                    {
-                        toolbar.setTitle(response.body().getNickName());
-                        mentoLong = response.body().getUserId();
-                        if(response.body().getLiked()){
-                            heart.setSelected(true);
-                        } else heart.setSelected(false);
-
-                        if(userId.equals(managerId)){
-                            buttonLayout.setVisibility(View.VISIBLE);
-                        } else {
-                            buttonLayout.setVisibility(View.GONE);
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ProfileRes> call, Throwable t) {
-
-                }
-            });
-        }
-
-        setHeart();
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            }
+        });
     }
 
     //매칭 종료 메서드

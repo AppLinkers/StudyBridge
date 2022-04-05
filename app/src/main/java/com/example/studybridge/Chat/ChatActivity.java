@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -27,9 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.StudyMenti;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.message.Message;
 import com.example.studybridge.http.dto.message.Room;
 import com.google.gson.Gson;
@@ -39,19 +36,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 
