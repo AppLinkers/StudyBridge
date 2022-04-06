@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
@@ -46,7 +45,7 @@ public class StudyMentoExperienceFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.study_mento_detail_experience_fragment,container,false);
+        View view = inflater.inflate(R.layout.study_mento_experience_fragment,container,false);
 
         curi = (TextView) view.findViewById(R.id.mento_curi_tv);
         experience = (TextView) view.findViewById(R.id.mento_experience_tv);

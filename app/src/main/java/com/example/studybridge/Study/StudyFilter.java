@@ -12,8 +12,20 @@ public class StudyFilter {
         this.place = place;
     }
 
+    public StudyFilter(String type, String place) {
+        this.type = type;
+        this.place = place;
+    }
+
     public String getStatus() {
-        return status;
+        if(this.status.equals("멘티 모집")){
+            return "APPLY";
+        } else if(this.status.equals("멘토 모집")){
+            return "WAIT";
+        } else if(this.status.equals("모집 종료")){
+            return "MATCHED";
+        }
+        else return status;
     }
 
     public String getType() {

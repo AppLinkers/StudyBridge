@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyFilter;
+import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -41,8 +43,22 @@ public class StudyMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
-    public void addItem(ProfileRes data) {
-        listData.add(data);
+    public void addItem(ProfileRes data, StudyFilter filter) {
+        if(isEqual(data.getSubject(),filter.getType())
+                &&isEqual(data.getLocation(),filter.getPlace())){
+            listData.add(data);
+        }
+    }
+    public void clearItem(){listData.clear();}
+
+    private boolean isEqual(String s1,String s2){
+        if(s1.equals(s2)){
+            return true;
+        }
+        else if(s2.equals("전체")){
+            return true;
+        }
+        else return false;
     }
 
 }

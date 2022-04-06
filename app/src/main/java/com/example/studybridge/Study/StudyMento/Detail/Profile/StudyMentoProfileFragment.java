@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.Certificate;
@@ -57,7 +56,7 @@ public class StudyMentoProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable  Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.study_mento_detail_profile_fragment,container,false);
+        View view = inflater.inflate(R.layout.study_mento_profile_fragment,container,false);
 
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = this.getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);

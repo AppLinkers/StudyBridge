@@ -11,101 +11,90 @@
         android:layout_height="match_parent"
         android:paddingTop="10dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/mento_filter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
             <ImageView
-                android:id="@+id/img_filter"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_centerVertical="true"
                 android:src="@drawable/ic_filter" />
 
             <TextView
-                android:id="@+id/filterTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="1dp"
-                android:layout_toRightOf="@+id/img_filter"
                 android:text="필터"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/mento_subjectCV"
-                android:layout_width="55dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:layout_toRightOf="@+id/filterTv"
-                app:cardCornerRadius="10dp"
-                app:strokeColor="@color/textColorPrimary"
-                app:strokeWidth="0.5dp">
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                app:cardCornerRadius="15dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/gray30"
-                    android:gravity="center"
-                    android:padding="5dp">
-
+                    android:background="@color/textColorPrimary30"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="과목: "
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
+                        android:text="과목"
+                        android:textColor="@color/textColorPrimary" />
 
                     <TextView
-                        android:id="@+id/mento_subjectFilter"
+                        android:id="@+id/mento_typeTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="5dp"
                         android:text="전체"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
-                </RelativeLayout>
+                        android:textColor="@color/textColorPrimary" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="55dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/mento_subjectCV"
-                app:cardCornerRadius="10dp"
-                app:strokeColor="@color/textColorPrimary"
-                app:strokeWidth="0.5dp">
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                app:cardCornerRadius="15dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@color/gray30"
-                    android:padding="5dp">
+                    android:background="@color/textColorPrimary30"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지역: "
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
+                        android:text="지역"
+                        android:textColor="@color/textColorPrimary" />
 
                     <TextView
-                        android:id="@+id/mento_placeFilter"
+                        android:id="@+id/mento_placeTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:text="전체"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                        android:textColor="@color/textColorPrimary" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </RelativeLayout>
+        </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/study_mento_swipeRC"
@@ -117,10 +106,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/study_mento_RCView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:paddingTop="10dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/mento_filterBtn"

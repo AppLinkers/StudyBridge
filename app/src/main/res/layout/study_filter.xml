@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
+    android:layout_height="440dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/round_bottomsheet">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/menti_filter_btn"
+        android:layout_above="@id/study_filter_btn"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/study_filter_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="스터디 검색하기"
@@ -20,154 +22,182 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/study_filter_statusTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="과목별 검색"
+            android:text="상태별"
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp" />
 
-        <RadioGroup
-            android:id="@+id/menti_filter_subjectGroup"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/study_filter_statusGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            app:singleLine="true"
+            app:singleSelection="true">
 
-            <RadioButton
-                android:id="@+id/menti_filter_allSubject"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
+                android:layout_height="50dp"
                 android:checked="true"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:text="전체"
-                android:textColor="@color/chip_text_list" />
+                android:textAlignment="center"
+                android:textSize="15sp" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_english"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="영어"
-                android:textColor="@color/chip_text_list" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="멘티 모집"
+                android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_math"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="수학"
-                android:textColor="@color/chip_text_list" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="멘토 모집"
+                android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_dev"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="개발"
-                android:textColor="@color/chip_text_list" />
-
-            <RadioButton
-                android:id="@+id/menti_filter_etcSubject"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="기타"
-                android:textColor="@color/chip_text_list" />
-        </RadioGroup>
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="모집 종료"
+                android:textAlignment="center" />
+        </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="지역별 검색"
+            android:layout_marginTop="15dp"
+            android:text="과목별"
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp" />
 
-        <RadioGroup
-            android:id="@+id/menti_filter_placeGroup"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/study_filter_subjectGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            app:singleLine="true"
+            app:singleSelection="true">
 
-            <RadioButton
-                android:id="@+id/menti_filter_allPlace"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
+                android:layout_height="50dp"
                 android:checked="true"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:text="전체"
-                android:textColor="@color/chip_text_list" />
+                android:textAlignment="center"
+                android:textSize="15sp" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_seoul"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="서울"
-                android:textColor="@color/chip_text_list" />
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="영어"
+                android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_geongi"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="경기"
-                android:textColor="@color/chip_text_list" />
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="수학"
+                android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_incheon"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="인천"
-                android:textColor="@color/chip_text_list" />
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="개발"
+                android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/menti_filter_etcPlace"
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/radio_selector"
-                android:button="@null"
-                android:gravity="center"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
                 android:text="기타"
-                android:textColor="@color/chip_text_list" />
-        </RadioGroup>
+                android:textAlignment="center" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="지역별"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/study_filter_placeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:checked="true"
+                android:gravity="center_horizontal"
+                android:text="전체"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="서울"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="경기"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="인천"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.StudyBridge.Chip.Choice"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="기타"
+                android:textAlignment="center" />
+        </com.google.android.material.chip.ChipGroup>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/menti_filter_btn"
+        android:id="@+id/study_filter_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark">
+        android:background="@drawable/colorprimary_dark_gradient45">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

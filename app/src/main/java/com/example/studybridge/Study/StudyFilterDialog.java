@@ -1,4 +1,4 @@
-package com.example.studybridge.Study.StudyMenti;
+package com.example.studybridge.Study;
 
 
 import android.content.DialogInterface;
@@ -11,36 +11,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 
-public class StudyMentiFilterDialog extends DialogFragment {
+public class StudyFilterDialog extends DialogFragment {
 
-    private RadioGroup subjectGroup,placeGroup;
-    private RadioButton filterSubject, filterPlace;
-    private String passSubject,passPlace;
+    private ChipGroup statusGroup,subjectGroup,placeGroup;
+    private Chip filterStatus,filterSubject, filterPlace;
+    private String passStatus,passSubject,passPlace;
+    private TextView statusTv,filterTitle;
     private LinearLayout applyBtn;
     private DialogInterface.OnDismissListener onDismissListener;
 
     private DialogInterfacer dialogInterfacer;
+    private int type;
+
+    private StudyFilterDialog(int type){
+        this.type = type;
+    }
 
     ////dialog --> fragment 로 값 전달
-    public static StudyMentiFilterDialog getInstance(){
-        StudyMentiFilterDialog dialog = new StudyMentiFilterDialog();
+    public static StudyFilterDialog getInstance(int type){
+        StudyFilterDialog dialog = new StudyFilterDialog(type);
         return dialog;
     }
 
     public interface DialogInterfacer{
-        void onFilterBtnClick(String subject, String place);
+        void onFilterBtnClick(String status,String subject, String place);
     }
 
 
@@ -60,7 +65,14 @@ public class StudyMentiFilterDialog extends DialogFragment {
         super.onStart();
 
         final int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        final int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,340,getResources().getDisplayMetrics());
+        int height;
+
+        if(type==0){
+            height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,440,getResources().getDisplayMetrics());
+        } else {
+            height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,340,getResources().getDisplayMetrics());
+        }
+
 
         getDialog().getWindow().setLayout(width,height);
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
@@ -73,22 +85,36 @@ public class StudyMentiFilterDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         //필터 선택
-        subjectGroup = (RadioGroup) view.findViewById(R.id.menti_filter_subjectGroup);
-        placeGroup = (RadioGroup) view.findViewById(R.id.menti_filter_placeGroup);
+        statusGroup = (ChipGroup) view.findViewById(R.id.study_filter_statusGroup);
+        subjectGroup = (ChipGroup) view.findViewById(R.id.study_filter_subjectGroup);
+        placeGroup = (ChipGroup) view.findViewById(R.id.study_filter_placeGroup);
+
+        statusTv = (TextView) view.findViewById(R.id.study_filter_statusTv);
+        filterTitle = (TextView) view.findViewById(R.id.study_filter_title);
+
+        if(type==1){
+            statusGroup.setVisibility(View.GONE);
+            statusTv.setVisibility(View.GONE);
+            filterTitle.setText("멘토 검색하기");
+        }
+
 
 
         //적용하기 클릭 이벤트
-        applyBtn = (LinearLayout) view.findViewById(R.id.menti_filter_btn);
+        applyBtn = (LinearLayout) view.findViewById(R.id.study_filter_btn);
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                filterSubject =(RadioButton) view.findViewById(subjectGroup.getCheckedRadioButtonId());
-                filterPlace =(RadioButton) view.findViewById(placeGroup.getCheckedRadioButtonId());
+                filterStatus = (Chip) view.findViewById(statusGroup.getCheckedChipId());
+                filterSubject = (Chip) view.findViewById(subjectGroup.getCheckedChipId());
+                filterPlace = (Chip) view.findViewById(placeGroup.getCheckedChipId());
+
+                passStatus = filterStatus.getText().toString()+"";
                 passSubject = filterSubject.getText().toString()+"";
                 passPlace = filterPlace.getText().toString()+"";
 
-                dialogInterfacer.onFilterBtnClick(passSubject,passPlace);
+                dialogInterfacer.onFilterBtnClick(passStatus,passSubject,passPlace);
 
                 dismiss();
 

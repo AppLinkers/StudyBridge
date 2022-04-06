@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,101 +11,115 @@
         android:layout_height="match_parent"
         android:paddingTop="10dp">
 
-        <RelativeLayout
+        <HorizontalScrollView
             android:id="@+id/menti_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/img_filter"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_centerVertical="true"
                 android:src="@drawable/ic_filter" />
 
             <TextView
-                android:id="@+id/filterTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="1dp"
-                android:layout_toRightOf="@+id/img_filter"
                 android:text="필터"
-                android:textSize="12sp" />
-
+                android:textSize="12sp"
+                android:textStyle="bold"/>
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/menti_subjectCV"
-                android:layout_width="55dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/filterTv"
-                app:strokeColor="@color/textColorPrimary"
-                app:strokeWidth="0.5dp"
-                app:cardCornerRadius="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                android:layout_marginLeft="15dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@color/gray30"
-                    android:padding="5dp">
-
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/textColorPrimary30">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="과목: "
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
-
+                        android:text="상태"
+                        android:textColor="@color/textColorPrimary"/>
                     <TextView
-                        android:id="@+id/menti_subjectFilter"
+                        android:id="@+id/study_statusTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="전체"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp"
-                       android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="55dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/menti_subjectCV"
-                app:strokeColor="@color/textColorPrimary"
-                app:strokeWidth="0.5dp"
-                app:cardCornerRadius="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                android:layout_marginLeft="15dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/gray30"
-                    android:gravity="center"
-                    android:padding="5dp">
-
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/textColorPrimary30">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지역: "
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp"/>
-
+                        android:text="과목"
+                        android:textColor="@color/textColorPrimary"/>
                     <TextView
-                        android:id="@+id/menti_placeFilter"
+                        android:id="@+id/study_typeTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="전체"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </RelativeLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                android:layout_marginLeft="15dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/textColorPrimary30">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="지역"
+                        android:textColor="@color/textColorPrimary"/>
+                    <TextView
+                        android:id="@+id/study_placeTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전체"
+                        android:textColor="@color/textColorPrimary"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+        </HorizontalScrollView>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/study_menti_swipeRC"
@@ -116,7 +131,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/study_menti_RCView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:paddingTop="10dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 

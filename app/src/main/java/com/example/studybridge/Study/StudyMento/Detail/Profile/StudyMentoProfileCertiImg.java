@@ -18,7 +18,7 @@ public class StudyMentoProfileCertiImg extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.study_mento_detail_profile_certi_img);
+        setContentView(R.layout.study_mento_profile_certi_img);
 
         imageView = (ImageView) findViewById(R.id.mento_profile_certi_img);
 
