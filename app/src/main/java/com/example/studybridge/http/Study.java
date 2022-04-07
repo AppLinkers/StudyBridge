@@ -9,6 +9,8 @@ import com.example.studybridge.http.dto.study.StudyDeleteRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyMakeReq;
 import com.example.studybridge.http.dto.study.StudyMakeRes;
+import com.example.studybridge.http.dto.study.StudyWithdrawReq;
+import com.example.studybridge.http.dto.study.StudyWithdrawRes;
 
 import java.util.List;
 
@@ -36,6 +38,9 @@ public interface Study {
 
     @POST("study/apply")
     Call<StudyApplyRes> apply(@Body StudyApplyReq studyApplyReq);
+
+    @POST("study/withdraw")
+    Call<StudyWithdrawRes> withdraw(@Body StudyWithdrawReq studyWithdrawReq);
 
     @GET("study/mentor/candidate")
     Call<List<String>> mentorList(@Query("studyId") Long studyId);
