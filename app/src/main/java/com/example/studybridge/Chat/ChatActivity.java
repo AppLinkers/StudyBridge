@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -153,15 +154,8 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (!message.getSenderId().equals(userPkId)) {
-                        if (message.getMessageType().equals("TALK")) {
-/*                            Chat chat = new Chat(message.getSenderName(), message.getMessage(),null);*/
-                            adapter.addItem(message);
-                            rcChat.setAdapter(adapter);
-                        } else if (message.getMessageType().equals("PHOTO")) {
-                            /**
-                             * recycler view 이미지 처리 필요
-                             */
-                        }
+                        adapter.addItem(message);
+                        rcChat.setAdapter(adapter);
                     }
                 }
             });
@@ -250,6 +244,16 @@ public class ChatActivity extends AppCompatActivity {
 
             @SuppressLint("StaticFieldLeak")
             AsyncTask<Void, Void, String> API = new AsyncTask<Void, Void, String>() {
+
+                final ProgressDialog dialog = new ProgressDialog(ChatActivity.this);
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    dialog.setMessage("Processing ...");
+                    dialog.show();
+                }
+
                 @Override
                 protected String doInBackground(Void... params) {
                     Call<String> call = dataService.s3.chatImg(chatImg);
@@ -263,7 +267,9 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onPostExecute(String s) {super.onPostExecute(s);}
+                protected void onPostExecute(String s) {
+                    dialog.dismiss();
+                }
             }.execute();
 
             try {
@@ -276,11 +282,6 @@ public class ChatActivity extends AppCompatActivity {
             Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
             String sendMessage = gson.toJson(message);
             stompClient.send("/pub/chat/message", sendMessage).subscribe();
-
-            // edit UI
-            /**
-             * image 표시 필요
-             */
 
             // edit UI
             adapter.addItem(message);
