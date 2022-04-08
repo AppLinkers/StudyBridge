@@ -25,15 +25,11 @@ public class StudyMentoProfileCertiHolder extends RecyclerView.ViewHolder{
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent intent = new Intent(view.getContext(),StudyMentoProfileCertiImg.class);
 
                 intent.putExtra("certiImg",imgUrl);
 
                 view.getContext().startActivity(intent);
-
-
             }
         });
 

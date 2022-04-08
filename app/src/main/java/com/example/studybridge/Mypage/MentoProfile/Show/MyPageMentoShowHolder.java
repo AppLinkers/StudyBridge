@@ -27,21 +27,17 @@ public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View view) {
 
-
                 Intent intent = new Intent(view.getContext(), StudyMentoProfileCertiImg.class);
 
                 intent.putExtra("certiImg",imgUrl);
 
                 view.getContext().startActivity(intent);
-
-
             }
         });
 
     }
 
     public void onBind(Certificate data) {
-
         certiName.setText(data.getCertificate());
         imgUrl = data.getImgUrl();
     }

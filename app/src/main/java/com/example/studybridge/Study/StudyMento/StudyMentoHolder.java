@@ -3,23 +3,18 @@ package com.example.studybridge.Study.StudyMento;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
-import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
+
 
 public class StudyMentoHolder extends RecyclerView.ViewHolder {
 

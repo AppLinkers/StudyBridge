@@ -1,5 +1,7 @@
 package com.example.studybridge.Mypage.MentoProfile.Edit;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,23 +13,24 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoCertiInfo;
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoProfileAdapter.MyPageMentoProfileHolder>{
 
-    private ArrayList<MyPageMentoCertiInfo> listData;
+    private List<Certificate> listData;
 
-
-
-    public MyPageMentoProfileAdapter(ArrayList<MyPageMentoCertiInfo> listData){
+    public MyPageMentoProfileAdapter(List<Certificate> listData) {
         this.listData = listData;
     }
+
     @NonNull
     @NotNull
     @Override
@@ -39,10 +42,11 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyPageMentoProfileAdapter.MyPageMentoProfileHolder holder, int position) {
-        holder.qualiImg.setImageBitmap(listData.get(position).getQualiImg());
 
+        Glide.with(holder.itemView).load(Uri.parse(listData.get(position).getImgUrl())).into(holder.qualiImg);
+        holder.qualiImg.setImageURI(Uri.parse(listData.get(position).getImgUrl()));
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
-        holder.qualiName.setText(listData.get(holder.getAdapterPosition()).getQualiName());
+        holder.qualiName.setText(listData.get(holder.getAdapterPosition()).getCertificate());
 
 
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +61,6 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
     @Override
     public int getItemCount() {
         return (listData != null ? listData.size() : 0);
-    }
-
-    public void addItem(MyPageMentoCertiInfo data) {
-        listData.add(data);
     }
 
     ///// 삭제 함수
@@ -96,9 +96,9 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
         public MyPageMentoProfileHolder(@NonNull @NotNull View itemView,MyCustomEditTextListener myCustomEditTextListener) {
             super(itemView);
 
+            this.qualiName = (EditText) itemView.findViewById(R.id.quali_name);
             this.qualiImg = (ImageView) itemView.findViewById(R.id.quali_img);
             this.deleteImg = (MaterialCardView) itemView.findViewById(R.id.quali_delete);
-            this.qualiName = (EditText) itemView.findViewById(R.id.quali_name);
 
             this.myCustomEditTextListener = myCustomEditTextListener;
 
@@ -130,13 +130,12 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            listData.get(position).setQualiName(charSequence.toString());
+            listData.get(position).setCertificate(charSequence.toString());
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
 
-            // no op
         }
     }
 

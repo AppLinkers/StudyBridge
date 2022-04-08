@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiSelectMentoDialog;
@@ -27,8 +26,6 @@ import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -52,17 +53,23 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
 
         //툴바 설정
         toolbar = (Toolbar) findViewById(R.id.mypage_mentoProfile_school_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         //학교 학과 명
         schoolName = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_school_name);
         schoolMajor = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_school_major);
-
         //이미지 올리기
         uploadImg = (TextView) findViewById(R.id.mento_profile_school_uploadBtn);
         schoolImg = (ImageView) findViewById(R.id.mypage_mentoProfile_school_img);
+        //인증하기 버튼(완료)
+        Btn = (LinearLayout) findViewById(R.id.mypage_mentoProfile_school_btn);
 
+        setToolbar();
+        setBtn();
+
+
+    }
+
+
+    private void setBtn(){
         uploadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +79,6 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
             }
         });
-
-        //인증하기 버튼(완료)
-        Btn = (LinearLayout) findViewById(R.id.mypage_mentoProfile_school_btn);
-
-
-
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +93,10 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
             }
         });
     }
-
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
     //뒤로 가기 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -112,7 +116,11 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
-                try {
+
+                dir = String.valueOf(data.getData());
+                Glide.with(this).load(dir).into(schoolImg);
+
+/*                try {
                     InputStream in = getContentResolver().openInputStream(data.getData());
 
 
@@ -125,14 +133,14 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                     in.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             } else if (resultCode == RESULT_CANCELED) {
                 //취소할 경우 case
             }
         }
     }
 
-    //사진 돌아감 방지 메서드
+/*    //사진 돌아감 방지 메서드
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
         InputStream in = getContentResolver().openInputStream(uri);
@@ -157,33 +165,6 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
 
     }
 
-    private File BitmapConvertFile(Bitmap bitmap, String strFilePath) {
-        File file = new File(strFilePath);
-        // OutputStream 선언 -> bitmap데이터를 OutputStream에 받아 File에 넣어주는 용도
-        OutputStream out = null;
-        try { // 파일 초기화
-            file.createNewFile();
-
-            // OutputStream에 출력될 Stream에 파일을 넣어준다
-            out = new FileOutputStream(file);
-
-            // bitmap 압축
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                out.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return file;
-    }
-
     public String saveBitmapToJpg(Bitmap bitmap , String name) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
@@ -201,8 +182,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         }
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
         return getCacheDir() + "/" +fileName;
-    }
-
+    }*/
 
 
 }

@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.Study.StudyMento.Detail.Experience.StudyMentoExperienceFragment;
 import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileFragment;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;

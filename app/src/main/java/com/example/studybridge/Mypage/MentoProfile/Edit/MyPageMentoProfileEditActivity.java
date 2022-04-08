@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -25,10 +24,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoCertiInfo;
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
@@ -55,38 +53,42 @@ import retrofit2.Response;
 
 public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
+    //화면 위 데이터
     private Toolbar toolbar;
     private TextView name, school,goToCheck;
     private TextInputEditText intro,nickName,curi,experience,appeal;
-    private MyPageMentoProfile mentoProfile;
+    private ProfileRes mentoProfile;
     private ChipGroup subjectGroup,placeGroup;
-    public String selectedSubject="";
-    public String selectedPlace="";
+    public String selectedSubject;
+    public String selectedPlace;
 
 
     //자격증 이미지 add
     private MaterialCardView addImg;
     public static final int PICK_IMAGE = 101;
     public static final int SCHOOL_CHECK = 201;
-    private ArrayList<MyPageMentoCertiInfo> arrayList;
-    private MyPageMentoCertiInfo certiInfo;
     private MyPageMentoProfileAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private List<File> certificatesImg;
-    private List<String> certificatesName;
+    private List<Certificate> certificates;
+
+/*    private List<String> certificatesImg;
+    private List<String> certificatesName;*/
 
     //SharedPreference
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_NAME = "user_name_key";
     public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
 
     private String userName;
     private String userLoginId;
+    private Long userPkId;
 
     //학생증 이미지
-    private File schoolImg;
+/*    private File schoolImg;*/
+    private String schoolDir;
 
 
     DataService dataService = new DataService();
@@ -102,7 +104,13 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.mypage_mentoProfile_bar);
 
-        //데이터
+        //sharedPrefer
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString(USER_NAME, "사용자");
+        userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
+        userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+
+        //화면 위 데이터
         name = (TextView) findViewById(R.id.mypage_mentoProfile_name); //기존 이름에서 받아와야함
         school = (TextView) findViewById(R.id.mypage_mentoProfile_school);
         intro = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_intro);
@@ -111,38 +119,46 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         experience = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_experience);
         appeal = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_appeal);
 
-        //기존 입력값
-        Intent intent = getIntent();
-        mentoProfile = (MyPageMentoProfile) intent.getSerializableExtra("profile");
-        school.setText(mentoProfile.getSchool());
-        intro.setText(mentoProfile.getIntro());
-        nickName.setText(mentoProfile.getNickName());
-        curi.setText(mentoProfile.getCuri());
-        experience.setText(mentoProfile.getExpeience());
-        appeal.setText(mentoProfile.getAppeal());
-
-        //이름 데이터
-        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString(USER_NAME, "사용자");
-        userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
-
-        name.setText(userName);
-
-
         //지역, 과목 선택
         subjectGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_subjectSelect);
         placeGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_placeSelect);
 
+        //자격증 이미지 추가하기
+        addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
+        recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
+
+        getIntentData();
+        setToolbar();
+        setButton();
+
+        certificates = new ArrayList<>();
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new MyPageMentoProfileAdapter(certificates);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void getIntentData(){
+        //기존 입력값
+        Intent intent = getIntent();
+        mentoProfile = (ProfileRes) intent.getSerializableExtra("profile");
+        name.setText(userName);
+        school.setText(mentoProfile.getSchool());
+        intro.setText(mentoProfile.getInfo());
+        nickName.setText(mentoProfile.getNickName());
+        curi.setText(mentoProfile.getCurriculum());
+        experience.setText(mentoProfile.getExperience());
+        appeal.setText(mentoProfile.getAppeal());
+
         Chip chipForSubject = (Chip) subjectGroup.getChildAt(checkChipForSubject(mentoProfile.getSubject()));
-        Chip chipForPlace = (Chip) placeGroup.getChildAt(checkChipForPlace(mentoProfile.getPlace()));
+        Chip chipForPlace = (Chip) placeGroup.getChildAt(checkChipForPlace(mentoProfile.getLocation()));
         chipForSubject.setChecked(true);
         chipForPlace.setChecked(true);
+    }
 
-        //툴바 설정
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+    private void setButton(){
         //학교 인증 가기
         goToCheck = (TextView) findViewById(R.id.mypage_mentoProfile_school_goToCheck);
         goToCheck.setOnClickListener(new View.OnClickListener() {
@@ -152,19 +168,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 startActivityForResult(intent,SCHOOL_CHECK);
             }
         });
-
-        //자격증 이미지 추가하기
-        addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
-
-        recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
-        linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        arrayList = new ArrayList<>();
-        adapter = new MyPageMentoProfileAdapter(arrayList);
-        recyclerView.setAdapter(adapter);
-
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,18 +176,18 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
-
             }
         });
-
-
-
-
-
     }
 
 
+    //툴바 설정
+    private void setToolbar(){
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
     //toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,17 +207,22 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 //상단 완료버튼 눌렀을때
             case R.id.mentoProfile_complete_btn:
 
+/*                certificatesImg = new ArrayList<>();
+                certificatesName = new ArrayList<>();*/
 
-
-                certificatesImg = new ArrayList<>();
-                certificatesName = new ArrayList<>();
-//                File test = new File("/data/user/0/com.example.studybridge/cache/certificateImg1.jpg");
-                for(int i=0; i<arrayList.size();i++){
+/*                for(int i=0; i<arrayList.size();i++){
                     String dir = saveBitmapToJpg(arrayList.get(i).getQualiImg(), String.format("certificateImg%d", i));
                     File imgFile = new File(dir);
                     certificatesImg.add(imgFile);
                     Log.d("test", arrayList.get(i).toString());
                     certificatesName.add(arrayList.get(i).getQualiName());
+                }*/
+
+                List<Certificate> inputCerti = new ArrayList<>();
+                for(int i=0; i<certificates.size(); i++){
+                    inputCerti.add(new Certificate(
+                                    certificates.get(i).getCertificate(),
+                                    certificates.get(i).getImgUrl()));
                 }
 
                 for(int i=0; i<placeGroup.getChildCount();i++){
@@ -233,7 +241,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
 
                 //객체 생성
-                mentoProfile = new MyPageMentoProfile(
+/*                mentoProfile = new MyPageMentoProfile(
                         userName,
                         selectedPlace,
                         selectedSubject,
@@ -247,38 +255,52 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                         certificatesImg,
                         certificatesName,
                         null
+                );*/
+                mentoProfile = new ProfileRes(
+                        userPkId,
+                        userName,
+                        selectedPlace,
+                        intro.getText().toString(),
+                        nickName.getText().toString(),
+                        school.getText().toString(),
+                        schoolDir,
+                        selectedSubject,
+                        inputCerti,
+                        experience.getText().toString(),
+                        curi.getText().toString(),
+                        appeal.getText().toString(),
+                        false
                 );
 
                 Map<String, RequestBody> profileReq = new HashMap<>();
 
                 profileReq.put("profileTextReq.userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
-                profileReq.put("profileTextReq.location", RequestBody.create(MultipartBody.FORM, mentoProfile.getPlace()));
-                profileReq.put("profileTextReq.info", RequestBody.create(MultipartBody.FORM, mentoProfile.getIntro()));
+                profileReq.put("profileTextReq.location", RequestBody.create(MultipartBody.FORM, mentoProfile.getLocation()));
+                profileReq.put("profileTextReq.info", RequestBody.create(MultipartBody.FORM, mentoProfile.getInfo()));
                 profileReq.put("profileTextReq.nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
                 profileReq.put("profileTextReq.subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
                 profileReq.put("profileTextReq.school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
-                profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExpeience()));
-                profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCuri()));
+                profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExperience()));
+                profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCurriculum()));
                 profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
-                Log.d("test", mentoProfile.getCertificateName().toString());
 
                 List<MultipartBody.Part> certificates = new ArrayList<>();
-                if (mentoProfile.getCertificateName().size() > 0) {
-                    mentoProfile.getCertificateName().forEach(cn -> {
-                        certificates.add(MultipartBody.Part.createFormData("certificates", cn));
+                if (mentoProfile.getCertificates().size() > 0) {
+                    mentoProfile.getCertificates().forEach(cn -> {
+                        certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
                     });
                 }
 
                 // school Img
                 RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), mentoProfile.getSchoolImg());
-                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchoolImg().getName(), schoolImg);
+                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), schoolImg);
 
                 List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
-                if (mentoProfile.getCertificateImg().size() > 0) {
-                    mentoProfile.getCertificateImg().forEach(
+                if (mentoProfile.getCertificates().size() > 0) {
+                    mentoProfile.getCertificates().forEach(
                             certificatesImg -> {
-                                RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"), certificatesImg);
-                                certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", certificatesImg.getName(), certificateImg));
+                                RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"), certificatesImg.getImgUrl());
+                                certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", certificatesImg.getCertificate(), certificateImg));
                             }
                     );
                 }
@@ -288,6 +310,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                     public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                         if (response.isSuccessful()) {
                             Log.d("test", response.body().toString());
+                            finish();
                         }
                     }
 
@@ -298,7 +321,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 });
 
 
-                Toast.makeText(getApplicationContext(),certificatesName.get(0),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -313,33 +335,30 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             switch (requestCode){
                 case SCHOOL_CHECK:
-                    String schoolResult = data.getStringExtra("schoolResult");
-                    String dir = data.getStringExtra("schoolImg");
-                    schoolImg = new File(dir);
-                    school.setText(schoolResult);
-                case PICK_IMAGE:
-                    try {
-                        InputStream in = getContentResolver().openInputStream(data.getData());
+                    String schoolName = data.getStringExtra("schoolResult");
+                    schoolDir = data.getStringExtra("schoolImg");
+/*                    schoolImg = new File(dir);*/
+                    school.setText(schoolName);
 
+                case PICK_IMAGE:
+
+                    String dir = String.valueOf(data.getData());
+
+                    certificates.add(new Certificate(dir));
+
+/*                    adapter.notifyDataSetChanged();//새로 고침*/
+
+/*                    try {
+                        InputStream in = getContentResolver().openInputStream(data.getData());
 
                         Bitmap img = BitmapFactory.decodeStream(in);
 
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
 
-
-                        certiInfo = new MyPageMentoCertiInfo();
-                        certiInfo.setQualiImg(rImg);
-                        arrayList.add(certiInfo);
-                        adapter.notifyDataSetChanged();//새로 고침
-
-
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
-
+                    }*/
             }
         } else if (resultCode == RESULT_CANCELED) {
             //취소할 경우 case
@@ -348,7 +367,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     }
 
 
-    //사진 돌아감 방지 메서드
+/*    //사진 돌아감 방지 메서드
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
         InputStream in = getContentResolver().openInputStream(uri);
@@ -371,24 +390,9 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
 
-    }
-
-
+    }*/
+/*    //사진
     public String saveBitmapToJpg(Bitmap bitmap , String name) {
-        /**
-         * 캐시 디렉토리에 비트맵을 이미지파일로 저장하는 코드입니다.
-         *
-         * @version target API 28 ★ API29이상은 테스트 하지않았습니다.★
-         * @param Bitmap bitmap - 저장하고자 하는 이미지의 비트맵
-         * @param String fileName - 저장하고자 하는 이미지의 비트맵
-         *
-         * File storage = 저장이 될 저장소 위치
-         *
-         * return = 저장된 이미지의 경로
-         *
-         * 비트맵에 사용될 스토리지와 이름을 지정하고 이미지파일을 생성합니다.
-         * FileOutputStream으로 이미지파일에 비트맵을 추가해줍니다.
-         */
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = name + ".jpg";
@@ -405,7 +409,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         }
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
         return getCacheDir() + "/" +fileName;
-    }
+    }*/
 
     //기존 과목&&지역 선택 함수
     public static int checkChipForSubject(String str){

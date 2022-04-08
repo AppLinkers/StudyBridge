@@ -14,11 +14,8 @@ import java.util.ArrayList;
 
 public class MyPageMentoShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<Certificate> listData;
+    private ArrayList<Certificate> listData = new ArrayList<>();
 
-    public MyPageMentoShowAdapter(ArrayList<Certificate> listData){
-        this.listData = listData;
-    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

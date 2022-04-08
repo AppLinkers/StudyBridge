@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity;
-import com.example.studybridge.Mypage.MentoProfile.MyPageMentoProfile;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,24 +37,21 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyPageMentoShowAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<Certificate> arrayList;
-    private Certificate certificate;
 
     DataService dataService = new DataService();
 
     //shared preference
+    SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
-    public static final String USER_NAME = "user_name_key";
-    SharedPreferences sharedPreferences;
+
     private String userId;
-    private String userName;
 
     //null값 처리
     public static final String VALUE_NULL_STR = "입력해 주세요";
 
     //이동 용도
-    private MyPageMentoProfile mentoProfile;
+    private ProfileRes mentoProfile;
 
 
     @Override
@@ -79,21 +75,29 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
         //shared preference
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
-        userName = sharedPreferences.getString(USER_NAME, "사용자");
 
-        //리사이클러뷰
+        //자격증 리사이클러뷰
         recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoShow_RV);
-        arrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new MyPageMentoShowAdapter();
 
 
+        getData();
+
+        setEditBtn();
+
+
+    }
+
+    private void getData(){
         dataService.userMentor.getProfile(userId, userId).enqueue(new Callback<ProfileRes>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                 if(response.isSuccessful())
                 {
+                    assert response.body() != null;
                     nickName.setText(checkNull(response.body().getNickName()));
                     intro.setText(checkNull(response.body().getInfo()));
                     place.setText(checkNull(response.body().getLocation()));
@@ -103,34 +107,19 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
                     experience.setText(checkNull(response.body().getExperience()));
                     appeal.setText(checkNull(response.body().getAppeal()));
 
-                    if(response.body().getCertificates().size()>0){
+                    List<Certificate> certiList = response.body().getCertificates();
+
+                    if(certiList.size()>0){
                         for(int i=0; i<response.body().getCertificates().size(); i++){
-                            certificate = new Certificate(
-                                    response.body().getCertificates().get(i).getCertificate(),
-                                    response.body().getCertificates().get(i).getImgUrl());
-                            arrayList.add(certificate);
+                            adapter.addItem(certiList.get(i));
                         }
                     } else {
                         noCertiMsg.setVisibility(View.VISIBLE);
                     }
 
-                    adapter = new MyPageMentoShowAdapter(arrayList);
                     recyclerView.setAdapter(adapter);
 
-                    mentoProfile = new MyPageMentoProfile(
-                            userName,
-                            response.body().getLocation(),
-                            response.body().getSubject(),
-                            response.body().getSchool(),
-                            response.body().getInfo(),
-                            response.body().getNickName(),
-                            response.body().getCurriculum(),
-                            response.body().getExperience(),
-                            response.body().getAppeal(),
-                            null,
-                            null,
-                            null,
-                            response.body().getCertificates());
+                    mentoProfile = response.body();
 
                 }
             }
@@ -140,9 +129,9 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
-
+    private void setEditBtn(){
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

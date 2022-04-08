@@ -1,8 +1,10 @@
 package com.example.studybridge.Study.StudyMento.Detail.Profile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,8 @@ public class StudyMentoProfileCertiImg extends AppCompatActivity {
         Intent intent = getIntent();
         imgUrl = intent.getStringExtra("certiImg");
 
-        Glide.with(this).load(imgUrl).into(imageView);
+        Toast.makeText(this, imgUrl, Toast.LENGTH_SHORT).show();
+
+        Glide.with(this).load(Uri.parse(imgUrl)).into(imageView);
     }
 }
