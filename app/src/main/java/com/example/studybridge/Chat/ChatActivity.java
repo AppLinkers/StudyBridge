@@ -102,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
 
         chatEt = findViewById(R.id.mycontext);
         addImg = (ImageView) findViewById(R.id.chat_addImg);
-        exampleImg = (ImageView) findViewById(R.id.exapleImg);
+//        exampleImg = (ImageView) findViewById(R.id.exapleImg);
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -321,7 +321,7 @@ public class ChatActivity extends AppCompatActivity {
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
 
-                        exampleImg.setImageBitmap(rImg);
+//                        exampleImg.setImageBitmap(rImg);
 
                         dir = saveBitmapToJpg(rImg,"testPath");
 

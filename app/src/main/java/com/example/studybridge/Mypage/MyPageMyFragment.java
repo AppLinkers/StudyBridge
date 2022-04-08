@@ -28,12 +28,14 @@ public class MyPageMyFragment extends Fragment {
 
     private LinearLayout goToSubscribe, goToMentoProfile;
 
-    private DataService dataService;
     // creating constant keys for shared preferences.
+    SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
-    SharedPreferences sharedPreferences;
-    String userId;
+    public static final String USER_ISMENTEE = "user_mentee_key";
+
+    private String userId;
+    private Boolean isMentee;
 
 
     @Nullable
@@ -43,28 +45,21 @@ public class MyPageMyFragment extends Fragment {
 
         goToSubscribe = (LinearLayout) view.findViewById(R.id.myPage_goToSubscibe);
         goToMentoProfile = (LinearLayout) view.findViewById(R.id.myPage_goToMentoProfile);
-        dataService = new DataService();
 
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
 
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body()){
+        if(!isMentee){
+            goToMentoProfile.setVisibility(View.VISIBLE);
+        }
 
-                }else{
-                    goToMentoProfile.setVisibility(View.VISIBLE);
-                }
-            }
+        setButtons();
 
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+        return view;
+    }
 
-            }
-        });
-
-
+    private void setButtons(){
         //정기권 결제 클릭
         goToSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +69,6 @@ public class MyPageMyFragment extends Fragment {
             }
         });
 
-
-
         //멘토 프로필 클릭
         goToMentoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +77,5 @@ public class MyPageMyFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        return view;
     }
 }

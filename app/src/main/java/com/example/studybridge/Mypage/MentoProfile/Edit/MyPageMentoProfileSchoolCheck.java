@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.StringTokenizer;
 
 public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
 
@@ -63,11 +64,19 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         Btn = (LinearLayout) findViewById(R.id.mypage_mentoProfile_school_btn);
 
         setToolbar();
+        setIntent();
         setBtn();
 
 
     }
 
+    private void setIntent(){
+        Intent intent = getIntent();
+        StringTokenizer st = new StringTokenizer(intent.getStringExtra("schoolName"),"-");
+        schoolName.setText(st.nextToken());
+        schoolMajor.setText(st.nextToken().trim());
+        Glide.with(this).load(Uri.parse(intent.getStringExtra("schoolImg"))).into(schoolImg);
+    }
 
     private void setBtn(){
         uploadImg.setOnClickListener(new View.OnClickListener() {
@@ -120,52 +129,13 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
                 dir = String.valueOf(data.getData());
                 Glide.with(this).load(dir).into(schoolImg);
 
-/*                try {
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-
-
-                    Bitmap img = BitmapFactory.decodeStream(in);
-
-                    Bitmap rImg = rotateImage(data.getData(), img);
-                    schoolImg.setImageBitmap(rImg);
-                    dir = saveBitmapToJpg(rImg, String.format("uploadSchool1"));
-
-                    in.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
             } else if (resultCode == RESULT_CANCELED) {
                 //취소할 경우 case
             }
         }
     }
 
-/*    //사진 돌아감 방지 메서드
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
-        InputStream in = getContentResolver().openInputStream(uri);
-        ExifInterface exif = new ExifInterface(in);
-        in.close();
-
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
-        Matrix matrix = new Matrix();
-
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_90){
-            matrix.postRotate(90);
-        }
-        else if (orientation == ExifInterface.ORIENTATION_ROTATE_180){
-            matrix.postRotate(180);
-        }
-        else if (orientation == ExifInterface.ORIENTATION_ROTATE_270){
-            matrix.postRotate(270);
-        }
-
-        return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-
-    }
-
-    public String saveBitmapToJpg(Bitmap bitmap , String name) {
+    /*public String saveBitmapToJpg(Bitmap bitmap , String name) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = name + ".jpg";
