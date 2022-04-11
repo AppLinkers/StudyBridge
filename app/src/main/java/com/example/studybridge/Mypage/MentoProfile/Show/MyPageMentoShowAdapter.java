@@ -29,6 +29,7 @@ public class MyPageMentoShowAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ((MyPageMentoShowHolder) holder).onBind(listData.get(position));
     }
 
+    public void clearItem(){listData.clear();}
     @Override
     public int getItemCount() {
         return listData.size();

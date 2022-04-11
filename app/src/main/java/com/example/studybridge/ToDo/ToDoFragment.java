@@ -16,11 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.FilterSpinner;
+import com.example.studybridge.ToDo.Menti.SnapHelperOneByOne;
 import com.example.studybridge.ToDo.Menti.ToDoMentiAdapter;
 import com.example.studybridge.ToDo.Mento.ToDoMentoAdapter;
 import com.example.studybridge.http.DataService;
@@ -251,7 +254,6 @@ public class ToDoFragment extends Fragment {
         });
     }
 
-
     @SuppressLint("SimpleDateFormat")
     private void setTime() {
         long now = System.currentTimeMillis();
@@ -263,15 +265,17 @@ public class ToDoFragment extends Fragment {
 
     private void setMenteeRecyclerView(Long filter) {
         ToDoMentiAdapter adapter = new ToDoMentiAdapter();
+        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        //smooth scroll
+        recyclerView.setOnFlingListener(null);
+        linearSnapHelper.attachToRecyclerView(recyclerView);
+
         adapter.setFilter(filter);
         recyclerView.setAdapter(adapter);
     }
-
-
-
 
 
     private void setMentorRecyclerView() {
@@ -297,8 +301,6 @@ public class ToDoFragment extends Fragment {
 
             }
         });
-
-
 
     }
 

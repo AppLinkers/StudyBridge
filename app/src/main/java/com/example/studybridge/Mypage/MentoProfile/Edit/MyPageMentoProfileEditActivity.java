@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -11,6 +12,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.model.ResourceLoader;
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.Certificate;
@@ -36,6 +39,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,6 +48,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.URIResolver;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -173,9 +179,8 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
             }
@@ -275,15 +280,14 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
                 if (mentoProfile.getCertificates().size() > 0) {
                     mentoProfile.getCertificates().forEach(cn -> {
-                        Uri imgUri = Uri.parse(cn.getImgUrl());
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
-                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(String.valueOf(imgUri)));
+                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(saveUrlToJpg(cn.getImgUrl())));
                         certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate(), certificateImg));
                     });
                 }
 
                 // school Img
-                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));
+                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(saveUrlToJpg(mentoProfile.getSchoolImg())));
                 MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), schoolImg);
 
 
@@ -322,22 +326,38 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         }
         else if(requestCode==PICK_IMAGE){
             if(resultCode==RESULT_OK) {
-                String dir = String.valueOf(data.getData());
+
+                String dir = data.getData().toString();
                 certificates.add(new Certificate(dir));
                 adapter.notifyDataSetChanged();
+
             }
         }
     }
 
-      //사진
-    public String makeDir(String imgUrl) {
+    public String saveUrlToJpg(String uri) {
+
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
-        String fileName = imgUrl + ".jpg";
+        String fileName = uri + ".jpg";
         File imgFile = new File(storage, fileName);
+        try {
+            if(!imgFile.getParentFile().exists()){
+                imgFile.getParentFile().mkdirs();
+            }
+            if(!imgFile.exists()){
+                imgFile.createNewFile();
+            }
+            FileOutputStream out = new FileOutputStream(imgFile);
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.e("saveUrlToJpg","FileNotFoundException : " + e.getMessage());
+        } catch (IOException e) {
+            Log.e("saveUrlToJpg","IOException : " + e.getMessage());
+        }
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
+
         return getCacheDir() + "/" +fileName;
     }
-
 
     //기존 과목&&지역 선택 함수
     public static int checkChipForSubject(String str){

@@ -30,6 +30,9 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ((ToDoMentorInsdieHolder) holder).onBind(todoAssigned.get(position));
 
     }
+    public void deleteItem(int position){
+        todoAssigned.remove(position);
+    }
 
     public void addItem(FindToDoRes data){
         todoAssigned.add(data);

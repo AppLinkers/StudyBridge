@@ -19,10 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.studybridge.R;
+import com.example.studybridge.ToDo.Mento.Inside.ToDoMentoInsideActivity;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.toDo.AssignToDoReq;
 import com.example.studybridge.http.dto.toDo.AssignToDoRes;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
@@ -140,18 +142,15 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
                         localDateTime);
 
 
-
                 dataService.toDo.assign(assignToDoReq).enqueue(new Callback<AssignToDoRes>() {
                     @Override
                     public void onResponse(Call<AssignToDoRes> call, Response<AssignToDoRes> response) {
                         if(response.isSuccessful()){
                             System.out.println("성공");
-                            Toast.makeText(ToDoMentoAddActivity.this, "추가 완료", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"추가 완료!",Toast.LENGTH_SHORT).show();
                             finish();
-                        } else
-                            System.out.println("실패");
+                        }
                     }
-
                     @Override
                     public void onFailure(Call<AssignToDoRes> call, Throwable t) {
 

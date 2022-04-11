@@ -1,6 +1,7 @@
 package com.example.studybridge.ToDo.Mento.Inside;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.example.studybridge.ToDo.Mento.Inside.Detail.ToDoMentoInsideDetailAda
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -111,7 +113,8 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                         if(response.isSuccessful()){
-                            Toast.makeText(view.getContext(), taskName.getText()+" 삭제되었습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "삭제 완료!",Toast.LENGTH_SHORT).show();
+                            itemView.setVisibility(View.GONE);
                         }
                     }
 

@@ -23,6 +23,7 @@ import com.example.studybridge.http.dto.toDo.FindToDoRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -74,8 +75,15 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         studyTitle = (TextView) findViewById(R.id.toDo_studyTitle);
 
         setHeader();
-        setRecyclerView();
+        getData();
         setFloatingActionButton();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -88,21 +96,28 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         day.setText(new SimpleDateFormat("dd").format(date));
     }
 
-    private void setRecyclerView() {
-        dataService = new DataService();
+    private void setRecyclerView(ArrayList<FindToDoRes> findToDoRes) {
+
         adapter = new ToDoMentoInsideAdapter();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        for(FindToDoRes data : findToDoRes){
+            adapter.addItem(data);
+        }
+        recyclerView.setAdapter(adapter);
+
+    }
+    private void getData(){
+        dataService = new DataService();
         dataService.toDo.findOfStudy(study.getId(),userId).enqueue(new Callback<List<FindToDoRes>>() {
-            @SuppressLint("NotifyDataSetChanged")
+            ArrayList<FindToDoRes> findToDoRes = new ArrayList<>();
             @Override
             public void onResponse(Call<List<FindToDoRes>> call, Response<List<FindToDoRes>> response) {
                 for(FindToDoRes todo : response.body()){
-                    adapter.addItem(todo);
-                    adapter.notifyDataSetChanged();
+                    findToDoRes.add(todo);
                 }
-                recyclerView.setAdapter(adapter);
+                setRecyclerView(findToDoRes);
             }
 
             @Override
@@ -110,7 +125,6 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void setFloatingActionButton(){
@@ -122,6 +136,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
                 intent.putExtra("mentorId", userId);
                 startActivity(intent);
             }
+
         });
     }
 }

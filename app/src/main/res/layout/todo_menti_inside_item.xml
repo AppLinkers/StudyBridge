@@ -18,21 +18,35 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:cardCornerRadius="20dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="@color/viewUnderline"
             android:layout_centerVertical="true">
-            <TextView
-                android:id="@+id/todo_menti_inside_studyName"
+            <LinearLayout
+                android:id="@+id/todo_menti_inside_CVColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="이름"
                 android:gravity="center"
-                android:textColor="@color/textColorPrimary"/>
+                android:background="@color/blue"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/todo_menti_inside_CVText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="D-100"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    android:gravity="center"/>
+                <ImageView
+                    android:id="@+id/todo_menti_inside_CVImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_white"
+                    android:visibility="gone"/>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/todo_menti_inside_taskName"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_centerInParent="true"
@@ -41,26 +55,6 @@
             android:text="과제명"
             android:textColor="@color/textColorPrimary"
             android:textSize="17sp" />
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/todo_menti_inside_confiredMsg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/green"
-            app:cardCornerRadius="15dp"
-            android:layout_toRightOf="@id/todo_menti_inside_taskName"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="confirmed!"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-        </com.google.android.material.card.MaterialCardView>
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"

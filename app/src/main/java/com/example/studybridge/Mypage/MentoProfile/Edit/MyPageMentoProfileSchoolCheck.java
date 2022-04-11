@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,9 +83,8 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         uploadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
             }
         });
@@ -126,7 +126,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         if (requestCode == PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
 
-                dir = String.valueOf(data.getData());
+                dir = data.getData().toString();
                 Glide.with(this).load(dir).into(schoolImg);
 
             } else if (resultCode == RESULT_CANCELED) {

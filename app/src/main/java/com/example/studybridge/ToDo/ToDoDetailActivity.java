@@ -58,9 +58,9 @@ import retrofit2.http.HEAD;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
-    private TextView mentorId,menteeId,dueDate,confMent;
+    private TextView mentorId,menteeId,dueDate,confMent,taskName,taskInfo,afterDateMent;
     private LinearLayoutManager linearLayoutManager;
-    private TextInputEditText taskName,taskInfo,comment;
+    private TextInputEditText comment;
     private TextInputLayout commentLayout;
     private Spinner spinner;
     private MaterialCardView editDate;
@@ -78,8 +78,11 @@ public class ToDoDetailActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_ISMENTEE = "user_mentee_key";
+    private Boolean isMentee;
+
     Long userIdPk,menteePKId;
-    long todoId;
+    long todoId,dayResult;
     String userId;
     Intent gIntent;
     ToDo toDo;
@@ -89,23 +92,27 @@ public class ToDoDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_detail_activity);
 
+        //sharedPref
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-
         userId = sharedPreferences.getString(USER_ID_KEY, "user");
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
+
         gIntent = getIntent();
         toDo = (ToDo) gIntent.getSerializableExtra("toDo");
+        dayResult = gIntent.getLongExtra("dayResult",0);
 
 
         dataService = new DataService();
         //화면 위 데이터
-        taskName = (TextInputEditText) findViewById(R.id.todo_detail_taskName);
+        taskName = (TextView) findViewById(R.id.todo_detail_taskName);
         mentorId = (TextView) findViewById(R.id.todo_detail_mentorId);
         menteeId = (TextView) findViewById(R.id.todo_detail_menteeId);
         dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
         confMent = (TextView) findViewById(R.id.conf_ment);
+        afterDateMent = (TextView) findViewById(R.id.afterDate_ment);
         spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
-        taskInfo = (TextInputEditText) findViewById(R.id.todo_detail_taskInfo) ;
+        taskInfo = (TextView) findViewById(R.id.todo_detail_taskInfo) ;
         comment = (TextInputEditText) findViewById(R.id.todo_comment);
         commentLayout = (TextInputLayout) findViewById(R.id.todo_detail_comment_layout);
         commentRv = (RecyclerView) findViewById(R.id.comment_rv);
@@ -121,38 +128,24 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
 
-        dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+        if(isMentee){
+            //멘티 접근 수정 코드
+            menteePKId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+            String[] array = getResources().getStringArray(R.array.todo_spinner);
+            String[] menteeArray = Arrays.copyOfRange(array,0,3);
+            setSpinner(menteeArray);
+            setData();
+            setComment();
+        } else {
+            menteePKId = gIntent.getLongExtra("menteePKId",0);
+            String[] array = getResources().getStringArray(R.array.todo_spinner);
+            setSpinner(array);
+            setData();
+            setDatePicker();
+            setComment();
+        }
+        setRecyclerView();
 
-                if(response.body()){
-                    //멘티 접근 수정 코드
-                    menteePKId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
-                    String[] array = getResources().getStringArray(R.array.todo_spinner);
-                    String[] menteeArray = Arrays.copyOfRange(array,0,3);
-                    taskName.setEnabled(false);
-                    taskInfo.setEnabled(false);
-                    setSpinner(menteeArray);
-                    setData();
-                    setComment();
-                    setData();
-                }else{
-                    //멘토 접근 수정 코드
-                    menteePKId = gIntent.getLongExtra("menteePKId",0);
-                    String[] array = getResources().getStringArray(R.array.todo_spinner);
-                    setSpinner(array);
-                    setData();
-                    setDatePicker();
-                    setComment();
-                }
-                setRecyclerView();
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });
     }
 
 
@@ -178,7 +171,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
                             if(response.isSuccessful()){
-                                Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다 ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -227,7 +220,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 .append("/")
                 .append(toDo.getDueDate().substring(8,10));
 
-
         taskName.setText(toDo.getTaskName());
         dueDate.setText(date.toString());
         mentorId.setText(toDo.getMentoId());
@@ -240,29 +232,38 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
     private void setSpinner(){
-        if(toDo.getStatus().equals("READY")){
-            spinner.setSelection(0);
-        }else if(toDo.getStatus().equals("PROGRESS")){
-            spinner.setSelection(1);
-        }else if(toDo.getStatus().equals("DONE")){
-            spinner.setSelection(2);
-        }else{
-            dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.body()){
-                        spinner.setVisibility(View.GONE);
-                        confMent.setVisibility(View.VISIBLE);
-                    }else{
-                        spinner.setSelection(3);
-                    }
+        if(dayResult<0){ //마감일 지난 경우
+            if(isMentee){
+                spinner.setVisibility(View.GONE);
+                afterDateMent.setVisibility(View.VISIBLE);
+            } else {
+                if(toDo.getStatus().equals("READY")){
+                    spinner.setSelection(0);
+                }else if(toDo.getStatus().equals("PROGRESS")){
+                    spinner.setSelection(1);
+                }else if(toDo.getStatus().equals("DONE")){
+                    spinner.setSelection(2);
+                } else {
+                    spinner.setSelection(3);
                 }
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-
+            }
+        } else { //마감일 전인 경우
+            if(toDo.getStatus().equals("READY")){
+                spinner.setSelection(0);
+            }else if(toDo.getStatus().equals("PROGRESS")){
+                spinner.setSelection(1);
+            }else if(toDo.getStatus().equals("DONE")){
+                spinner.setSelection(2);
+            }else{
+                if(isMentee){
+                    spinner.setVisibility(View.GONE);
+                    confMent.setVisibility(View.VISIBLE);
+                } else {
+                    spinner.setSelection(3);
                 }
-            });
+            }
         }
+
     }
 
     //데이트 피커

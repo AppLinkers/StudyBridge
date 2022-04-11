@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
@@ -62,12 +63,13 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         status.setText(statusName);
         setRecyclerView();
         setData(statusName,filter);
-
     }
 
 
     public void setRecyclerView(){
         linearLayoutManager = new LinearLayoutManager(itemView.getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 

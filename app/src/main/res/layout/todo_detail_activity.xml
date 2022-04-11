@@ -30,20 +30,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:id="@+id/todo_detail_taskName"
-                style="@style/Widget.StudyBridge.TextInputEditText.White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
-                android:inputType="text"
-                android:maxLines="1"
                 android:text="과제명"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:theme="@style/Widget.StudyBridge.TextInputEditText.White" />
+                android:textColor="@color/textColorPrimary"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/todo_detail_spinner"
@@ -52,7 +49,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="15dp" />
-
 
             <TextView
                 android:id="@+id/conf_ment"
@@ -63,7 +59,17 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 android:textColor="@color/textColorPrimary"
-                android:text="수행 완료된 과제입니다. "/>
+                android:text="수행 완료된 과제입니다."/>
+            <TextView
+                android:id="@+id/afterDate_ment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:textColor="@color/textColorPrimary"
+                android:text="마감일이 지났습니다."/>
 
             <View
                 android:layout_width="match_parent"
@@ -178,9 +184,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:id="@+id/todo_detail_taskInfo"
-                style="@style/Widget.StudyBridge.TextInputEditText.White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -189,7 +194,7 @@
                 android:paddingBottom="15dp"
                 android:text="상세 설명"
                 android:textSize="14sp"
-                android:theme="@style/Widget.StudyBridge.TextInputEditText.White" />
+                android:textColor="@color/textColorPrimary"/>
 
 
             <View

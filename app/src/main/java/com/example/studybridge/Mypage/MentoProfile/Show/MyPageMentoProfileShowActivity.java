@@ -21,6 +21,7 @@ import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -80,17 +81,18 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoShow_RV);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MyPageMentoShowAdapter();
 
 
         getData();
-
         setEditBtn();
 
 
     }
 
+
+
     private void getData(){
+        adapter = new MyPageMentoShowAdapter();
         dataService.userMentor.getProfile(userId, userId).enqueue(new Callback<ProfileRes>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -108,15 +110,13 @@ public class MyPageMentoProfileShowActivity extends AppCompatActivity {
                     appeal.setText(checkNull(response.body().getAppeal()));
 
                     List<Certificate> certiList = response.body().getCertificates();
-
                     if(certiList.size()>0){
-                        for(int i=0; i<response.body().getCertificates().size(); i++){
+                        for(int i=0; i<certiList.size(); i++){
                             adapter.addItem(certiList.get(i));
                         }
                     } else {
                         noCertiMsg.setVisibility(View.VISIBLE);
                     }
-
                     recyclerView.setAdapter(adapter);
 
                     mentoProfile = response.body();
