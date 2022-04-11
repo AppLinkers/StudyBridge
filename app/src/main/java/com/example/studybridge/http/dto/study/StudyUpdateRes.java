@@ -1,10 +1,5 @@
 package com.example.studybridge.http.dto.study;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class StudyUpdateRes {
 
     private Long studyId;
