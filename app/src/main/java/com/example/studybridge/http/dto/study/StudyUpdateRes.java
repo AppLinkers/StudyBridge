@@ -16,6 +16,8 @@ public class StudyUpdateRes {
 
     private Integer maxNum;
 
+
+
     public Long getStudyId() {
         return studyId;
     }

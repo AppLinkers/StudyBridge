@@ -124,7 +124,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //editText UI 안 가리도록
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
 
@@ -344,6 +344,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+
                 commentLayout.setEndIconDrawable(R.drawable.ic_send);
                 commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
                     @Override

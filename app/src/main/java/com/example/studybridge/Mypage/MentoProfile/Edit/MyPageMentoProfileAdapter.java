@@ -45,7 +45,7 @@ public class MyPageMentoProfileAdapter extends RecyclerView.Adapter<MyPageMentoP
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyPageMentoProfileAdapter.MyPageMentoProfileHolder holder, int position) {
 
-        Glide.with(holder.itemView).load(Uri.parse(listData.get(position).getImgUrl())).into(holder.qualiImg);
+        Glide.with(holder.itemView).load(listData.get(position).getImgUrl()).into(holder.qualiImg);
         holder.qualiImg.setImageURI(Uri.parse(listData.get(position).getImgUrl()));
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         holder.qualiName.setText(listData.get(holder.getAdapterPosition()).getCertificate());

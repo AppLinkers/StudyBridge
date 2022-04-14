@@ -62,8 +62,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         } else {
             mentoQualification.setText("자격증 없음");
         }
-
         profile = data;
-
     }
 }

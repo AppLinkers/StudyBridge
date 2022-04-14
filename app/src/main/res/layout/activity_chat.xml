@@ -8,24 +8,53 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:id="@+id/toolbarCon"
-        android:backgroundTint="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
-    </com.google.android.material.appbar.AppBarLayout>
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:id="@+id/chat_backBtn"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/chat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="스터디 이름"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"/>
+        <TextView
+            android:id="@+id/chat_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary70"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/chat_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/viewUnderline"
+        android:layout_below="@+id/toolbarCon"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_chat"
+        android:id="@+id/chat_RV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/chat"
-        android:layout_below="@+id/toolbarCon"
+        android:layout_below="@+id/chat_line"
+        android:paddingBottom="15dp"
         android:paddingTop="15dp"
         app:stackFromEnd="true" />
 
@@ -34,8 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:backgroundTint="@color/colorAccent"
+        android:background="#F8F8F8"
         android:paddingLeft="10dp">
 
         <ImageView
@@ -45,22 +73,24 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add" />
 
-        <EditText
-            android:id="@+id/mycontext"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/send"
-            android:background="@drawable/slider_round"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
-
-<!--        <ImageView
-            android:id="@+id/exapleImg"
-            android:layout_width="120dp"
-            android:layout_height="90dp"
-            android:layout_centerHorizontal="true" />-->
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+            <EditText
+                android:id="@+id/mycontext"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="메세지를 입력하세요"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"/>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:id="@+id/send"
@@ -69,20 +99,15 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:onClick="send"
             android:padding="10dp">
 
             <ImageView
+                android:id="@+id/sendImg"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_send" />
+                android:src="@drawable/ic_send_gray" />
         </LinearLayout>
 
     </RelativeLayout>
-
-
-
-
-
 
 </RelativeLayout>

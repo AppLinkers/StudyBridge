@@ -44,11 +44,13 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_chat_white.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_white.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_send.xml" value="0.2375" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_send_gray.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_clicked.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_selector.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_unclicked.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/round_bottomsheet.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/round_dialog.xml" value="0.2375" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/slider_round.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_atuh2.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_chat.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_main.xml" value="0.34010416666666665" />
@@ -96,6 +98,7 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/todo_mentor_rc_item.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/todo_studylist_item.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_detail_toolbar.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_toolbar_menu.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/todo_toolbar_menu.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/layout/activity_atuh.xml" value="0.12310030395136778" />

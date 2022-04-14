@@ -1,6 +1,7 @@
 package com.example.studybridge.Mypage.MentoProfile.Edit;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -126,7 +127,7 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         if (requestCode == PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
 
-                dir = data.getData().toString();
+                dir = uriPath(data.getData());
                 Glide.with(this).load(dir).into(schoolImg);
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -135,24 +136,27 @@ public class MyPageMentoProfileSchoolCheck extends AppCompatActivity {
         }
     }
 
-    /*public String saveBitmapToJpg(Bitmap bitmap , String name) {
-
-        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
-        String fileName = name + ".jpg";
-        File imgFile = new File(storage, fileName);
+    private String uriPath(Uri uri){
+        Cursor cursor = null;
         try {
-            imgFile.createNewFile();
-            FileOutputStream out = new FileOutputStream(imgFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-        } catch (FileNotFoundException e) {
-            Log.e("saveBitmapToJpg","FileNotFoundException : " + e.getMessage());
-        } catch (IOException e) {
-            Log.e("saveBitmapToJpg","IOException : " + e.getMessage());
+            String[] proj = { MediaStore.Images.Media.DATA };
+
+            assert uri != null;
+            cursor = getContentResolver().query(uri, proj, null, null, null);
+
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        Log.d("imgPath" , getCacheDir() + "/" +fileName);
-        return getCacheDir() + "/" +fileName;
-    }*/
+    }
 
 
 }

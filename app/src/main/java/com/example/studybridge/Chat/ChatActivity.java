@@ -20,10 +20,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.studybridge.R;
@@ -51,11 +56,11 @@ import ua.naiksoftware.stomp.StompClient;
 public class ChatActivity extends AppCompatActivity {
 
     //sharedPref
+    SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
-    SharedPreferences sharedPreferences;
     public static final int PICK_IMAGE = 101;
 
     //id 값들
@@ -70,12 +75,14 @@ public class ChatActivity extends AppCompatActivity {
     String dir;
     File imgFile;
 
-    private Toolbar toolbar;
+    //화면 위 데이터
     private EditText chatEt;
-    private ImageView addImg,exampleImg;
-
-    ChatAdapter adapter;
-    RecyclerView rcChat;
+    private ImageView addImg;
+    private ChatAdapter adapter;
+    private RecyclerView rcChat;
+    private LinearLayoutManager linearLayoutManager;
+    private ImageView sendImg,backBtn;
+    private LinearLayout send;
 
     private static final String TAG = "Chat";
 
@@ -103,26 +110,62 @@ public class ChatActivity extends AppCompatActivity {
 
         chatEt = findViewById(R.id.mycontext);
         addImg = (ImageView) findViewById(R.id.chat_addImg);
-//        exampleImg = (ImageView) findViewById(R.id.exapleImg);
+        rcChat = findViewById(R.id.chat_RV);
+        sendImg = (ImageView) findViewById(R.id.sendImg);
+        backBtn = (ImageView) findViewById(R.id.chat_backBtn);
+        send = (LinearLayout) findViewById(R.id.send);
 
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("예시 스터디");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        rcChat = findViewById(R.id.rc_chat);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         rcChat.setLayoutManager(linearLayoutManager);
         adapter = new ChatAdapter();
         getData();
         rcChat.scrollToPosition(adapter.getItemCount()-1);
 
+        setSend();
+
         setAddImg();
 
         initStomp();
 
+    }
+
+    private void setSend(){
+        chatEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    sendImg.setImageResource(R.drawable.ic_send_gray);
+                } else {
+                    sendImg.setImageResource(R.drawable.ic_send);
+                    send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            newChat = charSequence+"";
+                            // send to server
+                            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
+                            String sendMessage = gson.toJson(message);
+                            stompClient.send("/pub/chat/message", sendMessage).subscribe();
+                            // edit UI
+                            adapter.addItem(message);
+                            rcChat.setAdapter(adapter);
+                            rcChat.scrollToPosition(adapter.getItemCount()-1);
+                            chatEt.setText("");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 
@@ -302,8 +345,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -321,8 +362,6 @@ public class ChatActivity extends AppCompatActivity {
 
                         Bitmap rImg = rotateImage(data.getData(), img);
                         in.close();
-
-//                        exampleImg.setImageBitmap(rImg);
 
                         dir = saveBitmapToJpg(rImg,"testPath");
 

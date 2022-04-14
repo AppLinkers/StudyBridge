@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.model.ResourceLoader;
 import com.example.studybridge.R;
+import com.example.studybridge.Util.Permission;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
@@ -127,6 +128,9 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         //자격증 이미지 추가하기
         addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
         recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
+
+        Permission.verifyStoragePermissions(this);
+
 
         getIntentData();
         setToolbar();
@@ -232,8 +236,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                                     certificates.get(i).getImgUrl()));
                 }
 
-                Toast.makeText(this, inputCerti.get(0).getCertificate() + " " +inputCerti.get(0).getImgUrl(), Toast.LENGTH_SHORT).show();
-
                 for(int i=0; i<placeGroup.getChildCount();i++){
                     Chip chip = (Chip) placeGroup.getChildAt(i);
                     if(chip.isChecked()){
@@ -281,13 +283,13 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 if (mentoProfile.getCertificates().size() > 0) {
                     mentoProfile.getCertificates().forEach(cn -> {
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
-                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(saveUrlToJpg(cn.getImgUrl())));
+                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));
                         certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate(), certificateImg));
                     });
                 }
 
                 // school Img
-                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(saveUrlToJpg(mentoProfile.getSchoolImg())));
+                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));
                 MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), schoolImg);
 
 
@@ -327,7 +329,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         else if(requestCode==PICK_IMAGE){
             if(resultCode==RESULT_OK) {
 
-                String dir = data.getData().toString();
+                String dir = uriPath(data.getData());
                 certificates.add(new Certificate(dir));
                 adapter.notifyDataSetChanged();
 
@@ -335,7 +337,29 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         }
     }
 
-    public String saveUrlToJpg(String uri) {
+    private String uriPath(Uri uri){
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+
+            assert uri != null;
+            cursor = getContentResolver().query(uri, proj, null, null, null);
+
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+   public String saveUrlToJpg(String uri) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = uri + ".jpg";

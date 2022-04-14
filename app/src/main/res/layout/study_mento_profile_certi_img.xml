@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:paddingTop="80dp"
-    android:paddingBottom="80dp">
+    android:paddingBottom="80dp"
+    android:background="@color/black30">
     <ImageView
         android:id="@+id/mento_profile_certi_img"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:layout_height="300dp"
+        android:scaleType="center"/>
 </LinearLayout>

@@ -48,6 +48,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     Long study_id;
     String managerId;
+    Boolean isApplied;
 
     DataService dataService = new DataService();
 
@@ -73,9 +74,10 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intentToDetail = new Intent(view.getContext(), StudyMentiDetail.class);
-
                 intentToDetail.putExtra("study",studyFindRes);
                 intentToDetail.putExtra("managerId",managerId);
+                intentToDetail.putExtra("isApplied",isApplied);
+
                 view.getContext().startActivity(intentToDetail);
 
             }
@@ -97,11 +99,11 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         status.setText(data.statusSet(statusColor));
 
         getManagerId(study_id);
+        findApplied(study_id);
 
         studyFindRes = data;
 
     }
-
 
     //스터디 방장 찾기 위함
     public void getManagerId(Long studyId){
@@ -110,11 +112,24 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
             public void onResponse(Call<String> call, Response<String> response) {
                 managerId = response.body();
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
             }
         });
     }
+    private void findApplied(Long study_id){
+        dataService.study.isApplied(study_id,userId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                isApplied = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

@@ -29,6 +29,6 @@ public class StudyMentoProfileCertiImg extends AppCompatActivity {
 
         Toast.makeText(this, imgUrl, Toast.LENGTH_SHORT).show();
 
-        Glide.with(this).load(Uri.parse(imgUrl)).into(imageView);
+        Glide.with(this).load(imgUrl).into(imageView);
     }
 }
