@@ -29,12 +29,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.message.Message;
 import com.example.studybridge.http.dto.message.Room;
+import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -50,6 +54,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 
@@ -62,6 +68,8 @@ public class ChatActivity extends AppCompatActivity {
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
     public static final int PICK_IMAGE = 101;
+
+    private StudyFindRes study;
 
     //id 값들
     Long userPkId;
@@ -77,12 +85,15 @@ public class ChatActivity extends AppCompatActivity {
 
     //화면 위 데이터
     private EditText chatEt;
-    private ImageView addImg;
+    private ImageView addImg,tempImg;
+    private MaterialCardView delImg;
     private ChatAdapter adapter;
     private RecyclerView rcChat;
     private LinearLayoutManager linearLayoutManager;
     private ImageView sendImg,backBtn;
     private LinearLayout send;
+    private TextView title,peopleNum;
+    private RelativeLayout tempImgLay;
 
     private static final String TAG = "Chat";
 
@@ -98,29 +109,36 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        //Intent
         Intent intent = getIntent();
-        studyId = intent.getLongExtra("studyId",0);
+        study = (StudyFindRes) intent.getSerializableExtra("study");
+        studyId = study.getId();
         roomId = intent.getLongExtra("roomId", 0);
 
+        //sharedPref
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 1L);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
-        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+/*        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");*/
 
-
-        chatEt = findViewById(R.id.mycontext);
+        //화면 위 데이터
+        chatEt = (EditText) findViewById(R.id.mycontext);
         addImg = (ImageView) findViewById(R.id.chat_addImg);
-        rcChat = findViewById(R.id.chat_RV);
         sendImg = (ImageView) findViewById(R.id.sendImg);
         backBtn = (ImageView) findViewById(R.id.chat_backBtn);
         send = (LinearLayout) findViewById(R.id.send);
+        title = (TextView) findViewById(R.id.chat_title);
+        peopleNum = (TextView) findViewById(R.id.chat_num);
+        tempImg = (ImageView) findViewById(R.id.chat_tempImg);
+        tempImgLay = (RelativeLayout) findViewById(R.id.chat_tempImgLay);
+        delImg = (MaterialCardView) findViewById(R.id.chat_delTempImg);
+
+        rcChat = (RecyclerView) findViewById(R.id.chat_RV);
 
 
-        linearLayoutManager = new LinearLayoutManager(this);
-        rcChat.setLayoutManager(linearLayoutManager);
-        adapter = new ChatAdapter();
-        getData();
-        rcChat.scrollToPosition(adapter.getItemCount()-1);
+        setrecycler();
+
+        setIntentData();
 
         setSend();
 
@@ -130,7 +148,15 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void setrecycler(){
+        linearLayoutManager = new LinearLayoutManager(this);
+        rcChat.setLayoutManager(linearLayoutManager);
+        adapter = new ChatAdapter();
+        getData();
+        rcChat.scrollToPosition(adapter.getItemCount()-1);
+    }
     private void setSend(){
+        //보내기 버튼
         chatEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -141,7 +167,9 @@ public class ChatActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.toString().equals("")){
                     sendImg.setImageResource(R.drawable.ic_send_gray);
-                } else {
+                    send.setClickable(false);
+                }
+                 else {
                     sendImg.setImageResource(R.drawable.ic_send);
                     send.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -164,6 +192,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        //뒤로가기 버튼
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -333,6 +369,62 @@ public class ChatActivity extends AppCompatActivity {
             chatEt.setText("");
         }
     }
+
+    private void sendTempImg(){
+
+        String img_url = null;
+
+        RequestBody image = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
+        MultipartBody.Part chatImg = MultipartBody.Part.createFormData("image", "image", image);
+
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<Void, Void, String> API = new AsyncTask<Void, Void, String>() {
+
+            final ProgressDialog dialog = new ProgressDialog(ChatActivity.this);
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                dialog.setMessage("Processing ...");
+                dialog.show();
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                Call<String> call = dataService.s3.chatImg(chatImg);
+
+                try {
+                    return call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                dialog.dismiss();
+            }
+        }.execute();
+
+        try {
+            img_url = API.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // send to server
+        Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
+        String sendMessage = gson.toJson(message);
+        stompClient.send("/pub/chat/message", sendMessage).subscribe();
+
+        // edit UI
+        adapter.addItem(message);
+        rcChat.setAdapter(adapter);
+        rcChat.scrollToPosition(adapter.getItemCount()-1);
+        chatEt.setText("");
+
+    }
     private void setAddImg(){
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -365,7 +457,36 @@ public class ChatActivity extends AppCompatActivity {
 
                         dir = saveBitmapToJpg(rImg,"testPath");
 
+                        tempImgLay.setVisibility(View.VISIBLE);
+                        tempImg.setImageBitmap(rImg);
+                        rcChat.scrollToPosition(adapter.getItemCount()-1);
+
                         imgFile = new File(dir);
+
+                        delImg.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                tempImgLay.setVisibility(View.GONE);
+                                sendImg.setImageResource(R.drawable.ic_send_gray);
+                                send.setClickable(false);
+                                imgFile.deleteOnExit();
+                            }
+                        });
+
+                        sendImg.setImageResource(R.drawable.ic_send);
+                        send.setClickable(true);
+                        send.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(imgFile.exists()){
+                                    sendTempImg();
+                                    tempImgLay.setVisibility(View.GONE);
+                                    imgFile.deleteOnExit();
+                                } else
+                                    send.setClickable(false);
+                            }
+                        });
+
 
 
                     }
@@ -421,5 +542,20 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
 
         return getCacheDir() + "/" +fileName;
+    }
+
+    private void setIntentData(){
+        title.setText(study.getName());
+        dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                peopleNum.setText(String.valueOf(response.body().size()+1));
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
     }
 }

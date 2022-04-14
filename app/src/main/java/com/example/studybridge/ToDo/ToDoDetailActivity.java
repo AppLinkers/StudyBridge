@@ -123,9 +123,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
         //툴바 설정
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //editText UI 안 가리도록
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
 
 
         if(isMentee){
@@ -232,38 +229,42 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
     private void setSpinner(){
-        if(dayResult<0){ //마감일 지난 경우
-            if(isMentee){
-                spinner.setVisibility(View.GONE);
-                afterDateMent.setVisibility(View.VISIBLE);
-            } else {
-                if(toDo.getStatus().equals("READY")){
-                    spinner.setSelection(0);
-                }else if(toDo.getStatus().equals("PROGRESS")){
-                    spinner.setSelection(1);
-                }else if(toDo.getStatus().equals("DONE")){
-                    spinner.setSelection(2);
-                } else {
-                    spinner.setSelection(3);
-                }
-            }
-        } else { //마감일 전인 경우
-            if(toDo.getStatus().equals("READY")){
-                spinner.setSelection(0);
-            }else if(toDo.getStatus().equals("PROGRESS")){
-                spinner.setSelection(1);
-            }else if(toDo.getStatus().equals("DONE")){
-                spinner.setSelection(2);
-            }else{
-                if(isMentee){
+
+        if(isMentee){
+            if(dayResult<0){
+                if(statusNum(toDo.getStatus())==3){
                     spinner.setVisibility(View.GONE);
                     confMent.setVisibility(View.VISIBLE);
                 } else {
-                    spinner.setSelection(3);
+                    spinner.setVisibility(View.GONE);
+                    afterDateMent.setVisibility(View.VISIBLE);
+                }
+            } else{
+                if(statusNum(toDo.getStatus())<3){
+                    spinner.setSelection(statusNum(toDo.getStatus()));
+                } else {
+                    spinner.setVisibility(View.GONE);
+                    confMent.setVisibility(View.VISIBLE);
                 }
             }
         }
+        else {
+            spinner.setSelection(statusNum(toDo.getStatus()));
+        }
 
+    }
+
+    private int statusNum(String status){
+        switch (status){
+            case "READY":
+                return 0;
+            case "PROGRESS":
+                return 1;
+            case "DONE":
+                return 2;
+            default:
+                return 3;
+        }
     }
 
     //데이트 피커

@@ -403,11 +403,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //스터디 시작하기 함수 작성
-                    Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
-                    Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
-                    chatIntent.putExtra("roomId", findRoomRes.getRoomId());
-                    chatIntent.putExtra("studyId",studyId);
-                    startActivity(chatIntent);
+                    goToChat();
                 }
             });
         } else {
@@ -430,20 +426,21 @@ public class StudyMentiDetail extends AppCompatActivity {
             button.setText("신청 취소");
         }
         else {
-            if(Integer.parseInt(String.valueOf(nowNum.getText()))
-                    <Integer.parseInt(String.valueOf(maxNum.getText()))) { // 최대 인원 전이면
+            if(Integer.parseInt(nowNum.getText().toString())
+                    <Integer.parseInt(maxNum.getText().toString())) { // 최대 인원 전이면
                 button.setText("신청 하기");
             }
             else {
                 button.setEnabled(false);
                 button.setText("최대 인원입니다");
+                button.setBackgroundColor(R.color.disableBtn);
             }
         }
-
+        
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isApplied){
+                if(isApplied) {
                     StudyWithdrawReq studyWithdrawReq = new StudyWithdrawReq(studyId,userPkId);
                     dataService.study.withdraw(studyWithdrawReq).enqueue(new Callback<StudyWithdrawRes>() {
                         @Override
@@ -451,6 +448,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                             if(response.isSuccessful()){
                                 button.setText("신청 하기");
                                 isApplied = false;
+                                Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -459,7 +457,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
                         }
                     });
-
                 }
                 else {
                     StudyApplyReq studyApplyReq = new StudyApplyReq(userId,studyId);
@@ -469,14 +466,15 @@ public class StudyMentiDetail extends AppCompatActivity {
                             if(response.isSuccessful()){
                                 button.setText("신청 취소");
                                 isApplied = true;
+                                Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void onFailure(Call<StudyApplyRes> call, Throwable t) {
 
                         }
                     });
-
                 }
             }
         });
@@ -638,11 +636,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 //스터디 시작하기 함수 작성
-                                Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
-                                Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
-                                chatIntent.putExtra("roomId", findRoomRes.getRoomId());
-                                chatIntent.putExtra("studyId",studyId);
-                                startActivity(chatIntent);
+                                goToChat();
                             }
                         });
                     }
@@ -683,6 +677,7 @@ public class StudyMentiDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()){
+                    assert response.body() != null;
                     nowNum.setText(String.valueOf(response.body().size()));
                 }
             }
@@ -731,6 +726,14 @@ public class StudyMentiDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void goToChat(){
+        Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
+        Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
+        chatIntent.putExtra("roomId", findRoomRes.getRoomId());
+        chatIntent.putExtra("study",study);
+        startActivity(chatIntent);
     }
 
 }
