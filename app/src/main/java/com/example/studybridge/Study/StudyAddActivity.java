@@ -163,6 +163,7 @@ public class StudyAddActivity extends AppCompatActivity {
                             titleEt.getText().toString()+"",
                             subject,introEt.getText().toString()+"",
                             explainEt.getText().toString(),
+                            "test_place",
                             Integer.parseInt(maxNumEt.getText().toString()+""));
                     dataService.study.update(studyUpdateReq).enqueue(new Callback<StudyUpdateRes>() {
                         @Override

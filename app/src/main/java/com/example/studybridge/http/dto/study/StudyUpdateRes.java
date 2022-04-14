@@ -14,6 +14,8 @@ public class StudyUpdateRes {
 
     private String explain;
 
+    private String place;
+
     private Integer maxNum;
 
 
@@ -40,6 +42,10 @@ public class StudyUpdateRes {
 
     public String getExplain() {
         return explain;
+    }
+
+    public String getPlace() {
+        return place;
     }
 
     public Integer getMaxNum() {
