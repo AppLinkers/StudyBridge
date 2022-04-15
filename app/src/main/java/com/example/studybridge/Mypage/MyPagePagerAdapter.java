@@ -6,14 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.studybridge.Study.StudyMenti.StudyMentiFragment;
-import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
+import com.example.studybridge.Mypage.Chat.MyPageChatFragment;
 
-public class MyPageFragmentPagerAdapter extends FragmentStateAdapter {
+public class MyPagePagerAdapter extends FragmentStateAdapter {
 
     private static int NUM_TABS = 2;
 
-    public MyPageFragmentPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public MyPagePagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 

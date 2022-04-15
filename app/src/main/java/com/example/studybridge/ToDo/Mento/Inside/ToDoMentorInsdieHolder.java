@@ -125,12 +125,6 @@ public class ToDoMentorInsdieHolder extends RecyclerView.ViewHolder{
                 });
             }
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //취소
-            }
-        });
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();

@@ -43,6 +43,7 @@ import com.example.studybridge.http.dto.study.StudyWithdrawRes;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -184,41 +185,15 @@ public class StudyMentiDetail extends AppCompatActivity {
             }
         });
 
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, Void, List<String>> API = new AsyncTask<Void, Void, List<String>>() {
-            @Override
-            protected List<String> doInBackground(Void... params) {
-                Call<List<String>> call = dataService.study.mentorList(studyId);
-                try {
-                    for(String res : call.execute().body()) {
-                        adapter.addItem(res);
-                    }
-                    adapter.setStudyId(studyId);
-                    adapter.setManagerId(managerId);
-                    recyclerView.setAdapter(adapter);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(List<String> s) {super.onPostExecute(s);}
-        }.execute();
-
-        List<String> result = null;
-
-        try {
-            result = API.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        getEnrollMento();
         //선정 멘토 확인
         chosenMentoProfile(chosenMentoRL);
-
-
         // 채팅 방 받아오기
+        getChat();
+
+    }
+
+    private void getChat(){
         dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
             @Override
             public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
@@ -230,7 +205,27 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
+    }
+    private void getEnrollMento(){
+        dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+                    assert response.body() != null;
+                    for(String s: response.body()){
+                        adapter.addItem(s);
+                    }
+                    adapter.setStudyId(studyId);
+                    adapter.setManagerId(managerId);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -246,12 +241,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         if(userId.equals(managerId)){
             menuInflater.inflate(R.menu.study_detail_toolbar, menu);
         }
-
         return true;
     }
-
-
-
     //상단 메뉴 선택
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -334,63 +325,6 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
-
-        /*@SuppressLint({"ResourceAsColor", "StaticFieldLeak"})
-        AsyncTask<Void, Void, String> listAPI = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                Call<String> call = dataService.study.studyStatus(studyId);
-
-                try {
-                    checkRole();
-                    checkMaxNum();
-                    String response = call.execute().body();
-
-                    if (response.equals(MENTEE_APPLY)){
-                        //멘티 모집중
-                        BtnForMaker.setText("모집 종료하기");
-                        BtnForMaker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                //모집 종료 함수 작성
-                                toWait();
-                            }
-                        });
-                        applyStudyForMentee(BtnForMentee);
-                    } else if (response.equals(MENTO_APPLY)){
-                        //멘토 모집중
-
-                        applyStudyForMento(BtnForMento);
-
-                    } else {
-                        //모집 완료
-                        matchedBtn(BtnForMaker);
-                        matchedBtn(BtnForMentee);
-                        matchedBtn(BtnForMento);
-
-                        afterChooseMento();
-
-                    }
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {super.onPostExecute(s);}
-        }.execute();
-
-        String result = null;
-
-        try {
-            result = listAPI.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
     }
 
     //모집완료 버튼
@@ -446,6 +380,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyWithdrawRes> call, Response<StudyWithdrawRes> response) {
                             if(response.isSuccessful()){
+                                checkMaxNum();
                                 button.setText("신청 하기");
                                 isApplied = false;
                                 Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
@@ -464,6 +399,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
                             if(response.isSuccessful()){
+                                checkMaxNum();
                                 button.setText("신청 취소");
                                 isApplied = true;
                                 Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
@@ -478,63 +414,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                 }
             }
         });
-
-
-        /*dataService.study.isApplied(studyId,userId).enqueue(new Callback<Boolean>() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.isSuccessful()){
-
-                    BtnForMento.setText("멘티 모집중입니다");
-                    BtnForMento.setBackgroundColor(R.color.disableBtn);
-                    BtnForMento.setEnabled(false);
-
-                    if(response.body()){
-                        //이미 신청 했으면
-                        button.setEnabled(false);
-                        button.setBackgroundColor(R.color.disableBtn);
-                        button.setText("신청 완료");
-                    } else {//신청 전이면
-
-                        if(Integer.parseInt(String.valueOf(nowNum.getText()))
-                                <Integer.parseInt(String.valueOf(maxNum.getText()))){ // 최대 인원 전이면
-                            button.setEnabled(true);
-                            button.setText("신청하기");
-
-                            StudyApplyReq studyApplyReq = new StudyApplyReq(userId,studyId);
-                            button.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dataService.study.apply(studyApplyReq).enqueue(new Callback<StudyApplyRes>() {
-                                        @Override
-                                        public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
-                                            if(response.isSuccessful()){
-                                                button.setEnabled(false);
-                                                button.setBackgroundColor(R.color.disableBtn);
-                                                button.setText("신청완료");
-                                            }
-                                        }
-                                        @Override
-                                        public void onFailure(Call<StudyApplyRes> call, Throwable t) {
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            button.setEnabled(false);
-                            button.setText("최대 인원입니다");
-                        }
-
-
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });*/
 
     }
 
@@ -565,6 +444,7 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyWithdrawRes> call, Response<StudyWithdrawRes> response) {
                             if(response.isSuccessful()){
+                                adapter.deleteItem(userId);
                                 button.setText("신청 하기");
                                 isApplied = false;
                             }
@@ -583,6 +463,8 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
                             if(response.isSuccessful()){
+                                adapter.addItem(userId);
+                                adapter.notifyItemInserted(adapter.getItemCount());
                                 button.setText("신청 취소");
                                 isApplied = true;
                             }

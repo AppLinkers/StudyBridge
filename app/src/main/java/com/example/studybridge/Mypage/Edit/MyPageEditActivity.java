@@ -31,8 +31,8 @@ public class MyPageEditActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LinearLayout changeImage;
     private ImageView imgNow;
-    private TextView editIdTv;
-    private TextView editNameTv;
+    private TextView IdTv;
+    private TextView NameTv;
 
     public static final int PICK_IMAGE = 1;
 
@@ -63,11 +63,11 @@ public class MyPageEditActivity extends AppCompatActivity {
         //이미지 변경
         changeImage = (LinearLayout) findViewById(R.id.mypage_edit_changeImg);
         imgNow = (ImageView) findViewById(R.id.mypage_edit_img);
-        editIdTv = findViewById(R.id.edit_id);
-        editNameTv = findViewById(R.id.edit_name);
+        IdTv = findViewById(R.id.edit_id);
+        NameTv = findViewById(R.id.edit_name);
 
-        editIdTv.setText(userId);
-        editNameTv.setText(userName);
+        IdTv.setText(userId);
+        NameTv.setText(userName);
 
         changeImage.setOnClickListener(new View.OnClickListener() {
             @Override

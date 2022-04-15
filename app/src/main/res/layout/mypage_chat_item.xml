@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mypage_chat_imgCon"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        app:cardCornerRadius="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp">
+        <ImageView
+            android:id="@+id/mypage_chat_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"/>
+    </com.google.android.material.card.MaterialCardView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/mypage_chat_imgCon"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="25dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/mypage_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스터디 이름"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mypage_chat_lastChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mypage_chat_name"
+            android:textColor="@color/textColorPrimary70"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/mypage_chat_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_above="@+id/mypage_chat_lastChat"
+            android:layout_toRightOf="@+id/mypage_chat_name"
+            android:text="4"
+            android:textColor="@color/textColorPrimary70"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/viewUnderline" />
+</RelativeLayout>

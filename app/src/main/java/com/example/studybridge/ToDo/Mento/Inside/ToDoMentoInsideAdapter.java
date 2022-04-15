@@ -32,6 +32,8 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public void deleteItem(int position){
         todoAssigned.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,todoAssigned.size());
     }
 
     public void addItem(FindToDoRes data){

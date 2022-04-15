@@ -25,8 +25,6 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
     private Long studyId;
     private String managerId;
 
-
-
     @NonNull
     @NotNull
     @Override
@@ -60,6 +58,15 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
     public void addItem(String data) {
         listData.add(data);
     }
+    public void deleteItem(String data){
+        for(int i=0;i<listData.size();i++){
+            if(data.equals(listData.get(i))){
+                listData.remove(i);
+                notifyItemRemoved(i);
+                break;
+            }
+        }
+    }
 
     public void setStudyId(Long studyId) {
         this.studyId = studyId;
@@ -67,6 +74,8 @@ public class StudyMentiEnrollMentoAdapter extends RecyclerView.Adapter<StudyMent
     public void setManagerId(String managerId) {
         this.managerId = managerId;
     }
+
+
 
     public class StudyMentiEnrollMentoHolder extends RecyclerView.ViewHolder{
 

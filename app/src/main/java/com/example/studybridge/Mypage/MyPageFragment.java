@@ -14,16 +14,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.Mypage.Edit.MyPageEditActivity;
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyFragmentPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MyPageFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
-    private MyPageFragmentPagerAdapter adapter;
+    private MyPagePagerAdapter adapter;
 
     private TextView editBtn;
-
     private TextView userIdTv;
     private TextView userNameTv;
 
@@ -35,13 +33,16 @@ public class MyPageFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mypage_fragment, container, false);
+
         tabLayout = (TabLayout) view.findViewById(R.id.mypage_tab);
         viewPager = (ViewPager2) view.findViewById(R.id.mypage_pager);
 
+        userIdTv = view.findViewById(R.id.mypage_id);
+        userNameTv = view.findViewById(R.id.mypage_name);
 
         //옆으로 스와이프
         FragmentManager fm = getChildFragmentManager();
-        adapter = new MyPageFragmentPagerAdapter(fm,getLifecycle());
+        adapter = new MyPagePagerAdapter(fm,getLifecycle());
 
         viewPager.setAdapter(adapter);
 
@@ -66,11 +67,6 @@ public class MyPageFragment extends Fragment {
         });
 
         viewPager.setSaveEnabled(false);
-
-
-
-        userIdTv = view.findViewById(R.id.mypage_id);
-        userNameTv = view.findViewById(R.id.mypage_name);
 
         Bundle bundle =getArguments();
         userName = bundle.getString("name");

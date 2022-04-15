@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -165,4 +168,13 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         MenuItem selectedItem = bottomNavigationView.getMenu().findItem(menuItem);
         selectedItem.setChecked(true);
     }
+    private void createNotificationChannel(String channelId,String channelName,int importance) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,channelName,importance));
+        }
+    }
+
 }
