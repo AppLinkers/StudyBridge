@@ -57,9 +57,14 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
             heart.setSelected(true);
         } else heart.setSelected(false);
 
-        if(data.getCertificates().size()>0){
+        if(data.getCertificates().size()>1){
+            StringBuilder sb = new StringBuilder();
+            sb.append(data.getCertificates().get(0).getCertificate()).append(" 외").append(data.getCertificates().size()-1).append("개");
+            mentoQualification.setText(sb.toString());
+        } else if (data.getCertificates().size()==1){
             mentoQualification.setText(data.getCertificates().get(0).getCertificate());
-        } else {
+        }
+        else{
             mentoQualification.setText("자격증 없음");
         }
         profile = data;

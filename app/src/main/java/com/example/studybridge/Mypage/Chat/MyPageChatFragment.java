@@ -1,7 +1,9 @@
 package com.example.studybridge.Mypage.Chat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,15 +55,69 @@ public class MyPageChatFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.mypage_chatRv);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MyPageChatAdapter();
-        getData();
+
+        setRecyclerView();
+
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.clearItem();
+        getData();
+        recyclerView.setAdapter(adapter);
+    }
 
+    private void setRecyclerView(){
+        adapter = new MyPageChatAdapter();
+        getData();
+        recyclerView.setAdapter(adapter);
+    }
+
+    @SuppressLint({"StaticFieldLeak", "NewApi"})
     private void getData(){
-        dataService.study.findByUserId(userPkId).enqueue(new Callback<List<StudyFindRes>>() {
+
+        AsyncTask<Void, Void, List<StudyFindRes>> listAPI = new AsyncTask<Void, Void, List<StudyFindRes>>() {
+
+            @Override
+            protected List<StudyFindRes> doInBackground(Void... params) {
+                Call<List<StudyFindRes>> call = dataService.study.findByUserId(userPkId);
+                try {
+                    return call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(List<StudyFindRes> s) {
+                super.onPostExecute(s);
+            }
+        }.execute();
+
+
+        List<StudyFindRes> result = null;
+
+        try {
+            result = listAPI.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (result != null) {
+
+            result.forEach(s -> {
+                if(s.getStatus().equals("MATCHED")) {
+                    adapter.addItem(s);
+                }
+            });
+        }
+
+    }
+        /*dataService.study.findByUserId(userPkId).enqueue(new Callback<List<StudyFindRes>>() {
             @Override
             public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
                 if(response.isSuccessful()){
@@ -77,6 +134,5 @@ public class MyPageChatFragment extends Fragment {
             public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
 
             }
-        });
-    }
+        });*/
 }

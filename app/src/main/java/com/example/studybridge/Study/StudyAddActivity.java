@@ -161,8 +161,9 @@ public class StudyAddActivity extends AppCompatActivity {
                             study.getId(),
                             userPkId,
                             titleEt.getText().toString()+"",
-                            subject,introEt.getText().toString()+"",
-                            explainEt.getText().toString(),
+                            subject,
+                            introEt.getText().toString()+"",
+                            explainEt.getText().toString()+"",
                             studyPlace,
                             Integer.parseInt(maxNumEt.getText().toString()+""));
                     dataService.study.update(studyUpdateReq).enqueue(new Callback<StudyUpdateRes>() {

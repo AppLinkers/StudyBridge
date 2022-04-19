@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
@@ -41,6 +42,7 @@ public class StudyMentoFragment extends Fragment {
     //화면 위 데이터
     private FloatingActionButton filterFab;
     private TextView subjectFilter, placeFilter;
+    private SwipeRefreshLayout refreshLayout;
     DataService dataService;
 
     //SharedPref
@@ -63,6 +65,8 @@ public class StudyMentoFragment extends Fragment {
         subjectFilter = (TextView) view.findViewById(R.id.mento_typeTv);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeTv);
 
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_mento_swipeRC);
+
         //recycler
         recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -76,7 +80,7 @@ public class StudyMentoFragment extends Fragment {
 
         setRecyclerView();
         setFilterFab();
-
+        setRefresh();
 
 
         return view;
@@ -88,6 +92,25 @@ public class StudyMentoFragment extends Fragment {
         adapter.clearItem();
         getData();
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setRefresh(){
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.postDelayed(new Runnable() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(adapter);
+                        refreshLayout.setRefreshing(false);
+                    }
+                },500);
+
+            }
+        });
+        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     private void setFilterFab(){

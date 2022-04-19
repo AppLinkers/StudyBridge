@@ -46,24 +46,31 @@
                 android:textSize="12sp"
                 android:textColor="@color/textColorPrimary70"
                 android:layout_marginBottom="5dp"/>
-            <LinearLayout
-                android:id="@+id/chatCon"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/slider_round"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/chat"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp">
+                <LinearLayout
+                    android:id="@+id/chatCon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="chat content"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp"/>
-            </LinearLayout>
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
+                    <TextView
+                        android:id="@+id/chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="chat content"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/chat_img_con"

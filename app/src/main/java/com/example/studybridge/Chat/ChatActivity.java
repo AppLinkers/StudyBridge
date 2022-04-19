@@ -3,11 +3,14 @@ package com.example.studybridge.Chat;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,14 +27,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.studybridge.R;
 import com.example.studybridge.http.DataService;
@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -103,6 +104,7 @@ public class ChatActivity extends AppCompatActivity {
     int chk = 0;
 
     DataService dataService = new DataService();
+    Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,7 @@ public class ChatActivity extends AppCompatActivity {
 
         rcChat = (RecyclerView) findViewById(R.id.chat_RV);
 
+        createNotificationChannel();
 
         setrecycler();
 
@@ -184,6 +187,9 @@ public class ChatActivity extends AppCompatActivity {
                             rcChat.setAdapter(adapter);
                             rcChat.scrollToPosition(adapter.getItemCount()-1);
                             chatEt.setText("");
+
+                            setNotify(userName,study.getName(),newChat);
+
                         }
                     });
                 }
@@ -293,81 +299,6 @@ public class ChatActivity extends AppCompatActivity {
 
         System.out.println(adapter.getItemCount());
         rcChat.setAdapter(adapter);
-    }
-
-
-    public void send(View view) throws URISyntaxException {
-
-        String messageType = "PHOTO";
-        //메세지 타입 설정 필요
-
-        if (messageType.equals("TALK")) {
-            newChat = chatEt.getText()+"";
-
-
-            // send to server
-            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
-            String sendMessage = gson.toJson(message);
-            stompClient.send("/pub/chat/message", sendMessage).subscribe();
-            // edit UI
-            adapter.addItem(message);
-            rcChat.setAdapter(adapter);
-            rcChat.scrollToPosition(adapter.getItemCount()-1);
-            chatEt.setText("");
-        } else if (messageType.equals("PHOTO")) {
-
-            String img_url = null;
-
-            RequestBody image = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
-            MultipartBody.Part chatImg = MultipartBody.Part.createFormData("image", "image", image);
-
-            @SuppressLint("StaticFieldLeak")
-            AsyncTask<Void, Void, String> API = new AsyncTask<Void, Void, String>() {
-
-                final ProgressDialog dialog = new ProgressDialog(ChatActivity.this);
-
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    dialog.setMessage("Processing ...");
-                    dialog.show();
-                }
-
-                @Override
-                protected String doInBackground(Void... params) {
-                    Call<String> call = dataService.s3.chatImg(chatImg);
-
-                    try {
-                        return call.execute().body();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(String s) {
-                    dialog.dismiss();
-                }
-            }.execute();
-
-            try {
-                img_url = API.get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // send to server
-            Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
-            String sendMessage = gson.toJson(message);
-            stompClient.send("/pub/chat/message", sendMessage).subscribe();
-
-            // edit UI
-            adapter.addItem(message);
-            rcChat.setAdapter(adapter);
-            rcChat.scrollToPosition(adapter.getItemCount()-1);
-            chatEt.setText("");
-        }
     }
 
     private void sendTempImg(){
@@ -557,5 +488,45 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setNotify(String userName,String chatName, String message){
+
+/*        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"studyBridge")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("StudyBridge")
+                .setContentText("알림 메세지")
+                .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);*/
+
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this,"studyBridge")
+                .setStyle(new NotificationCompat.MessagingStyle(userName)
+                    .setConversationTitle(chatName)
+                        .addMessage(message,calendar.getTimeInMillis(), (CharSequence) null)
+                )
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("StudyBridge")
+                .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+//        notificationManagerCompat.notify(123,builder.build());
+        notificationManagerCompat.notify(123,notification.build());
+
+    }
+
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            NotificationChannel channel = new NotificationChannel("studyBridge", "StudyBridge", NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

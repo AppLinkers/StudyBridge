@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,7 +43,6 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
         userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         //화면 위 데이터
-//        chatItem = itemview.findViewById(R.id.chatItem); // 화면 전체
         chatUserPic = itemview.findViewById(R.id.chat_user_pic); // 프로필 사진
         chatIDTv = (TextView) itemview.findViewById(R.id.chatID); // 보낸사람 Id(String)
 
@@ -83,9 +83,13 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
 
         if(message.getSenderId().equals(userPkId)) {
             itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorPrimaryDark));
+            chatTv.setTextColor(Color.WHITE);
 
         }else{
             itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorPrimary));
+            chatTv.setTextColor(itemView.getContext().getResources().getColor(R.color.textColorPrimary));
         }
 
     }

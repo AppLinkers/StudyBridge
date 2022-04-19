@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationHost{
+public class MainActivity extends AppCompatActivity{
 
     Fragment HomeFragment;
     Fragment StudyFragment;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        createNotificationChannel();
 
 
         HomeFragment = new HomeFragment();
@@ -114,21 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
                 });
     }
 
-    @Override
-    public void navigateTo(Fragment fragment, boolean addToBackstack) {
-
-        FragmentTransaction transaction =
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, fragment);
-
-        if (addToBackstack) {
-            transaction.addToBackStack(null);
-        }
-
-        transaction.commit();
-
-    }
 
     private void defineMentee(){
         dataService = new DataService();
@@ -168,13 +154,20 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         MenuItem selectedItem = bottomNavigationView.getMenu().findItem(menuItem);
         selectedItem.setChecked(true);
     }
-    private void createNotificationChannel(String channelId,String channelName,int importance) {
+
+    private void createNotificationChannel() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "StudyBridge";
+            String description = "알림 테스트";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("studyBridge", name, importance);
+            channel.setDescription(description);
 
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(new NotificationChannel(channelId,channelName,importance));
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
+
 
 }

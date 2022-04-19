@@ -31,6 +31,7 @@ public class MyPageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void addItem(StudyFindRes data){
         listData.add(data);
     }
+    public void clearItem(){listData.clear();}
 
     @Override
     public int getItemCount() {

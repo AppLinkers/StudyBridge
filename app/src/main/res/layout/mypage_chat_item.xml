@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/mypage_chat_name"
             android:textColor="@color/textColorPrimary70"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/mypage_chat_num"
