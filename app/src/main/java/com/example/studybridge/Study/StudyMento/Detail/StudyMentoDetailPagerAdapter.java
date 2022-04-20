@@ -41,7 +41,7 @@ public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
                 StudyMentoProfileFragment profileFragment = new StudyMentoProfileFragment();
                 Bundle bundle = new Bundle();
 
-                bundle.putSerializable("profile", profile);
+                bundle.putParcelable("profile", profile);
                 bundle.putString("mentoId",id);
 
                 profileFragment.setArguments(bundle);
@@ -51,7 +51,7 @@ public class StudyMentoDetailPagerAdapter extends FragmentStateAdapter {
 
                 Bundle bundleForExp = new Bundle();
 
-                bundleForExp.putSerializable("profile", profile);
+                bundleForExp.putParcelable("profile", profile);
                 bundleForExp.putString("mentoId",id);
 
                 experienceFragment.setArguments(bundleForExp);

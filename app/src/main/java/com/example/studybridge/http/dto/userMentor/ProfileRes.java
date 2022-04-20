@@ -1,11 +1,18 @@
 package com.example.studybridge.http.dto.userMentor;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.http.Body;
 
-public class ProfileRes implements Serializable {
+public class ProfileRes implements Parcelable {
 
     private Long userId;
 
@@ -32,6 +39,11 @@ public class ProfileRes implements Serializable {
     private String appeal;
 
     private Boolean liked;
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public ProfileRes(Parcel in) {
+        readFromParcel(in);
+    }
 
     public ProfileRes(Long userId,
                       String userName,
@@ -132,4 +144,61 @@ public class ProfileRes implements Serializable {
     public Boolean getLiked() {
         return liked;
     }
+
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(userId);
+        dest.writeString(userName);
+        dest.writeString(location);
+        dest.writeString(info);
+        dest.writeString(nickName);
+        dest.writeString(school);
+        dest.writeString(schoolImg);
+        dest.writeString(subject);
+        dest.writeTypedList(certificates);
+        dest.writeString(experience);
+        dest.writeString(curriculum);
+        dest.writeString(appeal);
+        dest.writeBoolean(liked);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void readFromParcel(Parcel in){
+        userId = in.readLong();
+        userName = in.readString();
+        location = in.readString();
+        info = in.readString();
+        nickName = in.readString();
+        school = in.readString();
+        schoolImg = in.readString();
+        schoolImg = in.readString();
+        certificates = new ArrayList<>();
+        in.readTypedList(certificates,Certificate.CREATOR);
+        experience = in.readString();
+        curriculum = in.readString();
+        appeal = in.readString();
+        liked = in.readBoolean();
+    }
+
+    public static final Creator<ProfileRes> CREATOR = new Creator<ProfileRes>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
+        @Override
+        public ProfileRes createFromParcel(Parcel in) {
+            return new ProfileRes(in);
+        }
+
+        @Override
+        public ProfileRes[] newArray(int size) {
+            return new ProfileRes[size];
+        }
+    };
 }

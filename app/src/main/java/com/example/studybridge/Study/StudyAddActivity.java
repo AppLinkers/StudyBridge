@@ -77,7 +77,7 @@ public class StudyAddActivity extends AppCompatActivity {
         placeGroup = (ChipGroup) findViewById(R.id.study_add_placeGroup);
 
         Intent intent = getIntent();
-        study = (StudyFindRes) intent.getSerializableExtra("study");
+        study = intent.getExtras().getParcelable("study");
 
         setPath();
 

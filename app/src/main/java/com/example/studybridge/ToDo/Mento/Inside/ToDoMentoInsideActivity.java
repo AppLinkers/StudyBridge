@@ -62,7 +62,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         userId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         Intent intent = getIntent();
-        study = (StudyFindRes) intent.getSerializableExtra("study");
+        study = intent.getExtras().getParcelable("study");
 
 
         year = (TextView) findViewById(R.id.todo_year_tv);

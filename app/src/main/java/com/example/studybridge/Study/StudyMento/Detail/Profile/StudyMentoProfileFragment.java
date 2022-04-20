@@ -74,7 +74,7 @@ public class StudyMentoProfileFragment extends Fragment {
         final StringBuilder[] sb = new StringBuilder[2];
         Bundle extras = getArguments();
 
-        ProfileRes profile = (ProfileRes) extras.getSerializable("profile");
+        ProfileRes profile = extras.getParcelable("profile");
 
         //리사이클러뷰
         recyclerView = (RecyclerView) view.findViewById(R.id.mento_profile_certi_RV);

@@ -75,12 +75,7 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
         });
     }
 
-    private void goToChat(View view){
-        Intent chatIntent = new Intent(itemView.getContext(), ChatActivity.class);
-        chatIntent.putExtra("roomId", findRoomRes.getRoomId());
-        chatIntent.putExtra("study",study);
-        view.getContext().startActivity(chatIntent);
-    }
+
 
     private void getLastMsg(Long roomId,TextView textView){
         dataService.chat.messageList(roomId).enqueue(new Callback<List<Message>>() {
@@ -88,14 +83,20 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                 if(response.isSuccessful()){
                     StringBuilder sb = new StringBuilder();
-                    Message m = response.body().get(response.body().size()-1);
 
-                    if(m.getMessageType().equals("PHOTO")){
-                        sb.append(m.getSenderName()).append(": ").append("사진");
+                    if(response.body().size()==0){
+                        sb.append("");
+                    } else {
+                        Message m = response.body().get(response.body().size()-1);
+
+                        if(m.getMessageType().equals("PHOTO")){
+                            sb.append(m.getSenderName()).append(": ").append("사진");
+                        }
+                        else {
+                            sb.append(m.getSenderName()).append(": ").append(m.getMessage());
+                        }
                     }
-                    else {
-                        sb.append(m.getSenderName()).append(": ").append(m.getMessage());
-                    }
+
                     textView.setText(sb.toString());
                 }
             }
@@ -105,5 +106,11 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
 
             }
         });
+    }
+    private void goToChat(View view){
+        Intent chatIntent = new Intent(itemView.getContext(), ChatActivity.class);
+        chatIntent.putExtra("roomId", findRoomRes.getRoomId());
+        chatIntent.putExtra("study",study);
+        view.getContext().startActivity(chatIntent);
     }
 }

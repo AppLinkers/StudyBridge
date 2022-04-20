@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.example.studybridge.Study.StudyFilter;
 import com.example.studybridge.Study.StudyFilterDialog;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
@@ -43,6 +45,7 @@ public class StudyMentoFragment extends Fragment {
     private FloatingActionButton filterFab;
     private TextView subjectFilter, placeFilter;
     private SwipeRefreshLayout refreshLayout;
+    private ShimmerFrameLayout shimmerFrameLayout;
     DataService dataService;
 
     //SharedPref
@@ -58,17 +61,20 @@ public class StudyMentoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_mento_fragment,container,false);
+
         dataService = new DataService();
 
+        setShimmerFrameLayout(view);
+
         //filter
-        filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
+
         subjectFilter = (TextView) view.findViewById(R.id.mento_typeTv);
         placeFilter = (TextView) view.findViewById(R.id.mento_placeTv);
 
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_mento_swipeRC);
 
         //recycler
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
+
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -84,6 +90,25 @@ public class StudyMentoFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void setShimmerFrameLayout(View view){
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
+        shimmerFrameLayout = (ShimmerFrameLayout) view.findViewById(R.id.mentor_shimmer_view);
+        filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
+
+        recyclerView.setVisibility(View.INVISIBLE);
+        shimmerFrameLayout.startShimmer();
+        filterFab.setVisibility(View.INVISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(()->{
+            recyclerView.setVisibility(View.VISIBLE);
+            filterFab.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.INVISIBLE);
+        },2000);
     }
 
     @Override

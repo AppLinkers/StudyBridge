@@ -87,7 +87,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         //멘토 찾기에서 불러온 것
         Intent intent = getIntent();
 
-        profile = (ProfileRes) intent.getSerializableExtra("profile");
+        profile = intent.getExtras().getParcelable("profile");
 
         //신청한 멘티에서 불러온 것
         mentoId = intent.getExtras().getString("mentoId");

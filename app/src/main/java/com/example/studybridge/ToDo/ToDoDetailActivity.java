@@ -99,7 +99,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
 
         gIntent = getIntent();
-        toDo = (ToDo) gIntent.getSerializableExtra("toDo");
+        toDo = gIntent.getExtras().getParcelable("toDo");
         dayResult = gIntent.getLongExtra("dayResult",0);
 
 

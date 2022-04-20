@@ -115,7 +115,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
         //holder에서 데이터 불러오기
         Intent intent = getIntent();
-        study = (StudyFindRes) intent.getSerializableExtra("study");
+        study = intent.getExtras().getParcelable("study");
         studyId = study.getId();
         managerId = intent.getStringExtra("managerId");
         isApplied = intent.getBooleanExtra("isApplied",false);

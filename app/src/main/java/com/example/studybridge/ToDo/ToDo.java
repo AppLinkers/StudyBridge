@@ -1,12 +1,17 @@
 package com.example.studybridge.ToDo;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class ToDo implements Serializable {
+public class ToDo implements Parcelable {
 
     private Long studyId, todoId;
     private String status;
     private String mentoId,mentiId,taskName,taskInfo,dueDate,feedBack;
+
+    public ToDo(Parcel in) {
+        readFromParcel(in);
+    }
 
     // constructor
     public ToDo(Long todoId,Long studyId, String status, String mentoId, String mentiId, String taskName, String taskInfo, String dueDate, String feedBack) {
@@ -107,4 +112,48 @@ public class ToDo implements Serializable {
         } else
             return "Confirm";
     }
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(todoId);
+        dest.writeLong(studyId);
+        dest.writeString(status);
+        dest.writeString(mentoId);
+        dest.writeString(mentiId);
+        dest.writeString(taskName);
+        dest.writeString(taskInfo);
+        dest.writeString(dueDate);
+        dest.writeString(feedBack);
+    }
+
+    private void readFromParcel(Parcel in){
+        todoId = in.readLong();
+        studyId = in.readLong();
+        status = in.readString();
+        mentoId = in.readString();
+        mentiId = in.readString();
+        taskName = in.readString();
+        taskInfo = in.readString();
+        dueDate = in.readString();
+        feedBack = in.readString();
+    }
+
+    public static final Creator<ToDo> CREATOR = new Creator<ToDo>() {
+        @Override
+        public ToDo createFromParcel(Parcel in) {
+            return new ToDo(in);
+        }
+
+        @Override
+        public ToDo[] newArray(int size) {
+            return new ToDo[size];
+        }
+    };
 }

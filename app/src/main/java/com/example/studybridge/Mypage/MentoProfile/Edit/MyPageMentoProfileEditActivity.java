@@ -153,7 +153,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     private void getIntentData(){
         //기존 입력값
         Intent intent = getIntent();
-        mentoProfile = (ProfileRes) intent.getSerializableExtra("profile");
+        mentoProfile = intent.getExtras().getParcelable("profile");
         name.setText(userName);
         school.setText(mentoProfile.getSchool());
         intro.setText(mentoProfile.getInfo());

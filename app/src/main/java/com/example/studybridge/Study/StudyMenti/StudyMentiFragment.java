@@ -1,10 +1,13 @@
 package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,8 +25,10 @@ import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyAddActivity;
 import com.example.studybridge.Study.StudyFilter;
 import com.example.studybridge.Study.StudyFilterDialog;
+import com.example.studybridge.Util.ProgressDialog;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
@@ -30,7 +37,7 @@ import java.util.List;
 import retrofit2.Call;
 
 
-public class StudyMentiFragment extends Fragment{
+public class StudyMentiFragment extends Fragment implements LifecycleOwner {
 
     //리사이클러
     private RecyclerView recyclerView;
@@ -44,30 +51,32 @@ public class StudyMentiFragment extends Fragment{
     public static final int STUDYFIND = 0;
     private DataService dataService = new DataService();
 
+    private ShimmerFrameLayout shimmerFrameLayout;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.study_menti_fragment,container,false);
 
+        setShimmerFrameLayout(view);
 
-        //study add btn
-        mentiFab = (FloatingActionButton) view.findViewById(R.id.menti_addBtn);
         mentiFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), StudyAddActivity.class);
+                intent.putExtra(null,"study");
                 startActivity(intent);
             }
         });
 
         //필터 버튼 & 텍스트
-        filterFab = (FloatingActionButton) view.findViewById(R.id.menti_filterBtn);
+
         statusFilter = (TextView) view.findViewById(R.id.study_statusTv);
         subjectFilter = (TextView) view.findViewById(R.id.study_typeTv);
         placeFilter = (TextView) view.findViewById(R.id.study_placeTv);
 
         //recycler
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_menti_swipeRC);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
@@ -81,9 +90,33 @@ public class StudyMentiFragment extends Fragment{
         setRefresh();
 
 
+
         return view;
     }
 
+
+    private void setShimmerFrameLayout(View view){
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.study_menti_RCView);
+        shimmerFrameLayout = (ShimmerFrameLayout) view.findViewById(R.id.menti_shimmer_view);
+        mentiFab = (FloatingActionButton) view.findViewById(R.id.menti_addBtn);
+        filterFab = (FloatingActionButton) view.findViewById(R.id.menti_filterBtn);
+
+        recyclerView.setVisibility(View.INVISIBLE);
+        shimmerFrameLayout.startShimmer();
+        mentiFab.setVisibility(View.INVISIBLE);
+        filterFab.setVisibility(View.INVISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(()->{
+            recyclerView.setVisibility(View.VISIBLE);
+            mentiFab.setVisibility(View.VISIBLE);
+            filterFab.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.INVISIBLE);
+
+        },2000);
+    }
     //필터링
     private void setFilterFab(){
         filterFab.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +186,7 @@ public class StudyMentiFragment extends Fragment{
                 placeFilter.getText().toString());
         getData();
         recyclerView.setAdapter(adapter);
+
     }
 
 
@@ -192,6 +226,7 @@ public class StudyMentiFragment extends Fragment{
                     adapter.addItem(s,filter);
 
                 });
+
         }
 
     }

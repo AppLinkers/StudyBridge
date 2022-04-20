@@ -113,7 +113,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //Intent
         Intent intent = getIntent();
-        study = (StudyFindRes) intent.getSerializableExtra("study");
+        study = getIntent().getExtras().getParcelable("study");
         studyId = study.getId();
         roomId = intent.getLongExtra("roomId", 0);
 

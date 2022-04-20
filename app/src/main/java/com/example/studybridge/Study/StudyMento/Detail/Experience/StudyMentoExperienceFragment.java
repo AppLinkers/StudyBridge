@@ -57,7 +57,7 @@ public class StudyMentoExperienceFragment extends Fragment {
 
         Bundle extras = getArguments();
 
-        ProfileRes profile = (ProfileRes) extras.getSerializable("profile");
+        ProfileRes profile = extras.getParcelable("profile");
         final String mentoId = extras.getString("mentoId");
 
 
