@@ -1,8 +1,6 @@
 package com.example.studybridge.Study.StudyMenti;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,8 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,7 +33,7 @@ import java.util.List;
 import retrofit2.Call;
 
 
-public class StudyMentiFragment extends Fragment implements LifecycleOwner {
+public class StudyMentiFragment extends Fragment {
 
     //리사이클러
     private RecyclerView recyclerView;

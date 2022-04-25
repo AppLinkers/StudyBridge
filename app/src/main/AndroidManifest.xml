@@ -26,9 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+<!--        <activity
             android:name=".Login.SignUpActivity"
-            android:exported="true" />
+            android:exported="true" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
@@ -76,5 +76,11 @@
         <activity android:name=".ToDo.Mento.Inside.Add.ToDoMentoAddActivity"
             android:exported="true"/>
 
+        <activity android:name=".Login.SignUpFirst"
+            android:exported="true"/>
+        <activity android:name=".Login.SignUpSecond"
+            android:exported="true"/>
+        <activity android:name=".Login.SignUpLast"
+            android:exported="true"/>
     </application>
 </manifest>

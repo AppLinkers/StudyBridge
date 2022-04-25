@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/signup_finish"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_x" />
+
+    <TextView
+        android:id="@+id/signup_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="회원가입"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/signup_belowTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가입 유형을 선택해 주세요"
+        android:textSize="18sp"
+        android:textColor="@color/textColorPrimary"
+        android:layout_below="@+id/signup_tv"
+        android:layout_marginTop="5dp"/>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/signup_menteeCV"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        android:layout_below="@+id/signup_belowTv"
+        android:layout_marginTop="100dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/viewUnderline50"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/signup_menteeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멘티로 가입"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/signup_menteeTv"
+                android:text="스터디를 만들고 멘토의 도움을 받음"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_right" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/signup_mentorCV"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        app:cardCornerRadius="5dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/signup_menteeCV"
+        android:layout_marginTop="15dp"
+        app:cardElevation="0dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/viewUnderline50"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/signup_mentorTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멘토로 가입"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멘티의 공부에 도움을 줌"
+                android:textSize="14sp"
+                android:textColor="@color/textColorPrimary"
+                android:layout_below="@+id/signup_mentorTv"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:scaleType="centerCrop"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</RelativeLayout>

@@ -48,7 +48,4 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return statusList.size();
     }
 
-
-
-
 }

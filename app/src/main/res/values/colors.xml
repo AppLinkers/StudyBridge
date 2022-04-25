@@ -15,6 +15,7 @@
     <color name="textColorPrimary70">#B3442C2E</color>
     <color name="textColorPrimary30">#1A442C2E</color>
     <color name="viewUnderline">#DDDCDC</color>
+    <color name="viewUnderline50">#80DDDCDC</color>
     <color name="disableBtn">#D3D3D3</color>
     <color name="red">#FF5722</color>
     <color name="redDark">#9b111e</color>

@@ -1,3 +1,4 @@
+/*
 package com.example.studybridge.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -234,3 +235,4 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
 
 
 }
+*/

@@ -45,11 +45,14 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_check_white.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_send.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_send_gray.xml" value="0.238" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_x.xml" value="0.238" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_x_white.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_clicked.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_selector.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/radio_unclicked.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/round_bottomsheet.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/round_dialog.xml" value="0.2375" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/signup_second.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/slider_round.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_atuh2.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/activity_chat.xml" value="0.34010416666666665" />
@@ -63,6 +66,8 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/home_fragment.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/home_rv_item.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_activity.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_first.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_fist.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mentor_shimmer.xml" value="0.33541666666666664" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_chat_fragment.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_chat_item.xml" value="0.34010416666666665" />
@@ -70,6 +75,9 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_mentoprofile_edit_activity.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_mentoprofile_show_activity.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mypage_my_fragment.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_first.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_last.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_second.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_add_activity.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_filter.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_menti_add.xml" value="0.34010416666666665" />

@@ -205,8 +205,6 @@ public class StudyMentoDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(StudyMentoDetail.this, mentoLong.toString(), Toast.LENGTH_SHORT).show();
-
                 if(heart.isSelected()){
 
                     dataService.userMentee.unLikeMentor(userLong,mentoLong).enqueue(new Callback<LikeMentorRes>() {

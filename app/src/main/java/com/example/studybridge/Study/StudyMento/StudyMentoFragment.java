@@ -60,7 +60,7 @@ public class StudyMentoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.study_mento_fragment,container,false);
+        View view = inflater.inflate(R.layout.study_mento_fragment, container, false);
 
         dataService = new DataService();
 
@@ -74,7 +74,7 @@ public class StudyMentoFragment extends Fragment {
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_mento_swipeRC);
 
         //recycler
-
+        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -82,7 +82,7 @@ public class StudyMentoFragment extends Fragment {
 
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+        userId = sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
         setRecyclerView();
         setFilterFab();

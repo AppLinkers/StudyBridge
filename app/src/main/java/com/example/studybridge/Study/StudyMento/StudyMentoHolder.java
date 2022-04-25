@@ -59,7 +59,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
         if(data.getCertificates().size()>1){
             StringBuilder sb = new StringBuilder();
-            sb.append(data.getCertificates().get(0).getCertificate()).append(" 외").append(data.getCertificates().size()-1).append("개");
+            sb.append(data.getCertificates().get(0).getCertificate()).append(" 외 ").append(data.getCertificates().size()-1).append("개");
             mentoQualification.setText(sb.toString());
         } else if (data.getCertificates().size()==1){
             mentoQualification.setText(data.getCertificates().get(0).getCertificate());

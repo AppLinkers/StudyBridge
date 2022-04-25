@@ -39,4 +39,5 @@ public class ToDoMentiInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public int getItemCount() {
         return data.size();
     }
+
 }

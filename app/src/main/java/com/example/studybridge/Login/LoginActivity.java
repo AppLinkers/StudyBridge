@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String user_login_id;
+
+    private long backBtnTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +137,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void gotoSignup(View view) {
-        Intent i = new Intent(getApplicationContext(),SignUpActivity.class);
+        Intent i = new Intent(getApplicationContext(),SignUpFirst.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+
+        if(0 <= gapTime && 2000 >= gapTime) {
+            super.onBackPressed();
+        }
+        else {
+            backBtnTime = curTime;
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

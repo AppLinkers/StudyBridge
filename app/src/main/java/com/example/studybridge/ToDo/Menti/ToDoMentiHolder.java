@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.Inside.ToDoMentiInsideAdapter;
@@ -98,11 +99,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                         }else if(todo.getStudyId().equals(filter)){
                             datas.add(todo);
                         }
-
                     }
-
-
-
                     for(ToDo data : datas){
                         if(data.getStatus().equals(statusName)){
                             toDoAdapter.addItem(data);
