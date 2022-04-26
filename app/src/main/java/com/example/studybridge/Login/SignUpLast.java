@@ -11,8 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Util.BackDialog;
 import com.example.studybridge.databinding.SignupLastBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userAuth.UserSignUpReq;
@@ -40,14 +42,7 @@ public class SignUpLast extends AppCompatActivity {
         setPassword();
         setRePassword();
 
-        //뒤로 가기
-        binding.signupBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            }
-        });
+        setBackBtn();
 
     }
 
@@ -56,8 +51,6 @@ public class SignUpLast extends AppCompatActivity {
         role = intent.getStringExtra("role");
         name = intent.getStringExtra("name");
         number = intent.getStringExtra("number");
-
-        Toast.makeText(this, role+" "+name+" "+number, Toast.LENGTH_SHORT).show();
     }
 
     private void setId(){
@@ -182,7 +175,7 @@ public class SignUpLast extends AppCompatActivity {
                         binding.signupPasswordReLine.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
                         if(isValidPassword(binding.signupPassword.getText().toString())){
                             binding.signupConfirmBtn.setEnabled(true);
-                            binding.signupConfirmBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
+                            binding.signupConfirmBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
                             setBtn();
                         } else {
                             binding.signupConfirmBtn.setEnabled(false);
@@ -254,7 +247,27 @@ public class SignUpLast extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        backDialog();
+    }
+    private void setBackBtn(){
+        binding.signupBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backDialog();
+            }
+        });
+    }
+    private void backDialog(){
+        BackDialog dialog = BackDialog.getInstance();
+        FragmentManager fm = getSupportFragmentManager();
+        dialog.show(fm,"backDialog");
+
+        dialog.setBackInterface(new BackDialog.BackInterface() {
+            @Override
+            public void okBtnClick() {
+                finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
     }
 }

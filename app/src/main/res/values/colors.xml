@@ -6,10 +6,9 @@
     <color name="black">#FF000000</color>
     <color name="black30">#4D000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="textInputOutlineColor">#FBB8AC</color>
     <color name="colorPrimary">#E0E0E0</color>
-    <color name="colorPrimaryDark">#FBB8AC</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#FEDBD0</color>
     <color name="textColorPrimary">#442C2E</color>
     <color name="textColorPrimary70">#B3442C2E</color>
@@ -17,10 +16,11 @@
     <color name="viewUnderline">#DDDCDC</color>
     <color name="viewUnderline50">#80DDDCDC</color>
     <color name="disableBtn">#D3D3D3</color>
-    <color name="red">#FF5722</color>
     <color name="redDark">#9b111e</color>
     <color name="gray30">#4DE0E0E0</color>
-    <color name="green">#54c242</color>
-    <color name="blue">#2196f3</color>
+    <color name="palletRed">#ff686b</color>
+    <color name="palletGrey">#f4f4f4</color>
+    <color name="palletBlue">#78a2cc</color>
+    <color name="palletGreen">#77dd77</color>
 </resources>
 

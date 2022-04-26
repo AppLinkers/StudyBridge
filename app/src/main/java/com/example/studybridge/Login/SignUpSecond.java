@@ -11,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Util.BackDialog;
 import com.example.studybridge.databinding.SignupSecondBinding;
 import com.google.android.material.card.MaterialCardView;
 
@@ -30,17 +32,13 @@ public class SignUpSecond extends AppCompatActivity {
         binding = SignupSecondBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.signupBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            }
-        });
+
 
         intentData();
         editData(binding.signupName,binding.signupNameLine,null,null);
         editData(binding.signupPhone,binding.signupPhoneLine,binding.signupPhoneAuthCV,binding.signupPhoneAuth);
+
+        setBackBtn();
     }
 
     private void intentData(){
@@ -112,7 +110,7 @@ public class SignUpSecond extends AppCompatActivity {
         binding.signupPhoneAuth.setEnabled(false);
 
         binding.signupNextBtn.setEnabled(true);
-        binding.signupNextBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+        binding.signupNextBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.palletRed));
         binding.signupNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,7 +156,28 @@ public class SignUpSecond extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        backDialog();
+    }
+
+    private void setBackBtn(){
+        binding.signupBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backDialog();
+            }
+        });
+    }
+    private void backDialog(){
+        BackDialog dialog = BackDialog.getInstance();
+        FragmentManager fm = getSupportFragmentManager();
+        dialog.show(fm,"backDialog");
+
+        dialog.setBackInterface(new BackDialog.BackInterface() {
+            @Override
+            public void okBtnClick() {
+                finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
     }
 }

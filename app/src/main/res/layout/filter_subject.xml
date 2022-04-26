@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_bottomsheet">
+    <TextView
+        android:id="@+id/subjectFilt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="과목별 찾기"
+        android:textColor="@color/textColorPrimary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/subjectFilt_title"
+        android:layout_marginTop="15dp"
+        android:padding="15dp"
+        app:singleSelection="true">
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.StudyBridge.ChipForFilter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="전체"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"
+            android:checked="true"/>
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.StudyBridge.ChipForFilter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="영어"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"/>
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.StudyBridge.ChipForFilter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="수학"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"/>
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.StudyBridge.ChipForFilter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="개발"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"/>
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.StudyBridge.ChipForFilter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="기타"
+            android:textSize="18sp"
+            android:textColor="@color/textColorPrimary"/>
+    </com.google.android.material.chip.ChipGroup>
+</RelativeLayout>

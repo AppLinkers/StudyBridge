@@ -9,16 +9,16 @@
     <item
         android:id="@+id/navigation_study"
         android:enabled="true"
-        android:title="스터디찾기"
-        android:icon="@drawable/ic_study"/>
+        android:title="찾기"
+        android:icon="@drawable/ic_search"/>
     <item
         android:id="@+id/navigation_toDo"
         android:enabled="true"
-        android:title="ToDo"
+        android:title="투두"
         android:icon="@drawable/ic_todo"/>
     <item
         android:id="@+id/navigation_myPage"
         android:enabled="true"
-        android:title="마이페이지"
+        android:title="마이"
         android:icon="@drawable/ic_mypage"/>
 </menu>

@@ -1,175 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="155dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="5dp"
-    android:paddingLeft="15dp"
+    android:orientation="vertical"
+    android:paddingTop="15dp"
     android:paddingRight="15dp"
-    android:orientation="vertical">
-    <LinearLayout
+    android:paddingLeft="15dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/study_statusCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
+        <TextView
+            android:id="@+id/study_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멘티 모집중"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:background="@color/palletRed"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/study_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/menti_status_Card"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp">
-            <TextView
-                android:id="@+id/menti_status"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="모집중"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            android:layout_marginRight="5dp">
-            <TextView
-                android:id="@+id/menti_subject"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="과목"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary">
-            <TextView
-                android:id="@+id/menti_place"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="지역"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
-        </androidx.cardview.widget.CardView>
+        android:layout_below="@+id/study_statusCV"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:text="스터디 이름"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:maxLines="1"/>
 
-    </LinearLayout>
-    <RelativeLayout
+    <TextView
+        android:id="@+id/study_intro"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/menti_img_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="40dp"
-            android:layout_centerVertical="true">
-            <ImageView
-                android:id="@+id/menti_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_launcher_foreground"
-                android:elevation="0.5dp"/>
-        </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/study_name"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:text="스터디 한줄 설명"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="15sp"
+        android:maxLines="1"/>
 
-        <TextView
-            android:id="@+id/menti_study_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/menti_img_card"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="-10dp"
-            android:layout_toRightOf="@+id/menti_img_card"
-            android:text="스터디 이름"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/study_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/study_intro"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:text="과목"
+        android:textColor="@color/textColorPrimary70" />
+    <TextView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="·"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/study_subject"
+        android:layout_below="@id/study_intro"/>
 
-        <TextView
-            android:id="@+id/menti_study_intro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/menti_study_name"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/menti_img_card"
-            android:maxLines="1"
-            android:text="스터디 소개"
-            android:textColor="@color/textColorPrimary" />
+    <TextView
+        android:id="@+id/study_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/study_intro"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/dot"
+        android:text="지역"
+        android:textColor="@color/textColorPrimary70" />
+    <TextView
+        android:id="@+id/dot2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="·"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/study_place"
+        android:layout_below="@id/study_intro"/>
+    <TextView
+        android:id="@+id/study_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="인원"
+        android:textColor="@color/textColorPrimary70"
+        android:layout_below="@id/study_intro"
+        android:layout_toRightOf="@+id/dot2"
+        android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/menti_study_nowNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="6dp"
-            android:layout_toRightOf="@+id/ic_peopleNum"
-            android:text="현재 인원수"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/menti_study_slash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="6dp"
-            android:layout_toRightOf="@+id/menti_study_nowNum"
-            android:text="/"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/menti_study_maxNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="6dp"
-            android:layout_toRightOf="@+id/menti_study_slash"
-            android:text="전체 인원수"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="6dp"
-            android:layout_toRightOf="@+id/menti_study_maxNum"
-            android:text="명"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/palletGrey" />
 
-        <ImageView
-            android:id="@+id/ic_peopleNum"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_below="@+id/menti_study_intro"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/menti_img_card"
-            android:src="@drawable/ic_mypage" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/viewUnderline"
-            android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

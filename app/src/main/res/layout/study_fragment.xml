@@ -1,53 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="15dp">
+    <TextView
+        android:id="@+id/study_userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:text="사용자님"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/study_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/study_userName"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:text="원하는 스터디를 찾아보세요!"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="14sp" />
+
     <RelativeLayout
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/study_userName"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/round_select"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/study_toStudy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="스터디"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/study_toMentor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/palletGrey"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="멘토"
+                android:textColor="@color/textColorPrimary70"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/study_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp">
-        <TextView
-            android:id="@+id/study_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="스터디 찾기"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_alignParentTop="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/study_intro"
+        android:layout_marginTop="15dp"/>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/study_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/study_tv"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabSelectedTextColor="@color/colorPrimaryDark">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="스터디 찾기" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="멘토 찾기" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/study_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/study_tab"
-            android:layout_alignParentBottom="true"
-            android:layoutDirection="ltr" />
-
-    </RelativeLayout>
-
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

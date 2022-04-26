@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Home.Progress.HomeProgressAdapter;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.StudyMentiFragment;
+import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
+import com.example.studybridge.databinding.HomeFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
@@ -32,11 +35,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-
-    TextView userNameTv;
-    String userName;
-    String userId;
-    Long userIdPk;
 
     //todo progress bar
     LinearLayout readyBar,progressBar,doneBar,confirmBar;
@@ -54,19 +52,33 @@ public class HomeFragment extends Fragment {
     //Dataservice
     DataService dataService;
 
+    SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
-    SharedPreferences sharedPreferences;
+    public static final String USER_NAME = "user_name_key";
+
+    private String userName,userId;
+    private Long userIdPk;
+
+    private HomeFragmentBinding binding;
+
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = HomeFragmentBinding.inflate(inflater,container,false);
 
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        View view = binding.getRoot();
 
+        //sharedpreference
+        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
+        userName= sharedPreferences.getString(USER_NAME, "사용자");
+
+        setUI();
         //화면 위 데이터
-        userNameTv = view.findViewById(R.id.home_name);
-        recyclerView = (RecyclerView) view.findViewById(R.id.home_RV);
+//        userNameTv = view.findViewById(R.id.home_name);
+/*        recyclerView = (RecyclerView) view.findViewById(R.id.home_RV);
 
         //ToDoItem
         readyBar = (LinearLayout) view.findViewById(R.id.home_readyBar);
@@ -78,27 +90,26 @@ public class HomeFragment extends Fragment {
         progressNum = (TextView) view.findViewById(R.id.home_progressNum);
         doneNum = (TextView) view.findViewById(R.id.home_doneNum);
         confirmNum = (TextView) view.findViewById(R.id.home_confirmNum);
-        totalPercent = (TextView) view.findViewById(R.id.home_totalPercent);
+        totalPercent = (TextView) view.findViewById(R.id.home_totalPercent);*/
 
-        //sharedpreference & 넘어온 데이터
-        sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
 
-        Bundle bundle = getArguments();
-        userId = bundle.getString("id");
-        userName = bundle.getString("name");
-        userNameTv.setText(userName);
 
         //데이터서비스
         dataService = new DataService();
 
 
-        setToDoBar();
+/*        setToDoBar();
 
-        setRecyclerView();
+        setRecyclerView();*/
 
 
         return view;
+    }
+
+    private void setUI(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(userName).append("님 Let's Study!");
+        binding.homeName.setText(sb.toString());
     }
 
 
@@ -182,5 +193,9 @@ public class HomeFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

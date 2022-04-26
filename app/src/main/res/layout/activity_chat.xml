@@ -92,7 +92,7 @@
                 android:layout_height="15dp"
                 android:layout_toRightOf="@+id/chat_tempImgCon"
                 android:layout_alignTop="@+id/chat_tempImgCon"
-                android:backgroundTint="@color/red"
+                android:backgroundTint="@color/redDark"
                 app:cardCornerRadius="10dp">
                 <ImageView
                     android:layout_width="match_parent"

@@ -15,7 +15,7 @@
         <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
         <item name="hintTextColor">@color/textColorPrimary</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="boxStrokeColor">@color/textInputOutlineColor</item>
+        <item name="boxStrokeColor">@color/palletRed</item>
     </style>
 
     <style name="Widget.StudyBridge.TextInputLayout.black" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -93,6 +93,12 @@
         <item name="chipStrokeColor">@color/colorPrimaryDark</item>
         <item name="chipStrokeWidth">1dp</item>
     </style>
+    <style name="Widget.StudyBridge.ChipForFilter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="checkedIcon">@drawable/ic_check_red</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="chipBackgroundColor">@color/white</item>
+    </style>
+
     <style name="Widget.StudyBridge.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/chip_background_list_pink</item>
         <item name="android:textColor">@color/chip_text_list</item>

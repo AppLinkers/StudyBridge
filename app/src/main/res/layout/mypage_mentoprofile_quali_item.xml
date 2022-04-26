@@ -27,7 +27,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:cardCornerRadius="10dp"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/redDark"
             android:layout_alignParentRight="true">
             <ImageView
                 android:layout_width="match_parent"

@@ -1,157 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="175dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="10dp"
+    android:paddingTop="15dp"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
+    android:paddingRight="15dp">
+    <TextView
+        android:id="@+id/mentor_name"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/mento_subjectCon"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp">
-            <TextView
-                android:id="@+id/mento_subject"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="과목"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            android:layout_toRightOf="@+id/mento_subjectCon">
-            <TextView
-                android:id="@+id/mento_place"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="지역"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
-        </androidx.cardview.widget.CardView>
-
+        android:text="멘토 이름"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+    <TextView
+        android:id="@+id/mentor_intro"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mentor_name"
+        android:layout_marginTop="5dp"
+        android:text="멘토 한줄 소개"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="2"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp"
+        android:layout_alignParentRight="true">
         <ImageView
-            android:id="@+id/mento_heart"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/button_clicked" />
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/mento_img_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="40dp"
-            android:layout_centerVertical="true">
-            <ImageView
-                android:id="@+id/mento_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_launcher_foreground"
-                android:elevation="0.5dp"/>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/mento_study_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/mento_img_card"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/mento_img_card"
-            android:text="멘토 아이디"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="-15dp"/>
-        <TextView
-            android:id="@+id/mento_study_intro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="멘토 한줄 소개"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@+id/mento_study_id"
-            android:layout_toRightOf="@+id/mento_img_card"/>
-        <ImageView
-            android:id="@+id/ic_school"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/ic_school"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="6dp"
-            android:layout_below="@+id/mento_study_intro"
-            android:layout_toRightOf="@+id/mento_img_card"/>
-        <TextView
-            android:id="@+id/mento_study_school"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="멘토 학교"
-            android:textSize="12sp"
-            android:textColor="@color/textColorPrimary"
-            android:maxLines="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@+id/mento_study_intro"
-            android:layout_toRightOf="@+id/ic_school"/>
-        <ImageView
-            android:id="@+id/ic_qualification"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/ic_qualification"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:layout_below="@+id/mento_study_school"
-            android:layout_toRightOf="@+id/mento_img_card"/>
-        <TextView
-            android:id="@+id/mento_study_qualification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="멘토 자격증"
-            android:textSize="12sp"
-            android:textColor="@color/textColorPrimary"
-            android:maxLines="1"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@+id/mento_study_school"
-            android:layout_toRightOf="@+id/ic_qualification"/>
-
-
-        <View
+            android:id="@+id/mentor_img"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/viewUnderline"
-            android:layout_alignParentBottom="true"/>
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/mentor_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mentor_intro"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:text="과목"
+        android:textColor="@color/textColorPrimary70" />
+    <TextView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="·"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/mentor_subject"
+        android:layout_below="@id/mentor_intro"/>
+    <TextView
+        android:id="@+id/mentor_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mentor_intro"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/dot"
+        android:text="지역"
+        android:textColor="@color/textColorPrimary70"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/school_ic"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_school"
+        android:layout_below="@+id/mentor_subject"
+        android:layout_marginTop="7dp"/>
+
+    <TextView
+        android:id="@+id/mentor_school"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mentor_subject"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/school_ic"
+        android:text="멘토 학교"
+        android:textColor="@color/textColorPrimary70" />
+    <ImageView
+        android:id="@+id/quali_ic"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@id/school_ic"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/ic_qualification" />
+
+    <TextView
+        android:id="@+id/mentor_qualification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/school_ic"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/quali_ic"
+        android:text="멘토 자격증"
+        android:textColor="@color/textColorPrimary70" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/palletGrey" />
+</RelativeLayout>

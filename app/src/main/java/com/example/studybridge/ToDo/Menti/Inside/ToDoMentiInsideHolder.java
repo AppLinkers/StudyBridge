@@ -63,7 +63,7 @@ public class ToDoMentiInsideHolder extends RecyclerView.ViewHolder{
         if (toDo.getStatus().equals("CONFIRMED")){
             d_Day.setVisibility(View.GONE);
             img.setVisibility(View.VISIBLE);
-            color.setBackgroundColor(ContextCompat.getColor(itemView.getContext(),R.color.green));
+            color.setBackgroundColor(ContextCompat.getColor(itemView.getContext(),R.color.palletGreen));
         }
     }
     private String getDday(String duedate){

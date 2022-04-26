@@ -20,7 +20,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
-import com.example.studybridge.Study.StudyFilterDialog;
+import com.example.studybridge.Util.StudyFilterDialog;
+import com.example.studybridge.databinding.StudyMentoFragmentBinding;
+import com.example.studybridge.databinding.StudyMentoItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -36,16 +38,11 @@ public class StudyMentoFragment extends Fragment {
 
 
     //리사이클러
-    private RecyclerView recyclerView;
     private StudyMentoAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private StudyFilter filter;
 
     //화면 위 데이터
-    private FloatingActionButton filterFab;
-    private TextView subjectFilter, placeFilter;
-    private SwipeRefreshLayout refreshLayout;
-    private ShimmerFrameLayout shimmerFrameLayout;
     DataService dataService;
 
     //SharedPref
@@ -56,58 +53,49 @@ public class StudyMentoFragment extends Fragment {
     private String userId;
     public static final int MENTOFIND = 1;
 
+    private StudyMentoFragmentBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.study_mento_fragment, container, false);
+
+        binding = StudyMentoFragmentBinding.inflate(inflater,container,false);
+        View view = binding.getRoot();
 
         dataService = new DataService();
 
-        setShimmerFrameLayout(view);
-
-        //filter
-
-        subjectFilter = (TextView) view.findViewById(R.id.mento_typeTv);
-        placeFilter = (TextView) view.findViewById(R.id.mento_placeTv);
-
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.study_mento_swipeRC);
-
-        //recycler
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        //sharedPreference, 현재 이용자 아이디 불러옴
+        //sharedPreference
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId = sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
+        setShimmerFrameLayout();
+
+
+        //recycler
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        binding.rCView.setLayoutManager(linearLayoutManager);
+
+
+
         setRecyclerView();
-        setFilterFab();
         setRefresh();
 
 
         return view;
     }
 
-    private void setShimmerFrameLayout(View view){
+    private void setShimmerFrameLayout(){
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.study_mento_RCView);
-        shimmerFrameLayout = (ShimmerFrameLayout) view.findViewById(R.id.mentor_shimmer_view);
-        filterFab = (FloatingActionButton) view.findViewById(R.id.mento_filterBtn);
-
-        recyclerView.setVisibility(View.INVISIBLE);
-        shimmerFrameLayout.startShimmer();
-        filterFab.setVisibility(View.INVISIBLE);
+        binding.rCView.setVisibility(View.INVISIBLE);
+        binding.shimmerView.startShimmer();
 
         Handler handler = new Handler();
         handler.postDelayed(()->{
-            recyclerView.setVisibility(View.VISIBLE);
-            filterFab.setVisibility(View.VISIBLE);
-            shimmerFrameLayout.stopShimmer();
-            shimmerFrameLayout.setVisibility(View.INVISIBLE);
+            binding.rCView.setVisibility(View.VISIBLE);
+            binding.shimmerView.stopShimmer();
+            binding.shimmerView.setVisibility(View.INVISIBLE);
         },2000);
     }
 
@@ -116,29 +104,29 @@ public class StudyMentoFragment extends Fragment {
         super.onResume();
         adapter.clearItem();
         getData();
-        recyclerView.setAdapter(adapter);
+        binding.rCView.setAdapter(adapter);
     }
 
     private void setRefresh(){
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.swipeRC.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshLayout.postDelayed(new Runnable() {
+                binding.swipeRC.postDelayed(new Runnable() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void run() {
                         adapter.notifyDataSetChanged();
-                        recyclerView.setAdapter(adapter);
-                        refreshLayout.setRefreshing(false);
+                        binding.rCView.setAdapter(adapter);
+                        binding.swipeRC.setRefreshing(false);
                     }
                 },500);
 
             }
         });
-        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.swipeRC.setColorSchemeColors(getResources().getColor(R.color.palletRed));
     }
 
-    private void setFilterFab(){
+/*    private void setFilterFab(){
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,15 +152,15 @@ public class StudyMentoFragment extends Fragment {
                 });
             }
         });
-    }
+    }*/
 
     private void setRecyclerView(){
         adapter = new StudyMentoAdapter();
         filter = new StudyFilter(
-                subjectFilter.getText().toString(),
-                placeFilter.getText().toString());
+                "전체",
+                "전체");
         getData();
-        recyclerView.setAdapter(adapter);
+        binding.rCView.setAdapter(adapter);
     }
 
     @SuppressLint({"StaticFieldLeak", "NewApi"})
@@ -208,5 +196,11 @@ public class StudyMentoFragment extends Fragment {
         }
 
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

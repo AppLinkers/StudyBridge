@@ -1,4 +1,4 @@
-package com.example.studybridge.Study;
+package com.example.studybridge.Util;
 
 
 import android.content.DialogInterface;

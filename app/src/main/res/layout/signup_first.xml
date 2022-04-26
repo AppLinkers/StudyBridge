@@ -9,7 +9,6 @@
         android:id="@+id/signup_finish"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginTop="5dp"
         android:src="@drawable/ic_x" />
 
     <TextView
@@ -36,12 +35,11 @@
         android:layout_height="90dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        android:layout_below="@+id/signup_belowTv"
-        android:layout_marginTop="100dp">
+        android:layout_above="@+id/signup_mentorCV">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/viewUnderline50"
+            android:background="@color/palletGrey"
             android:padding="20dp">
             <TextView
                 android:id="@+id/signup_menteeTv"
@@ -74,14 +72,13 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         app:cardCornerRadius="5dp"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/signup_menteeCV"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="15dp"
         app:cardElevation="0dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/viewUnderline50"
+            android:background="@color/palletGrey"
             android:padding="20dp">
             <TextView
                 android:id="@+id/signup_mentorTv"
@@ -91,13 +88,14 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/signup_mentorTv"
                 android:text="멘티의 공부에 도움을 줌"
-                android:textSize="14sp"
                 android:textColor="@color/textColorPrimary"
-                android:layout_below="@+id/signup_mentorTv"/>
+                android:textSize="14sp" />
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="35dp"

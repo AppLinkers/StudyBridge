@@ -1,11 +1,15 @@
 package com.example.studybridge.http.dto.study;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
+import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
 
 import java.io.Serializable;
@@ -71,17 +75,17 @@ public class StudyFindRes implements Parcelable {
         return menteeCnt;
     }
 
-    public String statusSet(CardView card){
+    public void statusSet(TextView textView, Context context){
         if(this.status.equals("APPLY")){
-            card.setCardBackgroundColor(Color.parseColor("#FF03DAC5"));
-            return "멘티 모집중";
+            textView.setText("멘티 모집중");
+            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.palletRed));
         }
         else if(this.status.equals("WAIT")){
-            card.setCardBackgroundColor(Color.parseColor("#FBB8AC"));
-            return "멘토 모집중";
+            textView.setText("멘토 모집중");
+            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.palletBlue));
         } else{
-            card.setCardBackgroundColor(Color.parseColor("#E0E0E0"));
-            return "모집 종료";
+            textView.setText("모집 종료");
+            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.disableBtn));
         }
     }
 

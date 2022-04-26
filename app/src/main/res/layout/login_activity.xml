@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/loginPageBackgroundColor"
     tools:context=".Login.LoginActivity">
 
     <LinearLayout
@@ -61,22 +60,26 @@
             android:id="@+id/login_button"
             style="@style/Widget.StudyBridge.Button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="로그인"/>
+            android:layout_height="60dp"
+            android:text="로그인"
+            android:backgroundTint="@color/palletRed"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signUp_button"
             style="@style/Widget.StudyBridge.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:onClick="gotoSignup"
-            android:text="회원가입"/>
+            android:text="회원가입"
+            android:textStyle="bold"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="본인인증"
-            android:onClick="confirm"/>
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="본인인증"-->
+<!--            android:onClick="confirm"/>-->
 
     </LinearLayout>
 

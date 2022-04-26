@@ -11,131 +11,132 @@
         android:layout_height="match_parent"
         android:paddingTop="10dp">
 
-        <HorizontalScrollView
+        <LinearLayout
             android:id="@+id/menti_filter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filtAllCV"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_filter" />
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="1dp"
-                    android:text="필터"
-                    android:textSize="12sp"
+                    android:id="@+id/filtAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/textColorPrimary70"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="전체"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="15dp"
-                    app:cardCornerRadius="15dp">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="0.8dp">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@color/textColorPrimary30"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                <TextView
+                    android:id="@+id/statusFilt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:text="상태별"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="상태"
-                            android:textColor="@color/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/statusArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_arrow_down" />
+            </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:id="@+id/study_statusTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="전체"
-                            android:textColor="@color/textColorPrimary" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="0.8dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    app:cardCornerRadius="15dp">
+                <TextView
+                    android:id="@+id/subjectFilt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:text="과목별"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@color/textColorPrimary30"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                <ImageView
+                    android:id="@+id/subjectArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_arrow_down" />
+            </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="과목"
-                            android:textColor="@color/textColorPrimary" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="0.8dp">
 
-                        <TextView
-                            android:id="@+id/study_typeTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="전체"
-                            android:textColor="@color/textColorPrimary" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/placeFilt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:text="지역별"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    app:cardCornerRadius="15dp">
+                <ImageView
+                    android:id="@+id/placeArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_arrow_down" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@color/textColorPrimary30"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="지역"
-                            android:textColor="@color/textColorPrimary" />
-
-                        <TextView
-                            android:id="@+id/study_placeTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="전체"
-                            android:textColor="@color/textColorPrimary" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-        </HorizontalScrollView>
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/menti_shimmer_view"
+            android:id="@+id/shimmer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/menti_filter"
@@ -153,13 +154,13 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/study_menti_swipeRC"
+            android:id="@+id/swipeRC"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/menti_filter"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/study_menti_RCView"
+                android:id="@+id/rcView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="10dp" />
@@ -167,17 +168,15 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/menti_addBtn"
+        android:id="@+id/studyAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="25dp"
         app:srcCompat="@drawable/ic_add"
         tools:ignore="VectorDrawableCompat"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:transitionName="transition_fab"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:backgroundTint="@color/palletRed"/>
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/menti_filterBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -186,7 +185,6 @@
         android:layout_marginBottom="100dp"
         app:srcCompat="@drawable/ic_search"
         tools:ignore="VectorDrawableCompat"
-        app:backgroundTint="@color/colorPrimaryDark"/>
-
+        app:backgroundTint="@color/colorPrimaryDark"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

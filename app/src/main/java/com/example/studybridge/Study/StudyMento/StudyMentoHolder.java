@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
+import com.example.studybridge.databinding.StudyMentoItemBinding;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,21 +19,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
-    private TextView subject,place,mentoName,mentoIntro,mentoSchool,mentoQualification;
-    private ImageView heart;
     private ProfileRes profile;
+
+    private StudyMentoItemBinding binding;
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
 
-        subject = (TextView) itemView.findViewById(R.id.mento_subject);
-        place = (TextView) itemView.findViewById(R.id.mento_place);
-        mentoName = (TextView) itemView.findViewById(R.id.mento_study_id);
-        mentoIntro = (TextView) itemView.findViewById(R.id.mento_study_intro);
-        mentoSchool = (TextView) itemView.findViewById(R.id.mento_study_school);
-        mentoQualification = (TextView) itemView.findViewById(R.id.mento_study_qualification);
-        heart = (ImageView) itemView.findViewById(R.id.mento_heart);
-
+        binding = StudyMentoItemBinding.bind(itemView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,25 +41,22 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
 
     public void onBind(ProfileRes data) {
-        subject.setText(data.getSubject());
-        place.setText(data.getLocation());
-        mentoName.setText(data.getNickName());
-        mentoIntro.setText(data.getInfo());
-        mentoSchool.setText(data.getSchool());
+        binding.mentorSubject.setText(data.getSubject());
+        binding.mentorPlace.setText(data.getLocation());
+        binding.mentorName.setText(data.getNickName());
+        binding.mentorIntro.setText(data.getInfo());
+        binding.mentorSchool.setText(data.getSchool());
 
-        if(data.getLiked()){
-            heart.setSelected(true);
-        } else heart.setSelected(false);
-
-        if(data.getCertificates().size()>1){
+        final int certiNum = data.getCertificates().size();
+        if(certiNum>1){
             StringBuilder sb = new StringBuilder();
             sb.append(data.getCertificates().get(0).getCertificate()).append(" 외 ").append(data.getCertificates().size()-1).append("개");
-            mentoQualification.setText(sb.toString());
-        } else if (data.getCertificates().size()==1){
-            mentoQualification.setText(data.getCertificates().get(0).getCertificate());
+            binding.mentorQualification.setText(sb.toString());
+        } else if (certiNum==1){
+            binding.mentorQualification.setText(data.getCertificates().get(0).getCertificate());
         }
         else{
-            mentoQualification.setText("자격증 없음");
+            binding.mentorQualification.setText("자격증 없음");
         }
         profile = data;
     }

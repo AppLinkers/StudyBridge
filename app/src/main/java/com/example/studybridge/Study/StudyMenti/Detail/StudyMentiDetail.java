@@ -145,7 +145,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
         enrollList = findViewById(R.id.enroll_members);
 
-        status.setText(study.statusSet(statusCard));
+//        status.setText(study.statusSet(statusCard));
         subject.setText(study.getType());
         place.setText(study.getPlace());
         intro.setText(study.getInfo());

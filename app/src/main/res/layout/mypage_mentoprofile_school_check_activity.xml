@@ -60,16 +60,17 @@
                 android:text="학생증 인증"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/mento_profile_school_uploadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:text="이미지 업로드"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <ImageView
@@ -85,7 +86,7 @@
             android:layout_marginTop="15dp"
             android:text="* 모든 입력이 정확할수록 인증이 빨라집니다"
             android:textSize="12sp"
-            android:textColor="@color/red"/>
+            android:textColor="@color/redDark"/>
 
     </LinearLayout>
     <LinearLayout

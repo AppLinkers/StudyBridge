@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
+import com.example.studybridge.databinding.StudyMentiItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
@@ -37,18 +38,18 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public TextView studyMaxNum,studyNowNum;
     public CardView statusColor;
 
-
+    //sharedPref
+    SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
 
-    SharedPreferences sharedPreferences;
     String userId;
-
-    private StudyFindRes studyFindRes;
-
     Long study_id;
     String managerId;
     Boolean isApplied;
+
+    private StudyFindRes studyFindRes;
+    private StudyMentiItemBinding binding;
 
     DataService dataService = new DataService();
 
@@ -56,15 +57,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public StudyMentiHolder(@NonNull @NotNull View itemView) {
         super(itemView);
 
-        status = (TextView) itemView.findViewById(R.id.menti_status);
-        subject = (TextView) itemView.findViewById(R.id.menti_subject);
-        place = (TextView) itemView.findViewById(R.id.menti_place);
-        studyName = (TextView) itemView.findViewById(R.id.menti_study_name);
-        studyIntro = (TextView) itemView.findViewById(R.id.menti_study_intro);
-        studyNowNum = (TextView) itemView.findViewById(R.id.menti_study_nowNum);
-        studyMaxNum = (TextView) itemView.findViewById(R.id.menti_study_maxNum);
-
-        statusColor = (CardView) itemView.findViewById(R.id.menti_status_Card);
+        binding = StudyMentiItemBinding.bind(itemView);
 
         sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
@@ -79,7 +72,6 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("isApplied",isApplied);
 
                 view.getContext().startActivity(intentToDetail);
-
             }
         });
 
@@ -90,13 +82,15 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     public void onBind(StudyFindRes data) {
 
         study_id = data.getId();
-        subject.setText(data.getType());
-        place.setText(data.getPlace());
-        studyName.setText(data.getName());
-        studyIntro.setText(data.getInfo());
-        studyNowNum.setText(String.valueOf(data.getMenteeCnt()));
-        studyMaxNum.setText(String.valueOf(data.getMaxNum()));
-        status.setText(data.statusSet(statusColor));
+
+        binding.studySubject.setText(data.getType());
+        binding.studyPlace.setText(data.getPlace());
+        binding.studyName.setText(data.getName());
+        binding.studyIntro.setText(data.getInfo());
+        StringBuilder sb = new StringBuilder();
+        sb.append("인원수 : ").append(data.getMenteeCnt()).append(" / ").append(data.getMaxNum());
+        binding.studyNum.setText(sb.toString());
+        data.statusSet(binding.studyStatus, itemView.getContext());
 
         getManagerId(study_id);
         findApplied(study_id);

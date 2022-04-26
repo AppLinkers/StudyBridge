@@ -40,9 +40,6 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
     public void setDialogInterfacer(DialogInterfaces dialogInterfacer) {
         this.dialogInterfacer = dialogInterfacer;
     }
-
-
-
     public static StudyMentiSelectMentoDialog newInstance(){
         StudyMentiSelectMentoDialog dialog = new StudyMentiSelectMentoDialog();
         return dialog;

@@ -11,7 +11,6 @@
         android:id="@+id/signup_back"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginTop="5dp"
         android:src="@drawable/ic_arrow_left" />
 
     <TextView
@@ -146,11 +145,10 @@
     </RelativeLayout>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         app:cardCornerRadius="5dp"
-        android:layout_below="@+id/signup_passwordReCon"
-        android:layout_marginTop="25dp"
-        app:cardElevation="1dp">
+        app:cardElevation="1dp"
+        android:layout_alignParentBottom="true">
         <TextView
             android:id="@+id/signup_confirmBtn"
             android:layout_width="match_parent"
