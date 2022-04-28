@@ -1,6 +1,5 @@
 package com.example.studybridge.Util;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,12 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
-import com.example.studybridge.databinding.BackDialogBinding;
+import com.example.studybridge.databinding.DialogBackBinding;
 
 public class BackDialog extends DialogFragment {
 
-    private BackDialogBinding binding;
+    private DialogBackBinding binding;
     private BackInterface backInterface;
 
     public interface BackInterface{
@@ -35,7 +33,7 @@ public class BackDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = BackDialogBinding.inflate(inflater,container,false);
+        binding = DialogBackBinding.inflate(inflater,container,false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = binding.getRoot();
 

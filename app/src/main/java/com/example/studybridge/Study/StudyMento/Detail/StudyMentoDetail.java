@@ -19,7 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
-import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiSelectMentoDialog;
+import com.example.studybridge.Util.StudyMentiSelectMentoDialog;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.ChangeStatusReq;
 import com.example.studybridge.http.dto.userMentee.LikeMentorRes;

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="71dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RadioButton
+        android:id="@+id/mentorId"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:button="@null"
+        android:checked="false"
+        android:paddingLeft="65dp"
+        android:text="멘토Id"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardCornerRadius="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"/>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="1dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+        <TextView
+            android:id="@+id/showProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="프로필 보기"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="14sp" />
+    </com.google.android.material.card.MaterialCardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/palletGrey" />
+</RelativeLayout>

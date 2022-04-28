@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_dialog">
+    <RelativeLayout
+        android:layout_width="320dp"
+        android:layout_height="160dp"
+        android:padding="15dp">
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="멘토로 선택할까요?"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/dialog_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_title"
+            android:text="선택시 재선택이 불가합니다"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="14sp" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            android:layout_alignParentBottom="true"
+            app:strokeColor="@color/palletGrey"
+            app:strokeWidth="1dp">
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="아니요"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/okBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:strokeColor="@color/palletGrey"
+            app:strokeWidth="1dp">
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@color/palletRed"
+                android:text="예"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_alignParentRight="true"/>
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+</FrameLayout>

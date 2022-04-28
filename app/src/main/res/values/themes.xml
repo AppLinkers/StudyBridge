@@ -88,7 +88,7 @@
     <style name="Widget.StudyBridge.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="checkedIcon">@drawable/ic_check_white</item>
         <item name="checkedIconVisible">true</item>
-        <item name="chipBackgroundColor">@color/chip_background_list_pink</item>
+        <item name="chipBackgroundColor">@color/chip_background_list</item>
         <item name="android:textColor">@color/chip_text_list</item>
         <item name="chipStrokeColor">@color/colorPrimaryDark</item>
         <item name="chipStrokeWidth">1dp</item>
@@ -100,7 +100,7 @@
     </style>
 
     <style name="Widget.StudyBridge.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipBackgroundColor">@color/chip_background_list_pink</item>
+        <item name="chipBackgroundColor">@color/chip_background_list</item>
         <item name="android:textColor">@color/chip_text_list</item>
         <item name="chipStrokeColor">@color/colorPrimaryDark</item>
         <item name="chipStrokeWidth">1dp</item>

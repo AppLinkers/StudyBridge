@@ -1,10 +1,9 @@
 package com.example.studybridge.Study.StudyMenti.Detail;
 
-import android.annotation.SuppressLint;
+import  android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +32,7 @@ import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyAddActivity;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
+import com.example.studybridge.databinding.StudyDetailActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.ChangeStatusReq;
@@ -42,8 +45,6 @@ import com.example.studybridge.http.dto.study.StudyWithdrawReq;
 import com.example.studybridge.http.dto.study.StudyWithdrawRes;
 import com.google.android.material.button.MaterialButton;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,12 +53,8 @@ import retrofit2.Response;
 
 public class StudyMentiDetail extends AppCompatActivity {
 
-    // 화면 위 데이터들
-    private Toolbar toolbar;
+    private StudyDetailActivityBinding binding;
     private StudyFindRes study;
-    private TextView subject,place,nowNum,explain,maxNum,status,intro,mentolistTv,selectMentoTv;
-    private MaterialButton BtnForMaker,BtnForMentee,BtnForMento;
-    private CardView statusCard;
 
     //SharedPref
     SharedPreferences sharedPreferences;
@@ -68,22 +65,12 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     //역할 체크
     private String userId; // 사용자 아이디
-    private Long studyId;  // 스터디 아이디
-    private String managerId;  //방장 아이디
     private Long userPkId; // 사용자 long아이디
+    private Long studyId;  // 스터디 아이디
+    private String makerId;  //방장 아이디
     private Boolean isMentee; //멘티인지?
     private Boolean isApplied; //지원했는지
 
-    //멘토 리사이클러뷰
-    private StudyMentiEnrollMentoAdapter adapter;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-
-    private RelativeLayout chosenMentoRL;
-    private ImageView chosenMentoImg;
-    private TextView chosenMentoId;
-
-    ActivityResultLauncher<Intent> activityResultLauncher;
 
     //데이터 서비스
     DataService dataService = new DataService();
@@ -93,17 +80,14 @@ public class StudyMentiDetail extends AppCompatActivity {
     public static final String MENTO_APPLY = "WAIT";
     public static final String CONFIRM_APPLY = "MATCHED";
 
-    TextView enrollList; // 임시데이터
 
     FindRoomRes findRoomRes;
 
-
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.study_menti_detail_activity);
+        binding = StudyDetailActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -111,134 +95,32 @@ public class StudyMentiDetail extends AppCompatActivity {
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
         isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
 
-
-
-        //holder에서 데이터 불러오기
-        Intent intent = getIntent();
-        study = intent.getExtras().getParcelable("study");
-        studyId = study.getId();
-        managerId = intent.getStringExtra("managerId");
-        isApplied = intent.getBooleanExtra("isApplied",false);
-
-        //툴바 설정
-        toolbar = (Toolbar) findViewById(R.id.menti_detial_bar);
-        toolbar.setTitle(study.getName());
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //화면 위 데이터
-        status = (TextView) findViewById(R.id.menti_detail_status);
-        subject = (TextView) findViewById(R.id.menti_detail_subject);
-        place = (TextView) findViewById(R.id.menti_detail_place);
-        intro = (TextView) findViewById(R.id.menti_detail_intro);
-        explain = (TextView) findViewById(R.id.menti_detail_explain);
-        nowNum = (TextView) findViewById(R.id.menti_detail_peopleNum);
-        maxNum = (TextView) findViewById(R.id.menti_detail_maxNum);
-        statusCard = (CardView) findViewById(R.id.menti_detial_Card);
-
-        mentolistTv = (TextView) findViewById(R.id.menti_detail_mentoList_TV);
-        selectMentoTv = (TextView) findViewById(R.id.menti_detail_selectMento_TV);
-
-        chosenMentoRL = (RelativeLayout) findViewById(R.id.menti_detail_chosenMento);
-        chosenMentoImg = (ImageView) findViewById(R.id.menti_detail_chosenMento_img);
-        chosenMentoId = (TextView) findViewById(R.id.menti_detail_chosenMento_id);
-
-        enrollList = findViewById(R.id.enroll_members);
-
-//        status.setText(study.statusSet(statusCard));
-        subject.setText(study.getType());
-        place.setText(study.getPlace());
-        intro.setText(study.getInfo());
-        explain.setText(study.getExplain());
-        maxNum.setText(String.valueOf(study.getMaxNum()));
-
-
-        //버튼 (역할마다 상태 바꿔주기 위함)
-        BtnForMaker = (MaterialButton) findViewById(R.id.menti_detail_BtnForMaker); // 방장용
-        BtnForMentee = (MaterialButton) findViewById(R.id.menti_detail_BtnForMentee);  // 방장 외 멘티 용
-        BtnForMento = (MaterialButton) findViewById(R.id.menti_detail_BtnForMento); // 멘토 용
-
-        //멘토&멘티 리스트
-
+        intentData();
+        setUI();
         checkStudyStatus();
+        setBtns();
 
-        //멘토 리사이클러뷰
-        recyclerView = (RecyclerView) findViewById(R.id.menti_detail_enrollMento_RV);
-        linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new StudyMentiEnrollMentoAdapter();
-
-
-        // 멘티 리스트 찍어보기 (나중에 지울꺼)
-        dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()){
-                    enrollList.setText(response.body()+"");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-
-        getEnrollMento();
-        //선정 멘토 확인
-        chosenMentoProfile(chosenMentoRL);
-        // 채팅 방 받아오기
         getChat();
 
     }
 
-    private void getChat(){
-        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
-            @Override
-            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
-                findRoomRes = response.body();
-            }
+    private void intentData(){
+        Intent intent = getIntent();
+        study = intent.getExtras().getParcelable("study");
+        studyId = study.getId();
+        makerId = intent.getStringExtra("managerId");
+        isApplied = intent.getBooleanExtra("isApplied",false);
 
-            @Override
-            public void onFailure(Call<FindRoomRes> call, Throwable t) {
-
-            }
-        });
-    }
-    private void getEnrollMento(){
-        dataService.study.mentorList(studyId).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if(response.isSuccessful()){
-                    assert response.body() != null;
-                    for(String s: response.body()){
-                        adapter.addItem(s);
-                    }
-                    adapter.setStudyId(studyId);
-                    adapter.setManagerId(managerId);
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkStudyStatus();
+        //toolbar
+        setSupportActionBar(binding.appBar);
+        binding.appBar.setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        if(userId.equals(managerId)){
+        if(userId.equals(makerId)){
             menuInflater.inflate(R.menu.study_detail_toolbar, menu);
         }
         return true;
@@ -263,23 +145,84 @@ public class StudyMentiDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setUI(){
+        study.statusSet(binding.status,getApplicationContext());
+        binding.studyName.setText(study.getName());
+        binding.studyIntro.setText(study.getInfo());
+        binding.studySubject.setText(study.getType());
+        binding.studyPlace.setText(study.getPlace());
+        StringBuilder sb = new StringBuilder();
+        sb.append("인원수 : ").append(study.getMenteeCnt()).append(" / ").append(study.getMaxNum());
+        binding.studyNum.setText(sb.toString());
+        binding.makerId.setText(makerId);
+        binding.explain.setText(study.getExplain());
+    }
+
+    private void setBtns(){
+        binding.menteeBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),StudyMembers.class);
+                intent.putExtra("studyId",studyId);
+                intent.putExtra("path",0);
+                intent.putExtra("makerId",makerId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
+        binding.mentorBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),StudyMembers.class);
+                intent.putExtra("studyId",studyId);
+                intent.putExtra("path",1);
+                intent.putExtra("makerId",makerId);
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
+    }
+
+    private void getChat(){
+        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
+            @Override
+            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
+                findRoomRes = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<FindRoomRes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkStudyStatus();
+    }
+
+
+
     //(1) 역할을 정해준다 (방장, 멘티, 멘토)
     public void checkRole(){
 
-        if(userId.equals(managerId)){
-            BtnForMaker.setVisibility(View.VISIBLE);
-            BtnForMento.setVisibility(View.GONE);
-            BtnForMentee.setVisibility(View.GONE);
+        if(userId.equals(makerId)){
+            binding.btnForMaker.setVisibility(View.VISIBLE);
+            binding.btnForMentor.setVisibility(View.GONE);
+            binding.btnForMentee.setVisibility(View.GONE);
 
         } else {
             if (isMentee) {//멘티인 경우
-                BtnForMaker.setVisibility(View.GONE);
-                BtnForMento.setVisibility(View.GONE);
-                BtnForMentee.setVisibility(View.VISIBLE);
+                binding.btnForMaker.setVisibility(View.GONE);
+                binding.btnForMentor.setVisibility(View.GONE);
+                binding.btnForMentee.setVisibility(View.VISIBLE);
             } else { //멘토인 경우
-                BtnForMaker.setVisibility(View.GONE);
-                BtnForMento.setVisibility(View.VISIBLE);
-                BtnForMentee.setVisibility(View.GONE);
+                binding.btnForMaker.setVisibility(View.GONE);
+                binding.btnForMentor.setVisibility(View.VISIBLE);
+                binding.btnForMentee.setVisibility(View.GONE);
             }
         }
     }
@@ -295,26 +238,24 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body().equals(MENTEE_APPLY)){
                     //멘티 모집중
-                    BtnForMaker.setText("모집 종료하기");
-                    BtnForMaker.setOnClickListener(new View.OnClickListener() {
+                    binding.btnForMaker.setText("모집 종료하기");
+                    binding.btnForMaker.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //모집 종료 함수 작성
                             toWait();
                         }
                     });
-                    applyStudyForMentee(BtnForMentee);
+                    applyStudyForMentee(binding.btnForMentee);
                 } else if (response.body().equals(MENTO_APPLY)){
                     //멘토 모집중
-
-                    applyStudyForMento(BtnForMento);
+                    applyStudyForMento(binding.btnForMentor);
 
                 } else {
                     //모집 완료
-                    matchedBtn(BtnForMaker);
-                    matchedBtn(BtnForMentee);
-                    matchedBtn(BtnForMento);
-
+                    matchedBtn(binding.btnForMaker);
+                    matchedBtn(binding.btnForMentee);
+                    matchedBtn(binding.btnForMentor);
                     afterChooseMento();
 
                 }
@@ -328,10 +269,9 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
     //모집완료 버튼
-    @SuppressLint("ResourceAsColor")
-    public void matchedBtn(MaterialButton button){
+    public void matchedBtn(TextView button){
 
-        if(isApplied||userId.equals(managerId)){
+        if(isApplied||userId.equals(makerId)){
             button.setText("스터디 입장하기");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -343,31 +283,29 @@ public class StudyMentiDetail extends AppCompatActivity {
         } else {
             button.setText("마감된 스터디입니다");
             button.setEnabled(false);
-            button.setBackgroundColor(R.color.disableBtn);
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
         }
     }
 
 
     //스터디 신청 메서드
-    @SuppressLint("ResourceAsColor")
-    public void applyStudyForMentee(Button button){
+    public void applyStudyForMentee(TextView button){
 
-        BtnForMento.setText("멘티 모집중입니다");
-        BtnForMento.setBackgroundColor(R.color.disableBtn);
-        BtnForMento.setEnabled(false);
+        binding.btnForMentor.setText("멘티 모집중입니다");
+        binding.btnForMentor.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
+        binding.btnForMentor.setEnabled(false);
 
         if(isApplied){
             button.setText("신청 취소");
         }
         else {
-            if(Integer.parseInt(nowNum.getText().toString())
-                    <Integer.parseInt(maxNum.getText().toString())) { // 최대 인원 전이면
+            if(study.getMenteeCnt() <study.getMaxNum()) { // 최대 인원 전이면
                 button.setText("신청 하기");
             }
             else {
                 button.setEnabled(false);
                 button.setText("최대 인원입니다");
-                button.setBackgroundColor(R.color.disableBtn);
+                button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
             }
         }
         
@@ -383,7 +321,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                                 checkMaxNum();
                                 button.setText("신청 하기");
                                 isApplied = false;
-                                Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -402,7 +339,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                                 checkMaxNum();
                                 button.setText("신청 취소");
                                 isApplied = true;
-                                Toast.makeText(StudyMentiDetail.this, isApplied.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -418,16 +354,15 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
     //스터디 신청 메서드
-    @SuppressLint("ResourceAsColor")
-    public void applyStudyForMento(Button button){
+    public void applyStudyForMento(TextView button){
 
-        BtnForMaker.setText("멘토 모집중입니다");
-        BtnForMaker.setBackgroundColor(R.color.disableBtn);
-        BtnForMaker.setEnabled(false);
+        binding.btnForMaker.setText("멘토를 선정해주세요");
+        binding.btnForMaker.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
+        binding.btnForMaker.setEnabled(false);
 
-        BtnForMentee.setText("멘토 모집중입니다");
-        BtnForMentee.setBackgroundColor(R.color.disableBtn);
-        BtnForMentee.setEnabled(false);
+        binding.btnForMentee.setText("멘토 모집중입니다");
+        binding.btnForMentee.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
+        binding.btnForMentee.setEnabled(false);
 
         if(isApplied){
             button.setText("신청 취소");
@@ -444,7 +379,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyWithdrawRes> call, Response<StudyWithdrawRes> response) {
                             if(response.isSuccessful()){
-                                adapter.deleteItem(userId);
                                 button.setText("신청 하기");
                                 isApplied = false;
                             }
@@ -463,8 +397,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<StudyApplyRes> call, Response<StudyApplyRes> response) {
                             if(response.isSuccessful()){
-                                adapter.addItem(userId);
-                                adapter.notifyItemInserted(adapter.getItemCount());
                                 button.setText("신청 취소");
                                 isApplied = true;
                             }
@@ -489,14 +421,15 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             ChangeStatusReq csReq = new ChangeStatusReq(studyId,MENTO_APPLY);
             dataService.study.status(csReq).enqueue(new Callback<String>() {
-                @SuppressLint("ResourceAsColor")
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
 
                     if(response.isSuccessful()){
-                        BtnForMaker.setText("멘토 모집중입니다");
-                        BtnForMaker.setBackgroundColor(R.color.disableBtn);
-                        BtnForMaker.setEnabled(false);
+                        binding.status.setText("멘토 모집중");
+                        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
+                        binding.btnForMaker.setText("멘토를 선정해주세요");
+                        binding.btnForMaker.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
+                        binding.btnForMaker.setEnabled(false);
                     }
                 }
 
@@ -513,8 +446,10 @@ public class StudyMentiDetail extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if(response.isSuccessful()){
-                        BtnForMaker.setText("스터디 입장하기");
-                        BtnForMaker.setOnClickListener(new View.OnClickListener() {
+                        binding.status.setText("모집 종료");
+                        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
+                        binding.btnForMaker.setText("스터디 입장하기");
+                        binding.btnForMaker.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 //스터디 시작하기 함수 작성
@@ -534,16 +469,17 @@ public class StudyMentiDetail extends AppCompatActivity {
 
     //선택 멘토 찾기
     public void afterChooseMento(){
+
+        binding.mentorBoxArrow.setVisibility(View.GONE);
+        binding.mentorBox.setText("선정 멘토");
+        binding.chosenId.setVisibility(View.VISIBLE);
+        binding.chosenImgCV.setVisibility(View.VISIBLE);
+
         dataService.study.chosenMentor(studyId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                chosenMentoId.setText(response.body());
 
-                selectMentoTv.setVisibility(View.VISIBLE);
-                mentolistTv.setVisibility(View.GONE);
-
-                chosenMentoRL.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                binding.chosenId.setText(response.body());
             }
 
             @Override
@@ -551,7 +487,18 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             }
         });
+
+        binding.mentorBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
+                intent.putExtra("mentoId",binding.chosenId.getText().toString());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
     }
+
 
     //인원수 체크
     public void checkMaxNum(){
@@ -560,7 +507,10 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()){
                     assert response.body() != null;
-                    nowNum.setText(String.valueOf(response.body().size()));
+                    StringBuilder sb = new StringBuilder();
+                    int num = response.body().size();
+                    sb.append("인원수 : ").append(num).append(" / ").append(study.getMaxNum());
+                    binding.studyNum.setText(sb.toString());
                 }
             }
 
@@ -594,24 +544,12 @@ public class StudyMentiDetail extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(),StudyAddActivity.class);
         intent.putExtra("study",study);
-        intent.putExtra("managerId",managerId);
+        intent.putExtra("managerId",makerId);
         startActivity(intent);
 
     }
-    //선정 멘토 보기
-    public void chosenMentoProfile(RelativeLayout view){
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
-                intent.putExtra("mentoId",chosenMentoId.getText());
-                startActivity(intent);
-            }
-        });
-    }
 
     private void goToChat(){
-        Toast.makeText(getApplicationContext(),"스터디 시작",Toast.LENGTH_SHORT).show();
         Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
         chatIntent.putExtra("roomId", findRoomRes.getRoomId());
         chatIntent.putExtra("study",study);

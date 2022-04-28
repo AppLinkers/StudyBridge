@@ -1,4 +1,4 @@
-package com.example.studybridge.Study.StudyMenti.Detail;
+package com.example.studybridge.Util;
 
 
 import android.content.DialogInterface;
@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.ChooseMentorRes;
 import com.google.android.material.card.MaterialCardView;
@@ -48,7 +50,7 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.study_menti_mentoselect_dialog,container,false);
+        View view = inflater.inflate(R.layout.dialog_mentoselect,container,false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return view;
     }
@@ -57,13 +59,14 @@ public class StudyMentiSelectMentoDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        selectBtn = (MaterialCardView) view.findViewById(R.id.mentoSelect_selectBtn);
-        cancelBtn = (MaterialCardView) view.findViewById(R.id.mentoSelect_cancelBtn);
+/*        selectBtn = (MaterialCardView) view.findViewById(R.id.mentoSelect_selectBtn);
+        cancelBtn = (MaterialCardView) view.findViewById(R.id.mentoSelect_cancelBtn);*/
 
 
         Bundle bundle = getArguments();
         mentoNowId = bundle.getString("mentoId");
         studyNowId = bundle.getLong("studyId");
+
 
         selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override

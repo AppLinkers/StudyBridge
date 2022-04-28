@@ -19,6 +19,7 @@
     <color name="redDark">#9b111e</color>
     <color name="gray30">#4DE0E0E0</color>
     <color name="palletRed">#ff686b</color>
+    <color name="palletRed50">#80ff686b</color>
     <color name="palletGrey">#f4f4f4</color>
     <color name="palletBlue">#78a2cc</color>
     <color name="palletGreen">#77dd77</color>
