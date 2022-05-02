@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="175dp"
+    android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="15dp"
     android:paddingLeft="15dp"
@@ -9,47 +9,40 @@
 
     <TextView
         android:id="@+id/mentor_name"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="280dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:background="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/mentor_intro"
         android:layout_width="280dp"
         android:layout_height="20dp"
-        android:background="@color/colorPrimary"
         android:layout_below="@+id/mentor_name"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:background="@color/colorPrimary"/>
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        app:cardCornerRadius="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
         android:layout_alignParentRight="true"
-        android:backgroundTint="@color/colorPrimary"/>
-    <TextView
-        android:id="@+id/mentor_subject"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:layout_below="@id/mentor_intro"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:id="@+id/mentor_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerCrop"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/mentor_school"
-        android:layout_width="150dp"
+        android:id="@+id/mentor_subject"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mentor_subject"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="5dp"/>
-    <TextView
-        android:id="@+id/mentor_qualification"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/mentor_school"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="5dp"/>
+        android:layout_below="@id/mentor_intro"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorPrimary"/>
 
     <View
         android:layout_width="match_parent"

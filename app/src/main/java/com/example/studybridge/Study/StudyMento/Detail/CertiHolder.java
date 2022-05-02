@@ -1,30 +1,29 @@
-package com.example.studybridge.Mypage.MentoProfile.Show;
+package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.R;
 import com.example.studybridge.Util.ImgView;
+import com.example.studybridge.databinding.MentorCertiItemBinding;
 import com.example.studybridge.http.dto.userMentor.Certificate;
 
 
-public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
+public class CertiHolder extends RecyclerView.ViewHolder{
 
-    private TextView certiName;
+    private MentorCertiItemBinding binding;
     private String imgUrl;
 
-    public MyPageMentoShowHolder(@NonNull View itemView) {
+    public CertiHolder(@NonNull View itemView) {
         super(itemView);
+        binding = MentorCertiItemBinding.bind(itemView);
 
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        binding.showCerti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(view.getContext(), ImgView.class);
 
                 intent.putExtra("certiImg",imgUrl);
@@ -36,7 +35,7 @@ public class MyPageMentoShowHolder extends RecyclerView.ViewHolder{
     }
 
     public void onBind(Certificate data) {
-        certiName.setText(data.getCertificate());
+        binding.certiName.setText(data.getCertificate());
         imgUrl = data.getImgUrl();
     }
 

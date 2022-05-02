@@ -1,4 +1,4 @@
-package com.example.studybridge.Study.StudyMento.Detail.Profile;
+package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,25 +11,26 @@ import com.example.studybridge.R;
 import com.example.studybridge.http.dto.userMentor.Certificate;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class StudyMentoProfileCertiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class CertiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<Certificate> listData;
+    private List<Certificate> listData;
 
-    public StudyMentoProfileCertiAdapter(ArrayList<Certificate> listData){
+    public CertiAdapter(List<Certificate> listData){
         this.listData = listData;
     }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.study_mento_profile_certi_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mentor_certi_item, parent, false);
 
-        return new StudyMentoProfileCertiHolder(view);
+        return new CertiHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((StudyMentoProfileCertiHolder) holder).onBind(listData.get(position));
+        ((CertiHolder) holder).onBind(listData.get(position));
     }
 
     @Override

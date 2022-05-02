@@ -4,30 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="71dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <RadioButton
-        android:id="@+id/mentorId"
+    <TextView
+        android:id="@+id/certiName"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:button="@null"
-        android:checked="false"
-        android:paddingLeft="65dp"
-        android:text="멘토Id"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="자격증명"
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp" />
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:cardCornerRadius="20dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"/>
-    </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,14 +25,14 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true">
         <TextView
-            android:id="@+id/showProfile"
+            android:id="@+id/showCerti"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:text="프로필 보기"
+            android:text="상세 보기"
             android:textColor="@color/textColorPrimary"
             android:textSize="14sp" />
     </com.google.android.material.card.MaterialCardView>

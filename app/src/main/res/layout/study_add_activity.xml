@@ -3,8 +3,182 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarCon"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/white"
+        app:elevation="0dp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="스터디 만들기"
+            app:titleTextColor="@color/textColorPrimary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:text="완료"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:enabled="false"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:elevation="1dp"
+        android:layout_below="@id/appBarCon"/>
+    <RelativeLayout
+        android:id="@+id/nameCon"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/appBarCon">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/studyName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:hint="스터디 이름"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/textColorPrimary" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/palletGrey"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/studySubject"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/nameCon"
+        android:layout_marginTop="0dp"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:text="과목"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/subjectLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/palletGrey"
+        android:layout_below="@id/studySubject"/>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_arrow_down"
+        android:layout_below="@id/nameCon"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/studyPlace"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/subjectLine"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:text="지역"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp" />
+    <View
+        android:id="@+id/placeLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/palletGrey"
+        android:layout_below="@id/studyPlace"/>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_arrow_down"
+        android:layout_below="@id/subjectLine"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"/>
+    <RelativeLayout
+        android:id="@+id/introCon"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/placeLine">
+
+        <EditText
+            android:id="@+id/studyIntro"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:hint="한줄 소개"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/textColorPrimary" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/palletGrey"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/numCon"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/introCon">
+
+        <EditText
+            android:id="@+id/studyNum"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:hint="희망 인원수"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/textColorPrimary" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/palletGrey"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/explainCon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/numCon">
+
+        <EditText
+            android:id="@+id/studyExplain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:hint="스터디 설명"
+            android:padding="15dp"
+            android:textColor="@color/textColorPrimary" />
+    </RelativeLayout>
+
+
+
+
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -201,6 +375,6 @@
             android:textSize="19sp"
             android:textColor="@color/white"
             android:textStyle="bold"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
 </RelativeLayout>

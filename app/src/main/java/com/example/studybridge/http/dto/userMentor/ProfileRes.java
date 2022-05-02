@@ -180,7 +180,7 @@ public class ProfileRes implements Parcelable {
         nickName = in.readString();
         school = in.readString();
         schoolImg = in.readString();
-        schoolImg = in.readString();
+        subject = in.readString();
         certificates = new ArrayList<>();
         in.readTypedList(certificates,Certificate.CREATOR);
         experience = in.readString();

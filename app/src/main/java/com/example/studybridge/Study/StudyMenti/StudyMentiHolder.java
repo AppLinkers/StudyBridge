@@ -72,6 +72,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("isApplied",isApplied);
 
                 view.getContext().startActivity(intentToDetail);
+
             }
         });
 

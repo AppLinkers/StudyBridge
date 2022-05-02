@@ -19,7 +19,7 @@ public class MyPageMentoShowAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.study_mento_profile_certi_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mentor_certi_item, parent, false);
 
         return new MyPageMentoShowHolder(view);
     }

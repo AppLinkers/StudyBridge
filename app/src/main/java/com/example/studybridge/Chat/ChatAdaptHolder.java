@@ -1,7 +1,6 @@
 package com.example.studybridge.Chat;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg;
+import com.example.studybridge.Util.ImgView;
 import com.example.studybridge.http.dto.message.Message;
 import com.google.android.material.card.MaterialCardView;
 
@@ -54,7 +53,7 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
         imgCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), StudyMentoProfileCertiImg.class);
+                Intent intent = new Intent(view.getContext(), ImgView.class);
                 intent.putExtra("certiImg",uri);
                 view.getContext().startActivity(intent);
             }

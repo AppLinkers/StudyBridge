@@ -43,10 +43,10 @@
             android:layout_height="50dp"
             android:background="@color/white"
             android:hint="이름"
-            android:padding="10dp"
-            android:textColor="@color/textColorPrimary70"
             android:inputType="text"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="@color/textColorPrimary70" />
         <View
             android:id="@+id/signup_nameLine"
             android:layout_width="match_parent"

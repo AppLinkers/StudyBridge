@@ -15,11 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
 import com.example.studybridge.Util.StudyMentiSelectMentoDialog;
+import com.example.studybridge.databinding.MentorDetailActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.ChangeStatusReq;
 import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
@@ -33,16 +35,8 @@ import retrofit2.Response;
 
 public class StudyMentoDetail extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager;
-    private StudyMentoDetailPagerAdapter adapter;
-    private Toolbar toolbar;
-    private MaterialButton button;
-    private LinearLayout buttonLayout;
-
     private ProfileRes profile;
-
-    private ImageButton heart;
+    private MentorDetailActivityBinding binding;
 
     DataService dataService = new DataService();
 
@@ -54,29 +48,18 @@ public class StudyMentoDetail extends AppCompatActivity {
     public static final String USER_ISMENTEE = "user_mentee_key";
 
     //넘어온 데이터들
-    private String mentoId, managerId,userId;
+    private String mentoId,userId;
     private Long studyId,userLong,mentoLong;
     private Boolean isMentee;
 
-    //dialog 통신용 int
-    private int selectOK;
-
-    public static final String CONFIRM_APPLY = "MATCHED";
-
+    private CertiAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.study_mento_detail_activity);
-
-
-        //화면 위 데이터
-        tabLayout = (TabLayout) findViewById(R.id.mento_detail_tab);
-        toolbar = (Toolbar) findViewById(R.id.mento_detail_bar);
-        heart = (ImageButton) findViewById(R.id.mento_detail_heart);
-        viewPager = (ViewPager2) findViewById(R.id.mento_detail_pager);
-        button = (MaterialButton) findViewById(R.id.mento_detail_button);
-        buttonLayout = (LinearLayout) findViewById(R.id.mento_detail_layout_button);
+        binding = MentorDetailActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //sharedPreference, 현재 이용자 아이디 불러옴
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -84,6 +67,14 @@ public class StudyMentoDetail extends AppCompatActivity {
         userLong = sharedPreferences.getLong(USER_PK_ID_KEY,0);
         isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
 
+        intentData();
+        setUI();
+        setCerti();
+
+
+    }
+
+    private void intentData(){
         //멘토 찾기에서 불러온 것
         Intent intent = getIntent();
 
@@ -92,24 +83,11 @@ public class StudyMentoDetail extends AppCompatActivity {
         //신청한 멘티에서 불러온 것
         mentoId = intent.getExtras().getString("mentoId");
         studyId = intent.getExtras().getLong("studyId");
-        managerId = intent.getExtras().getString("managerId");
 
-        //들어온 경로에 따라
-        setPath();
-
-        // viewpager & tablayout
-        setTabLayout();
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSelectDialog(mentoId,studyId);
-            }
-        });
-
-
+        //toolbar
+        setSupportActionBar(binding.appBar);
+        binding.appBar.setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //툴바 뒤로가기 설정
@@ -118,45 +96,33 @@ public class StudyMentoDetail extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSelectDialog(String mentoId,Long studyId){
+    private void setUI(){
 
-        FragmentManager fm = getSupportFragmentManager();
-        StudyMentiSelectMentoDialog dialog = StudyMentiSelectMentoDialog.newInstance();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("mentoId",mentoId);
-        bundle.putLong("studyId",studyId);
-        dialog.setArguments(bundle);
-
-        dialog.show(fm,"selectMentor");
-        dialog.setDialogInterfacer(new DialogInterfaces() {
-            @Override
-            public void onButtonClick(int selectCode) {
-                selectOK = selectCode;
-            }
-
-        });
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if (selectOK==1){
-                    toMatched();
-                }
-            }
-        });
-    }
-
-    private void setPath(){
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        binding.certiRV.setLayoutManager(linearLayoutManager);
 
         if(mentoId == null || mentoId.equals("")){ //멘토 찾기에서 들어온 경우
-            toolbar.setTitle(profile.getNickName());
+
             mentoLong = profile.getUserId();
             isMentee(profile.getLiked());
+            binding.mentorName.setText(profile.getNickName());
+            binding.mentorIntro.setText(profile.getInfo());
+            binding.mentoSubject.setText(profile.getSubject());
+            binding.mentorPlace.setText(profile.getLocation());
+            binding.mentorSchool.setText(profile.getSchool());
+            binding.appeal.setText(profile.getAppeal());
+            binding.curi.setText(profile.getCurriculum());
+            binding.exp.setText(profile.getExperience());
+
+
+            adapter = new CertiAdapter(profile.getCertificates());
+            binding.certiRV.setAdapter(adapter);
 
         } else { //신청한 멘토에서 불러온 경우
             dataService.userMentor.getProfile(mentoId, userId).enqueue(new Callback<ProfileRes>() {
@@ -164,15 +130,19 @@ public class StudyMentoDetail extends AppCompatActivity {
                 public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                     if (response.isSuccessful())
                     {
-                        toolbar.setTitle(response.body().getNickName());
                         mentoLong = response.body().getUserId();
                         isMentee(response.body().getLiked());
+                        binding.mentorName.setText(response.body().getNickName());
+                        binding.mentorIntro.setText(response.body().getInfo());
+                        binding.mentoSubject.setText(response.body().getSubject());
+                        binding.mentorPlace.setText(response.body().getLocation());
+                        binding.mentorSchool.setText(response.body().getSchool());
+                        binding.appeal.setText(response.body().getAppeal());
+                        binding.curi.setText(response.body().getCurriculum());
+                        binding.exp.setText(response.body().getExperience());
 
-                        if(userId.equals(managerId)){
-                            buttonLayout.setVisibility(View.VISIBLE);
-                        } else {
-                            buttonLayout.setVisibility(View.GONE);
-                        }
+                        adapter = new CertiAdapter(response.body().getCertificates());
+                        binding.certiRV.setAdapter(adapter);
                     }
                 }
                 @Override
@@ -182,18 +152,17 @@ public class StudyMentoDetail extends AppCompatActivity {
             });
         }
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
 
     private void isMentee(Boolean liked){
         if(isMentee){
             if(liked){
-                heart.setSelected(true);
+                binding.heart.setSelected(true);
             }
             else {
-                heart.setSelected(false);
+                binding.heart.setSelected(false);
             }
             setHeart();
         }
@@ -201,17 +170,17 @@ public class StudyMentoDetail extends AppCompatActivity {
     //좋아요 설정
     private void setHeart(){
 
-        heart.setOnClickListener(new View.OnClickListener() {
+        binding.heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(heart.isSelected()){
+                if(binding.heart.isSelected()){
 
                     dataService.userMentee.unLikeMentor(userLong,mentoLong).enqueue(new Callback<LikeMentorRes>() {
                         @Override
                         public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
                             if(response.isSuccessful()){
-                                heart.setSelected(false);
+                                binding.heart.setSelected(false);
                                 Toast.makeText(StudyMentoDetail.this, "관심멘토 등록 해제", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -221,12 +190,12 @@ public class StudyMentoDetail extends AppCompatActivity {
                         }
                     });
                 }
-                else if(!heart.isSelected()){
+                else if(!binding.heart.isSelected()){
                     dataService.userMentee.likeMentor(userLong,mentoLong).enqueue(new Callback<LikeMentorRes>() {
                         @Override
                         public void onResponse(Call<LikeMentorRes> call, Response<LikeMentorRes> response) {
                             if(response.isSuccessful()) {
-                                heart.setSelected(true);
+                                binding.heart.setSelected(true);
                                 Toast.makeText(StudyMentoDetail.this, "관심멘토 등록 성공", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -240,62 +209,25 @@ public class StudyMentoDetail extends AppCompatActivity {
             }
         });
     }
-
-    //매칭 종료 메서드
-    public void toMatched(){
-        ChangeStatusReq csReq =  new ChangeStatusReq(studyId, CONFIRM_APPLY);
-
-        dataService.study.status(csReq).enqueue(new Callback<String>() {
+    private void setCerti(){
+        binding.certiCon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                System.out.println(CONFIRM_APPLY);
-                finish();
-
-            }
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onClick(View view) {
+                if(binding.certiRV.getVisibility()==View.GONE){
+                    binding.certiRV.setVisibility(View.VISIBLE);
+                    binding.certiArrow.setImageResource(R.drawable.ic_arrow_up);
+                }
+                else {
+                    binding.certiRV.setVisibility(View.GONE);
+                    binding.certiArrow.setImageResource(R.drawable.ic_arrow_down);
+                }
             }
         });
     }
-
-
-    //tabLayout, Viewpager 설정
-    public void setTabLayout(){
-        FragmentManager fm = getSupportFragmentManager();
-
-        adapter = new StudyMentoDetailPagerAdapter(fm,getLifecycle());
-
-        viewPager.setAdapter(adapter);
-
-        adapter.setProfile(profile);
-        adapter.setId(mentoId);
-
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
-
-        viewPager.setSaveEnabled(false);
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
 }

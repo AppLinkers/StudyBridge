@@ -34,6 +34,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
                 intent.putExtra("profile", profile);
                 view.getContext().startActivity(intent);
+
             }
         });
 
@@ -47,17 +48,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         binding.mentorIntro.setText(data.getInfo());
         binding.mentorSchool.setText(data.getSchool());
 
-        final int certiNum = data.getCertificates().size();
-        if(certiNum>1){
-            StringBuilder sb = new StringBuilder();
-            sb.append(data.getCertificates().get(0).getCertificate()).append(" 외 ").append(data.getCertificates().size()-1).append("개");
-            binding.mentorQualification.setText(sb.toString());
-        } else if (certiNum==1){
-            binding.mentorQualification.setText(data.getCertificates().get(0).getCertificate());
-        }
-        else{
-            binding.mentorQualification.setText("자격증 없음");
-        }
         profile = data;
     }
 }

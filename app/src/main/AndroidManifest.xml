@@ -55,7 +55,7 @@
             android:exported="true"/>
         <activity android:name=".Study.StudyMento.Detail.StudyMentoDetail"
             android:exported="true"/>
-        <activity android:name=".Study.StudyMento.Detail.Profile.StudyMentoProfileCertiImg"
+        <activity android:name=".Util.ImgView"
             android:exported="true"/>
         <activity android:name=".Study.StudyMenti.Detail.StudyMembers"
             android:exported="true"/>

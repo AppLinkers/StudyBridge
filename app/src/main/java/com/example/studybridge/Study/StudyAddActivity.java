@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,8 +20,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.studybridge.R;
+import com.example.studybridge.Util.StudyAddDialog;
+import com.example.studybridge.databinding.StudyAddActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyMakeReq;
@@ -33,21 +42,17 @@ import retrofit2.Response;
 
 public class StudyAddActivity extends AppCompatActivity {
 
-    private TextInputEditText titleEt,introEt,maxNumEt,explainEt;
-    private TextView addTxt;
-    private ChipGroup subjectGroup,placeGroup;
-    private ImageView backBtn;
-    private LinearLayout addBtn;
-
-    String subject;
-    String studyPlace;
-    String userId;
+    private StudyAddActivityBinding binding;
 
     private DataService dataService = new DataService();
     private StudyFindRes study;
     private Long userPkId;
+    private String userId;
+    private boolean isNull =false;
 
-    // creating constant keys for shared preferences.
+    public static final int SUBJECT = 0;
+    public static final int PLACE = 1;
+
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
@@ -56,95 +61,160 @@ public class StudyAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.study_add_activity);
+        binding = StudyAddActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
-
-        //화면 위 데이터
-        titleEt = findViewById(R.id.study_add_title);
-        introEt = findViewById(R.id.study_add_intro);
-        maxNumEt = findViewById(R.id.study_add_max);
-        explainEt = findViewById(R.id.study_add_explain);
-        backBtn = (ImageView) findViewById(R.id.study_add_backBtn);
-        addBtn = (LinearLayout) findViewById(R.id.study_add_btn);
-        addTxt = (TextView) findViewById(R.id.study_addTxt);
-
-        //지역 선택 chip
-        subjectGroup = (ChipGroup) findViewById(R.id.study_add_subjectGroup);
-        placeGroup = (ChipGroup) findViewById(R.id.study_add_placeGroup);
-
-        Intent intent = getIntent();
-        study = intent.getExtras().getParcelable("study");
-
-        setPath();
+        intentData();
+        setUI();
 
     }
+    private void intentData(){
+        Intent intent = getIntent();
+        study = intent.getExtras().getParcelable("study");
+    }
 
-    private void setPath(){
+    private void setUI(){
+
+        //toolbar
+        setSupportActionBar(binding.appBar);
+        binding.appBar.setTitle("스터디 만들기");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if(study==null){ //추가하기로 들어왔을 때
 
         }
         else{ //수정하기로 들어왔을 때
-            addTxt.setText("수정하기");
-            setUpdateData();
+            binding.studyName.setText(study.getName());
+            binding.studyIntro.setText(study.getInfo());
+            binding.studyNum.setText(String.valueOf(study.getMaxNum()));
+            binding.studyExplain.setText(study.getExplain());
+            binding.studySubject.setText(study.getType());
+            binding.studyPlace.setText(study.getPlace());
         }
-        setAddBtn();
+        findNull(binding.studyName);
+        findNull(binding.studyIntro);
+        findNull(binding.studyNum);
+        findNull(binding.studyExplain);
+        findChange(binding.studySubject);
+        findChange(binding.studyPlace);
+
+        selectBtns();
+        setBtn();
     }
 
-    private void setUpdateData(){
-        titleEt.setText(study.getName());
-        introEt.setText(study.getInfo());
-        maxNumEt.setText(String.valueOf(study.getMaxNum()));
-        explainEt.setText(study.getExplain());
-
-        Chip chipForSubject = (Chip) subjectGroup.getChildAt(checkChipForSubject(study.getType()));
-        Chip chipForPlace = (Chip) placeGroup.getChildAt(checkChipForPlace(study.getPlace()));
-        chipForSubject.setChecked(true);
-        chipForPlace.setChecked(true);
+    //툴바 뒤로가기 설정
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    private void setAddBtn(){
-        backBtn.setOnClickListener(new View.OnClickListener() {
+    private void selectBtns(){
+        binding.studySubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                showDialog(binding.studySubject,SUBJECT);
             }
         });
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+
+        binding.studyPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showDialog(binding.studyPlace,PLACE);
+            }
+        });
+    }
+    private void showDialog(TextView textView,int type){
+        StudyAddDialog dialog = StudyAddDialog.getInstance(type);
+        FragmentManager fm = getSupportFragmentManager();
+        dialog.show(fm,"addDialog");
 
-                for(int i=0; i<subjectGroup.getChildCount();i++){
-                    Chip chip = (Chip) subjectGroup.getChildAt(i);
-                    if(chip.isChecked()){
-                        subject = chip.getText().toString();
-                    }
-                }
-                for(int i=0; i<placeGroup.getChildCount();i++){
-                    Chip chip = (Chip) placeGroup.getChildAt(i);
-                    if(chip.isChecked()){
-                        studyPlace = chip.getText().toString();
-                    }
-                }
+        dialog.setAddInterface(new StudyAddDialog.AddInterface() {
+            @Override
+            public void selectOne(String s) {
+                textView.setText(s);
+            }
+        });
+
+    }
+
+    private void findNull(EditText editText){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isNull = !editText.getText().equals("");
+            }
+        });
+    }
+
+    private void findChange(TextView textView){
+        textView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isNull = !textView.getText().equals("과목") && !textView.getText().equals("지역");
+            }
+        });
+    }
+
+
+    private void setBtn(){
+
+/*        if(isNull){
+            binding.addBtn.setEnabled(true);
+            binding.addBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
+        }
+        else {
+            binding.addBtn.setEnabled(false);
+            binding.addBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        }*/
+
+        binding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if(study==null){
                     StudyMakeReq studyMakeReq = new StudyMakeReq(
                             userId,
-                            titleEt.getText().toString()+"",
-                            subject,
-                            introEt.getText().toString()+"",
-                            explainEt.getText().toString()+"",
-                            studyPlace,
-                            Integer.parseInt(maxNumEt.getText().toString()+""));
+                            binding.studyName.getText().toString()+"",
+                            binding.studySubject.getText().toString()+"",
+                            binding.studyIntro.getText().toString()+"",
+                            binding.studyExplain.getText().toString()+"",
+                            binding.studyPlace.getText().toString()+"",
+                            Integer.parseInt(binding.studyNum.getText().toString()+""));
 
                     dataService.study.make(studyMakeReq).enqueue(new Callback<StudyMakeRes>() {
                         @Override
                         public void onResponse(Call<StudyMakeRes> call, Response<StudyMakeRes> response) {
                             if (response.isSuccessful()) {
-                                Log.d("test", String.valueOf(response.raw()));
+/*                                Log.d("test", String.valueOf(response.raw()));*/
                                 Toast.makeText(StudyAddActivity.this, "추가가 완료되었습니다", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
@@ -160,12 +230,12 @@ public class StudyAddActivity extends AppCompatActivity {
                     StudyUpdateReq studyUpdateReq = new StudyUpdateReq(
                             study.getId(),
                             userPkId,
-                            titleEt.getText().toString()+"",
-                            subject,
-                            introEt.getText().toString()+"",
-                            explainEt.getText().toString()+"",
-                            studyPlace,
-                            Integer.parseInt(maxNumEt.getText().toString()+""));
+                            binding.studyName.getText().toString()+"",
+                            binding.studySubject.getText().toString()+"",
+                            binding.studyIntro.getText().toString()+"",
+                            binding.studyExplain.getText().toString()+"",
+                            binding.studyPlace.getText().toString()+"",
+                            Integer.parseInt(binding.studyNum.getText().toString()+""));
                     dataService.study.update(studyUpdateReq).enqueue(new Callback<StudyUpdateRes>() {
                         @Override
                         public void onResponse(Call<StudyUpdateRes> call, Response<StudyUpdateRes> response) {
@@ -181,53 +251,9 @@ public class StudyAddActivity extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         });
     }
 
-    //기존 과목&&지역 선택 함수
-    public static int checkChipForSubject(String str){
-        if(str!=null){
-            switch (str)
-            {
-                case "영어" :
-                    return 0;
-                case "수학" :
-                    return 1;
-                case "개발" :
-                    return 2;
-                case "기타" :
-                    return 3;
-                default:
-                    return 0;
-
-            }
-        } else {
-            return 0;
-        }
-    }
-    public static int checkChipForPlace(String str){
-
-        if(str!=null){
-            switch (str)
-            {
-                case "서울" :
-                    return 0;
-                case "경기" :
-                    return 1;
-                case "인천" :
-                    return 2;
-                case "기타" :
-                    return 3;
-                default:
-                    return 0;
-
-            }
-        } else {
-            return 0;
-        }
-
-    }
 
 }

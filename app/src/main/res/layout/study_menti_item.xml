@@ -51,7 +51,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="스터디 한줄 설명"
-        android:textColor="@color/textColorPrimary"
+        android:textColor="@color/textColorPrimary70"
         android:textSize="15sp" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:text="과목"
-        android:textColor="@color/textColorPrimary70" />
+        android:textColor="@color/textColorPrimary" />
     <TextView
         android:id="@+id/dot"
         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@+id/dot"
         android:text="지역"
-        android:textColor="@color/textColorPrimary70" />
+        android:textColor="@color/textColorPrimary" />
     <TextView
         android:id="@+id/dot2"
         android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="인원"
-        android:textColor="@color/textColorPrimary70"
+        android:textColor="@color/textColorPrimary"
         android:layout_below="@id/study_intro"
         android:layout_toRightOf="@+id/dot2"
         android:layout_marginTop="5dp"/>

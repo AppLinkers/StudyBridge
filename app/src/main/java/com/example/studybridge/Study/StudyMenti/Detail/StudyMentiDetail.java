@@ -132,6 +132,7 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
 
             case R.id.detail_del:
@@ -554,6 +555,12 @@ public class StudyMentiDetail extends AppCompatActivity {
         chatIntent.putExtra("roomId", findRoomRes.getRoomId());
         chatIntent.putExtra("study",study);
         startActivity(chatIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
 }
