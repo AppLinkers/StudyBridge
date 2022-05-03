@@ -1,6 +1,7 @@
 package com.example.studybridge.Study.StudyMenti;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +51,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
     private StudyFindRes studyFindRes;
     private StudyMentiItemBinding binding;
+    private Activity activity;
 
     DataService dataService = new DataService();
 
@@ -72,7 +74,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("isApplied",isApplied);
 
                 view.getContext().startActivity(intentToDetail);
-
+                activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
 
@@ -80,7 +82,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
 
 
-    public void onBind(StudyFindRes data) {
+    public void onBind(StudyFindRes data, Activity activity) {
 
         study_id = data.getId();
 
@@ -97,6 +99,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         findApplied(study_id);
 
         studyFindRes = data;
+        this.activity = activity;
 
     }
 

@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Util.StudyAddDialog;
+import com.example.studybridge.Util.StudyAddTextWatcher;
 import com.example.studybridge.databinding.StudyAddActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -94,13 +95,14 @@ public class StudyAddActivity extends AppCompatActivity {
             binding.studyExplain.setText(study.getExplain());
             binding.studySubject.setText(study.getType());
             binding.studyPlace.setText(study.getPlace());
+
         }
-        findNull(binding.studyName);
-        findNull(binding.studyIntro);
-        findNull(binding.studyNum);
-        findNull(binding.studyExplain);
-        findChange(binding.studySubject);
-        findChange(binding.studyPlace);
+
+        EditText[] editList = {binding.studyName,binding.studySubject,binding.studyPlace,binding.studyIntro,binding.studyNum,binding.studyExplain};
+        StudyAddTextWatcher watcher = new StudyAddTextWatcher(getApplicationContext(),binding.addBtn,editList);
+        for(EditText editText: editList){
+            editText.addTextChangedListener(watcher);
+        }
 
         selectBtns();
         setBtn();
@@ -147,55 +149,8 @@ public class StudyAddActivity extends AppCompatActivity {
 
     }
 
-    private void findNull(EditText editText){
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                isNull = !editText.getText().equals("");
-            }
-        });
-    }
-
-    private void findChange(TextView textView){
-        textView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                isNull = !textView.getText().equals("과목") && !textView.getText().equals("지역");
-            }
-        });
-    }
-
 
     private void setBtn(){
-
-/*        if(isNull){
-            binding.addBtn.setEnabled(true);
-            binding.addBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
-        }
-        else {
-            binding.addBtn.setEnabled(false);
-            binding.addBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-        }*/
 
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +170,7 @@ public class StudyAddActivity extends AppCompatActivity {
                         public void onResponse(Call<StudyMakeRes> call, Response<StudyMakeRes> response) {
                             if (response.isSuccessful()) {
 /*                                Log.d("test", String.valueOf(response.raw()));*/
-                                Toast.makeText(StudyAddActivity.this, "추가가 완료되었습니다", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StudyAddActivity.this, "스터디 등록 완료!", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }

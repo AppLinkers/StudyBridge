@@ -29,6 +29,7 @@ public class StudyFilterDialog extends DialogFragment {
     private String passStatus,passSubject,passPlace;
     private TextView statusTv,filterTitle;
     private LinearLayout applyBtn;
+
     private DialogInterface.OnDismissListener onDismissListener;
 
     private DialogInterfacer dialogInterfacer;

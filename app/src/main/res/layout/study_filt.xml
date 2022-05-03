@@ -5,57 +5,68 @@
     android:layout_height="400dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/round_bottomsheet">
+
     <TextView
-        android:id="@+id/subjectFilt_title"
+        android:id="@+id/filtertitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="과목별 찾기"
-        android:textColor="@color/textColorPrimary"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="20dp"
+        android:text="과목별 찾기"
+        android:textColor="@color/textColorPrimary" />
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/subjectFilt_title"
+        android:layout_below="@id/filtertitle"
         android:layout_marginTop="15dp"
         android:padding="15dp"
         app:singleSelection="true">
+
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip1"
             style="@style/Widget.StudyBridge.ChipForFilter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="전체"
-            android:textSize="18sp"
             android:textColor="@color/textColorPrimary"
-            android:checked="true"/>
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip2"
             style="@style/Widget.StudyBridge.ChipForFilter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="영어"
-            android:textSize="18sp"
-            android:textColor="@color/textColorPrimary"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip3"
             style="@style/Widget.StudyBridge.ChipForFilter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="수학"
-            android:textSize="18sp"
-            android:textColor="@color/textColorPrimary"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip4"
             style="@style/Widget.StudyBridge.ChipForFilter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="개발"
-            android:textSize="18sp"
-            android:textColor="@color/textColorPrimary"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
+
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip5"
             style="@style/Widget.StudyBridge.ChipForFilter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="기타"
-            android:textSize="18sp"
-            android:textColor="@color/textColorPrimary"/>
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
     </com.google.android.material.chip.ChipGroup>
 </RelativeLayout>

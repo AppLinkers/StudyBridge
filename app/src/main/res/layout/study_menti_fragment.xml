@@ -10,15 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp">
-
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/menti_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:orientation="horizontal">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/filtAllCV"
@@ -51,11 +53,10 @@
                 app:cardElevation="0dp"
                 app:strokeColor="@color/colorPrimary"
                 app:strokeWidth="0.8dp">
-
                 <TextView
                     android:id="@+id/statusFilt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="30dp"
@@ -63,7 +64,6 @@
                     android:text="상태별"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="16sp" />
-
                 <ImageView
                     android:id="@+id/statusArrow"
                     android:layout_width="20dp"
@@ -84,8 +84,8 @@
 
                 <TextView
                     android:id="@+id/subjectFilt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="30dp"
@@ -114,8 +114,8 @@
 
                 <TextView
                     android:id="@+id/placeFilt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingRight="30dp"
@@ -133,6 +133,7 @@
                     android:src="@drawable/ic_arrow_down" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+        </HorizontalScrollView>
 
 
         <com.facebook.shimmer.ShimmerFrameLayout

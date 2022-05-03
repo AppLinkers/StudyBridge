@@ -49,8 +49,8 @@
 
             <TextView
                 android:id="@+id/subjectFilt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="30dp"
@@ -78,8 +78,8 @@
             app:strokeWidth="0.8dp">
             <TextView
                 android:id="@+id/placeFilt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="30dp"

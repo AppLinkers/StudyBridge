@@ -1,5 +1,6 @@
 package com.example.studybridge.Study.StudyMenti;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,11 @@ import java.util.ArrayList;
 public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<StudyFindRes> listData = new ArrayList<>();
+    private Activity activity;
 
+    public StudyMentiAdapter(Activity activity) {
+        this.activity = activity;
+    }
 
     @NonNull
     @NotNull
@@ -31,7 +36,7 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        ((StudyMentiHolder) holder).onBind(listData.get(position));
+        ((StudyMentiHolder) holder).onBind(listData.get(position),activity);
     }
 
     @Override
@@ -53,7 +58,7 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if(s1.equals(s2)){
             return true;
         }
-        else if(s2.equals("전체")){
+        else if(s2.equals("상태별")||s2.equals("과목별")||s2.equals("지역별")){
             return true;
         }
         else return false;

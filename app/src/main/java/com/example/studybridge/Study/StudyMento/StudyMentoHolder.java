@@ -1,6 +1,7 @@
 package com.example.studybridge.Study.StudyMento;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
 
     private StudyMentoItemBinding binding;
 
+    private Activity activity;
+
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
 
@@ -34,14 +37,14 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
                 intent.putExtra("profile", profile);
                 view.getContext().startActivity(intent);
-
+                activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
 
     }
 
 
-    public void onBind(ProfileRes data) {
+    public void onBind(ProfileRes data,Activity activity) {
         binding.mentorSubject.setText(data.getSubject());
         binding.mentorPlace.setText(data.getLocation());
         binding.mentorName.setText(data.getNickName());
@@ -49,5 +52,6 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         binding.mentorSchool.setText(data.getSchool());
 
         profile = data;
+        this.activity = activity;
     }
 }

@@ -1,33 +1,22 @@
 package com.example.studybridge.Study.StudyMento.Detail;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Study.StudyMenti.Detail.DialogInterfaces;
-import com.example.studybridge.Util.StudyMentiSelectMentoDialog;
 import com.example.studybridge.databinding.MentorDetailActivityBinding;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.study.ChangeStatusReq;
 import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.tabs.TabLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;

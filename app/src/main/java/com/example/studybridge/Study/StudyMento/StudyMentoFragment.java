@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,13 +14,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
+import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
+import com.example.studybridge.Util.FilterDialog;
 import com.example.studybridge.Util.StudyFilterDialog;
 import com.example.studybridge.databinding.StudyMentoFragmentBinding;
 import com.example.studybridge.databinding.StudyMentoItemBinding;
@@ -50,10 +55,13 @@ public class StudyMentoFragment extends Fragment {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
+
     private String userId;
-    public static final int MENTOFIND = 1;
 
     private StudyMentoFragmentBinding binding;
+
+    public static final int SUBJECT = 1;
+    public static final int PLACE = 2;
 
     @Nullable
     @Override
@@ -81,7 +89,9 @@ public class StudyMentoFragment extends Fragment {
 
         setRecyclerView();
         setRefresh();
-
+        setFilter(binding.subjectFilt, SUBJECT);
+        setFilter(binding.placeFilt, PLACE);
+        showAll(binding.subjectFilt, binding.placeFilt);
 
         return view;
     }
@@ -126,6 +136,77 @@ public class StudyMentoFragment extends Fragment {
         binding.swipeRC.setColorSchemeColors(getResources().getColor(R.color.palletRed));
     }
 
+    private void setFilter(TextView filterName, int type){
+        filterName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FilterDialog dialog = FilterDialog.getInstance(type);
+                FragmentManager fm = getParentFragmentManager();
+                dialog.show(fm,"filter");
+                Bundle bundle = new Bundle();
+                bundle.putString("filter",filterName.getText().toString());
+                dialog.setArguments(bundle);
+
+                dialog.setFilterInterFace(new FilterDialog.FilterInterFace() {
+                    @Override
+                    public void select(String filter) {
+                        filterName.setText(filter);
+                        if(filter.equals("과목별")||filter.equals("지역별")){
+                            filterUnClick(filterName);
+                        }
+                        else {
+                            filterClick(filterName);
+                        }
+
+                    }
+                });
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        adapter = new StudyMentoAdapter(getActivity());
+                        filter = new StudyFilter(
+                                binding.subjectFilt.getText().toString(),
+                                binding.placeFilt.getText().toString());
+                        getData();
+                        binding.rCView.setAdapter(adapter);
+                    }
+                });
+            }
+        });
+    }
+
+    private void showAll(TextView subject, TextView place){
+        binding.filtAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                subject.setText("과목별");
+                place.setText("지역별");
+                filterUnClick(subject);
+                filterUnClick(place);
+
+                adapter = new StudyMentoAdapter(getActivity());
+                filter = new StudyFilter(
+                        binding.subjectFilt.getText().toString(),
+                        binding.placeFilt.getText().toString());
+                getData();
+                binding.rCView.setAdapter(adapter);
+            }
+        });
+    }
+    private void filterUnClick(TextView textView){
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
+        textView.setTypeface(null, Typeface.NORMAL);
+    }
+    private void filterClick(TextView textView){
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary70));
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+        textView.setTypeface(null, Typeface.BOLD);
+    }
+
 /*    private void setFilterFab(){
         filterFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,10 +236,10 @@ public class StudyMentoFragment extends Fragment {
     }*/
 
     private void setRecyclerView(){
-        adapter = new StudyMentoAdapter();
+        adapter = new StudyMentoAdapter(getActivity());
         filter = new StudyFilter(
-                "전체",
-                "전체");
+                binding.subjectFilt.getText().toString(),
+                binding.placeFilt.getText().toString());
         getData();
         binding.rCView.setAdapter(adapter);
     }

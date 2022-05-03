@@ -3,6 +3,7 @@ package com.example.studybridge.Study.StudyMenti;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyAddActivity;
 import com.example.studybridge.Study.StudyFilter;
+import com.example.studybridge.Util.FilterDialog;
 import com.example.studybridge.Util.StudyFilterDialog;
 import com.example.studybridge.databinding.StudyMentiFragmentBinding;
 import com.example.studybridge.http.DataService;
@@ -40,11 +44,14 @@ public class StudyMentiFragment extends Fragment {
     private StudyMentiAdapter adapter;
 
     private StudyFilter filter;
-    public static final int STUDYFIND = 0;
     private DataService dataService = new DataService();
 
     ////////////////////////////////////////////////////////
     private StudyMentiFragmentBinding binding;
+    public static final int STATUS = 0;
+    public static final int SUBJECT = 1;
+    public static final int PLACE = 2;
+
 
 
     @Nullable
@@ -54,14 +61,10 @@ public class StudyMentiFragment extends Fragment {
         binding = StudyMentiFragmentBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        setShimmerFrameLayout(view);
+        setShimmerFrameLayout();
         toAddStudy();
 
         //필터 버튼 & 텍스트
-
-/*        statusFilter = (TextView) view.findViewById(R.id.study_statusTv);
-        subjectFilter = (TextView) view.findViewById(R.id.study_typeTv);
-        placeFilter = (TextView) view.findViewById(R.id.study_placeTv);*/
 
         //recycler
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -70,7 +73,12 @@ public class StudyMentiFragment extends Fragment {
         binding.rcView.setLayoutManager(linearLayoutManager);
 
         setRecyclerView();
-/*        setFilterFab();*/
+
+        setFilter(binding.statusFilt,STATUS);
+        setFilter(binding.subjectFilt,SUBJECT);
+        setFilter(binding.placeFilt,PLACE);
+        showAll(binding.statusFilt,binding.subjectFilt,binding.placeFilt);
+
         setRefresh();
 
         return view;
@@ -88,7 +96,7 @@ public class StudyMentiFragment extends Fragment {
     }
 
 
-    private void setShimmerFrameLayout(View view){
+    private void setShimmerFrameLayout(){
 
         binding.rcView.setVisibility(View.INVISIBLE);
         binding.shimmerView.startShimmer();
@@ -104,39 +112,80 @@ public class StudyMentiFragment extends Fragment {
 
         },2000);
     }
-/*    //필터링
-    private void setFilterFab(){
-        filterFab.setOnClickListener(new View.OnClickListener() {
+
+    private void setFilter(TextView filterName, int type){
+        filterName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                StudyFilterDialog bottomSheet = StudyFilterDialog.getInstance(STUDYFIND);
-                bottomSheet.show(getChildFragmentManager(), StudyFilterDialog.getInstance(STUDYFIND).getTag());
+                FilterDialog dialog = FilterDialog.getInstance(type);
+                FragmentManager fm = getParentFragmentManager();
+                dialog.show(fm,"filter");
+                Bundle bundle = new Bundle();
+                bundle.putString("filter",filterName.getText().toString());
+                dialog.setArguments(bundle);
 
-                bottomSheet.setDialogInterfacer(new StudyFilterDialog.DialogInterfacer() {
+                dialog.setFilterInterFace(new FilterDialog.FilterInterFace() {
                     @Override
-                    public void onFilterBtnClick(String status,String subject, String place) {
-                        statusFilter.setText(status);
-                        subjectFilter.setText(subject);
-                        placeFilter.setText(place);
+                    public void select(String filter) {
+                        filterName.setText(filter);
+                        if(filter.equals("상태별")||filter.equals("과목별")||filter.equals("지역별")){
+                            filterUnClick(filterName);
+                        }
+                        else {
+                            filterClick(filterName);
+                        }
+
                     }
                 });
-                bottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        adapter = new StudyMentiAdapter();
+                        adapter = new StudyMentiAdapter(getActivity());
                         filter = new StudyFilter(
-                                statusFilter.getText().toString(),
-                                subjectFilter.getText().toString(),
-                                placeFilter.getText().toString());
+                                binding.statusFilt.getText().toString(),
+                                binding.subjectFilt.getText().toString(),
+                                binding.placeFilt.getText().toString());
                         getData();
                         binding.rcView.setAdapter(adapter);
                     }
                 });
-
             }
         });
-    }*/
+    }
+
+    private void showAll(TextView status,TextView subject, TextView place){
+        binding.filtAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                status.setText("상태별");
+                subject.setText("과목별");
+                place.setText("지역별");
+                filterUnClick(status);
+                filterUnClick(subject);
+                filterUnClick(place);
+
+                adapter = new StudyMentiAdapter(getActivity());
+                filter = new StudyFilter(
+                        binding.statusFilt.getText().toString(),
+                        binding.subjectFilt.getText().toString(),
+                        binding.placeFilt.getText().toString());
+                getData();
+                binding.rcView.setAdapter(adapter);
+            }
+        });
+    }
+    private void filterUnClick(TextView textView){
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
+        textView.setTypeface(null, Typeface.NORMAL);
+    }
+    private void filterClick(TextView textView){
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary70));
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+        textView.setTypeface(null, Typeface.BOLD);
+    }
 
     private void setRefresh(){
         binding.swipeRC.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -166,14 +215,13 @@ public class StudyMentiFragment extends Fragment {
 
     private void setRecyclerView(){
 
-        adapter = new StudyMentiAdapter();
+        adapter = new StudyMentiAdapter(getActivity());
         filter = new StudyFilter(
-                "전체",
-                "전체",
-                "전체");
+                binding.statusFilt.getText().toString(),
+                binding.subjectFilt.getText().toString(),
+                binding.placeFilt.getText().toString());
         getData();
         binding.rcView.setAdapter(adapter);
-
     }
 
 
