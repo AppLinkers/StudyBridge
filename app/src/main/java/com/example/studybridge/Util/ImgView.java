@@ -1,10 +1,8 @@
 package com.example.studybridge.Util;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +18,7 @@ public class ImgView extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.study_mento_profile_certi_img);
+        setContentView(R.layout.mentor_certi_img);
 
         imageView = (ImageView) findViewById(R.id.mento_profile_certi_img);
 

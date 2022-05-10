@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_dialog"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스터디를 선택하세요"
+        android:textColor="@color/textColorPrimary"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/showAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전체 보기"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="14sp"
+        android:padding="20dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RCView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

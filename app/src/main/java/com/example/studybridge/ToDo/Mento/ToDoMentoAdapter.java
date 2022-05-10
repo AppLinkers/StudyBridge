@@ -23,8 +23,16 @@ import retrofit2.Response;
 
 public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<StudyFindRes> todoStudy = new ArrayList<>();
+    private List<StudyFindRes> todoStudy = new ArrayList<>();
 
+    public ToDoMentoAdapter(List<StudyFindRes> todoStudy) {
+        for(StudyFindRes s: todoStudy){
+            if(s.getStatus().equals("MATCHED")){
+                this.todoStudy.add(s);
+            }
+        }
+
+    }
 
     @NonNull
     @Override
@@ -33,9 +41,6 @@ public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return new ToDoMentoHolder(view);
     }
 
-    public void addItem(StudyFindRes study){
-        todoStudy.add(study);
-    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {

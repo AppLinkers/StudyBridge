@@ -11,13 +11,13 @@ import androidx.core.content.ContextCompat;
 
 import com.example.studybridge.R;
 
-public class StudyAddTextWatcher implements TextWatcher {
+public class AddTextWatcher implements TextWatcher {
 
     Context context;
     TextView v;
     EditText[] editList;
 
-    public StudyAddTextWatcher(Context context,TextView v, EditText[] editList) {
+    public AddTextWatcher(Context context, TextView v, EditText[] editList) {
         this.context = context;
         this.v = v;
         this.editList = editList;

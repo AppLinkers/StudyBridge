@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.Menti.Inside.ToDoMentiInsideAdapter;
-import com.example.studybridge.ToDo.Mento.Inside.Add.ToDoMentoAddActivity;
-import com.example.studybridge.ToDo.Mento.ToDoMentoAdapter;
+import com.example.studybridge.ToDo.Mento.ToDoAddActivity;
+import com.example.studybridge.databinding.TodoMentoInsideActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
@@ -35,15 +34,12 @@ import retrofit2.Response;
 public class ToDoMentoInsideActivity extends AppCompatActivity {
 
 
-    private TextView year,month,day,studyTitle;
+    private TodoMentoInsideActivityBinding binding;
     private DataService dataService;
 
     //리사이클러뷰
     private LinearLayoutManager linearLayoutManager;
-    private RecyclerView recyclerView;
     private ToDoMentoInsideAdapter adapter;
-
-    private FloatingActionButton todoAdd;
 
     private StudyFindRes study;
 
@@ -56,28 +52,23 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todo_mento_inside_activity);
+        binding = TodoMentoInsideActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
-        Intent intent = getIntent();
-        study = intent.getExtras().getParcelable("study");
+        intentData();
 
-
-        year = (TextView) findViewById(R.id.todo_year_tv);
-        month = (TextView) findViewById(R.id.todo_month_tv);
-        day = (TextView) findViewById(R.id.todo_day_tv);
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.todo_mentor_inside_RV);
-        todoAdd = (FloatingActionButton) findViewById(R.id.todo_addBtn);
-        studyTitle = (TextView) findViewById(R.id.toDo_studyTitle);
-
-        setHeader();
         getData();
         setFloatingActionButton();
 
+    }
+
+    private void intentData(){
+        Intent intent = getIntent();
+        study = intent.getExtras().getParcelable("study");
+        binding.title.setText(study.getName());
     }
 
     @Override
@@ -86,26 +77,20 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         getData();
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private void setHeader() {
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        studyTitle.setText(study.getName());
-        year.setText(new SimpleDateFormat("yyyy").format(date));
-        month.setText(new SimpleDateFormat("MMM", Locale.ENGLISH).format(date));
-        day.setText(new SimpleDateFormat("dd").format(date));
-    }
-
     private void setRecyclerView(ArrayList<FindToDoRes> findToDoRes) {
 
         adapter = new ToDoMentoInsideAdapter();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        binding.RCView.setLayoutManager(linearLayoutManager);
         for(FindToDoRes data : findToDoRes){
             adapter.addItem(data);
         }
-        recyclerView.setAdapter(adapter);
+        binding.RCView.setAdapter(adapter);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("(").append(adapter.getItemCount()).append(")");
+        binding.listNum.setText(sb.toString());
 
     }
     private void getData(){
@@ -127,10 +112,10 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     }
 
     private void setFloatingActionButton(){
-        todoAdd.setOnClickListener(new View.OnClickListener() {
+        binding.todoAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ToDoMentoAddActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ToDoAddActivity.class);
                 intent.putExtra("studyId", study.getId());
                 intent.putExtra("mentorId", userId);
                 startActivity(intent);

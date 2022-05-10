@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="15dp">
     <TextView
-        android:id="@+id/todo_mentor_inside_detail_menteeId"
+        android:id="@+id/menteeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="멘티 아이디"
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/statusColor"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/palletRed"
+        app:cardCornerRadius="10dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/status"
+        android:layout_marginRight="10dp"/>
+
     <TextView
-        android:id="@+id/todo_mentor_inside_detail_menteeStatus"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="status"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/textColorPrimary"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
+        android:text="status"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 </RelativeLayout>

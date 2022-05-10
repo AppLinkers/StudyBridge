@@ -18,20 +18,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
-import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
 import com.example.studybridge.Util.FilterDialog;
-import com.example.studybridge.Util.StudyFilterDialog;
 import com.example.studybridge.databinding.StudyMentoFragmentBinding;
-import com.example.studybridge.databinding.StudyMentoItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
-import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;

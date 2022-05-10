@@ -1,92 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:paddingRight="10dp"
+        android:text="대시보드"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/listTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingRight="10dp"
+        android:text="스터디 목록"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="16sp"
+        android:layout_below="@+id/title" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/listNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/listTxt"
+        android:text="(N)"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="16sp" />
+    <View
+        android:id="@+id/headerLine"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.22"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="ToDoList"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/todo_day_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/todo_date_LL"
-            android:text="DD"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/todo_date_LL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/todo_month_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MMM"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/todo_year_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="YYYY"
-                android:textColor="@color/black30"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="담당 스터디"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <LinearLayout
+        android:layout_height="0.8dp"
+        android:background="@color/viewUnderline"
+        android:layout_below="@+id/listTxt"
+        android:layout_marginTop="15dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RCView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.78"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/colorPrimaryDark"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/todo_mentor_RV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/headerLine"/>
 
 
-</LinearLayout>
+</RelativeLayout>

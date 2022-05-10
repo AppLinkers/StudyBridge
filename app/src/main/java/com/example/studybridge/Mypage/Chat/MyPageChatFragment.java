@@ -3,11 +3,8 @@ package com.example.studybridge.Mypage.Chat;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.Util.ProgressDialog;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MyPageChatFragment extends Fragment {
 
@@ -48,7 +40,6 @@ public class MyPageChatFragment extends Fragment {
 
     Long userPkId;
 
-    private ProgressDialog progressDialog;
     private View view;
 
     @Nullable
@@ -56,11 +47,12 @@ public class MyPageChatFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.mypage_chat_fragment,container,false);
 
-        setProgressDialog(view);
 
         //sharedpreference & 넘어온 데이터
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.mypage_chatRv);
 
 
         linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -72,22 +64,6 @@ public class MyPageChatFragment extends Fragment {
         return view;
     }
 
-    private void setProgressDialog(View view){
-        recyclerView = (RecyclerView) view.findViewById(R.id.mypage_chatRv);
-
-        progressDialog = new ProgressDialog(view.getContext());
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        recyclerView.setVisibility(View.INVISIBLE);
-
-        Handler handler = new Handler();
-        handler.postDelayed(()->{
-            progressDialog.dismiss();
-            recyclerView.setVisibility(View.VISIBLE);
-        },1500);
-    }
 
 
     @Override

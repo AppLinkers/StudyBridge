@@ -1,6 +1,11 @@
 package com.example.studybridge.http.dto.assignedToDo;
 
-public class FindAssignedToDoRes {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.studybridge.ToDo.ToDo;
+
+public class FindAssignedToDoRes implements Parcelable {
 
     private Long id;
 
@@ -21,6 +26,10 @@ public class FindAssignedToDoRes {
     private String dueDate;
 
     private String status;
+
+    public FindAssignedToDoRes(Parcel in){
+        readFromParcel(in);
+    }
 
     public Long getId() {
         return id;
@@ -61,4 +70,48 @@ public class FindAssignedToDoRes {
     public String getStatus() {
         return status;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeLong(toDoId);
+        parcel.writeLong(studyId);
+        parcel.writeLong(menteeId);
+        parcel.writeString(menteeName);
+        parcel.writeString(mentorName);
+        parcel.writeString(task);
+        parcel.writeString(explain);
+        parcel.writeString(dueDate);
+        parcel.writeString(status);
+    }
+
+    private void readFromParcel(Parcel in){
+        id = in.readLong();
+        toDoId = in.readLong();
+        studyId = in.readLong();
+        menteeId = in.readLong();
+        menteeName = in.readString();
+        mentorName = in.readString();
+        task = in.readString();
+        explain = in.readString();
+        dueDate = in.readString();
+        status = in.readString();
+    }
+
+    public static final Creator<FindAssignedToDoRes> CREATOR = new Creator<FindAssignedToDoRes>() {
+        @Override
+        public FindAssignedToDoRes createFromParcel(Parcel in) {
+            return new FindAssignedToDoRes(in);
+        }
+
+        @Override
+        public FindAssignedToDoRes[] newArray(int size) {
+            return new FindAssignedToDoRes[size];
+        }
+    };
 }

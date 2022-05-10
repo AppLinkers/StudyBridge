@@ -1,122 +1,112 @@
 package com.example.studybridge.ToDo.Menti;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.Menti.Inside.ToDoMentiInsideAdapter;
-import com.example.studybridge.ToDo.ToDo;
-import com.example.studybridge.http.DataService;
+import com.example.studybridge.ToDo.ToDoDetailActivity;
+import com.example.studybridge.databinding.TodoMenteeRvitemBinding;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
-import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Calendar;
+import java.util.StringTokenizer;
 
 public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
-    private TextView status,taskInfo;
-
     //리시이클러뷰
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    ToDoMentiInsideAdapter toDoAdapter;
 
+    private TodoMenteeRvitemBinding binding;
 
-    DataService dataService;
-    SharedPreferences sharedPreferences;
-    public static final String SHARED_PREFS = "shared_prefs";
-    public static final String USER_PK_ID_KEY = "user_pk_id_key";
-    public static final String USER_ID_KEY = "user_id_key";
-
-    Long userIdPk;
-    String userId;
-    private ArrayList<ToDo> datas = new ArrayList<>();
+    private FindAssignedToDoRes toDoRes;
+    public final int ONE_DAY = 24 * 60 * 60 * 1000;
+    private long dayResult;
 
 
     public ToDoMentiHolder(@NonNull View itemView) {
         super(itemView);
+        binding = TodoMenteeRvitemBinding.bind(itemView);
 
-        sharedPreferences = itemView.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
-        userId = sharedPreferences.getString(USER_ID_KEY,"user");
-
-        status = (TextView) itemView.findViewById(R.id.todo_menti_RV_status);
-
-        recyclerView = (RecyclerView) itemView.findViewById(R.id.todo_menti_inside_RV);
-
-    }
-
-    public void onBind(String statusName, Long filter){
-        status.setText(statusName);
-        setRecyclerView();
-        setData(statusName,filter);
-    }
-
-
-    public void setRecyclerView(){
-        linearLayoutManager = new LinearLayoutManager(itemView.getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-    }
-
-    private void setData(String statusName, Long filter){
-        dataService = new DataService();
-        toDoAdapter = new ToDoMentiInsideAdapter();
-        dataService.assignedToDo.findByMentee(userIdPk).enqueue(new Callback<List<FindAssignedToDoRes>>() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
-                System.out.println(response.raw());
-                Long all = Long.valueOf(0);
-                if(response.isSuccessful()){
-                    for(FindAssignedToDoRes data : response.body()){
-                        ToDo todo = new ToDo(
-                                data.getId(),
-                                data.getStudyId(),
-                                data.getStatus(),
-                                data.getMentorName(),
-                                data.getMenteeName(),
-                                data.getTask(),
-                                data.getExplain(),
-                                data.getDueDate()+"",
-                                null);
-                        if(filter.equals(all)){
-                            datas.add(todo);
-                        }else if(todo.getStudyId().equals(filter)){
-                            datas.add(todo);
-                        }
-                    }
-                    for(ToDo data : datas){
-                        if(data.getStatus().equals(statusName)){
-                            toDoAdapter.addItem(data);
-                        }else if(data.getStatus().equals("CONFIRMED") && statusName.equals("DONE")){
-                            toDoAdapter.addItem(data);
-                        }
-                    }
-                    recyclerView.setAdapter(toDoAdapter);
-
-                }
-            }
-            @Override
-            public void onFailure(Call<List<FindAssignedToDoRes>> call, Throwable t) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ToDoDetailActivity.class);
+                intent.putExtra("toDo", toDoRes);
+                intent.putExtra("dayResult",dayResult);
+                view.getContext().startActivity(intent);
             }
         });
 
+    }
+
+    public void onBind(FindAssignedToDoRes data){
+
+        binding.name.setText(data.getTask());
+        binding.dueDate.setText(data.getDueDate());
+        setBackGround(binding.itemCon,data.getStatus());
+        binding.dueDate.setText(getDday(data.getDueDate()));
+
+        if (data.getStatus().equals("CONFIRMED")){
+            binding.dueDate.setVisibility(View.INVISIBLE);
+            binding.icTime.setVisibility(View.INVISIBLE);
+            binding.confirmText.setVisibility(View.VISIBLE);
+        }
+
+
+        toDoRes = data;
+
+    }
+
+    private void setBackGround(RelativeLayout layout,String status){
+        switch (status){
+            case "READY":
+                layout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletRed));
+                break;
+            case "PROGRESS":
+                layout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletBlue));
+                break;
+            case "DONE":
+                layout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletYellow));
+                break;
+            case "CONFIRMED":
+                layout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.green));
+                break;
+        }
+    }
+
+    private String getDday(String duedate){
+
+        final int year,month,day;
+        StringTokenizer st = new StringTokenizer(duedate,"-");
+        year = Integer.parseInt(st.nextToken());
+        month = Integer.parseInt(st.nextToken());
+        day = Integer.parseInt(st.nextToken().substring(0,2));
+
+        final Calendar ddayCal = Calendar.getInstance();
+        ddayCal.set(year,month-1,day);
+
+        final long dday = ddayCal.getTimeInMillis()/ONE_DAY;
+        final long today = Calendar.getInstance().getTimeInMillis()/ONE_DAY;
+        dayResult = dday - today;
+
+        // 출력 시 d-day 에 맞게 표시
+        final String strFormat;
+        if (dayResult > 0) {
+            strFormat = "D-%d";
+        } else if (dayResult == 0) {
+            strFormat = "D-Day";
+        } else {
+            strFormat = "마감";
+            binding.dueDate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.redDark));
+        }
+
+        final String strCount = (String.format(strFormat,dayResult));
+
+        return strCount;
     }
 
 }

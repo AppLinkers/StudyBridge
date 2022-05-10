@@ -21,7 +21,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="25dp">
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp">
                 <ImageView
                     android:id="@+id/chat_user_pic"
                     android:layout_width="45dp"
@@ -60,7 +61,7 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:orientation="vertical"
-                    android:background="@color/colorPrimary">
+                    android:background="@color/palletGrey">
                     <TextView
                         android:id="@+id/chat"
                         android:layout_width="wrap_content"

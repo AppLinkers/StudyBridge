@@ -61,7 +61,6 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
     }
 
 
-    @SuppressLint("WrongConstant")
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void onBind(Message message){
 
@@ -79,15 +78,14 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
             uri = message.getMessage();
         }
 
-
         if(message.getSenderId().equals(userPkId)) {
             itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorPrimaryDark));
+            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletRed));
             chatTv.setTextColor(Color.WHITE);
 
         }else{
             itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorPrimary));
+            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletGrey));
             chatTv.setTextColor(itemView.getContext().getResources().getColor(R.color.textColorPrimary));
         }
 

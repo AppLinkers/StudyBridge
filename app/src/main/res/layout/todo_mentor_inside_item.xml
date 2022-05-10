@@ -9,25 +9,26 @@
         android:padding="15dp">
 
         <TextView
-            android:id="@+id/todo_mentor_inside_taskName"
+            android:id="@+id/taskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="Name"
             android:textColor="@color/textColorPrimary"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
+
         <ImageView
-            android:id="@+id/todo_mentor_arrowIc"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
+            android:id="@+id/arrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_down" />
 
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/todo_mentor_inside_detailRV"
+        android:id="@+id/RCView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

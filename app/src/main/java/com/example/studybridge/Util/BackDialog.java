@@ -17,25 +17,33 @@ public class BackDialog extends DialogFragment {
 
     private DialogBackBinding binding;
     private BackInterface backInterface;
+    private int type;
+
+    /////////////////////////////////////////
+    private BackDialog(int type) {
+        this.type = type;
+    }
 
     public interface BackInterface{
         void okBtnClick();
     }
-    public static BackDialog getInstance() {
-        BackDialog dialog = new BackDialog();
+    public static BackDialog getInstance(int type) {
+        BackDialog dialog = new BackDialog(type);
         return dialog;
     }
 
     public void setBackInterface(BackInterface backInterface) {
         this.backInterface = backInterface;
     }
-
+////////////////////////////////////////////////////////////////////////
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogBackBinding.inflate(inflater,container,false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = binding.getRoot();
+
+        setUI();
 
         binding.backDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +61,16 @@ public class BackDialog extends DialogFragment {
         });
 
         return view;
+    }
+
+    private void setUI(){
+        if(type==0){
+
+        }
+        else {
+            binding.dialogTitle.setText("Todo 삭제");
+            binding.dialogInfo.setText("정말 삭제하시겠습니까?");
+        }
     }
 
     @Override

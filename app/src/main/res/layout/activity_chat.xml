@@ -106,6 +106,7 @@
             android:layout_height="60dp"
             android:background="#F8F8F8"
             android:paddingLeft="10dp">
+
             <ImageView
                 android:id="@+id/chat_addImg"
                 android:layout_width="25dp"

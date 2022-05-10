@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="130dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="2dp"
+    android:layout_marginBottom="25dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/confirmText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black30"
+            android:gravity="center"
+            android:text="완료된 과제입니다"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/itemCon"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:background="@color/palletRed"
+            android:orientation="horizontal" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mentorId"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/itemCon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="제목"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ic_time"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@+id/itemCon"
+            android:src="@drawable/ic_time_white" />
+        <TextView
+            android:id="@+id/dueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ic_time"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/ic_time"
+            android:text="d-00"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="10sp"/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgCon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_background"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

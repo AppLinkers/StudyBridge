@@ -3,7 +3,7 @@
     <style name="Theme.StudyBridge" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/palletRed</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
@@ -105,6 +105,5 @@
         <item name="chipStrokeColor">@color/colorPrimaryDark</item>
         <item name="chipStrokeWidth">1dp</item>
     </style>
-
 
 </resources>

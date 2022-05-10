@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
         setUI();
         //화면 위 데이터
 //        userNameTv = view.findViewById(R.id.home_name);
-/*        recyclerView = (RecyclerView) view.findViewById(R.id.home_RV);
+        recyclerView = (RecyclerView) view.findViewById(R.id.home_RV);
 
         //ToDoItem
         readyBar = (LinearLayout) view.findViewById(R.id.home_readyBar);
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
         progressNum = (TextView) view.findViewById(R.id.home_progressNum);
         doneNum = (TextView) view.findViewById(R.id.home_doneNum);
         confirmNum = (TextView) view.findViewById(R.id.home_confirmNum);
-        totalPercent = (TextView) view.findViewById(R.id.home_totalPercent);*/
+        totalPercent = (TextView) view.findViewById(R.id.home_totalPercent);
 
 
 
@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment {
         dataService = new DataService();
 
 
-/*        setToDoBar();
+        setToDoBar();
 
-        setRecyclerView();*/
+        setRecyclerView();
 
 
         return view;

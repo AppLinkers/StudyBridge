@@ -17,9 +17,6 @@ public class ToDoMentoInsideDetailAdapter extends RecyclerView.Adapter<RecyclerV
 
     private ArrayList<FindAssignedToDoRes> listItem = new ArrayList<FindAssignedToDoRes>() ;
 
-    public ToDoMentoInsideDetailAdapter() {
-
-    }
 
     @NonNull
     @Override
@@ -37,6 +34,7 @@ public class ToDoMentoInsideDetailAdapter extends RecyclerView.Adapter<RecyclerV
     public void addItem(FindAssignedToDoRes data){
         listItem.add(data);
     }
+
     @Override
     public int getItemCount() {
         return listItem.size();

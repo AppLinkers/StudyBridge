@@ -178,7 +178,6 @@ public class StudyMentiDetail extends AppCompatActivity {
                 intent.putExtra("studyId",studyId);
                 intent.putExtra("path",1);
                 intent.putExtra("makerId",makerId);
-
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
@@ -239,6 +238,9 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body().equals(MENTEE_APPLY)){
                     //멘티 모집중
+
+                    binding.status.setText("멘티 모집중");
+                    binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
                     binding.btnForMaker.setText("모집 종료하기");
                     binding.btnForMaker.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -250,10 +252,12 @@ public class StudyMentiDetail extends AppCompatActivity {
                     applyStudyForMentee(binding.btnForMentee);
                 } else if (response.body().equals(MENTO_APPLY)){
                     //멘토 모집중
+
                     applyStudyForMento(binding.btnForMentor);
 
                 } else {
                     //모집 완료
+
                     matchedBtn(binding.btnForMaker);
                     matchedBtn(binding.btnForMentee);
                     matchedBtn(binding.btnForMentor);
@@ -272,8 +276,13 @@ public class StudyMentiDetail extends AppCompatActivity {
     //모집완료 버튼
     public void matchedBtn(TextView button){
 
+        binding.status.setText("모집 종료");
+        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
+
         if(isApplied||userId.equals(makerId)){
             button.setText("스터디 입장하기");
+            button.setEnabled(true);
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -357,6 +366,9 @@ public class StudyMentiDetail extends AppCompatActivity {
     //스터디 신청 메서드
     public void applyStudyForMento(TextView button){
 
+        binding.status.setText("멘토 모집중");
+        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
+
         binding.btnForMaker.setText("멘토를 선정해주세요");
         binding.btnForMaker.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
         binding.btnForMaker.setEnabled(false);
@@ -426,11 +438,8 @@ public class StudyMentiDetail extends AppCompatActivity {
                 public void onResponse(Call<String> call, Response<String> response) {
 
                     if(response.isSuccessful()){
-                        binding.status.setText("멘토 모집중");
-                        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
-                        binding.btnForMaker.setText("멘토를 선정해주세요");
-                        binding.btnForMaker.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletBlue));
-                        binding.btnForMaker.setEnabled(false);
+
+                        applyStudyForMento(binding.btnForMentor);
                     }
                 }
 
@@ -447,16 +456,8 @@ public class StudyMentiDetail extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if(response.isSuccessful()){
-                        binding.status.setText("모집 종료");
-                        binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
-                        binding.btnForMaker.setText("스터디 입장하기");
-                        binding.btnForMaker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                //스터디 시작하기 함수 작성
-                                goToChat();
-                            }
-                        });
+                        matchedBtn(binding.btnForMaker);
+                        afterChooseMento();
                     }
                 }
                 @Override

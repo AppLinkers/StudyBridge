@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.studybridge.R;
 import com.example.studybridge.databinding.StudyFiltBinding;
 import com.google.android.material.chip.Chip;
 

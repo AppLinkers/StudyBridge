@@ -4,28 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.studybridge.R;
 import com.example.studybridge.Util.StudyAddDialog;
-import com.example.studybridge.Util.StudyAddTextWatcher;
+import com.example.studybridge.Util.AddTextWatcher;
 import com.example.studybridge.databinding.StudyAddActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -33,9 +22,6 @@ import com.example.studybridge.http.dto.study.StudyMakeReq;
 import com.example.studybridge.http.dto.study.StudyMakeRes;
 import com.example.studybridge.http.dto.study.StudyUpdateReq;
 import com.example.studybridge.http.dto.study.StudyUpdateRes;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,7 +85,7 @@ public class StudyAddActivity extends AppCompatActivity {
         }
 
         EditText[] editList = {binding.studyName,binding.studySubject,binding.studyPlace,binding.studyIntro,binding.studyNum,binding.studyExplain};
-        StudyAddTextWatcher watcher = new StudyAddTextWatcher(getApplicationContext(),binding.addBtn,editList);
+        AddTextWatcher watcher = new AddTextWatcher(getApplicationContext(),binding.addBtn,editList);
         for(EditText editText: editList){
             editText.addTextChangedListener(watcher);
         }

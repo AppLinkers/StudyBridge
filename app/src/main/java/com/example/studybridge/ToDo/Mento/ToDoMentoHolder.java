@@ -9,17 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Mento.Inside.ToDoMentoInsideActivity;
+import com.example.studybridge.databinding.TodoMentorRcItemBinding;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
 public class ToDoMentoHolder extends RecyclerView.ViewHolder{
 
-    private TextView studyName;
     private StudyFindRes studyRes;
+
+    private TodoMentorRcItemBinding binding;
 
     public ToDoMentoHolder(@NonNull View itemView) {
         super(itemView);
-
-        studyName = (TextView) itemView.findViewById(R.id.todo_mentor_studyName);
+        binding = TodoMentorRcItemBinding.bind(itemView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +34,7 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
 
     public void onBind(StudyFindRes study) {
         studyRes = study;
-        studyName.setText(study.getName());
+        binding.name.setText(study.getName());
 
     }
 }

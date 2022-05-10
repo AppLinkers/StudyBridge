@@ -168,7 +168,7 @@ public class SignUpSecond extends AppCompatActivity {
         });
     }
     private void backDialog(){
-        BackDialog dialog = BackDialog.getInstance();
+        BackDialog dialog = BackDialog.getInstance(0);
         FragmentManager fm = getSupportFragmentManager();
         dialog.show(fm,"backDialog");
 

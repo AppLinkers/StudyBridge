@@ -44,7 +44,7 @@
                 android:padding="10dp"/>
         </androidx.cardview.widget.CardView>
 
-<!--        <RelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp">
@@ -241,7 +241,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:orientation="vertical" />-->
+            android:orientation="vertical" />
 
     </LinearLayout>
 

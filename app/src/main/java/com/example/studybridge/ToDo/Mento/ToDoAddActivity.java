@@ -1,4 +1,4 @@
-package com.example.studybridge.ToDo.Mento.Inside.Add;
+package com.example.studybridge.ToDo.Mento;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,17 +18,17 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.Mento.Inside.ToDoMentoInsideActivity;
+import com.example.studybridge.Util.AddTextWatcher;
+import com.example.studybridge.databinding.TodoAddActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.toDo.AssignToDoReq;
 import com.example.studybridge.http.dto.toDo.AssignToDoRes;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -37,16 +38,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ToDoMentoAddActivity extends AppCompatActivity {
+public class ToDoAddActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private TodoAddActivityBinding binding;
+
     private Calendar calendar = Calendar.getInstance();
     private Calendar now = Calendar.getInstance();
-    private MaterialCardView editDate;
-    private TextView dueDate;
-    private LinearLayout addBtn;
-    private TextInputEditText taskName,explain;
-    private ImageView backBtn;
 
     private DataService dataService = new DataService();
 
@@ -57,29 +54,50 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todo_add_activity);
-        Intent intent = getIntent();
-        study_id = intent.getLongExtra("studyId",0);
-        mento_id = intent.getLongExtra("mentorId",0);
+        binding = TodoAddActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        editDate = (MaterialCardView) findViewById(R.id.todo_add_editDate);
-        dueDate = (TextView) findViewById(R.id.todo_add_dueDate);
-        addBtn = (LinearLayout) findViewById(R.id.todo_add_btn);
-        taskName = (TextInputEditText) findViewById(R.id.todo_add_taskName);
-        explain = (TextInputEditText) findViewById(R.id.todo_add_explain);
-        backBtn = (ImageView) findViewById(R.id.todo_add_backBtn);
-
-
-        setDatePicker();
-
-        setButton();
-
-
+        intentData();
+        setUI();
 
     }
 
+    private void intentData(){
+        Intent intent = getIntent();
+        study_id = intent.getLongExtra("studyId",0);
+        mento_id = intent.getLongExtra("mentorId",0);
+    }
+
+    private void setUI(){
+        //toolbar
+        setSupportActionBar(binding.appBar);
+        binding.appBar.setTitle("TODO 만들기");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        EditText[] editList = {binding.todoName,binding.todoExplain};
+        AddTextWatcher textWatcher = new AddTextWatcher(getApplicationContext(),binding.addBtn,editList);
+        for(EditText editText : editList){
+            editText.addTextChangedListener(textWatcher);
+        }
+
+        setDatePicker(binding.dueDate);
+        setButton();
+
+    }
+
+    //툴바 뒤로가기 설정
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //데이트 피커
-    private void setDatePicker(){
+    private void setDatePicker(TextView dueDate){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
 
@@ -98,20 +116,20 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
             }
         };
 
-        editDate.setOnClickListener(new View.OnClickListener() {
+        dueDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 DatePickerDialog datePickerDialog =
                 new DatePickerDialog(
-                        ToDoMentoAddActivity.this,datePicker
+                        ToDoAddActivity.this,datePicker
                         ,now.get(Calendar.YEAR)
                         ,now.get(Calendar.MONTH)
                         ,now.get(Calendar.DAY_OF_MONTH)
                         );
 
                 datePickerDialog.show();
-                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FBB8AC"));
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
                 datePickerDialog.getDatePicker().setMinDate(now.getTime().getTime());
 
 
@@ -122,12 +140,12 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
     }
     //추가하기 버튼설정
     private void setButton(){
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
 
-                String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+                String[] splitDate = binding.dueDate.getText().toString().split("/"); // 현재 날짜
                 LocalDateTime dateTime = LocalDateTime.of(
                         Integer.parseInt(splitDate[0]),
                         Integer.parseInt(splitDate[1]),
@@ -137,8 +155,8 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
                 AssignToDoReq assignToDoReq = new AssignToDoReq(
                         study_id,
                         mento_id,
-                        taskName.getText().toString()+"",
-                        explain.getText().toString()+"",
+                        binding.todoName.getText().toString().trim()+"",
+                        binding.todoExplain.getText().toString().trim()+"",
                         localDateTime);
 
 
@@ -156,12 +174,6 @@ public class ToDoMentoAddActivity extends AppCompatActivity {
 
                     }
                 });
-            }
-        });
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
             }
         });
     }

@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.feedback.CommentAdapter;
+import com.example.studybridge.databinding.TodoDetailActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusReq;
 import com.example.studybridge.http.dto.assignedToDo.ChangeToDoStatusRes;
@@ -58,21 +59,16 @@ import retrofit2.http.HEAD;
 
 public class ToDoDetailActivity extends AppCompatActivity {
 
-    private TextView mentorId,menteeId,dueDate,confMent,taskName,taskInfo,afterDateMent;
-    private LinearLayoutManager linearLayoutManager;
-    private TextInputEditText comment;
-    private TextInputLayout commentLayout;
-    private Spinner spinner;
-    private MaterialCardView editDate;
-    private Toolbar toolbar;
+    private TodoDetailActivityBinding binding;
+
     private Calendar calendar = Calendar.getInstance();
     private Calendar now = Calendar.getInstance();
     private DataService dataService;
     ChangeToDoStatusReq changeToDoStatusReq;
 
     //comment recycler
-    private RecyclerView commentRv;
     private CommentAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
 
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -82,21 +78,22 @@ public class ToDoDetailActivity extends AppCompatActivity {
     private Boolean isMentee;
 
     Long userIdPk,menteePKId;
-    long todoId,dayResult;
+    long dayResult;
     String userId;
     Intent gIntent;
-    ToDo toDo;
+    FindAssignedToDoRes toDo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todo_detail_activity);
+        binding = TodoDetailActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //sharedPref
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId = sharedPreferences.getString(USER_ID_KEY, "user");
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
-        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,true);
+        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,false);
 
         gIntent = getIntent();
         toDo = gIntent.getExtras().getParcelable("toDo");
@@ -104,24 +101,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
         dataService = new DataService();
-        //화면 위 데이터
-        taskName = (TextView) findViewById(R.id.todo_detail_taskName);
-        mentorId = (TextView) findViewById(R.id.todo_detail_mentorId);
-        menteeId = (TextView) findViewById(R.id.todo_detail_menteeId);
-        dueDate = (TextView) findViewById(R.id.todo_detail_dueDate);
-        confMent = (TextView) findViewById(R.id.conf_ment);
-        afterDateMent = (TextView) findViewById(R.id.afterDate_ment);
-        spinner = (Spinner) findViewById(R.id.todo_detail_spinner);
-        taskInfo = (TextView) findViewById(R.id.todo_detail_taskInfo) ;
-        comment = (TextInputEditText) findViewById(R.id.todo_comment);
-        commentLayout = (TextInputLayout) findViewById(R.id.todo_detail_comment_layout);
-        commentRv = (RecyclerView) findViewById(R.id.comment_rv);
-
-        editDate = (MaterialCardView) findViewById(R.id.todo_detail_editDate);
-        toolbar = (Toolbar) findViewById(R.id.todo_toolbar);
 
         //툴바 설정
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -141,6 +123,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
             setDatePicker();
             setComment();
         }
+
+
         setRecyclerView();
 
     }
@@ -161,24 +145,25 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 return true;
 
             case R.id.todo_save:
-                if(spinner.getVisibility() == View.VISIBLE) {
-                    String statusReq = spinner.getSelectedItem().toString();
-                    changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, todoId, statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
+                if(binding.spinner.getVisibility() == View.VISIBLE) {
+                    String statusReq = binding.spinner.getSelectedItem().toString().trim();
+                    changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, toDo.getToDoId(), statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
                     dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
                         @Override
                         public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
                             if(response.isSuccessful()){
                                 Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ChangeToDoStatusRes> call, Throwable t) {
-
+                            System.out.println("실패");
                         }
                     });
                 }
-                finish();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -190,9 +175,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 array);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        binding.spinner.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -217,12 +202,11 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 .append("/")
                 .append(toDo.getDueDate().substring(8,10));
 
-        taskName.setText(toDo.getTaskName());
-        dueDate.setText(date.toString());
-        mentorId.setText(toDo.getMentoId());
-        menteeId.setText(toDo.getMentiId());
-        taskInfo.setText(toDo.getTaskInfo());
-        todoId = toDo.getTodoId();
+        binding.taskName.setText(toDo.getTask());
+        binding.dueDate.setText(date.toString());
+        binding.mentorId.setText(toDo.getMentorName());
+        binding.menteeId.setText(toDo.getMenteeName());
+        binding.taskInfo.setText(toDo.getExplain());
 
     }
 
@@ -233,23 +217,23 @@ public class ToDoDetailActivity extends AppCompatActivity {
         if(isMentee){
             if(dayResult<0){
                 if(statusNum(toDo.getStatus())==3){
-                    spinner.setVisibility(View.GONE);
-                    confMent.setVisibility(View.VISIBLE);
+                    binding.spinner.setVisibility(View.GONE);
+                    binding.confMent.setVisibility(View.VISIBLE);
                 } else {
-                    spinner.setVisibility(View.GONE);
-                    afterDateMent.setVisibility(View.VISIBLE);
+                    binding.spinner.setVisibility(View.GONE);
+                    binding.afterDateMent.setVisibility(View.VISIBLE);
                 }
             } else{
                 if(statusNum(toDo.getStatus())<3){
-                    spinner.setSelection(statusNum(toDo.getStatus()));
+                    binding.spinner.setSelection(statusNum(toDo.getStatus()));
                 } else {
-                    spinner.setVisibility(View.GONE);
-                    confMent.setVisibility(View.VISIBLE);
+                    binding.spinner.setVisibility(View.GONE);
+                    binding.confMent.setVisibility(View.VISIBLE);
                 }
             }
         }
         else {
-            spinner.setSelection(statusNum(toDo.getStatus()));
+            binding.spinner.setSelection(statusNum(toDo.getStatus()));
         }
 
     }
@@ -270,7 +254,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     //데이트 피커
     private void setDatePicker(){
 
-        String[] splitDate = dueDate.getText().toString().split("/"); // 현재 날짜
+        String[] splitDate = binding.dueDate.getText().toString().split("/"); // 현재 날짜
 
         DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -280,12 +264,12 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd",Locale.KOREA);
 
-                dueDate.setText(sdf.format(calendar.getTime()));
+                binding.dueDate.setText(sdf.format(calendar.getTime()));
 
             }
         };
 
-        editDate.setOnClickListener(new View.OnClickListener() {
+        binding.editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -311,10 +295,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         adapter = new CommentAdapter();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        commentRv.setLayoutManager(linearLayoutManager);
+        binding.commentRv.setLayoutManager(linearLayoutManager);
 
-        dataService.feedBack.findByAssignedToDo(toDo.getTodoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
-            @SuppressLint("NotifyDataSetChanged")
+        dataService.feedBack.findByAssignedToDo(toDo.getToDoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
             @Override
             public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
                 if(response.isSuccessful()){
@@ -322,7 +305,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                     for(FindFeedBackRes data : response.body()){
                         adapter.addItem(data);
                     }
-                    commentRv.setAdapter(adapter);
+                    binding.commentRv.setAdapter(adapter);
                 }
             }
             @Override
@@ -330,45 +313,52 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
     //댓글 추가 버튼
     private void setComment(){
 
-        comment.addTextChangedListener(new TextWatcher() {
+        binding.comment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                commentLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                commentLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
 
-                commentLayout.setEndIconDrawable(R.drawable.ic_send);
-                commentLayout.setEndIconOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //comment 다는 메서드 작성
-                        WriteFeedBackReq com = new WriteFeedBackReq(toDo.getTodoId(),userIdPk,comment.getText()+"");
-                        dataService.feedBack.write(com).enqueue(new Callback<WriteFeedBackRes>() {
-                            @Override
-                            public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {
-                                if(response.isSuccessful()){
-                                    comment.setText("");
-                                    setRecyclerView();
+                if(charSequence.toString().equals("")){
+                    binding.sendImg.setImageResource(R.drawable.ic_send_gray);
+                    binding.send.setClickable(false);
+                }
+                else {
+
+                    binding.sendImg.setImageResource(R.drawable.ic_send);
+                    binding.send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //comment 다는 메서드 작성
+                            WriteFeedBackReq com = new WriteFeedBackReq(toDo.getToDoId(),userIdPk,binding.comment.getText()+"");
+                            dataService.feedBack.write(com).enqueue(new Callback<WriteFeedBackRes>() {
+                                @Override
+                                public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {
+                                    if(response.isSuccessful()){
+                                        binding.comment.setText("");
+                                        setRecyclerView();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<WriteFeedBackRes> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<WriteFeedBackRes> call, Throwable t) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
+                    });
+                }
 
-                    }
-                });
             }
 
             @Override
