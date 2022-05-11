@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.StudyBridge.Toolbar"
+            android:layout_alignParentTop="true"
+            app:elevation="0dp">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title=" "
+                android:gravity="center_horizontal" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgCon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/toolbarLayout"
+            android:layout_marginTop="30dp">
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_foreground" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/infoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgCon"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="회원 정보"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoText"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="15dp"
+            android:text="이름"
+            android:textColor="@color/textColorPrimary70"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/nameText"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="이름"
+            android:textColor="@color/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/idText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameText"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="35dp"
+            android:text="아이디"
+            android:textColor="@color/textColorPrimary70"/>
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/idText"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="Id"
+            android:textColor="@color/textColorPrimary"/>
+
+        <TextView
+            android:id="@+id/imgChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/idText"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"
+            android:text="사진 변경"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@id/imgChange"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_arrow_right" />
+
+        <View
+            android:id="@+id/headerLine"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/imgChange"
+            android:layout_marginTop="25dp"
+            android:background="@color/palletGrey" />
+
+        <RelativeLayout
+            android:id="@+id/mentorCon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/headerLine"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="55dp">
+
+            <TextView
+                android:id="@+id/mentorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgCon"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginRight="15dp"
+                android:text="멘토 정보"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mentorInfoChange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mentorText"
+                android:layout_marginTop="25dp"
+                android:padding="15dp"
+                android:text="멘토 정보 변경"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignTop="@id/mentorInfoChange"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_arrow_right" />
+
+            <TextView
+                android:id="@+id/nickNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mentorInfoChange"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="별명"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/nickNameText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text="별명"
+                android:textColor="@color/textColorPrimary" />
+
+            <TextView
+                android:id="@+id/placeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nickNameText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="지역"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/placeText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text="지역"
+                android:textColor="@color/textColorPrimary" />
+
+            <TextView
+                android:id="@+id/subjectText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/placeText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="과목"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/subjectText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text="과목"
+                android:textColor="@color/textColorPrimary" />
+
+            <TextView
+                android:id="@+id/schoolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subjectText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="학교"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/schoolText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text="학교"
+                android:textColor="@color/textColorPrimary" />
+
+            <View
+                android:id="@+id/mentorLine"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/schoolText"
+                android:layout_marginTop="45dp"
+                android:background="@color/palletGrey" />
+
+            <TextView
+                android:id="@+id/detailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mentorLine"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:text="상세 정보"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/introText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="한줄 소개"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/introText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:text="한줄 소개"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/certiText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/intro"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="55dp"
+                android:text="자격증 정보"
+                android:textColor="@color/textColorPrimary70" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/certiRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/certiText"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/curiText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/certiRV"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="55dp"
+                android:text="커리큘럼"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/curi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/curiText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:text="커리큘럼"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/expText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/curi"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:text="경력 사항"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/exp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:text="경력 사항"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/appealText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:text="어필"
+                android:textColor="@color/textColorPrimary70" />
+
+            <TextView
+                android:id="@+id/appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appealText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:text="어필"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

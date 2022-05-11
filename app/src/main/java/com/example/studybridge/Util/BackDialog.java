@@ -68,7 +68,7 @@ public class BackDialog extends DialogFragment {
 
         }
         else {
-            binding.dialogTitle.setText("Todo 삭제");
+            binding.dialogTitle.setText("삭제하기");
             binding.dialogInfo.setText("정말 삭제하시겠습니까?");
         }
     }

@@ -265,7 +265,7 @@ public class ToDoFragment<findAssignedToDoRes> extends Fragment {
     public void onResume() {
         super.onResume();
         if(isMentee){
-
+            setData();
         }
 
     }

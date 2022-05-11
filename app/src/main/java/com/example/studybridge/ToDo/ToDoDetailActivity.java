@@ -106,27 +106,28 @@ public class ToDoDetailActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setPath();
+        setRecyclerView();
 
+    }
+
+    private void setPath(){
         if(isMentee){
             //멘티 접근 수정 코드
             menteePKId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
             String[] array = getResources().getStringArray(R.array.todo_spinner);
             String[] menteeArray = Arrays.copyOfRange(array,0,3);
             setSpinner(menteeArray);
-            setData();
+            setUI();
             setComment();
         } else {
             menteePKId = gIntent.getLongExtra("menteePKId",0);
             String[] array = getResources().getStringArray(R.array.todo_spinner);
             setSpinner(array);
-            setData();
+            setUI();
             setDatePicker();
             setComment();
         }
-
-
-        setRecyclerView();
-
     }
 
 
@@ -147,7 +148,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
             case R.id.todo_save:
                 if(binding.spinner.getVisibility() == View.VISIBLE) {
                     String statusReq = binding.spinner.getSelectedItem().toString().trim();
-                    changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, toDo.getToDoId(), statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
+                    changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, toDo.getId(), statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
                     dataService.assignedToDo.changeStatus(changeToDoStatusReq).enqueue(new Callback<ChangeToDoStatusRes>() {
                         @Override
                         public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
@@ -191,9 +192,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
     }
 
     //데이터
-    private void setData(){
+    private void setUI(){
 
-        setSpinner();
+        setSpinnerText();
 
         StringBuilder date = new StringBuilder();
         date.append(toDo.getDueDate().substring(0,4))
@@ -212,7 +213,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
 
 
-    private void setSpinner(){
+    private void setSpinnerText(){
 
         if(isMentee){
             if(dayResult<0){
@@ -295,9 +296,11 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         adapter = new CommentAdapter();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.commentRv.setLayoutManager(linearLayoutManager);
 
-        dataService.feedBack.findByAssignedToDo(toDo.getToDoId()).enqueue(new Callback<List<FindFeedBackRes>>() {
+
+        dataService.feedBack.findByAssignedToDo(toDo.getId()).enqueue(new Callback<List<FindFeedBackRes>>() {
             @Override
             public void onResponse(Call<List<FindFeedBackRes>> call, Response<List<FindFeedBackRes>> response) {
                 if(response.isSuccessful()){
@@ -340,7 +343,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             //comment 다는 메서드 작성
-                            WriteFeedBackReq com = new WriteFeedBackReq(toDo.getToDoId(),userIdPk,binding.comment.getText()+"");
+                            WriteFeedBackReq com = new WriteFeedBackReq(toDo.getId(),userIdPk,binding.comment.getText()+"");
                             dataService.feedBack.write(com).enqueue(new Callback<WriteFeedBackRes>() {
                                 @Override
                                 public void onResponse(Call<WriteFeedBackRes> call, Response<WriteFeedBackRes> response) {

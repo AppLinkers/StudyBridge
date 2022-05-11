@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.Mento.Inside.ToDoMentorInsdieHolder;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 
 import java.util.ArrayList;

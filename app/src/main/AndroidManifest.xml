@@ -59,11 +59,9 @@
             android:exported="true"/>
 
         <activity
-            android:name=".Mypage.Edit.MyPageEditActivity"
+            android:name=".Mypage.MyPageEditActivity"
             android:exported="true" />
         <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileEditActivity"
-            android:exported="true"/>
-        <activity android:name=".Mypage.MentoProfile.Show.MyPageMentoProfileShowActivity"
             android:exported="true"/>
         <activity android:name=".Mypage.MentoProfile.Edit.MyPageMentoProfileSchoolCheck"
             android:exported="true"/>

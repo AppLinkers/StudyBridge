@@ -1,90 +1,88 @@
 package com.example.studybridge.Mypage;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.studybridge.Mypage.Edit.MyPageEditActivity;
-import com.example.studybridge.R;
-import com.google.android.material.tabs.TabLayout;
+import com.example.studybridge.databinding.MypageFragmentBinding;
+
 
 public class MyPageFragment extends Fragment {
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager;
-    private MyPagePagerAdapter adapter;
 
-    private TextView editBtn;
-    private TextView userIdTv;
-    private TextView userNameTv;
+    private MypageFragmentBinding binding;
 
-    private String userName;
-    private String userId;
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String USER_PK_ID_KEY = "user_pk_id_key";
+    public static final String USER_ID_KEY = "user_id_key";
+    public static final String USER_NAME = "user_name_key";
+    public static final String USER_ISMENTEE = "user_mentee_key";
 
+    String userName;
+    boolean isMentee;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mypage_fragment, container, false);
 
-        tabLayout = (TabLayout) view.findViewById(R.id.mypage_tab);
-        viewPager = (ViewPager2) view.findViewById(R.id.mypage_pager);
+        binding = MypageFragmentBinding.inflate(inflater,container,false);
+        View view = binding.getRoot();
 
-        userIdTv = view.findViewById(R.id.mypage_id);
-        userNameTv = view.findViewById(R.id.mypage_name);
+        //sharedPref
+        sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+/*        userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");*/
+        userName = sharedPreferences.getString(USER_NAME, "사용자 이름");
+        isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,false);
 
-        //옆으로 스와이프
-        FragmentManager fm = getChildFragmentManager();
-        adapter = new MyPagePagerAdapter(fm,getLifecycle());
+        setUI();
 
-        viewPager.setAdapter(adapter);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        return view;
+    }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+    private void setUI(){
+        binding.name.setText(userName);
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
-        });
+        if(!isMentee){
+            binding.likeMentor.setVisibility(View.GONE);
+        }
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
+        setBtns();
+    }
 
-        viewPager.setSaveEnabled(false);
-
-        Bundle bundle =getArguments();
-        userName = bundle.getString("name");
-        userId = bundle.getString("id");
-
-        userIdTv.setText(userId);
-        userNameTv.setText(userName);
-
-        //정보 수정하기로 이동
-        editBtn = (TextView) view.findViewById(R.id.mypage_editBtn);
-        editBtn.setOnClickListener(new View.OnClickListener() {
+    private void setBtns(){
+        //프로필 수정
+        binding.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), MyPageEditActivity.class);
+                Intent intent = new Intent(getContext(),MyPageEditActivity.class);
                 startActivity(intent);
             }
         });
 
-        return view;
+
+        //신청한 스터디
+        binding.applyStudy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        binding.likeMentor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }

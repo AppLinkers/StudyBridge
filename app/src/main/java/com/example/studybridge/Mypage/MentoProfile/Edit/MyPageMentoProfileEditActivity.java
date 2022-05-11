@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -27,7 +22,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.model.ResourceLoader;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.Permission;
 import com.example.studybridge.http.DataService;
@@ -40,17 +34,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.transform.URIResolver;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -63,7 +53,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
 
     //화면 위 데이터
     private Toolbar toolbar;
-    private TextView name, school,goToCheck;
+    private TextView  school,goToCheck;
     private TextInputEditText intro,nickName,curi,experience,appeal;
     private ProfileRes mentoProfile;
     private ChipGroup subjectGroup,placeGroup;
@@ -102,7 +92,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_mentoprofile_edit_activity);
+        setContentView(R.layout.mypage_mentoprofile);
 
         toolbar = (Toolbar) findViewById(R.id.mypage_mentoProfile_bar);
 
@@ -113,7 +103,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         //화면 위 데이터
-        name = (TextView) findViewById(R.id.mypage_mentoProfile_name); //기존 이름에서 받아와야함
         school = (TextView) findViewById(R.id.mypage_mentoProfile_school);
         intro = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_intro);
         nickName = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_nickName);
@@ -154,7 +143,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         //기존 입력값
         Intent intent = getIntent();
         mentoProfile = intent.getExtras().getParcelable("profile");
-        name.setText(userName);
         school.setText(mentoProfile.getSchool());
         intro.setText(mentoProfile.getInfo());
         nickName.setText(mentoProfile.getNickName());

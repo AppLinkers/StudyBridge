@@ -1,126 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="none">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:paddingTop="40dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:background="@color/palletRed50"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mypage_name"
-                android:text="안승우"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/textColorPrimary"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="님 반갑습니다!"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/textColorPrimary"/>
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/mypage_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="40dp"
-                android:layout_centerVertical="true">
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_launcher_foreground"
-                    android:elevation="0.5dp"/>
-            </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/mypage_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/mypage_img"
-                    android:text="rio319"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3개월 정기권"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/textColorPrimary"
-                    android:layout_below="@+id/mypage_id"
-                    android:layout_toRightOf="@+id/mypage_img"
-                    android:layout_marginLeft="15dp"/>
-
-                <TextView
-                    android:id="@+id/mypage_editBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="수정하기"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:padding="10dp"/>
-            </RelativeLayout>
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/mypage_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="@color/colorPrimaryDark"
-                app:tabSelectedTextColor="@color/colorPrimaryDark">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="마이페이지" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="스터디Chat" />
-
-            </com.google.android.material.tabs.TabLayout>
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/mypage_pager"
+        android:paddingTop="10dp">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="마이"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgCon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            android:layout_below="@id/title"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/mypage_tab"
-                android:layoutDirection="ltr"/>
-        </RelativeLayout>
+                android:src="@drawable/ic_launcher_background"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imgCon"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/imgCon"
+            android:text="이름"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imgCon"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginRight="15dp"
+            android:text="프로필수정"
+            android:textColor="@color/black30"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <View
+            android:id="@+id/headerLine"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@id/imgCon"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/palletGrey" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/headerLine"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/announce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="공지사항"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/apply_study"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="신청한 스터디"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold"
+                android:padding="20dp"/>
+            <TextView
+                android:id="@+id/like_mentor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="관심 멘토"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold"
+                android:padding="20dp"/>
+            <TextView
+                android:id="@+id/setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="설정"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold"
+                android:padding="20dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

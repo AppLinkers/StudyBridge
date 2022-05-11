@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/todo_detail_barLayout"
+        android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
@@ -22,8 +22,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/todo_detail_comment_layout"
-        android:layout_below="@id/todo_detail_barLayout">
+        android:layout_above="@+id/comment"
+        android:layout_below="@id/toolbarLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,6 +79,7 @@
                 android:background="@color/viewUnderline" />
 
             <RelativeLayout
+                android:id="@+id/mentorCon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -124,10 +125,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
+                android:layout_below="@id/mentorCon"
                 android:layout_marginTop="15dp"
                 android:background="@color/viewUnderline" />
 
             <RelativeLayout
+                android:id="@+id/menteeCon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -171,6 +174,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/menteeLine"
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
                 android:layout_marginTop="15dp"
@@ -185,7 +189,7 @@
                 android:text="상세 설명"
                 android:textColor="@color/textColorPrimary70"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/taskInfo"
@@ -266,9 +270,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
                 android:scrollbars="none" />
-
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

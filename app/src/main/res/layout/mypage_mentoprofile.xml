@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/mypage_mentoProfile_barLayout"
         android:layout_width="match_parent"
@@ -16,10 +14,9 @@
             android:id="@+id/mypage_mentoProfile_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="프로필 수정하기"
+            app:title=" "
             app:menu="@menu/mypage_mentoprofile_menu"/>
     </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,31 +27,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="15dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="이름"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/mypage_mentoProfile_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="이름"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,25 +50,26 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
-                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        style="@style/Widget.StudyBridge.Chip.Choice"
+                        android:theme="@style/Widget.StudyBridge.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="서울" />
 
                     <com.google.android.material.chip.Chip
-                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        style="@style/Widget.StudyBridge.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="경기" />
 
                     <com.google.android.material.chip.Chip
-                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        style="@style/Widget.StudyBridge.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="인천" />
 
                     <com.google.android.material.chip.Chip
-                        style="@style/Widget.StudyBridge.Chip.Filter"
+                        style="@style/Widget.StudyBridge.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="기타" />
@@ -179,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTint="@color/palletRed"
                 app:cardCornerRadius="10dp">
 
                 <TextView
@@ -212,9 +185,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/palletRed"
                     app:cardCornerRadius="20dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
