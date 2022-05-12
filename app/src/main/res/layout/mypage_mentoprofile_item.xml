@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginBottom="15dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imgCon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp">
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@color/palletGrey"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgCon"
+        android:background="@color/white"
+        android:hint="자격증명을 입력하세요"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="14sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/palletGrey"
+        android:layout_alignParentBottom="true"/>
+
+    <ImageView
+        android:id="@+id/x"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_x" />
+
+</RelativeLayout>

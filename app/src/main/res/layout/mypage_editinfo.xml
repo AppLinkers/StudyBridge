@@ -59,10 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/infoText"
-            android:layout_marginTop="35dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="35dp"
             android:text="이름"
-            android:textColor="@color/textColorPrimary70"/>
+            android:textColor="@color/textColorPrimary70" />
 
         <TextView
             android:id="@+id/name"
@@ -94,12 +94,19 @@
             android:text="Id"
             android:textColor="@color/textColorPrimary"/>
 
+        <View
+            android:id="@+id/headerLine"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/id"
+            android:layout_marginTop="25dp"
+            android:background="@color/palletGrey" />
+
         <TextView
             android:id="@+id/imgChange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/idText"
-            android:layout_marginTop="25dp"
+            android:layout_below="@+id/headerLine"
             android:padding="15dp"
             android:text="사진 변경"
             android:textColor="@color/textColorPrimary"
@@ -114,41 +121,28 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/ic_arrow_right" />
 
-        <View
-            android:id="@+id/headerLine"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_below="@+id/imgChange"
-            android:layout_marginTop="25dp"
-            android:background="@color/palletGrey" />
+
 
         <RelativeLayout
             android:id="@+id/mentorCon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/headerLine"
+            android:layout_below="@id/imgChange"
             android:layout_alignParentBottom="true"
             android:paddingBottom="55dp">
 
-            <TextView
-                android:id="@+id/mentorText"
+            <View
+                android:id="@+id/headerLine3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/imgCon"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginRight="15dp"
-                android:text="멘토 정보"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="1dp"
+                android:background="@color/palletGrey"
+                android:layout_alignParentTop="true"/>
 
             <TextView
                 android:id="@+id/mentorInfoChange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mentorText"
-                android:layout_marginTop="25dp"
+                android:layout_below="@+id/headerLine3"
                 android:padding="15dp"
                 android:text="멘토 정보 변경"
                 android:textColor="@color/textColorPrimary"
@@ -163,11 +157,31 @@
                 android:layout_marginRight="15dp"
                 android:src="@drawable/ic_arrow_right" />
 
+            <View
+                android:id="@+id/headerLine2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/mentorInfoChange"
+                android:background="@color/palletGrey" />
+
+            <TextView
+                android:id="@+id/mentorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/headerLine2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginRight="15dp"
+                android:text="멘토 정보"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/nickNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mentorInfoChange"
+                android:layout_below="@+id/mentorText"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="35dp"
                 android:text="별명"

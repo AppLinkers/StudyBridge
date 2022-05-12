@@ -21,15 +21,16 @@
         android:textColor="@color/textColorPrimary"
         android:textSize="24sp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/signup_belowTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/signup_tv"
+        android:layout_marginTop="5dp"
         android:text="휴대폰 번호를 인증해주세요"
         android:textColor="@color/textColorPrimary"
-        android:textSize="18sp"
-        android:layout_marginTop="5dp"/>
+        android:textSize="18sp" />
     <RelativeLayout
         android:id="@+id/signup_nameCon"
         android:layout_width="match_parent"

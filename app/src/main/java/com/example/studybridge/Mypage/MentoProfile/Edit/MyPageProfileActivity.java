@@ -9,28 +9,34 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.Permission;
+import com.example.studybridge.databinding.MypageMentoprofileBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.Certificate;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -41,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,26 +56,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPageMentoProfileEditActivity extends AppCompatActivity {
+public class MyPageProfileActivity extends AppCompatActivity {
 
-    //화면 위 데이터
-    private Toolbar toolbar;
-    private TextView  school,goToCheck;
-    private TextInputEditText intro,nickName,curi,experience,appeal;
-    private ProfileRes mentoProfile;
-    private ChipGroup subjectGroup,placeGroup;
-    public String selectedSubject;
-    public String selectedPlace;
 
-    //자격증 이미지 add
-    private MaterialCardView addImg;
-    public static final int PICK_IMAGE = 101;
-    public static final int SCHOOL_CHECK = 201;
-    private MyPageMentoProfileAdapter adapter;
-    private RecyclerView recyclerView;
+    private MypageMentoprofileBinding binding;
+    private ProfileRes res;
+
     private LinearLayoutManager linearLayoutManager;
-    private List<Certificate> certificates;
-
+    private MyPageProfileAdapter adapter;
     //SharedPreference
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -76,25 +71,22 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
 
+    private List<Certificate> certificates;
+
     private String userName;
     private String userLoginId;
     private Long userPkId;
 
-    //학생증 이미지
-    private String schoolDir;
+    String schoolDir;
 
     DataService dataService = new DataService();
-
     Gson gson = new Gson();
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_mentoprofile);
-
-        toolbar = (Toolbar) findViewById(R.id.mypage_mentoProfile_bar);
+        binding = MypageMentoprofileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //sharedPrefer
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -102,87 +94,151 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
-        //화면 위 데이터
-        school = (TextView) findViewById(R.id.mypage_mentoProfile_school);
-        intro = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_intro);
-        nickName = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_nickName);
-        curi = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_curi);
-        experience = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_experience);
-        appeal = (TextInputEditText) findViewById(R.id.mypage_mentoProfile_appeal);
-
-        //지역, 과목 선택
-        subjectGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_subjectSelect);
-        placeGroup = (ChipGroup) findViewById(R.id.mypage_mentoProfile_placeSelect);
-
-        //자격증 이미지 추가하기
-        addImg = (MaterialCardView) findViewById(R.id.mypage_mentoProfile_addImg);
-        recyclerView = (RecyclerView) findViewById(R.id.mypage_mentoProfile_rcView);
-
         Permission.verifyStoragePermissions(this);
 
 
         getIntentData();
-        setToolbar();
-        setRecyclerView();
-        setButton();
-
+        setUI();
 
     }
 
 
-    private void setRecyclerView(){
-        certificates = new ArrayList<>();
-        linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MyPageMentoProfileAdapter(certificates);
-        recyclerView.setAdapter(adapter);
-    }
 
-    private void getIntentData(){
+
+    private void getIntentData() {
         //기존 입력값
         Intent intent = getIntent();
-        mentoProfile = intent.getExtras().getParcelable("profile");
-        school.setText(mentoProfile.getSchool());
-        intro.setText(mentoProfile.getInfo());
-        nickName.setText(mentoProfile.getNickName());
-        curi.setText(mentoProfile.getCurriculum());
-        experience.setText(mentoProfile.getExperience());
-        appeal.setText(mentoProfile.getAppeal());
+        res = intent.getExtras().getParcelable("profile");
+        if (res != null) {
+            binding.nickName.setText(res.getNickName());
+            binding.intro.setText(res.getInfo());
+            binding.curi.setText(res.getCurriculum());
+            binding.exp.setText(res.getExperience());
+            binding.appeal.setText(res.getAppeal());
+            schoolDir = res.getSchoolImg();
+            Glide.with(this).load(schoolDir).into(binding.schoolImg);
 
-        Chip chipForSubject = (Chip) subjectGroup.getChildAt(checkChipForSubject(mentoProfile.getSubject()));
-        Chip chipForPlace = (Chip) placeGroup.getChildAt(checkChipForPlace(mentoProfile.getLocation()));
-        chipForSubject.setChecked(true);
-        chipForPlace.setChecked(true);
+            StringTokenizer st = new StringTokenizer(res.getSchool(), "-");
+            binding.school.setText(st.nextToken());
+            binding.major.setText(st.nextToken());
+
+            Chip chipForSubject = (Chip) binding.subjectSelect.getChildAt(checkChipForSubject(res.getSubject()));
+            Chip chipForPlace = (Chip) binding.placeSelect.getChildAt(checkChipForPlace(res.getLocation()));
+            chipForSubject.setChecked(true);
+            chipForPlace.setChecked(true);
+
+            certificates = new ArrayList<>();
+            certificates = res.getCertificates();
+        }
+
+    }
+    private void setUI(){
+
+        setToolbar();
+
+        editData(binding.nickName,binding.nickNameLine,binding.nickNameCheckCon,binding.nickNameCheck);
+        editData(binding.school,binding.schoolLine,null,null);
+        editData(binding.major,binding.majorLine,null,null);
+        editData(binding.intro,binding.introLine,null,null);
+        editData(binding.curi,binding.curiLine,null,null);
+        editData(binding.exp,binding.expLine,null,null);
+        editData(binding.appeal,binding.appealLine,null,null);
+
+        setRecyclerView();
+        setButton();
+    }
+
+    private void setRecyclerView(){
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        binding.certiRV.setLayoutManager(linearLayoutManager);
+        adapter = new MyPageProfileAdapter(certificates,(Context)this);
+        binding.certiRV.setAdapter(adapter);
+    }
+
+    private void editData(EditText editText, View view, MaterialCardView cardView, TextView textView){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.viewUnderline));
+                    if(cardView !=null && textView != null){
+                        textView.setEnabled(false);
+                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+                    }
+
+
+                }
+                else {
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
+                    if(cardView !=null && textView != null){
+                        textView.setEnabled(true);
+                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.viewUnderline));
+                    if(cardView !=null && textView != null){
+                        textView.setEnabled(false);
+                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+                    }
+
+
+                }
+                else {
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
+                    if(cardView !=null && textView != null){
+                        textView.setEnabled(true);
+                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void setButton(){
-        //학교 인증 가기
-        goToCheck = (TextView) findViewById(R.id.mypage_mentoProfile_school_goToCheck);
-        goToCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MyPageMentoProfileEditActivity.this,MyPageMentoProfileSchoolCheck.class);
-                intent.putExtra("schoolName",mentoProfile.getSchool());
-                intent.putExtra("schoolImg",mentoProfile.getSchoolImg());
-                startActivityForResult(intent,SCHOOL_CHECK);
-            }
-        });
-        addImg.setOnClickListener(new View.OnClickListener() {
+
+        binding.schoolImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-
+                goToGetImg.launch(intent);
             }
         });
+
+        binding.addCerti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                goToAddCerti.launch(intent);
+            }
+        });
+
     }
 
     //툴바 설정
     private void setToolbar(){
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -192,6 +248,40 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.mypage_mentoprofile_menu,menu);
         return true;
     }
+
+    ActivityResultLauncher<Intent> goToGetImg = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK){
+
+                        assert result.getData() != null;
+
+                        schoolDir = uriPath(result.getData().getData());
+                        Glide.with(MyPageProfileActivity.this).load(schoolDir).into(binding.schoolImg);
+
+
+                    }
+                }
+            }
+    );
+    ActivityResultLauncher<Intent> goToAddCerti = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK){
+                        assert result.getData() != null;
+
+                        String dir = uriPath(result.getData().getData());
+                        Certificate dataForAdd = new Certificate(null,dir);
+                        certificates.add(dataForAdd);
+                        adapter.notifyItemInserted(adapter.getItemCount());
+                    }
+                }
+            }
+    );
 
     //메뉴 버튼 설정
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -205,18 +295,9 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                 //상단 완료버튼 눌렀을때
             case R.id.mentoProfile_complete_btn:
 
-/*                certificatesImg = new ArrayList<>();
-                certificatesName = new ArrayList<>();*/
-
-/*                for(int i=0; i<arrayList.size();i++){
-                    String dir = saveBitmapToJpg(arrayList.get(i).getQualiImg(), String.format("certificateImg%d", i));
-                    File imgFile = new File(dir);
-                    certificatesImg.add(imgFile);
-                    Log.d("test", arrayList.get(i).toString());
-                    certificatesName.add(arrayList.get(i).getQualiName());
-                }*/
 
                 List<Certificate> inputCerti = new ArrayList<>();
+                String selectedPlace=null,selectedSubject=null;
 
                 for(int i=0; i<certificates.size(); i++){
                     inputCerti.add(new Certificate(
@@ -224,33 +305,36 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
                                     certificates.get(i).getImgUrl()));
                 }
 
-                for(int i=0; i<placeGroup.getChildCount();i++){
-                    Chip chip = (Chip) placeGroup.getChildAt(i);
+                for(int i=0; i<binding.placeSelect.getChildCount();i++){
+                    Chip chip = (Chip) binding.placeSelect.getChildAt(i);
                     if(chip.isChecked()){
                         selectedPlace = chip.getText().toString();
                     }
                 }
 
-                for(int i=0; i<subjectGroup.getChildCount();i++){
-                    Chip chip = (Chip) subjectGroup.getChildAt(i);
+                for(int i=0; i<binding.subjectSelect.getChildCount();i++){
+                    Chip chip = (Chip) binding.subjectSelect.getChildAt(i);
                     if(chip.isChecked()){
                         selectedSubject = chip.getText().toString();
                     }
                 }
 
-                mentoProfile = new ProfileRes(
+                StringBuilder sbForSchool = new StringBuilder();
+                sbForSchool.append(binding.school.getText().toString().trim()).append("-").append(binding.major.getText().toString().trim());
+
+                ProfileRes mentoProfile = new ProfileRes(
                         userPkId,
                         userName,
                         selectedPlace,
-                        intro.getText().toString(),
-                        nickName.getText().toString(),
-                        school.getText().toString(),
+                        binding.intro.getText().toString().trim()+"",
+                        binding.nickName.getText().toString().trim()+"",
+                        sbForSchool.toString(),
                         schoolDir,
                         selectedSubject,
                         inputCerti,
-                        experience.getText().toString(),
-                        curi.getText().toString(),
-                        appeal.getText().toString(),
+                        binding.exp.getText().toString().trim()+"",
+                        binding.curi.getText().toString().trim()+"",
+                        binding.appeal.getText().toString().trim()+"",
                         false
                 );
 
@@ -302,28 +386,6 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==SCHOOL_CHECK){
-            if(resultCode==RESULT_OK){
-                String schoolName = data.getStringExtra("schoolResult");
-                schoolDir = data.getStringExtra("schoolImg");
-                school.setText(schoolName);
-            }
-        }
-        else if(requestCode==PICK_IMAGE){
-            if(resultCode==RESULT_OK) {
-
-                String dir = uriPath(data.getData());
-                certificates.add(new Certificate(dir));
-                adapter.notifyDataSetChanged();
-
-            }
-        }
-    }
 
     private String uriPath(Uri uri){
         Cursor cursor = null;
@@ -347,7 +409,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         }
     }
 
-   public String saveUrlToJpg(String uri) {
+/*   public String saveUrlToJpg(String uri) {
 
         File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         String fileName = uri + ".jpg";
@@ -369,7 +431,7 @@ public class MyPageMentoProfileEditActivity extends AppCompatActivity {
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
 
         return getCacheDir() + "/" +fileName;
-    }
+    }*/
 
     //기존 과목&&지역 선택 함수
     public static int checkChipForSubject(String str){

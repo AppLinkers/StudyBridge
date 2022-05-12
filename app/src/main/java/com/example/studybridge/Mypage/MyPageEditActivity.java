@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageProfileActivity;
+import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageProfileAdapter;
 import com.example.studybridge.Study.StudyMento.Detail.CertiAdapter;
 import com.example.studybridge.databinding.MypageEditinfoBinding;
 import com.example.studybridge.http.DataService;
@@ -41,6 +43,8 @@ public class MyPageEditActivity extends AppCompatActivity {
     private String userId;
     private boolean isMentee;
 
+    private ProfileRes res;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,6 @@ public class MyPageEditActivity extends AppCompatActivity {
 
         if(isMentee){
             binding.mentorCon.setVisibility(View.GONE);
-            binding.headerLine.setVisibility(View.INVISIBLE);
         }
         else {
 
@@ -98,15 +101,15 @@ public class MyPageEditActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                 if(response.isSuccessful()){
-                    final ProfileRes res = response.body();
-                    binding.nickName.setText(res.getNickName());
-                    binding.place.setText(res.getLocation());
-                    binding.subject.setText(res.getSubject());
-                    binding.school.setText(res.getSchool());
-                    binding.intro.setText(res.getInfo());
-                    binding.curi.setText(res.getCurriculum());
-                    binding.exp.setText(res.getExperience());
-                    binding.appeal.setText(res.getAppeal());
+                    res = response.body();
+                    binding.nickName.setText(findNull(res,res.getNickName()));
+                    binding.place.setText(findNull(res,res.getLocation()));
+                    binding.subject.setText(findNull(res,res.getSubject()));
+                    binding.school.setText(findNull(res,res.getSchool()));
+                    binding.intro.setText(findNull(res,res.getInfo()));
+                    binding.curi.setText(findNull(res,res.getCurriculum()));
+                    binding.exp.setText(findNull(res,res.getExperience()));
+                    binding.appeal.setText(findNull(res,res.getAppeal()));
 
                     adapter = new CertiAdapter(res.getCertificates());
                 }
@@ -134,9 +137,21 @@ public class MyPageEditActivity extends AppCompatActivity {
         binding.mentorInfoChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), MyPageProfileActivity.class);
+                intent.putExtra("profile",res);
+                startActivity(intent);
             }
         });
+    }
+
+    private String findNull(ProfileRes res,String str){
+        final String result;
+        if(res==null){
+            result = "입력해주세요";
+        }
+        else result = str;
+
+        return result;
     }
 
    /* //갤러리에서 이미지 받아오는 메서드
