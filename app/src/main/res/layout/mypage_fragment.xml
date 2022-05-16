@@ -9,17 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
             android:text="마이"
             android:textColor="@color/textColorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"/>
+            android:textStyle="bold" />
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imgCon"
             android:layout_width="50dp"
@@ -33,7 +34,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/ic_launcher_foreground"
                 android:scaleType="centerCrop"/>
         </com.google.android.material.card.MaterialCardView>
 
@@ -58,24 +59,77 @@
             android:layout_marginTop="17dp"
             android:layout_marginRight="15dp"
             android:text="프로필수정"
-            android:textColor="@color/black30"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
-        <View
-            android:id="@+id/headerLine"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_below="@id/imgCon"
             android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/palletGrey" />
-        <LinearLayout
+            app:cardElevation="0dp"
+            app:cardCornerRadius="5dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/palletGrey"
+                android:weightSum="1">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.49"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신청한 스터디"
+                        android:textSize="10sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 개"
+                        android:textColor="@color/textColorPrimary"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="15dp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.005"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.49"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="관심 멘토"
+                        android:textSize="10sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 명"
+                        android:textColor="@color/textColorPrimary"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="15dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+<!--        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/headerLine"
-            android:layout_marginTop="15dp">
+            android:layout_below="@id/headerLine">
 
             <TextView
                 android:id="@+id/announce"
@@ -109,7 +163,7 @@
                 android:textColor="@color/textColorPrimary"
                 android:textStyle="bold"
                 android:padding="20dp"/>
-        </LinearLayout>
+        </LinearLayout>-->
 
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

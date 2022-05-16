@@ -48,7 +48,13 @@ public class StudyMentiFragment extends Fragment {
     public static final int SUBJECT = 1;
     public static final int PLACE = 2;
 
+    String passSubject;
 
+    public StudyMentiFragment(String subject){
+        if(subject!=null){
+            passSubject =subject;
+        }
+    }
 
     @Nullable
     @Override
@@ -57,7 +63,7 @@ public class StudyMentiFragment extends Fragment {
         binding = StudyMentiFragmentBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        setShimmerFrameLayout();
+/*        setShimmerFrameLayout();*/
         toAddStudy();
 
         //필터 버튼 & 텍스트
@@ -80,7 +86,7 @@ public class StudyMentiFragment extends Fragment {
         return view;
     }
 
-    private void toAddStudy(){
+    public void toAddStudy(){
         binding.studyAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,15 +104,6 @@ public class StudyMentiFragment extends Fragment {
         binding.shimmerView.startShimmer();
         binding.studyAdd.setVisibility(View.INVISIBLE);
 
-        Handler handler = new Handler();
-        handler.postDelayed(()->{
-            binding.rcView.setVisibility(View.VISIBLE);
-            binding.studyAdd.setVisibility(View.VISIBLE);
-
-            binding.shimmerView.stopShimmer();
-            binding.shimmerView.setVisibility(View.INVISIBLE);
-
-        },2000);
     }
 
     private void setFilter(TextView filterName, int type){
@@ -211,10 +208,21 @@ public class StudyMentiFragment extends Fragment {
 
     private void setRecyclerView(){
 
+        String subject;
+
+        if(passSubject==null){
+            subject = binding.subjectFilt.getText().toString();
+        }
+        else {
+            subject = passSubject;
+            binding.subjectFilt.setText(subject);
+            filterClick(binding.subjectFilt);
+        }
+
         adapter = new StudyMentiAdapter(getActivity());
         filter = new StudyFilter(
                 binding.statusFilt.getText().toString(),
-                binding.subjectFilt.getText().toString(),
+                subject,
                 binding.placeFilt.getText().toString());
         getData();
         binding.rcView.setAdapter(adapter);
@@ -254,6 +262,7 @@ public class StudyMentiFragment extends Fragment {
                     adapter.addItem(s,filter);
 
                 });
+
 
         }
 

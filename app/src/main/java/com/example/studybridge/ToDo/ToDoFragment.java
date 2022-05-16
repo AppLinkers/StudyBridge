@@ -47,7 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ToDoFragment<findAssignedToDoRes> extends Fragment {
+public class ToDoFragment extends Fragment {
 
 
     private TodoMenteeFragmentBinding menteebinding;
@@ -234,7 +234,7 @@ public class ToDoFragment<findAssignedToDoRes> extends Fragment {
             @Override
             public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
                 if(response.isSuccessful()){
-                    adapterMentor = new ToDoMentoAdapter(response.body());
+                    adapterMentor = new ToDoMentoAdapter(response.body(),getActivity());
                 }
                 mentorbinding.RCView.setAdapter(adapterMentor);
                 StringBuilder sb = new StringBuilder();

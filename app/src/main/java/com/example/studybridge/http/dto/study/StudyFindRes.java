@@ -11,8 +11,13 @@ import androidx.core.content.ContextCompat;
 
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
+import com.example.studybridge.http.DataService;
 
 import java.io.Serializable;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudyFindRes implements Parcelable {
 
@@ -33,6 +38,7 @@ public class StudyFindRes implements Parcelable {
     private String type;
 
     private int menteeCnt;
+
 
     public StudyFindRes(Parcel in) {
         readFromParcel(in);
@@ -88,6 +94,7 @@ public class StudyFindRes implements Parcelable {
             textView.setBackgroundColor(ContextCompat.getColor(context, R.color.disableBtn));
         }
     }
+
 
     @Override
     public int describeContents() {

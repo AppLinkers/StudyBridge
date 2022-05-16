@@ -1,16 +1,16 @@
-package com.example.studybridge.Mypage.Chat;
+package com.example.studybridge.Chat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.databinding.ChatroomItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.message.Message;
@@ -23,23 +23,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MypageChatHolder extends RecyclerView.ViewHolder{
+public class ChatRoomHolder extends RecyclerView.ViewHolder{
 
-    private ImageView img;
-    private TextView name,lastChat,num;
+    private ChatroomItemBinding binding;
 
-    private FindRoomRes findRoomRes;
+
     private StudyFindRes study;
-
+    private Long roomId;
+    private Activity activity;
     DataService dataService;
 
-    public MypageChatHolder(@NonNull View itemView) {
+    public ChatRoomHolder(@NonNull View itemView) {
         super(itemView);
-        //화면 위 데이터
-        img = (ImageView) itemView.findViewById(R.id.mypage_chat_img);
-        name = (TextView) itemView.findViewById(R.id.mypage_chat_name);
-        lastChat = (TextView) itemView.findViewById(R.id.mypage_chat_lastChat);
-        num = (TextView) itemView.findViewById(R.id.mypage_chat_num);
+        binding = ChatroomItemBinding.bind(itemView);
 
         dataService = new DataService();
 
@@ -51,11 +47,12 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
         });
     }
 
-    public void onBind(StudyFindRes data) {
-        name.setText(data.getName());
-        num.setText(String.valueOf(data.getMenteeCnt()+1));
-        getRoom(data.getId(),lastChat);
+    public void onBind(StudyFindRes data,Activity activity) {
+        binding.name.setText(data.getName());
+        binding.num.setText(String.valueOf(data.getMenteeCnt()+1));
+        getRoom(data.getId(),binding.lastChat);
         study = data;
+        this.activity = activity;
     }
 
     private void getRoom(Long studyId,TextView textView){
@@ -63,8 +60,9 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
             @Override
             public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
                 if(response.isSuccessful()){
-                    findRoomRes = response.body();
-                    getLastMsg(response.body().getRoomId(),textView);
+
+                    roomId = response.body().getRoomId();
+                    getLastMsg(roomId,textView);
                 }
             }
 
@@ -109,8 +107,9 @@ public class MypageChatHolder extends RecyclerView.ViewHolder{
     }
     private void goToChat(View view){
         Intent chatIntent = new Intent(itemView.getContext(), ChatActivity.class);
-        chatIntent.putExtra("roomId", findRoomRes.getRoomId());
+        chatIntent.putExtra("roomId", roomId);
         chatIntent.putExtra("study",study);
         view.getContext().startActivity(chatIntent);
+        activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 }

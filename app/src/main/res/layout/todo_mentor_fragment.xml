@@ -43,12 +43,15 @@
         android:background="@color/viewUnderline"
         android:layout_below="@+id/listTxt"
         android:layout_marginTop="15dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RCView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/headerLine"
         android:orientation="vertical"
-        android:layout_below="@+id/headerLine"/>
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"/>
 
 
 </RelativeLayout>

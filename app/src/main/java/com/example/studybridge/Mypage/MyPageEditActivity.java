@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageProfileActivity;
-import com.example.studybridge.Mypage.MentoProfile.Edit.MyPageProfileAdapter;
+import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.CertiAdapter;
 import com.example.studybridge.databinding.MypageEditinfoBinding;
 import com.example.studybridge.http.DataService;
@@ -59,6 +58,12 @@ public class MyPageEditActivity extends AppCompatActivity {
         setUI();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
     }
 
     private void setUI(){
@@ -140,6 +145,7 @@ public class MyPageEditActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MyPageProfileActivity.class);
                 intent.putExtra("profile",res);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
     }

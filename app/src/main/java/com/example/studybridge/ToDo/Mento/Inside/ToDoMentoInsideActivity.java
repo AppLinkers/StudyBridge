@@ -69,6 +69,12 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         Intent intent = getIntent();
         study = intent.getExtras().getParcelable("study");
         binding.title.setText(study.getName());
+        binding.intro.setText(study.getInfo());
+        binding.subject.setText(study.getType());
+        binding.place.setText(study.getPlace());
+        StringBuilder sb = new StringBuilder();
+        sb.append(study.getMenteeCnt()).append("명 참여중..");
+        binding.num.setText(sb.toString());
     }
 
     @Override
@@ -122,5 +128,11 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }

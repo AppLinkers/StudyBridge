@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -21,10 +22,120 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="한줄 소개"
+            android:textColor="@color/textColorPrimary70"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/intro"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="과목"
+            android:textColor="@color/textColorPrimary" />
+        <TextView
+            android:id="@+id/dot"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="·"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/subject"
+            android:layout_below="@id/intro"/>
+
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/intro"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/dot"
+            android:text="지역"
+            android:textColor="@color/textColorPrimary" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgFirstCon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/black30"
+            app:strokeWidth="1dp"
+            android:layout_below="@+id/subject"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgSecondCon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/black30"
+            app:strokeWidth="1dp"
+            android:layout_below="@+id/subject"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imgFirstCon"
+            android:layout_marginLeft="-10dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/black30"
+            app:strokeWidth="1dp"
+            android:layout_below="@+id/subject"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imgSecondCon"
+            android:layout_marginLeft="-10dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imgFirstCon"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@+id/imgFirstCon"
+            android:text="n명 참여중.."
+            android:textColor="@color/palletRed50"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/listTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/num"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:paddingRight="10dp"
@@ -36,7 +147,7 @@
             android:id="@+id/listNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/num"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/listTxt"
             android:text="(N)"
@@ -49,12 +160,15 @@
             android:background="@color/viewUnderline"
             android:layout_below="@+id/listTxt"
             android:layout_marginTop="15dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RCView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/headerLine"
             android:orientation="vertical"
-            android:layout_below="@+id/headerLine"/>
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"/>
 
     </RelativeLayout>
 

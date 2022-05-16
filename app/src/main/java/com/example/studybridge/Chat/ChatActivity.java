@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +47,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -106,10 +106,13 @@ public class ChatActivity extends AppCompatActivity {
     DataService dataService = new DataService();
     Calendar calendar = Calendar.getInstance();
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.chat_inside);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.palletRed));
 
         //Intent
         Intent intent = getIntent();
@@ -137,7 +140,7 @@ public class ChatActivity extends AppCompatActivity {
 
         rcChat = (RecyclerView) findViewById(R.id.chat_RV);
 
-        createNotificationChannel();
+/*        createNotificationChannel();*/
 
         setrecycler();
 
@@ -188,7 +191,7 @@ public class ChatActivity extends AppCompatActivity {
                             rcChat.scrollToPosition(adapter.getItemCount()-1);
                             chatEt.setText("");
 
-                            setNotify(userName,study.getName(),newChat);
+                           /* setNotify(userName,study.getName(),newChat);*/
 
                         }
                     });
@@ -206,6 +209,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
             }
         });
     }
@@ -480,7 +484,9 @@ public class ChatActivity extends AppCompatActivity {
         dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                peopleNum.setText(String.valueOf(response.body().size()+1));
+                StringBuilder sb = new StringBuilder();
+                sb.append("(").append(response.body().size()+1).append(")");
+                peopleNum.setText(sb.toString());
             }
 
             @Override
@@ -490,15 +496,15 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void setNotify(String userName,String chatName, String message){
+/*    private void setNotify(String userName,String chatName, String message){
 
-/*        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"studyBridge")
+*//*        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"studyBridge")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("StudyBridge")
                 .setContentText("알림 메세지")
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);*/
+                .setPriority(NotificationCompat.PRIORITY_HIGH);*//*
 
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this,"studyBridge")
@@ -528,5 +534,11 @@ public class ChatActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }

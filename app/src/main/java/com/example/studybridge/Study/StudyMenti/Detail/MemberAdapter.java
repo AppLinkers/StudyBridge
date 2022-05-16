@@ -120,9 +120,6 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void onBind(String data){
 
             if(path==0){
-                if(getAdapterPosition()==0){
-                    bindMentee.groupLeader.setVisibility(View.VISIBLE);
-                }
                 bindMentee.menteeId.setText(data);
             }
             else {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:text="채팅"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchCon"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/palletGrey"
+            android:textSize="14sp"
+            android:hint="검색"
+            android:paddingLeft="40dp"
+            android:paddingRight="15dp"
+            android:maxLines="1"
+            android:inputType="text"/>
+    </com.google.android.material.card.MaterialCardView>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_search"
+        android:layout_alignTop="@id/searchCon"
+        android:layout_alignLeft="@+id/searchCon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"/>
+    <View
+        android:id="@+id/headerLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/palletGrey"
+        android:layout_below="@+id/searchCon"
+        android:layout_marginTop="15dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RCView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerLine"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" />
+</RelativeLayout>

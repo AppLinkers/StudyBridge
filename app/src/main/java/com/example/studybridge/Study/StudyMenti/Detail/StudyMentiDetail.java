@@ -1,6 +1,5 @@
 package com.example.studybridge.Study.StudyMenti.Detail;
 
-import  android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,23 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.Chat.ChatActivity;
 
@@ -43,7 +31,6 @@ import com.example.studybridge.http.dto.study.StudyDeleteRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyWithdrawReq;
 import com.example.studybridge.http.dto.study.StudyWithdrawRes;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 

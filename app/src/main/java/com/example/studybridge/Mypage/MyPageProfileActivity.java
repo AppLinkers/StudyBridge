@@ -1,6 +1,5 @@
-package com.example.studybridge.Mypage.MentoProfile.Edit;
+package com.example.studybridge.Mypage;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,9 +39,6 @@ import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -160,26 +156,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().equals("")){
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.viewUnderline));
-                    if(cardView !=null && textView != null){
-                        textView.setEnabled(false);
-                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
-                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
-                    }
 
-
-                }
-                else {
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
-                    if(cardView !=null && textView != null){
-                        textView.setEnabled(true);
-                        cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
-                        textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
-                    }
-
-
-                }
             }
 
             @Override
@@ -285,25 +262,20 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
     //메뉴 버튼 설정
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("DefaultLocale")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 return true;
                 //상단 완료버튼 눌렀을때
-            case R.id.mentoProfile_complete_btn:
+            case R.id.complete_btn:
 
 
-                List<Certificate> inputCerti = new ArrayList<>();
-                String selectedPlace=null,selectedSubject=null;
+                String selectedPlace=null;
+                String selectedSubject=null;
 
-                for(int i=0; i<certificates.size(); i++){
-                    inputCerti.add(new Certificate(
-                                    certificates.get(i).getCertificate(),
-                                    certificates.get(i).getImgUrl()));
-                }
 
                 for(int i=0; i<binding.placeSelect.getChildCount();i++){
                     Chip chip = (Chip) binding.placeSelect.getChildAt(i);
@@ -331,12 +303,16 @@ public class MyPageProfileActivity extends AppCompatActivity {
                         sbForSchool.toString(),
                         schoolDir,
                         selectedSubject,
-                        inputCerti,
+                        certificates,
                         binding.exp.getText().toString().trim()+"",
                         binding.curi.getText().toString().trim()+"",
                         binding.appeal.getText().toString().trim()+"",
                         false
                 );
+
+/*                for(Certificate c: certificates ){
+                    System.out.println(c.getCertificate()+" "+ c.getImgUrl());
+                }*/
 
                 Map<String, RequestBody> profileReq = new HashMap<>();
 
@@ -352,11 +328,12 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
                 List<MultipartBody.Part> certificates = new ArrayList<>();
                 List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
+
                 if (mentoProfile.getCertificates().size() > 0) {
                     mentoProfile.getCertificates().forEach(cn -> {
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
                         RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));
-                        certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate(), certificateImg));
+                        certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", certificateImg));
                     });
                 }
 
@@ -477,4 +454,9 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
 }

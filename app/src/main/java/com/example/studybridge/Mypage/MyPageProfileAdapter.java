@@ -1,31 +1,20 @@
-package com.example.studybridge.Mypage.MentoProfile.Edit;
+package com.example.studybridge.Mypage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
-import com.example.studybridge.Util.ItemClickListener;
 import com.example.studybridge.databinding.MypageMentoprofileItemBinding;
 import com.example.studybridge.http.dto.userMentor.Certificate;
-import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,9 +42,6 @@ public class MyPageProfileAdapter extends RecyclerView.Adapter<MyPageProfileAdap
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyPageProfileAdapter.MyPageProfileHolder holder, int position) {
 
-        /*Glide.with(holder.itemView).load(listData.get(position).getImgUrl()).into(holder.qualiImg);
-        holder.qualiImg.setImageURI(Uri.parse(listData.get(position).getImgUrl()));
-        holder.qualiName.setText(listData.get(holder.getAdapterPosition()).getCertificate());*/
         holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
         ((MyPageProfileHolder) holder).onBind(listData.get(position));
 

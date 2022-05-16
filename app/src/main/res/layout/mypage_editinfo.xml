@@ -23,6 +23,14 @@
                 app:title=" "
                 android:gravity="center_horizontal" />
         </com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이 프로필"
+            android:textColor="@color/textColorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/toolbarLayout"
+            android:layout_marginBottom="20dp"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imgCon"

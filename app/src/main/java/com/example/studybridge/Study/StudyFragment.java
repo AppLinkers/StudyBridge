@@ -40,7 +40,6 @@ public class StudyFragment extends Fragment {
     private StudyMentoFragment mentoFragment;
 
 
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,17 +50,43 @@ public class StudyFragment extends Fragment {
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
 
-        setUI(savedInstanceState);
+        Bundle bundle = getArguments();
+
+        setUI(savedInstanceState,bundle);
 
         return view;
     }
 
-    private void setUI(Bundle savedInstance){
+    private void setUI(Bundle savedInstance,Bundle argument){
+        String subject;
+        String goMentor;
+        if(argument!=null){
+            subject = argument.getString("subject");
+            goMentor = argument.getString("goMentor");
+        }
+        else {
+            subject = null;
+            goMentor = null;
+        }
 
-        mentiFragment = new StudyMentiFragment();
+
+        mentiFragment = new StudyMentiFragment(subject);
         mentoFragment = new StudyMentoFragment();
-        if(savedInstance==null){
+        if(savedInstance==null && goMentor==null){
             getParentFragmentManager().beginTransaction().add(R.id.study_frame,mentiFragment).commit();
+            binding.studyIntro.setText("원하는 스터디를 찾아보세요!");
+            binding.studyToStudy.setTextColor(ContextCompat.getColor(getContext(),R.color.textColorPrimary));
+            binding.studyToStudy.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.white));
+            binding.studyToMentor.setTextColor(ContextCompat.getColor(getContext(),R.color.textColorPrimary70));
+            binding.studyToMentor.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.palletGrey));
+        }
+        else{
+            getParentFragmentManager().beginTransaction().replace(R.id.study_frame,mentoFragment).commit();
+            binding.studyIntro.setText("함께할 멘토를 찾아보세요!");
+            binding.studyToMentor.setTextColor(ContextCompat.getColor(getContext(),R.color.textColorPrimary));
+            binding.studyToMentor.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.white));
+            binding.studyToStudy.setTextColor(ContextCompat.getColor(getContext(),R.color.textColorPrimary70));
+            binding.studyToStudy.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.palletGrey));
         }
 
         StringBuilder sb = new StringBuilder();
@@ -96,6 +121,7 @@ public class StudyFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onDestroyView() {

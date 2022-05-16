@@ -4,25 +4,25 @@
     android:layout_height="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="15dp">
+
     <TextView
         android:id="@+id/menteeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="멘티 아이디"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="16sp" />
+        android:textColor="@color/textColorPrimary"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/statusColor"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:cardElevation="0dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/status"
         app:cardBackgroundColor="@color/palletRed"
         app:cardCornerRadius="10dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/status"
-        android:layout_marginRight="10dp"/>
+        app:cardElevation="0dp" />
 
     <TextView
         android:id="@+id/status"
@@ -32,6 +32,5 @@
         android:layout_centerVertical="true"
         android:text="status"
         android:textColor="@color/textColorPrimary"
-        android:textSize="14sp"
         android:textStyle="bold" />
 </RelativeLayout>

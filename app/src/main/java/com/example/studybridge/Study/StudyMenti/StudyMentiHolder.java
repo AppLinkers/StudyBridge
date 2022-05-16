@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.databinding.StudyMentiItemBinding;
@@ -22,8 +19,6 @@ import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

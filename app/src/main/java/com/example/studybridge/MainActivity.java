@@ -13,12 +13,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.studybridge.Chat.ChatFragment;
 import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.ToDo.ToDoFragment;
+import com.example.studybridge.databinding.ActivityMainBinding;
 import com.example.studybridge.http.DataService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,12 +35,13 @@ public class MainActivity extends AppCompatActivity{
     Fragment StudyFragment;
     Fragment ToDoFragment;
     Fragment MyPageFragment;
-    BottomNavigationView bottomNavigationView;
+    Fragment ChatFragment;
 
     DataService dataService;
 
-    boolean isMentee;
+    private ActivityMainBinding binding;
 
+    boolean isMentee;
 
     // creating constant keys for shared preferences.
     SharedPreferences.Editor editor;
@@ -52,7 +56,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
@@ -60,26 +65,27 @@ public class MainActivity extends AppCompatActivity{
 
         editor = sharedPreferences.edit();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        createNotificationChannel();
+
+
+
+        defineMentee();
+
+        setNavigation(savedInstanceState);
+
+
+    }
+
+    private void setNavigation(Bundle savedInstanceState){
 
 
         HomeFragment = new HomeFragment();
         StudyFragment = new StudyFragment();
         ToDoFragment = new ToDoFragment();
         MyPageFragment = new MyPageFragment();
+        ChatFragment = new ChatFragment();
 
-        defineMentee();
-
-        Bundle bundle = new Bundle(3);
-        bundle.putString("name", userName);
-        bundle.putString("id", userId);
-
-        HomeFragment.setArguments(bundle);
-        StudyFragment.setArguments(bundle);
-        ToDoFragment.setArguments(bundle);
-        MyPageFragment.setArguments(bundle);
+        StudyFragment.setArguments(null);
 
 
         if (savedInstanceState == null) {
@@ -89,30 +95,29 @@ public class MainActivity extends AppCompatActivity{
                     .commit();
         }
 
-
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.navigation_home:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment).commit();
-                                return true;
-                            case R.id.navigation_study:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container,StudyFragment).commit();
-                                return true;
-                            case R.id.navigation_toDo:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container,ToDoFragment).commit();
-                                return true;
-                            case R.id.navigation_myPage:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container,MyPageFragment).commit();
-                                return true;
-                        }
-                        return false;
-                    }
-                });
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment).commit();
+                        return true;
+                    case R.id.navigation_study:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,StudyFragment).commit();
+                        return true;
+                    case R.id.navigation_toDo:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,ToDoFragment).commit();
+                        return true;
+                    case R.id.navigation_chat:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, ChatFragment).commit();
+                        return true;
+                    case R.id.navigation_myPage:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,MyPageFragment).commit();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -128,18 +133,18 @@ public class MainActivity extends AppCompatActivity{
                         isMentee = false;
                     }
 
-                    Bundle bundle = new Bundle(3);
+/*                    Bundle bundle = new Bundle(3);
                     bundle.putString("name", userName);
                     bundle.putString("id", userId);
-                    bundle.putBoolean("isMentee", isMentee);
+                    bundle.putBoolean("isMentee", isMentee);*/
 
                     editor.putBoolean(USER_ISMENTEE, isMentee);
                     editor.apply();
 
-                    HomeFragment.setArguments(bundle);
+/*                    HomeFragment.setArguments(bundle);
                     StudyFragment.setArguments(bundle);
                     ToDoFragment.setArguments(bundle);
-                    MyPageFragment.setArguments(bundle);
+                    MyPageFragment.setArguments(bundle);*/
 
                 }
             }
@@ -151,11 +156,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void navigationBlink(int menuItem){
-        MenuItem selectedItem = bottomNavigationView.getMenu().findItem(menuItem);
+        MenuItem selectedItem = binding.bottomNavigation.getMenu().findItem(menuItem);
         selectedItem.setChecked(true);
     }
 
-    private void createNotificationChannel() {
+/*    private void createNotificationChannel() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "StudyBridge";
@@ -167,7 +172,7 @@ public class MainActivity extends AppCompatActivity{
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
+    }*/
 
 
 }

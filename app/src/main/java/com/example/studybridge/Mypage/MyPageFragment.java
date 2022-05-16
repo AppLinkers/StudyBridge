@@ -52,9 +52,6 @@ public class MyPageFragment extends Fragment {
     private void setUI(){
         binding.name.setText(userName);
 
-        if(!isMentee){
-            binding.likeMentor.setVisibility(View.GONE);
-        }
 
         setBtns();
     }
@@ -70,19 +67,6 @@ public class MyPageFragment extends Fragment {
         });
 
 
-        //신청한 스터디
-        binding.applyStudy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
-
-        binding.likeMentor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 }

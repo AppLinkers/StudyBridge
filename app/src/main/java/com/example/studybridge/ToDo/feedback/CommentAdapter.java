@@ -15,9 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studybridge.Chat.ChatAdaptHolder;
 import com.example.studybridge.R;
-import com.example.studybridge.ToDo.Menti.ToDoMentiHolder;
 import com.example.studybridge.Util.BackDialog;
 import com.example.studybridge.databinding.ChatItemBinding;
 import com.example.studybridge.http.DataService;

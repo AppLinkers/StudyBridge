@@ -20,7 +20,7 @@ import com.example.studybridge.Util.ImgView;
 import com.example.studybridge.http.dto.message.Message;
 import com.google.android.material.card.MaterialCardView;
 
-public class ChatAdaptHolder extends RecyclerView.ViewHolder {
+public class ChatHolder extends RecyclerView.ViewHolder {
 
     private TextView chatIDTv,chatTv;
     private ImageView chatUserPic,chatImg;
@@ -35,7 +35,7 @@ public class ChatAdaptHolder extends RecyclerView.ViewHolder {
     private String uri;
 
 
-    public ChatAdaptHolder(View itemview){
+    public ChatHolder(View itemview){
         super(itemview);
 
         sharedPreferences = itemview.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);

@@ -61,7 +61,7 @@
         <activity
             android:name=".Mypage.MyPageEditActivity"
             android:exported="true" />
-        <activity android:name=".Mypage.MentoProfile.Edit.MyPageProfileActivity"
+        <activity android:name=".Mypage.MyPageProfileActivity"
             android:exported="true"/>
 
         <activity android:name=".ToDo.ToDoDetailActivity"

@@ -70,7 +70,7 @@ public class StudyMentoFragment extends Fragment {
         sharedPreferences = view.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userId = sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
-        setShimmerFrameLayout();
+/*        setShimmerFrameLayout();*/
 
 
         //recycler
@@ -95,12 +95,10 @@ public class StudyMentoFragment extends Fragment {
         binding.rCView.setVisibility(View.INVISIBLE);
         binding.shimmerView.startShimmer();
 
-        Handler handler = new Handler();
+/*        Handler handler = new Handler();
         handler.postDelayed(()->{
-            binding.rCView.setVisibility(View.VISIBLE);
-            binding.shimmerView.stopShimmer();
-            binding.shimmerView.setVisibility(View.INVISIBLE);
-        },2000);
+
+        },2000);*/
     }
 
     @Override
@@ -254,6 +252,7 @@ public class StudyMentoFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 return null;
             }
 
@@ -263,6 +262,9 @@ public class StudyMentoFragment extends Fragment {
 
 
         List<ProfileRes> result = null;
+/*        binding.rCView.setVisibility(View.VISIBLE);
+        binding.shimmerView.stopShimmer();
+        binding.shimmerView.setVisibility(View.INVISIBLE);*/
 
         try {
             result = listAPI.get();

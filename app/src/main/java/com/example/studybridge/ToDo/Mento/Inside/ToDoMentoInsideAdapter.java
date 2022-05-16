@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,9 @@ import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,12 +74,15 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private DataService dataService = new DataService();
         private FindToDoRes todo;
 
+        public final int ONE_DAY = 24 * 60 * 60 * 1000;
+        private long dayResult;
+
         public ToDoMentorInsdieHolder(@NonNull View itemView) {
             super(itemView);
             binding = TodoMentorInsideItemBinding.bind(itemView);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            binding.con.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(binding.RCView.getVisibility()==View.GONE){
@@ -91,7 +97,7 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            binding.con.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
 
@@ -105,6 +111,9 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void onBind(FindToDoRes data){
             todo = data;
             binding.taskName.setText(data.getTask());
+            binding.explain.setText(data.getExplain());
+            binding.dueDate.setText(getDday(data.getDueDate()));
+
         }
 
 
@@ -163,5 +172,38 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
         }
+
+        private String getDday(String duedate){
+
+            final int year,month,day;
+            StringTokenizer st = new StringTokenizer(duedate,"-");
+            year = Integer.parseInt(st.nextToken());
+            month = Integer.parseInt(st.nextToken());
+            day = Integer.parseInt(st.nextToken().substring(0,2));
+
+            final Calendar ddayCal = Calendar.getInstance();
+            ddayCal.set(year,month-1,day);
+
+            final long dday = ddayCal.getTimeInMillis()/ONE_DAY;
+            final long today = Calendar.getInstance().getTimeInMillis()/ONE_DAY;
+            dayResult = dday - today;
+
+            // 출력 시 d-day 에 맞게 표시
+            final String strFormat;
+            if (dayResult > 0) {
+                strFormat = "D-%d";
+            } else if (dayResult == 0) {
+                strFormat = "D-Day";
+            } else {
+                strFormat = "마감";
+                binding.dueDate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.redDark));
+            }
+
+            final String strCount = (String.format(strFormat,dayResult));
+
+            return strCount;
+        }
     }
+
+
 }

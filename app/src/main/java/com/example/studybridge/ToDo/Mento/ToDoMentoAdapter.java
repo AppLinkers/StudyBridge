@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Mento;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import retrofit2.Response;
 public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<StudyFindRes> todoStudy = new ArrayList<>();
+    private Activity activity;
 
-    public ToDoMentoAdapter(List<StudyFindRes> todoStudy) {
+    public ToDoMentoAdapter(List<StudyFindRes> todoStudy,Activity activity) {
+        this.activity = activity;
         for(StudyFindRes s: todoStudy){
             if(s.getStatus().equals("MATCHED")){
                 this.todoStudy.add(s);
@@ -44,7 +47,7 @@ public class ToDoMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ToDoMentoHolder) holder).onBind(todoStudy.get(position));
+        ((ToDoMentoHolder) holder).onBind(todoStudy.get(position),activity);
     }
 
     @Override
