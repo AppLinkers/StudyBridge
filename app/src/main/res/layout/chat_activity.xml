@@ -17,7 +17,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/chat_backBtn"
+            android:id="@+id/backBtn"
             android:layout_width="25dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="5dp"/>
 
         <TextView
-            android:id="@+id/chat_title"
+            android:id="@+id/roomName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -37,41 +37,34 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/chat_num"
+            android:id="@+id/roomNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/chat_title"
+            android:layout_toRightOf="@+id/roomName"
             android:text="(0)"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
-    <View
-        android:id="@+id/chat_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/viewUnderline"
-        android:layout_below="@+id/toolbarCon"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_RV"
+        android:id="@+id/rcView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/chat"
-        android:layout_below="@+id/chat_line"
+        android:layout_above="@+id/chatCon"
+        android:layout_below="@+id/toolbarCon"
         android:layout_marginBottom="15dp"
         app:stackFromEnd="true" />
-
     <LinearLayout
-        android:id="@+id/chat"
+        android:id="@+id/chatCon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
         <RelativeLayout
-            android:id="@+id/chat_tempImgLay"
+            android:id="@+id/tempImgLayout"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:visibility="gone">
@@ -81,25 +74,25 @@
                 android:background="@color/viewUnderline"
                 android:layout_alignParentTop="true"/>
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/chat_tempImgCon"
+                android:id="@+id/tempImgCon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="15dp"
                 android:layout_centerInParent="true"
                 app:cardElevation="0dp">
                 <ImageView
-                    android:id="@+id/chat_tempImg"
+                    android:id="@+id/tempImg"
                     android:layout_width="150dp"
                     android:layout_height="120dp"
                     android:scaleType="centerInside"/>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/chat_delTempImg"
+                android:id="@+id/delTempImg"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_toRightOf="@+id/chat_tempImgCon"
-                android:layout_alignTop="@+id/chat_tempImgCon"
-                android:backgroundTint="@color/redDark"
+                android:layout_toRightOf="@+id/tempImgCon"
+                android:layout_alignTop="@+id/tempImgCon"
+                android:backgroundTint="@color/palletRed"
                 app:cardCornerRadius="10dp">
                 <ImageView
                     android:layout_width="match_parent"
@@ -111,25 +104,25 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#F8F8F8"
+            android:background="@color/chatGrey"
             android:paddingLeft="10dp">
-
             <ImageView
-                android:id="@+id/chat_addImg"
+                android:id="@+id/addImg"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_add" />
-
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_toLeftOf="@+id/send"
+                android:layout_toRightOf="@+id/addImg"
+                android:layout_marginLeft="5dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="0dp">
                 <EditText
-                    android:id="@+id/mycontext"
+                    android:id="@+id/chat"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:background="@color/white"

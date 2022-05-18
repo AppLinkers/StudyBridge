@@ -309,6 +309,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
                         adapter.addItem(data);
                     }
                     binding.commentRv.setAdapter(adapter);
+                    binding.commentRv.scrollToPosition(adapter.getItemCount()-1);
                 }
             }
             @Override

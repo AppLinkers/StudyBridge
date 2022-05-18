@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
@@ -26,6 +25,8 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.activity = activity;
     }
 
+
+
     @NonNull
     @NotNull
     @Override
@@ -43,6 +44,7 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemCount() {
         return listData.size();
     }
+
 
     public void addItem(StudyFindRes data, StudyFilter filter) {
         if(isEqual(data.getStatus(),filter.getStatus())

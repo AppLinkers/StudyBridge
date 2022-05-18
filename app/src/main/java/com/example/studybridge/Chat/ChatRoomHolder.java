@@ -25,8 +25,7 @@ import retrofit2.Response;
 
 public class ChatRoomHolder extends RecyclerView.ViewHolder{
 
-    private ChatroomItemBinding binding;
-
+    private final ChatroomItemBinding binding;
 
     private StudyFindRes study;
     private Long roomId;
@@ -48,11 +47,16 @@ public class ChatRoomHolder extends RecyclerView.ViewHolder{
     }
 
     public void onBind(StudyFindRes data,Activity activity) {
+
+        study = data;
+        this.activity = activity;
+
+
         binding.name.setText(data.getName());
         binding.num.setText(String.valueOf(data.getMenteeCnt()+1));
         getRoom(data.getId(),binding.lastChat);
-        study = data;
-        this.activity = activity;
+
+
     }
 
     private void getRoom(Long studyId,TextView textView){
@@ -72,8 +76,6 @@ public class ChatRoomHolder extends RecyclerView.ViewHolder{
             }
         });
     }
-
-
 
     private void getLastMsg(Long roomId,TextView textView){
         dataService.chat.messageList(roomId).enqueue(new Callback<List<Message>>() {

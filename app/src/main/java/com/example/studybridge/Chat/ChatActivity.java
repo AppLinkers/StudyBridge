@@ -1,21 +1,21 @@
 package com.example.studybridge.Chat;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -24,22 +24,19 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
+import com.example.studybridge.databinding.ChatActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.message.Message;
 import com.example.studybridge.http.dto.message.Room;
 import com.example.studybridge.http.dto.study.StudyFindRes;
-import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -47,7 +44,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -55,28 +51,25 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 
 public class ChatActivity extends AppCompatActivity {
 
+
+    private ChatActivityBinding binding;
     //sharedPref
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_NAME = "user_name_key";
-    public static final int PICK_IMAGE = 101;
 
     private StudyFindRes study;
 
     //id 값들
     Long userPkId;
     String userName;
-    String userId;
-    String newChat;
     Long studyId;
     Long roomId;
 
@@ -84,17 +77,8 @@ public class ChatActivity extends AppCompatActivity {
     String dir;
     File imgFile;
 
-    //화면 위 데이터
-    private EditText chatEt;
-    private ImageView addImg,tempImg;
-    private MaterialCardView delImg;
     private ChatAdapter adapter;
-    private RecyclerView rcChat;
     private LinearLayoutManager linearLayoutManager;
-    private ImageView sendImg,backBtn;
-    private LinearLayout send;
-    private TextView title,peopleNum;
-    private RelativeLayout tempImgLay;
 
     private static final String TAG = "Chat";
 
@@ -104,161 +88,58 @@ public class ChatActivity extends AppCompatActivity {
     int chk = 0;
 
     DataService dataService = new DataService();
-    Calendar calendar = Calendar.getInstance();
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_inside);
+        binding = ChatActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.palletRed));
-
-        //Intent
-        Intent intent = getIntent();
-        study = getIntent().getExtras().getParcelable("study");
-        studyId = study.getId();
-        roomId = intent.getLongExtra("roomId", 0);
 
         //sharedPref
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId = sharedPreferences.getLong(USER_PK_ID_KEY, 1L);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
-/*        userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");*/
 
-        //화면 위 데이터
-        chatEt = (EditText) findViewById(R.id.mycontext);
-        addImg = (ImageView) findViewById(R.id.chat_addImg);
-        sendImg = (ImageView) findViewById(R.id.sendImg);
-        backBtn = (ImageView) findViewById(R.id.chat_backBtn);
-        send = (LinearLayout) findViewById(R.id.send);
-        title = (TextView) findViewById(R.id.chat_title);
-        peopleNum = (TextView) findViewById(R.id.chat_num);
-        tempImg = (ImageView) findViewById(R.id.chat_tempImg);
-        tempImgLay = (RelativeLayout) findViewById(R.id.chat_tempImgLay);
-        delImg = (MaterialCardView) findViewById(R.id.chat_delTempImg);
+        intentData();
+        setUI();
+        setAddImg();
+        initStomp();
 
-        rcChat = (RecyclerView) findViewById(R.id.chat_RV);
+    }
 
-/*        createNotificationChannel();*/
+
+
+    private void intentData(){
+        Intent intent = getIntent();
+        study = getIntent().getExtras().getParcelable("study");
+        studyId = study.getId();
+        roomId = intent.getLongExtra("roomId", 0);
+    }
+
+    private void setUI(){
+        binding.roomName.setText(study.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("(").append(study.getMenteeCnt()+1).append(")");
+        binding.roomNum.setText(sb.toString());
 
         setrecycler();
-
-        setIntentData();
-
         setSend();
-
-        setAddImg();
-
-        initStomp();
+        backBtn();
 
     }
 
     private void setrecycler(){
         linearLayoutManager = new LinearLayoutManager(this);
-        rcChat.setLayoutManager(linearLayoutManager);
+        binding.rcView.setLayoutManager(linearLayoutManager);
         adapter = new ChatAdapter();
         getData();
-        rcChat.scrollToPosition(adapter.getItemCount()-1);
+        binding.rcView.scrollToPosition(adapter.getItemCount()-1);
     }
-    private void setSend(){
-        //보내기 버튼
-        chatEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().equals("")){
-                    sendImg.setImageResource(R.drawable.ic_send_gray);
-                    send.setClickable(false);
-                }
-                 else {
-                    sendImg.setImageResource(R.drawable.ic_send);
-                    send.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            newChat = charSequence+"";
-                            // send to server
-                            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
-                            String sendMessage = gson.toJson(message);
-                            stompClient.send("/pub/chat/message", sendMessage).subscribe();
-                            // edit UI
-                            adapter.addItem(message);
-                            rcChat.setAdapter(adapter);
-                            rcChat.scrollToPosition(adapter.getItemCount()-1);
-                            chatEt.setText("");
-
-                           /* setNotify(userName,study.getName(),newChat);*/
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        //뒤로가기 버튼
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            }
-        });
-    }
-
-
-    @SuppressLint("CheckResult")
-    private void initStomp() {
-        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://3.141.122.128:8080/ws-stomp/websocket");
-        stompClient.lifecycle().subscribe(lifecycleEvent -> {
-            switch (lifecycleEvent.getType()) {
-                case OPENED:
-                    Log.d(TAG, "Stomp connection opened");
-                    break;
-                case ERROR:
-                    Log.e(TAG, "Error", lifecycleEvent.getException());
-                    if(lifecycleEvent.getException().getMessage().contains("EOF")){
-                    }
-                    break;
-                case CLOSED:
-                    Log.d(TAG, "Stomp connection closed");
-                    break;
-            }
-        });
-        stompClient.connect();
-
-        // message 수신
-        stompClient.topic("/sub/chat/room/" + roomId).subscribe(topicMessage -> {
-            Log.d(TAG, topicMessage.getPayload());
-            Message message = gson.fromJson(topicMessage.getPayload(), Message.class);
-            runOnUiThread(new Runnable(){
-                @Override
-                public void run() {
-                    if (!message.getSenderId().equals(userPkId)) {
-                        adapter.addItem(message);
-                        rcChat.setAdapter(adapter);
-                    }
-                }
-            });
-        });
-
-        // 채팅방 입장 메시지 송신
-        if (chk == 0) {
-            Message message = new Message("ENTER", new Room(roomId), userPkId, userName, "ENTER");
-            String enter = gson.toJson(message);
-            stompClient.send("/pub/chat/message", enter).subscribe();
-        }
-
-    }
-
 
     @SuppressLint({"staticFieldLeak", "NewApi"})
     public void getData(){
@@ -296,20 +177,136 @@ public class ChatActivity extends AppCompatActivity {
                     chk++;
                 }
 
-
                 adapter.addItem(c);
             });
         }
 
         System.out.println(adapter.getItemCount());
-        rcChat.setAdapter(adapter);
+        binding.rcView.setAdapter(adapter);
     }
+
+
+    private void setSend(){
+        //보내기 버튼
+        binding.chat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    binding.sendImg.setImageResource(R.drawable.ic_send_gray);
+                    binding.send.setClickable(false);
+                }
+                 else {
+                    binding.sendImg.setImageResource(R.drawable.ic_send);
+                    binding.send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String newChat = charSequence+"";
+
+                            // send to server
+                            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
+                            String sendMessage = gson.toJson(message);
+                            stompClient.send("/pub/chat/message", sendMessage).subscribe();
+
+                            // edit UI
+                            adapter.addItem(message);
+                            binding.rcView.setAdapter(adapter);
+                            binding.rcView.scrollToPosition(adapter.getItemCount()-1);
+                            binding.chat.setText("");
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+    }
+
+    private void backBtn(){
+        //뒤로가기 버튼
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
+    }
+
+    private void setAddImg(){
+        binding.addImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                goGetImg.launch(intent);
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> goGetImg = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==RESULT_OK){
+
+
+                        assert result.getData() != null;
+                        final Uri uri = result.getData().getData();
+
+                        dir = uriPath(uri);
+
+                        binding.tempImgLayout.setVisibility(View.VISIBLE);
+                        Glide.with(getApplicationContext()).load(dir).into(binding.tempImg);
+                        /*                        imgFile = new File(dir);*/
+
+                        binding.rcView.scrollToPosition(adapter.getItemCount()-1);
+                        binding.sendImg.setImageResource(R.drawable.ic_send);
+                        binding.send.setClickable(true);
+                        binding.send.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                binding.tempImgLayout.setVisibility(View.GONE);
+                                if(dir!=null){
+                                    sendTempImg();
+                                    dir=null;
+                                } else
+                                    binding.send.setClickable(false);
+                            }
+                        });
+
+
+                        binding.delTempImg.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                binding.tempImgLayout.setVisibility(View.GONE);
+                                binding.sendImg.setImageResource(R.drawable.ic_send_gray);
+                                binding.send.setClickable(false);
+                                dir = null;
+                            }
+                        });
+                    }
+                }
+            }
+    );
 
     private void sendTempImg(){
 
         String img_url = null;
 
-        RequestBody image = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
+        RequestBody image = RequestBody.create(MediaType.parse("multipart/form-data"), new File(dir));
         MultipartBody.Part chatImg = MultipartBody.Part.createFormData("image", "image", image);
 
         @SuppressLint("StaticFieldLeak")
@@ -355,88 +352,86 @@ public class ChatActivity extends AppCompatActivity {
 
         // edit UI
         adapter.addItem(message);
-        rcChat.setAdapter(adapter);
-        rcChat.scrollToPosition(adapter.getItemCount()-1);
-        chatEt.setText("");
+        binding.rcView.setAdapter(adapter);
+        binding.rcView.scrollToPosition(adapter.getItemCount()-1);
+        binding.chat.setText("");
 
     }
-    private void setAddImg(){
-        addImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+
+
+    private String uriPath(Uri uri){
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+
+            assert uri != null;
+            cursor = getContentResolver().query(uri, proj, null, null, null);
+
+            assert cursor != null;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private void initStomp() {
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://3.141.122.128:8080/ws-stomp/websocket");
+        stompClient.lifecycle().subscribe(lifecycleEvent -> {
+            switch (lifecycleEvent.getType()) {
+                case OPENED:
+                    Log.d(TAG, "Stomp connection opened");
+                    break;
+                case ERROR:
+                    Log.e(TAG, "Error", lifecycleEvent.getException());
+                    if(lifecycleEvent.getException().getMessage().contains("EOF")){
+                    }
+                    break;
+                case CLOSED:
+                    Log.d(TAG, "Stomp connection closed");
+                    break;
             }
         });
+        stompClient.connect();
+
+        // message 수신
+        stompClient.topic("/sub/chat/room/" + roomId).subscribe(topicMessage -> {
+            Log.d(TAG, topicMessage.getPayload());
+            Message message = gson.fromJson(topicMessage.getPayload(), Message.class);
+            runOnUiThread(new Runnable(){
+                @Override
+                public void run() {
+                    if (!message.getSenderId().equals(userPkId)) {
+                        adapter.addItem(message);
+                        binding.rcView.setAdapter(adapter);
+                    }
+                }
+            });
+        });
+
+        // 채팅방 입장 메시지 송신
+        if (chk == 0) {
+            Message message = new Message("ENTER", new Room(roomId), userPkId, userName, "ENTER");
+            String enter = gson.toJson(message);
+            stompClient.send("/pub/chat/message", enter).subscribe();
+        }
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK){
-            switch (requestCode) {
-                case PICK_IMAGE: //사진 선택시
-
-                    try {
-                        InputStream in = getContentResolver().openInputStream(data.getData());
-
-
-                        Bitmap img = BitmapFactory.decodeStream(in);
-
-                        Bitmap rImg = rotateImage(data.getData(), img);
-                        in.close();
-
-                        dir = saveBitmapToJpg(rImg,"testPath");
-
-                        tempImgLay.setVisibility(View.VISIBLE);
-                        tempImg.setImageBitmap(rImg);
-                        rcChat.scrollToPosition(adapter.getItemCount()-1);
-
-                        imgFile = new File(dir);
-
-                        delImg.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                tempImgLay.setVisibility(View.GONE);
-                                sendImg.setImageResource(R.drawable.ic_send_gray);
-                                send.setClickable(false);
-                                imgFile.deleteOnExit();
-                            }
-                        });
-
-                        sendImg.setImageResource(R.drawable.ic_send);
-                        send.setClickable(true);
-                        send.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(imgFile.exists()){
-                                    sendTempImg();
-                                    tempImgLay.setVisibility(View.GONE);
-                                    imgFile.deleteOnExit();
-                                } else
-                                    send.setClickable(false);
-                            }
-                        });
-
-
-
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-            }
-        }
-        else if(requestCode == RESULT_CANCELED){
-            //취소할 경우
-        }
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
-    //사진 돌아감 방지 메서드
+/*    //사진 돌아감 방지 메서드
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Bitmap rotateImage(Uri uri, Bitmap bitmap) throws IOException {
         InputStream in = getContentResolver().openInputStream(uri);
@@ -477,28 +472,13 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("imgPath" , getCacheDir() + "/" +fileName);
 
         return getCacheDir() + "/" +fileName;
-    }
+    }*/
 
-    private void setIntentData(){
-        title.setText(study.getName());
-        dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("(").append(response.body().size()+1).append(")");
-                peopleNum.setText(sb.toString());
-            }
 
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
 
-            }
-        });
-    }
+    /*    private void setNotify(String userName,String chatName, String message){
 
-/*    private void setNotify(String userName,String chatName, String message){
-
-*//*        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"studyBridge")
+     *//*        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"studyBridge")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("StudyBridge")
                 .setContentText("알림 메세지")
@@ -535,10 +515,4 @@ public class ChatActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }*/
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-    }
 }

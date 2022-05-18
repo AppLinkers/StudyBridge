@@ -63,6 +63,8 @@
             android:exported="true" />
         <activity android:name=".Mypage.MyPageProfileActivity"
             android:exported="true"/>
+        <activity android:name=".Mypage.MyPageInfoActivity"
+            android:exported="true"/>
 
         <activity android:name=".ToDo.ToDoDetailActivity"
             android:exported="true"
@@ -71,6 +73,8 @@
             android:exported="true"/>
         <activity android:name=".ToDo.Mento.ToDoAddActivity"
             android:exported="true"/>
+
+
 
         <activity android:name=".Login.SignUpFirst"
             android:exported="true"/>

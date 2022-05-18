@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -105,7 +106,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         public void onBind(FindFeedBackRes data) {
 
-            binding.chatID.setText(data.getWriterName());
+            binding.senderName.setText(data.getWriterName());
             binding.chat.setText(data.getComment());
             commentId = data.getId();
 
@@ -113,13 +114,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if(data.getWriterId().equals(userPkId)) {
                 isSameUser = true;
                 itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                binding.chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletRed));
-                binding.chat.setTextColor(Color.WHITE);
+                binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletRed));
+                binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
 
             }else{
                 itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-                binding.chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletGrey));
-                binding.chat.setTextColor(itemView.getContext().getResources().getColor(R.color.textColorPrimary));
+                binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletGrey));
+                binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.textColorPrimary));
             }
         }
 

@@ -13,7 +13,6 @@ import retrofit2.http.Query;
 
 public interface UserAuth {
 
-
     @POST("user/auth/sign")
     Call<UserSignUpRes> signUp(@Body UserSignUpReq userSignUpReq);
 

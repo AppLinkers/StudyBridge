@@ -199,6 +199,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MyPageEditActivity.class);
                 startActivity(intent);
                 Toast.makeText(getContext(), "[마이]->[프로필 수정]에서 확인할 수 있습니다", Toast.LENGTH_SHORT).show();
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
 

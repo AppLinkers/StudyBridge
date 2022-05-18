@@ -96,6 +96,7 @@ public class MyPageEditActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,6 +131,7 @@ public class MyPageEditActivity extends AppCompatActivity {
 
     private void setBtns(){
 
+
         //사진 변경
         binding.imgChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +162,13 @@ public class MyPageEditActivity extends AppCompatActivity {
         return result;
     }
 
-   /* //갤러리에서 이미지 받아오는 메서드
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
+    /* //갤러리에서 이미지 받아오는 메서드
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -26,7 +26,7 @@ public class CertiHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ImgView.class);
 
-                intent.putExtra("certiImg",imgUrl);
+                intent.putExtra("img",imgUrl);
 
                 view.getContext().startActivity(intent);
             }

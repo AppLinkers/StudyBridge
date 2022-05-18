@@ -12,20 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.ImgView;
+import com.example.studybridge.databinding.ChatItemBinding;
 import com.example.studybridge.http.dto.message.Message;
 import com.google.android.material.card.MaterialCardView;
 
 public class ChatHolder extends RecyclerView.ViewHolder {
 
-    private TextView chatIDTv,chatTv;
-    private ImageView chatUserPic,chatImg;
-    private LinearLayout chatCon;
-    private MaterialCardView imgCon;
+    private ChatItemBinding binding;
 
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
@@ -34,27 +33,18 @@ public class ChatHolder extends RecyclerView.ViewHolder {
 
     private String uri;
 
-
     public ChatHolder(View itemview){
         super(itemview);
+        binding = ChatItemBinding.bind(itemview);
 
         sharedPreferences = itemview.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
-        //화면 위 데이터
-        chatUserPic = itemview.findViewById(R.id.chat_user_pic); // 프로필 사진
-        chatIDTv = (TextView) itemview.findViewById(R.id.chatID); // 보낸사람 Id(String)
-
-        chatCon = (LinearLayout) itemview.findViewById(R.id.chatCon); // 메세지 컨테이너
-        chatTv = (TextView) itemview.findViewById(R.id.chat); // 보낸사람 메세지
-
-        imgCon = (MaterialCardView) itemview.findViewById(R.id.chat_img_con); //이미지 컨테이너
-        chatImg = (ImageView) itemview.findViewById(R.id.chat_img); // 이미지
-        imgCon.setOnClickListener(new View.OnClickListener() {
+        binding.sendImgCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ImgView.class);
-                intent.putExtra("certiImg",uri);
+                intent.putExtra("img",uri);
                 view.getContext().startActivity(intent);
             }
         });
@@ -64,29 +54,29 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void onBind(Message message){
 
-        chatIDTv.setText(message.getSenderName());
+        binding.senderName.setText(message.getSenderName());
 
         if(message.getMessageType().equals("TALK")){
-            chatCon.setVisibility(View.VISIBLE);
-            imgCon.setVisibility(View.GONE);
-            chatTv.setText(message.getMessage());
+            binding.chatCon.setVisibility(View.VISIBLE);
+            binding.sendImgCon.setVisibility(View.GONE);
+            binding.chat.setText(message.getMessage());
         }
         else if(message.getMessageType().equals("PHOTO")){
-            chatCon.setVisibility(View.GONE);
-            imgCon.setVisibility(View.VISIBLE);
-            Glide.with(itemView.getContext()).load(message.getMessage()).into(chatImg);
+            binding.chatCon.setVisibility(View.GONE);
+            binding.sendImgCon.setVisibility(View.VISIBLE);
+            Glide.with(itemView.getContext()).load(message.getMessage()).into(binding.sendImg);
             uri = message.getMessage();
         }
 
         if(message.getSenderId().equals(userPkId)) {
-            itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletRed));
-            chatTv.setTextColor(Color.WHITE);
+            binding.getRoot().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletRed));
+            binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
 
         }else{
-            itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            chatCon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.palletGrey));
-            chatTv.setTextColor(itemView.getContext().getResources().getColor(R.color.textColorPrimary));
+            binding.getRoot().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletGrey));
+            binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.textColorPrimary));
         }
 
     }

@@ -36,7 +36,6 @@ public class ChatFragment extends Fragment {
 
     private ChatFragmentBinding binding;
 
-    private LinearLayoutManager linearLayoutManager;
     private ChatRoomAdapter adapter;
 
     //Dataservice
@@ -79,7 +78,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void setRecyclerView(){
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.RCView.setLayoutManager(linearLayoutManager);
         getData(filterText);
@@ -91,7 +90,9 @@ public class ChatFragment extends Fragment {
             @Override
             public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
                 if(response.isSuccessful()){
-                    adapter = new ChatRoomAdapter(response.body(),getActivity(),filterText);
+                    final List<StudyFindRes> res = response.body();
+                    assert res != null;
+                    adapter = new ChatRoomAdapter(res,getActivity(),filterText);
                 }
                 binding.RCView.setAdapter(adapter);
             }
@@ -123,48 +124,6 @@ public class ChatFragment extends Fragment {
         });
     }
 
-
-    /*@SuppressLint({"StaticFieldLeak", "NewApi"})
-    private void getData(){
-
-        AsyncTask<Void, Void, List<StudyFindRes>> listAPI = new AsyncTask<Void, Void, List<StudyFindRes>>() {
-
-            @Override
-            protected List<StudyFindRes> doInBackground(Void... params) {
-                Call<List<StudyFindRes>> call = dataService.study.findByUserId(userPkId);
-                try {
-                    return call.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(List<StudyFindRes> s) {
-                super.onPostExecute(s);
-            }
-        }.execute();
-
-
-        List<StudyFindRes> result = null;
-
-        try {
-            result = listAPI.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (result != null) {
-
-            result.forEach(s -> {
-                if(s.getStatus().equals("MATCHED")) {
-                    adapter.addItem(s);
-                }
-            });
-        }
-
-    }*/
 
     @Override
     public void onDestroyView() {
