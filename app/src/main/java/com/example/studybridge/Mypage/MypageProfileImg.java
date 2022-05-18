@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class MypageProfileImg extends AppCompatActivity {
     public static final String USER_NAME = "user_name_key";
 
     private String dir;
-    private String userLoginId,userName;
+    private String userLoginId;
 
     private DataService dataService;
 
@@ -60,7 +61,6 @@ public class MypageProfileImg extends AppCompatActivity {
         //sharedPrefer
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
-        userName = sharedPreferences.getString(USER_NAME, "사용자");
 
         setUI();
     }
@@ -119,7 +119,6 @@ public class MypageProfileImg extends AppCompatActivity {
         });
         //완료 버튼
         binding.button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 setConfirm();
@@ -127,37 +126,33 @@ public class MypageProfileImg extends AppCompatActivity {
         });
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setConfirm(){
         if(dir!=null){
             dataService = new DataService();
 
-            File imgFile = new File(dir);  //1st parameter
-
             StringBuilder sb = new StringBuilder();
-            sb.append(userLoginId).append(".jpg"); //2nd parameter
+            sb.append(userLoginId).append(".jpg");
 
-            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"),imgFile); //3rd parameter
+            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("img",sb.toString(),fileBody);
 
-            Optional<MultipartBody.Part> filePart = Optional.of(MultipartBody.Part.createFormData("profileImg",sb.toString(),fileBody));
-
-            UserProfileUpdateReq updateReq = new UserProfileUpdateReq(filePart);
-
-            dataService.userAuth.updateProfile(updateReq).enqueue(new Callback<UserProfileRes>() {
+            dataService.userAuth.updateProfileImg(userLoginId,filePart).enqueue(new Callback<UserProfileRes>() {
                 @Override
                 public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
                     if(response.isSuccessful()){
                         finish();
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                        Toast.makeText(MypageProfileImg.this, "성공", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserProfileRes> call, Throwable t) {
                     Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+                    Log.d("imgUpload","fail");
                 }
             });
+
         }
         else {
             finish();

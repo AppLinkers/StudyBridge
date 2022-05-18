@@ -75,16 +75,16 @@
         app:cardElevation="0dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp">
-    <TextView
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/palletRed"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:text="완 료"/>
+        <TextView
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/palletRed"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="완 료"/>
     </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>
