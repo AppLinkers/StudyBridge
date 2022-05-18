@@ -6,9 +6,11 @@ import com.example.studybridge.http.dto.userAuth.UserProfileUpdateReq;
 import com.example.studybridge.http.dto.userAuth.UserSignUpReq;
 import com.example.studybridge.http.dto.userAuth.UserSignUpRes;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
@@ -33,4 +35,8 @@ public interface UserAuth {
 
     @POST("user/auth/profile")
     Call<UserProfileRes> updateProfile(@Body UserProfileUpdateReq userProfileUpdateReq);
+
+    @Multipart
+    @POST("user/auth/profile/img")
+    Call<UserProfileRes> updateProfileImg(@Query("userLoginId") String userLoginId, @Part MultipartBody.Part imgFile);
 }
