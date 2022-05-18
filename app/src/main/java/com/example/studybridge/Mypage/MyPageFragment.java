@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.databinding.MypageFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
 
 import java.util.ArrayList;
@@ -166,6 +168,26 @@ public class MyPageFragment extends Fragment {
         else{
             binding.mentorNum.setText("멘티 전용");
         }
+
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+
+                    final String uri = response.body().getProfileImg();
+
+                    if(uri != null){
+                        Glide.with(getContext()).load(uri).into(binding.img);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
 
 
     }
