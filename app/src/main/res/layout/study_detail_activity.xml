@@ -174,10 +174,10 @@
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="15dp">
                 <ImageView
+                    android:id="@+id/makerImg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:scaleType="centerCrop"/>
             </com.google.android.material.card.MaterialCardView>
 
             <View
@@ -259,6 +259,7 @@
                 app:cardCornerRadius="15dp"
                 android:visibility="invisible">
                 <ImageView
+                    android:id="@+id/chosenImg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"

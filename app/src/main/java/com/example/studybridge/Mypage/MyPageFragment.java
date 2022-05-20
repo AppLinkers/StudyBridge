@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.MypageFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -45,6 +46,7 @@ public class MyPageFragment extends Fragment {
     Long userIdPk;
     String userId;
     String userName;
+    String imgPath;
     boolean isMentee;
 
     public static final int APPLY_STUDY = 0;
@@ -64,6 +66,7 @@ public class MyPageFragment extends Fragment {
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
         userName = sharedPreferences.getString(USER_NAME, "사용자 이름");
         isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,false);
+        imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
 
         setUI();
 
@@ -85,6 +88,7 @@ public class MyPageFragment extends Fragment {
 
     private void setUI(){
         binding.name.setText(userName);
+        Glide.with(getContext()).load(imgPath).into(binding.img);
         getData();
         setBtns();
     }
@@ -168,27 +172,6 @@ public class MyPageFragment extends Fragment {
         else{
             binding.mentorNum.setText("멘티 전용");
         }
-
-        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-            @Override
-            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                if(response.isSuccessful()){
-
-                    final String uri = response.body().getProfileImg();
-
-                    if(uri != null){
-                        Glide.with(getContext()).load(uri).into(binding.img);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserProfileRes> call, Throwable t) {
-
-            }
-        });
-
 
     }
 }

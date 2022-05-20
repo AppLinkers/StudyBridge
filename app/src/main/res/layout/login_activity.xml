@@ -1,87 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Login.LoginActivity">
+    tools:context=".Login.LoginActivity"
+    android:padding="15dp">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="STUDY BRIDGE"
+        android:textColor="@color/palletRed"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:gravity="center"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/idText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="100dp"
+        android:text="아이디"
+        android:textSize="12sp"
+        android:textColor="@color/black30"
+        android:textStyle="bold" />
+    <RelativeLayout
+        android:id="@+id/idCon"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/idText">
+        <EditText
+            android:id="@+id/id"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:hint="아이디"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="@color/textColorPrimary70" />
+        <View
+            android:id="@+id/idLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/viewUnderline"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/pwText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="비밀번호"
+        android:textStyle="bold"
+        android:textColor="@color/black30"
+        android:textSize="12sp"
+        android:layout_below="@+id/idCon"
+        android:layout_marginTop="20dp"/>
+    <RelativeLayout
+        android:id="@+id/pwCon"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/pwText">
+
+        <EditText
+            android:id="@+id/pw"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="@color/textColorPrimary70" />
+        <View
+            android:id="@+id/pwLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/viewUnderline"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardCornerRadius="5dp"
+        android:layout_below="@id/pwCon"
+        android:layout_marginTop="25dp">
+        <TextView
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/palletRed"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:padding="25dp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="study Bridge"
-            android:textAllCaps="true"
-            android:textSize="18sp"
-            android:paddingTop="48dp"/>
+            android:text="아직 회원이 아니신가요?"
+            android:textColor="@color/black30"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.StudyBridge.TextInputLayout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/goSignUp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="ID"
-            android:layout_marginTop="120dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/id_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.StudyBridge.TextInputLayout"
-            android:id="@+id/password_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLines="1"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
-            style="@style/Widget.StudyBridge.Button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="로그인"
-            android:backgroundTint="@color/palletRed"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signUp_button"
-            style="@style/Widget.StudyBridge.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:onClick="gotoSignup"
-            android:text="회원가입"
-            android:textStyle="bold"/>
-
-<!--        <Button-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="본인인증"-->
-<!--            android:onClick="confirm"/>-->
-
+            android:padding="8dp"
+            android:text="가입하기"
+            android:textColor="@color/palletRed"
+            android:textStyle="bold" />
     </LinearLayout>
 
-
-</ScrollView>
+</RelativeLayout>

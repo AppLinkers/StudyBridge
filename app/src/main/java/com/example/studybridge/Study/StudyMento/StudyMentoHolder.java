@@ -9,13 +9,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.databinding.StudyMentoItemBinding;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 
 import org.jetbrains.annotations.NotNull;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class StudyMentoHolder extends RecyclerView.ViewHolder {
@@ -25,6 +32,8 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
     private StudyMentoItemBinding binding;
 
     private Activity activity;
+
+    private DataService dataService = new DataService();
 
     public StudyMentoHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -50,8 +59,25 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         binding.mentorName.setText(data.getNickName());
         binding.mentorIntro.setText(data.getInfo());
         binding.mentorSchool.setText(data.getSchool());
-
         profile = data;
+        setProfile(data.getUserName());
         this.activity = activity;
+    }
+
+    private void setProfile(String userId){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(itemView).load(path).into(binding.mentorImg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -2,19 +2,27 @@ package com.example.studybridge.ToDo.Menti;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.ToDoDetailActivity;
 import com.example.studybridge.databinding.TodoMenteeRvitemBinding;
+import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 
 import java.util.Calendar;
 import java.util.StringTokenizer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ToDoMentiHolder extends RecyclerView.ViewHolder{
 
@@ -25,6 +33,8 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     private FindAssignedToDoRes toDoRes;
     public final int ONE_DAY = 24 * 60 * 60 * 1000;
     private long dayResult;
+
+    private DataService dataService = new DataService();
 
 
     public ToDoMentiHolder(@NonNull View itemView) {
@@ -49,13 +59,14 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         binding.dueDate.setText(data.getDueDate());
         setBackGround(binding.itemCon,data.getStatus());
         binding.dueDate.setText(getDday(data.getDueDate()));
+        setProfile(data.getMentorName());
 
         if (data.getStatus().equals("CONFIRMED")){
             binding.dueDate.setVisibility(View.INVISIBLE);
             binding.icTime.setVisibility(View.INVISIBLE);
             binding.confirmText.setVisibility(View.VISIBLE);
+            binding.confirmText.bringToFront();
         }
-
 
         toDoRes = data;
 
@@ -107,6 +118,23 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         final String strCount = (String.format(strFormat,dayResult));
 
         return strCount;
+    }
+
+    private void setProfile(String userId){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(itemView).load(path).into(binding.img);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
     }
 
 }

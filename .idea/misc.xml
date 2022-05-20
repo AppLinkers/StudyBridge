@@ -101,7 +101,7 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/home_detail_activity.xml" value="0.33" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/home_fragment.xml" value="0.33" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/home_rv_item.xml" value="0.34010416666666665" />
-        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_activity.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_activity.xml" value="0.33" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_first.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/login_fist.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/mentor_certi_img.xml" value="0.27905982905982907" />
@@ -126,6 +126,7 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_first.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_last.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/signup_second.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/start_activity.xml" value="0.27905982905982907" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_add_activity.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_detail_activity.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/layout/study_filt.xml" value="0.34010416666666665" />

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.Mypage.MyPageEditActivity;
 import com.example.studybridge.Mypage.MyPageFragment;
@@ -24,6 +25,7 @@ import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.HomeFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -48,13 +50,12 @@ public class HomeFragment extends Fragment {
     public static final String USER_NAME = "user_name_key";
     public static final String USER_ID_KEY = "user_id_key";
 
-    private String userName,userId;
+    private String userName,userId,imgPath;
     private Long userIdPk;
 
     private HomeFragmentBinding binding;
 
     private StudyFragment studyFragment;
-    private MyPageFragment myPageFragment;
     private ProfileRes profile;
 
     String managerId;
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment {
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY,  0);
         userName= sharedPreferences.getString(USER_NAME, "사용자");
         userId = sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
+        imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
 
         setUI();
         //화면 위 데이터
@@ -81,11 +83,13 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
     private void setUI(){
         StringBuilder sb;
         sb = new StringBuilder();
         sb.append(userName).append("님");
         binding.title.setText(sb.toString());
+        Glide.with(getContext()).load(imgPath).into(binding.headerImg);
 
         getStudyData();
         getMentorData();

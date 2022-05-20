@@ -66,67 +66,66 @@
             android:layout_toRightOf="@+id/dot"
             android:text="지역"
             android:textColor="@color/textColorPrimary" />
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/imgFirstCon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/black30"
-            app:strokeWidth="1dp"
-            android:layout_below="@+id/subject"
-            android:layout_marginTop="15dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"/>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/imgSecondCon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/black30"
-            app:strokeWidth="1dp"
+        <LinearLayout
+            android:id="@+id/imgCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/subject"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/imgFirstCon"
-            android:layout_marginLeft="-10dp"
-            >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"/>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/black30"
-            app:strokeWidth="1dp"
-            android:layout_below="@+id/subject"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/imgSecondCon"
-            android:layout_marginLeft="-10dp"
-            >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"/>
-        </com.google.android.material.card.MaterialCardView>
+            android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imgFirstCon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/black30"
+                app:strokeWidth="1dp">
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imgSecondCon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/black30"
+                app:strokeWidth="1dp"
+                android:layout_marginLeft="-10dp">
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imgThirdCon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/black30"
+                app:strokeWidth="1dp"
+                android:layout_marginLeft="-10dp">
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imgFirstCon"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@+id/imgFirstCon"
+            android:layout_alignBottom="@+id/imgCon"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imgCon"
             android:text="n명 참여중.."
             android:textColor="@color/palletRed50"
             android:textSize="12sp"

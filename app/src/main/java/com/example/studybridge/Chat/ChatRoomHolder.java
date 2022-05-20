@@ -51,7 +51,6 @@ public class ChatRoomHolder extends RecyclerView.ViewHolder{
         study = data;
         this.activity = activity;
 
-
         binding.name.setText(data.getName());
         binding.num.setText(String.valueOf(data.getMenteeCnt()+1));
         getRoom(data.getId(),binding.lastChat);

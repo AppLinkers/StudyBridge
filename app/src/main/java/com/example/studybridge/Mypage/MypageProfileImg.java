@@ -22,12 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.MypageProfileimgBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileUpdateReq;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 import okhttp3.MediaType;
@@ -49,6 +51,7 @@ public class MypageProfileImg extends AppCompatActivity {
 
     private String dir;
     private String userLoginId;
+    String imgPath;
 
     private DataService dataService;
 
@@ -61,11 +64,14 @@ public class MypageProfileImg extends AppCompatActivity {
         //sharedPrefer
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userLoginId = sharedPreferences.getString(USER_ID_KEY, "userLoginId");
+        imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
 
         setUI();
     }
 
     private void setUI(){
+        dir = imgPath;
+        Glide.with(this).load(dir).into(binding.img);
         changeImg();
         setBtn();
     }
@@ -92,6 +98,7 @@ public class MypageProfileImg extends AppCompatActivity {
                         assert result.getData() != null;
 
                         dir = uriPath(result.getData().getData());
+
                         Glide.with(MypageProfileImg.this).load(dir).into(binding.img);
 
 
@@ -127,29 +134,32 @@ public class MypageProfileImg extends AppCompatActivity {
     }
 
     private void setConfirm(){
-        if(dir!=null){
+        if(!dir.equals(imgPath)){
             dataService = new DataService();
-
-            StringBuilder sb = new StringBuilder();
-            sb.append(userLoginId).append(".jpg");
-
-            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
-            MultipartBody.Part filePart = MultipartBody.Part.createFormData("img",sb.toString(),fileBody);
-
-            dataService.userAuth.updateProfileImg(userLoginId,filePart).enqueue(new Callback<UserProfileRes>() {
+            
+            File file = new File(dir);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+            
+            MultipartBody.Part body = MultipartBody.Part.createFormData("imgFile",file.getName(),requestFile);
+            
+            dataService.userAuth.updateProfileImg(userLoginId,body).enqueue(new Callback<UserProfileRes>() {
                 @Override
                 public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
                     if(response.isSuccessful()){
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(SharedPrefKey.USER_PROFILE,dir);
+                        editor.apply();
+
                         finish();
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-                        Toast.makeText(MypageProfileImg.this, "성공", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserProfileRes> call, Throwable t) {
-                    Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
-                    Log.d("imgUpload","fail");
+                    finish();
+                    Toast.makeText(MypageProfileImg.this, "업로드 실패", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -181,6 +191,16 @@ public class MypageProfileImg extends AppCompatActivity {
                 cursor.close();
             }
         }
+    }
+
+    private File getTempFile(Context context,String uri,String fileName){
+        File file = null;
+        try {
+            file =File.createTempFile(fileName,null,context.getCacheDir());
+        } catch (IOException e){
+           e.printStackTrace();
+        }
+        return file;
     }
     @Override
     public void onBackPressed() {

@@ -6,23 +6,28 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Mento.ToDoAddActivity;
 import com.example.studybridge.databinding.TodoMentoInsideActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -35,13 +40,14 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
 
     private TodoMentoInsideActivityBinding binding;
-    private DataService dataService;
+    private DataService dataService = new DataService();
 
     //리사이클러뷰
     private LinearLayoutManager linearLayoutManager;
     private ToDoMentoInsideAdapter adapter;
 
     private StudyFindRes study;
+    private ArrayList<String> menteeArr;
 
     //sharedPref
     SharedPreferences sharedPreferences;
@@ -59,7 +65,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         userId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         intentData();
-
+        getProfile();
         getData();
         setFloatingActionButton();
 
@@ -68,6 +74,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     private void intentData(){
         Intent intent = getIntent();
         study = intent.getExtras().getParcelable("study");
+        menteeArr = new ArrayList<>(intent.getStringArrayListExtra("menteeArr"));
         binding.title.setText(study.getName());
         binding.intro.setText(study.getInfo());
         binding.subject.setText(study.getType());
@@ -100,7 +107,6 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
     }
     private void getData(){
-        dataService = new DataService();
         dataService.toDo.findOfStudy(study.getId(),userId).enqueue(new Callback<List<FindToDoRes>>() {
             final ArrayList<FindToDoRes> findToDoRes = new ArrayList<>();
             @Override
@@ -127,6 +133,46 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 
+        });
+    }
+
+    private void getProfile(){
+
+        final int size = menteeArr.size();
+
+        if(size<=1){
+            binding.imgSecondCon.setVisibility(View.GONE);
+            binding.imgThirdCon.setVisibility(View.GONE);
+            setImg(menteeArr.get(0),binding.img1);
+
+        }
+        else if(size == 2){
+            binding.imgThirdCon.setVisibility(View.GONE);
+            setImg(menteeArr.get(0),binding.img1);
+            setImg(menteeArr.get(1),binding.img2);
+        }
+        else {
+            setImg(menteeArr.get(0),binding.img1);
+            setImg(menteeArr.get(1),binding.img2);
+            setImg(menteeArr.get(2),binding.img3);
+        }
+    }
+
+    private void setImg(String userId, ImageView imageView){
+
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(getApplicationContext()).load(path).into(imageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
         });
     }
 

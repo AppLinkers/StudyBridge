@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.CertiAdapter;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.MypageEditinfoBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
@@ -40,6 +42,7 @@ public class MyPageEditActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private String userName;
     private String userId;
+    private String imgPath;
     private boolean isMentee;
 
     private ProfileRes res;
@@ -54,6 +57,7 @@ public class MyPageEditActivity extends AppCompatActivity {
         userName= sharedPreferences.getString(USER_NAME, "사용자");
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
         isMentee = sharedPreferences.getBoolean(USER_ISMENTEE,false);
+        imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
 
         setUI();
 
@@ -74,6 +78,7 @@ public class MyPageEditActivity extends AppCompatActivity {
 
         binding.id.setText(userId);
         binding.name.setText(userName);
+        Glide.with(this).load(imgPath).into(binding.img);
 
         if(isMentee){
             binding.mentorCon.setVisibility(View.GONE);
@@ -108,18 +113,24 @@ public class MyPageEditActivity extends AppCompatActivity {
             public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                 if(response.isSuccessful()){
                     res = response.body();
-                    binding.nickName.setText(findNull(res,res.getNickName()));
-                    binding.place.setText(findNull(res,res.getLocation()));
-                    binding.subject.setText(findNull(res,res.getSubject()));
-                    binding.school.setText(findNull(res,res.getSchool()));
-                    binding.intro.setText(findNull(res,res.getInfo()));
-                    binding.curi.setText(findNull(res,res.getCurriculum()));
-                    binding.exp.setText(findNull(res,res.getExperience()));
-                    binding.appeal.setText(findNull(res,res.getAppeal()));
+                    binding.nickName.setText(findNull(res.getNickName()));
+                    binding.place.setText(findNull(res.getLocation()));
+                    binding.subject.setText(findNull(res.getSubject()));
+                    binding.school.setText(findNull(res.getSchool()));
+                    binding.intro.setText(findNull(res.getInfo()));
+                    binding.curi.setText(findNull(res.getCurriculum()));
+                    binding.exp.setText(findNull(res.getExperience()));
+                    binding.appeal.setText(findNull(res.getAppeal()));
 
-                    adapter = new CertiAdapter(res.getCertificates());
+                    if(res.getCertificates().isEmpty()){
+                        binding.nullCertiText.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        adapter = new CertiAdapter(res.getCertificates());
+                        binding.certiRV.setAdapter(adapter);
+                        binding.nullCertiText.setVisibility(View.INVISIBLE);
+                    }
                 }
-                binding.certiRV.setAdapter(adapter);
             }
 
             @Override
@@ -154,10 +165,10 @@ public class MyPageEditActivity extends AppCompatActivity {
         });
     }
 
-    private String findNull(ProfileRes res,String str){
+    private String findNull(String str){
         final String result;
-        if(res==null){
-            result = "입력해주세요";
+        if(str==null){
+            result = "-";
         }
         else result = str;
 

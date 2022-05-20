@@ -16,11 +16,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.BackDialog;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.ChatItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.feedBack.FindFeedBackRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 
 import java.util.ArrayList;
 
@@ -73,6 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public static final String USER_PK_ID_KEY = "user_pk_id_key";
         SharedPreferences sharedPreferences;
         Long userPkId;
+        String imgPath;
 
         DataService dataService;
         boolean isSameUser = false;
@@ -87,6 +91,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             dataService = new DataService();
             sharedPreferences = itemview.getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
             userPkId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
+            imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
 
             itemview.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -106,7 +111,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         public void onBind(FindFeedBackRes data) {
 
-            binding.senderName.setText(data.getWriterName());
+
             binding.chat.setText(data.getComment());
             commentId = data.getId();
 
@@ -114,13 +119,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if(data.getWriterId().equals(userPkId)) {
                 isSameUser = true;
                 itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                binding.senderName.setVisibility(View.INVISIBLE);
                 binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletRed));
                 binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
+                Glide.with(itemView).load(imgPath).into(binding.userImg);
 
             }else{
+                binding.senderName.setText(data.getWriterName());
+                binding.senderName.setVisibility(View.VISIBLE);
                 itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
                 binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletGrey));
                 binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.textColorPrimary));
+                setProfile(data.getWriterName());
             }
         }
 
@@ -154,6 +164,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
 
+        private void setProfile(String userId){
+            dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+                @Override
+                public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                    if(response.isSuccessful()){
+                        final String path = response.body().getProfileImg();
+                        Glide.with(itemView).load(path).into(binding.userImg);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
+
 
 }

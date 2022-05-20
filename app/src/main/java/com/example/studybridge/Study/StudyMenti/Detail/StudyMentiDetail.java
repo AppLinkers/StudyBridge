@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.Chat.ChatActivity;
 
 import com.example.studybridge.R;
@@ -31,6 +33,7 @@ import com.example.studybridge.http.dto.study.StudyDeleteRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyWithdrawReq;
 import com.example.studybridge.http.dto.study.StudyWithdrawRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 
 import java.util.List;
 
@@ -57,6 +60,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     private String makerId;  //방장 아이디
     private Boolean isMentee; //멘티인지?
     private Boolean isApplied; //지원했는지
+    private String imgPath;
 
 
     //데이터 서비스
@@ -144,6 +148,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         binding.studyNum.setText(sb.toString());
         binding.makerId.setText(makerId);
         binding.explain.setText(study.getExplain());
+        setProfile(makerId,binding.makerImg);
+
     }
 
     private void setBtns(){
@@ -469,6 +475,7 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 binding.chosenId.setText(response.body());
+                setProfile(response.body(),binding.chosenImg);
             }
 
             @Override
@@ -543,6 +550,23 @@ public class StudyMentiDetail extends AppCompatActivity {
         chatIntent.putExtra("roomId", findRoomRes.getRoomId());
         chatIntent.putExtra("study",study);
         startActivity(chatIntent);
+    }
+
+    private void setProfile(String userId, ImageView imageView){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(getApplicationContext()).load(path).into(imageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyFilter;
 import com.example.studybridge.Study.StudyMenti.StudyMentiAdapter;
 import com.example.studybridge.Study.StudyMento.StudyMentoAdapter;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.MypageInfoActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
@@ -57,6 +58,7 @@ public class MyPageInfoActivity extends AppCompatActivity {
         userIdPk= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
         userId= sharedPreferences.getString(USER_ID_KEY, "사용자 아이디");
 
+
         intentData();
         setUI();
 
@@ -72,6 +74,7 @@ public class MyPageInfoActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.rcView.setLayoutManager(linearLayoutManager);
+
 
         if(path == APPLY_STUDY){
             binding.title.setText("신청한 스터디");

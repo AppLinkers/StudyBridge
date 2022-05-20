@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.feedback.CommentAdapter;
@@ -38,6 +40,7 @@ import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.feedBack.FindFeedBackRes;
 import com.example.studybridge.http.dto.feedBack.WriteFeedBackReq;
 import com.example.studybridge.http.dto.feedBack.WriteFeedBackRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -112,6 +115,10 @@ public class ToDoDetailActivity extends AppCompatActivity {
     }
 
     private void setPath(){
+
+        setProfile(toDo.getMentorName(),binding.mentorImg);
+        setProfile(toDo.getMenteeName(),binding.menteeImg);
+
         if(isMentee){
             //멘티 접근 수정 코드
             menteePKId = sharedPreferences.getLong(USER_PK_ID_KEY, 0);
@@ -367,6 +374,23 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private void setProfile(String userId, ImageView imageView){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(getApplicationContext()).load(path).into(imageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
 
             }
         });

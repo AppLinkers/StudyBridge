@@ -70,7 +70,8 @@
                 app:strokeColor="@color/viewUnderline"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                android:visibility="invisible">
                 <TextView
                     android:id="@+id/nickNameCheck"
                     android:layout_width="match_parent"
@@ -448,7 +449,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/white"
-                android:hint="경력사항"
+                android:hint="어필"
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColor="@color/textColorPrimary70" />

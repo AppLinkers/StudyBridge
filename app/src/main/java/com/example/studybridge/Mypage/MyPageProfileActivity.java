@@ -106,17 +106,21 @@ public class MyPageProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         res = intent.getExtras().getParcelable("profile");
         if (res != null) {
-            binding.nickName.setText(res.getNickName());
-            binding.intro.setText(res.getInfo());
-            binding.curi.setText(res.getCurriculum());
-            binding.exp.setText(res.getExperience());
-            binding.appeal.setText(res.getAppeal());
+            binding.nickName.setText(findNull(res.getNickName()));
+            binding.intro.setText(findNull(res.getInfo()));
+            binding.curi.setText(findNull(res.getCurriculum()));
+            binding.exp.setText(findNull(res.getExperience()));
+            binding.appeal.setText(findNull(res.getAppeal()));
             schoolDir = res.getSchoolImg();
-            Glide.with(this).load(schoolDir).into(binding.schoolImg);
+            if(schoolDir!=null){
+                Glide.with(this).load(schoolDir).into(binding.schoolImg);
+            }
 
-            StringTokenizer st = new StringTokenizer(res.getSchool(), "-");
-            binding.school.setText(st.nextToken());
-            binding.major.setText(st.nextToken());
+            if(res.getSchool()!=null){
+                StringTokenizer st = new StringTokenizer(res.getSchool(), "-");
+                binding.school.setText(st.nextToken());
+                binding.major.setText(st.nextToken());
+            }
 
             Chip chipForSubject = (Chip) binding.subjectSelect.getChildAt(checkChipForSubject(res.getSubject()));
             Chip chipForPlace = (Chip) binding.placeSelect.getChildAt(checkChipForPlace(res.getLocation()));
@@ -451,7 +455,16 @@ public class MyPageProfileActivity extends AppCompatActivity {
         } else {
             return 0;
         }
+    }
 
+    private String findNull(String str){
+        final String result;
+        if(str==null){
+            result = "";
+        }
+        else result = str;
+
+        return result;
     }
 
     @Override

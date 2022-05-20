@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,14 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 
+import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
 import com.example.studybridge.Util.ItemClickListener;
 import com.example.studybridge.databinding.StudyMenteeMemberitemBinding;
 import com.example.studybridge.databinding.StudyMentorMemberitemBinding;
+import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -31,6 +39,8 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ItemClickListener itemClickListener;
     private Activity activity;
     int selectPosition = -1;
+
+    private DataService dataService = new DataService();
 
     public MemberAdapter(List<String> listData, int path, ItemClickListener itemClickListener,Activity activity) {
         this.listData = listData;
@@ -121,10 +131,30 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if(path==0){
                 bindMentee.menteeId.setText(data);
+                setProfile(data,bindMentee.img);
             }
             else {
                 bindMentor.mentorId.setText(data);
+                setProfile(data,bindMentor.img);
             }
         }
+
+        private void setProfile(String userId, ImageView imageView){
+            dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+                @Override
+                public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                    if(response.isSuccessful()){
+                        final String path = response.body().getProfileImg();
+                        Glide.with(itemView).load(path).into(imageView);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+                }
+            });
+        }
     }
+
 }

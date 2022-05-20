@@ -39,8 +39,7 @@
             android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"/>
+            android:scaleType="centerCrop"/>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="25dp"

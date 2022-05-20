@@ -14,8 +14,10 @@ import com.example.studybridge.Home.HomeFragment;
 import com.example.studybridge.Mypage.MyPageFragment;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.ToDo.ToDoFragment;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.ActivityMainBinding;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.google.android.material.navigation.NavigationBarView;
 
 import retrofit2.Call;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
     Fragment MyPageFragment;
     Fragment ChatFragment;
 
-    DataService dataService;
+    DataService dataService = new DataService();
 
     private ActivityMainBinding binding;
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         defineMentee();
+        userProfileImg();
 
         setNavigation(savedInstanceState);
 
@@ -112,7 +115,6 @@ public class MainActivity extends AppCompatActivity{
 
 
     private void defineMentee(){
-        dataService = new DataService();
         dataService.userAuth.isMentee(userId).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -130,6 +132,24 @@ public class MainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+    private void userProfileImg(){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    assert response.body() != null;
+                    final String uri = response.body().getProfileImg();
+                    editor.putString(SharedPrefKey.USER_PROFILE,uri);
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
 
             }
         });
