@@ -16,6 +16,8 @@ public class ProfileRes implements Parcelable {
 
     private Long userId;
 
+    private String userLoginId;
+
     private String userName;
 
     private String location;

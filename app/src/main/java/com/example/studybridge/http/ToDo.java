@@ -3,7 +3,9 @@ package com.example.studybridge.http;
 import com.example.studybridge.http.dto.toDo.AssignToDoReq;
 import com.example.studybridge.http.dto.toDo.AssignToDoRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
+import com.example.studybridge.http.dto.toDo.UpdateToDoDueDateReq;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,4 +27,7 @@ public interface ToDo {
 
     @POST("/toDo/delete")
     Call<Integer> delete(@Query("toDoId") Long toDoId);
+
+    @POST("/toDo/update/dueDate")
+    Call<Integer> updateDueDate(@Body UpdateToDoDueDateReq request);
 }
