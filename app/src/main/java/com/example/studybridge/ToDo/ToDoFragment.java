@@ -2,6 +2,7 @@ package com.example.studybridge.ToDo;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Menti.FilterSpinner;
@@ -35,6 +37,7 @@ import com.example.studybridge.databinding.TodoMenteeFragmentBinding;
 import com.example.studybridge.databinding.TodoMentorFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
+import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
 
@@ -71,6 +74,8 @@ public class ToDoFragment extends Fragment {
     private String userId;
     private boolean isMentee;
     private Long studyLong;
+    private Long roomId;
+    private StudyFindRes studyRes;
 
 
 
@@ -105,6 +110,7 @@ public class ToDoFragment extends Fragment {
 
         setFilter();
         menteeRV();
+        goChat();
 
     }
 
@@ -136,17 +142,25 @@ public class ToDoFragment extends Fragment {
 
                 dialog.setTodoInterface(new TodoDialog.TodoInterface() {
                     @Override
-                    public void choose(Long studyId, String studyName) {
+                    public void choose(StudyFindRes study, String studyName) {
                         menteebinding.title.setText(studyName);
-                        studyLong = studyId;
+
+                        if(study!=null){
+                            studyLong = study.getId();
+                            studyRes = study;
+                            getRoom(studyLong);
+                        }
+                        else studyLong = null;
+
+
                     }
                 });
+
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
 
                         menteeRV();
-
                     }
                 });
             }
@@ -228,6 +242,43 @@ public class ToDoFragment extends Fragment {
 
     }
 
+    private void goChat(){
+
+        menteebinding.goChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roomId!=null){
+                    Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                    chatIntent.putExtra("roomId", roomId);
+                    chatIntent.putExtra("study",studyRes);
+                    view.getContext().startActivity(chatIntent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+/*                    Toast.makeText(getContext(), roomId.toString()+" "+studyLong.toString(), Toast.LENGTH_SHORT).show();*/
+                }
+                else {
+                    Toast.makeText(getContext(), "스터디를 선택해주세요", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    private void getRoom(Long studyId){
+        dataService.chat.getRoom(studyId).enqueue(new Callback<FindRoomRes>() {
+            @Override
+            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
+                if(response.isSuccessful()){
+                    roomId = response.body().getRoomId();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FindRoomRes> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void studyData(){
 
         dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
@@ -248,12 +299,6 @@ public class ToDoFragment extends Fragment {
             }
         });
     }
-
-
-
-
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -269,206 +314,6 @@ public class ToDoFragment extends Fragment {
         }
 
     }
-
-    /*private void setSpinnerData(){
-        dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
-            @Override
-            public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
-                if(response.isSuccessful()){
-                    Long a = Long.valueOf(0);
-                    ArrayList<FilterSpinner> filtedList = new ArrayList<FilterSpinner>();
-                    filtedList.add(new FilterSpinner(a,"전체"));
-                    for(StudyFindRes data : response.body()){
-                        if(data.getStatus().equals("MATCHED")){
-                            filtedList.add(new FilterSpinner(data.getId(),data.getName()));
-                        }
-                    }
-                    setSpinner(filtedList);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    int pos = 1;
-    private void setSpinner(ArrayList<FilterSpinner> filtList){
-
-        ArrayAdapter<FilterSpinner> categoryAdapter = new ArrayAdapter<FilterSpinner>(getContext(), android.R.layout.simple_spinner_item , filtList);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for(int j=0; j<filtList.size();j++){
-            if(filtList.get(j).getKey()==filter){
-                pos = j;
-            }
-        }
-        menteebinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(pos !=0){
-                    menteebinding.spinner.setSelection(pos);
-                }
-
-                FilterSpinner spinnerItem  = (FilterSpinner)adapterView.getItemAtPosition(i);
-                key = spinnerItem.getKey();
-                if(isMentee==true){
-                    //Todolist 갯수확인
-                    //setTaskCount();
-                    setEachStudyCount(spinnerItem.getKey());
-                    //리사이클러뷰 설정
-                    menteeRV(spinnerItem.getKey());
-
-                } else {}
-                pos=0;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        menteebinding.spinner.setAdapter(categoryAdapter);
-
-    }
-
-    private void setEachStudyCount(Long filt){
-        Long a = Long.valueOf(0);
-        if(filt == a){
-            setTaskCount();
-        }else{
-            dataService.assignedToDo.countByMenteeAndStudy(userIdPk,filt).enqueue(new Callback<Map<String, Integer>>() {
-                @Override
-                public void onResponse(Call<Map<String, Integer>> call, Response<Map<String, Integer>> response) {
-                    if(response.isSuccessful()){
-                        int total = response.body().get("total");
-                        int confirmed = response.body().get("confirmed");
-                        menteebinding.todoNum.setText(total-confirmed+"");
-                        menteebinding.percent.setText(((double)confirmed/(double)total) * 100 +"%");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Map<String, Integer>> call, Throwable t) {
-
-                }
-            });
-        }
-
-    }
-
-    private void setConfirmedCount(int totalTask){
-
-        dataService.assignedToDo.countByMenteeAndStatus(userIdPk, ToDoStatus.CONFIRMED).enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if(response.isSuccessful()){
-                    confirmedTask = response.body();
-                    confPerc = ((double)confirmedTask / (double)totalTask ) * 100;
-                    menteebinding.percent.setText(String.format("%.0f", confPerc)+"%");
-                    menteebinding.todoNum.setText(totalTask-confirmedTask+"");
-                }
-            }
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void setTaskCount(){
-        dataService.assignedToDo.countByMentee(userIdPk).enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if(response.isSuccessful()){
-                    totalTask = response.body();
-                    setConfirmedCount(totalTask);
-                }
-            }
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-        });
-    }*/
-
-    /*private void setMenteeUI(View view) {
-        //멘티 화면 위 데이터
-        year = (TextView) view.findViewById(R.id.todo_year_tv);
-        month = (TextView) view.findViewById(R.id.todo_month_tv);
-        day = (TextView) view.findViewById(R.id.todo_day_tv);
-        taskCount = (TextView) view.findViewById(R.id.todo_taskCount);
-        taskPerc = (TextView) view.findViewById(R.id.toDo_perc) ;
-        filterSpinner = (Spinner) view.findViewById(R.id.todo_filter);
-        recyclerView = (RecyclerView) view.findViewById(R.id.todo_menti_RV);
-        setTime();
-        setSpinnerData();
-    }
-
-    private void setMentorUI(View view){
-        //멘토 화면 위 데이터
-        year = (TextView) view.findViewById(R.id.todo_year_tv);
-        month = (TextView) view.findViewById(R.id.todo_month_tv);
-        day = (TextView) view.findViewById(R.id.todo_day_tv);
-        recyclerView = (RecyclerView) view.findViewById(R.id.todo_mentor_RV);
-
-        setTime();
-        setMentorRecyclerView();
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private void setTime() {
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        year.setText(new SimpleDateFormat("yyyy").format(date));
-        month.setText(new SimpleDateFormat("MMM", Locale.ENGLISH).format(date));
-        day.setText(new SimpleDateFormat("dd").format(date));
-    }
-
-    private void setMenteeRecyclerView(Long filter) {
-        ToDoMentiAdapter adapter = new ToDoMentiAdapter();
-        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        //smooth scroll
-        recyclerView.setOnFlingListener(null);
-        linearSnapHelper.attachToRecyclerView(recyclerView);
-
-        adapter.setFilter(filter);
-        recyclerView.setAdapter(adapter);
-    }
-
-
-    private void setMentorRecyclerView() {
-        toDoMentoAdapter = new ToDoMentoAdapter();
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        dataService.study.findByUserId(userIdPk).enqueue(new Callback<List<StudyFindRes>>() {
-            @Override
-            public void onResponse(Call<List<StudyFindRes>> call, Response<List<StudyFindRes>> response) {
-                if(response.isSuccessful()){
-                    for(StudyFindRes study : response.body()){
-                        toDoMentoAdapter.addItem(study);
-                    }
-                    recyclerView.setAdapter(toDoMentoAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<StudyFindRes>> call, Throwable t) {
-
-            }
-        });
-
-    }*/
-
-
 
 }
 

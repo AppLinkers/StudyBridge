@@ -45,7 +45,7 @@ public class TodoDialog extends DialogFragment {
 
     ////////////////////////////////////
     public interface TodoInterface{
-        void choose(Long studyId, String studyName);
+        void choose(StudyFindRes study, String studyName);
     }
     public static TodoDialog getInstance(){
         TodoDialog dialog = new TodoDialog();
@@ -94,10 +94,11 @@ public class TodoDialog extends DialogFragment {
                 dismiss();
             }
         });
+
         adapter.setDialogInterface(new TodoDialogAdapter.dialogInterface() {
             @Override
-            public void select(long studyId, String studyName) {
-                todoInterface.choose(studyId, studyName);
+            public void select(StudyFindRes study, String studyName) {
+                todoInterface.choose(study, studyName);
                 dismiss();
             }
         });

@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.studybridge.Chat.ChatActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.ToDo.Mento.ToDoAddActivity;
 import com.example.studybridge.databinding.TodoMentoInsideActivityBinding;
 import com.example.studybridge.http.DataService;
+import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.FindToDoRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
@@ -55,6 +57,8 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
     private Long userId;
 
+    private Long roomId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         getProfile();
         getData();
         setFloatingActionButton();
+        goChat();
 
     }
 
@@ -171,6 +176,36 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void goChat(){
+        getRoom();
+        binding.goChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent chatIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                chatIntent.putExtra("roomId", roomId);
+                chatIntent.putExtra("study",study);
+                view.getContext().startActivity(chatIntent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
+    }
+
+    private void getRoom(){
+        dataService.chat.getRoom(study.getId()).enqueue(new Callback<FindRoomRes>() {
+            @Override
+            public void onResponse(Call<FindRoomRes> call, Response<FindRoomRes> response) {
+                if(response.isSuccessful()){
+                    roomId = response.body().getRoomId();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FindRoomRes> call, Throwable t) {
 
             }
         });

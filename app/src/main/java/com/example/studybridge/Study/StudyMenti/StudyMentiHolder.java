@@ -42,6 +42,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     String userId;
     Long study_id;
     String managerId;
+    String chosneMentorId;
     Boolean isApplied;
 
     private StudyFindRes studyFindRes;
@@ -67,6 +68,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("study",studyFindRes);
                 intentToDetail.putExtra("managerId",managerId);
                 intentToDetail.putExtra("isApplied",isApplied);
+                intentToDetail.putExtra("chosenMentor",chosneMentorId);
 
                 view.getContext().startActivity(intentToDetail);
                 activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
@@ -92,6 +94,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
         getManagerId(study_id);
         findApplied(study_id);
+        chosenMentor(data);
 
         studyFindRes = data;
         this.activity = activity;
@@ -123,6 +126,21 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
 
             }
         });
+    }
+    private void chosenMentor(StudyFindRes study){
+        if(study.getStatus().equals("MATCHED")){
+            dataService.study.chosenMentor(study.getId()).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    chosneMentorId = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
 }

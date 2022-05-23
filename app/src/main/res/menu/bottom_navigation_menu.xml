@@ -12,11 +12,6 @@
         android:title="찾기"
         android:icon="@drawable/ic_search"/>
     <item
-        android:id="@+id/navigation_chat"
-        android:enabled="true"
-        android:title="채팅"
-        android:icon="@drawable/ic_chat_blank"/>
-    <item
         android:id="@+id/navigation_toDo"
         android:enabled="true"
         android:title="투두"

@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity{
         StudyFragment = new StudyFragment();
         ToDoFragment = new ToDoFragment();
         MyPageFragment = new MyPageFragment();
-        ChatFragment = new ChatFragment();
 
         StudyFragment.setArguments(null);
 
@@ -100,9 +99,6 @@ public class MainActivity extends AppCompatActivity{
                         return true;
                     case R.id.navigation_toDo:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,ToDoFragment).commit();
-                        return true;
-                    case R.id.navigation_chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, ChatFragment).commit();
                         return true;
                     case R.id.navigation_myPage:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,MyPageFragment).commit();

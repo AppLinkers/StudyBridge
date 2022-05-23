@@ -60,6 +60,7 @@ public class StudyMentiDetail extends AppCompatActivity {
     private String makerId;  //방장 아이디
     private Boolean isMentee; //멘티인지?
     private Boolean isApplied; //지원했는지
+    private String chosenMentorId; //최종 멘토
     private String imgPath;
 
 
@@ -90,7 +91,6 @@ public class StudyMentiDetail extends AppCompatActivity {
         setUI();
         checkStudyStatus();
         setBtns();
-
         getChat();
 
     }
@@ -101,6 +101,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         studyId = study.getId();
         makerId = intent.getStringExtra("managerId");
         isApplied = intent.getBooleanExtra("isApplied",false);
+        chosenMentorId = intent.getStringExtra("chosenMentor");
 
         //toolbar
         setSupportActionBar(binding.appBar);
@@ -149,6 +150,11 @@ public class StudyMentiDetail extends AppCompatActivity {
         binding.makerId.setText(makerId);
         binding.explain.setText(study.getExplain());
         setProfile(makerId,binding.makerImg);
+
+        if(chosenMentorId!=null){
+            binding.chosenId.setText(chosenMentorId);
+            setProfile(chosenMentorId,binding.chosenImg);
+        }
 
     }
 
@@ -272,7 +278,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         binding.status.setText("모집 종료");
         binding.status.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.disableBtn));
 
-        if(isApplied||userId.equals(makerId)){
+        if(isApplied||userId.equals(makerId)||userId.equals(chosenMentorId)){
             button.setText("스터디 입장하기");
             button.setEnabled(true);
             button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.palletRed));
@@ -470,7 +476,7 @@ public class StudyMentiDetail extends AppCompatActivity {
         binding.chosenId.setVisibility(View.VISIBLE);
         binding.chosenImgCV.setVisibility(View.VISIBLE);
 
-        dataService.study.chosenMentor(studyId).enqueue(new Callback<String>() {
+        /*dataService.study.chosenMentor(studyId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -482,7 +488,7 @@ public class StudyMentiDetail extends AppCompatActivity {
             public void onFailure(Call<String> call, Throwable t) {
 
             }
-        });
+        });*/
 
         binding.mentorBox.setOnClickListener(new View.OnClickListener() {
             @Override

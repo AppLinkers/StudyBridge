@@ -25,7 +25,7 @@ public class TodoDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface dialogInterface{
-        void select(long studyId,String studyName);
+        void select(StudyFindRes study,String studyName);
     }
 
 
@@ -55,6 +55,7 @@ public class TodoDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private DialogTodoItemBinding binding;
         private long studyId;
         private String studyName;
+        private StudyFindRes study;
 
         public ToDoDialogHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,7 +63,7 @@ public class TodoDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialogInterface.select(studyId,studyName);
+                    dialogInterface.select(study,studyName);
                 }
             });
 
@@ -70,7 +71,8 @@ public class TodoDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void onBind(StudyFindRes res){
 
-            studyId = res.getId();
+            study = res;
+/*            studyId = res.getId();*/
             studyName = res.getName();
             binding.name.setText(res.getName());
 
