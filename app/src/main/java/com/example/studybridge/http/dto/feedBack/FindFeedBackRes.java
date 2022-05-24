@@ -10,6 +10,8 @@ public class FindFeedBackRes {
 
     private String writerName;
 
+    private String writerProfileImg;
+
     private String comment;
 
     public Long getId() {
@@ -26,6 +28,10 @@ public class FindFeedBackRes {
 
     public String getWriterName() {
         return writerName;
+    }
+
+    public String getWriterProfileImg() {
+        return writerProfileImg;
     }
 
     public String getComment() {

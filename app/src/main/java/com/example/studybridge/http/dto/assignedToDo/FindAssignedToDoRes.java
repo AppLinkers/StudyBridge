@@ -17,7 +17,11 @@ public class FindAssignedToDoRes implements Parcelable {
 
     private String menteeName;
 
+    private String menteeProfileImg;
+
     private String mentorName;
+
+    private String mentorProfileImg;
 
     private String task;
 
@@ -51,8 +55,16 @@ public class FindAssignedToDoRes implements Parcelable {
         return menteeName;
     }
 
+    public String getMenteeProfileImg() {
+        return menteeProfileImg;
+    }
+
     public String getMentorName() {
         return mentorName;
+    }
+
+    public String getMentorProfileImg() {
+        return mentorProfileImg;
     }
 
     public String getTask() {
