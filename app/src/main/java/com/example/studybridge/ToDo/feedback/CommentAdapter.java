@@ -122,7 +122,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 binding.senderName.setVisibility(View.INVISIBLE);
                 binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletRed));
                 binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
-                Glide.with(itemView).load(imgPath).into(binding.userImg);
+                Glide.with(itemView).load(data.getWriterProfileImg()).into(binding.userImg);
 
             }else{
                 binding.senderName.setText(data.getWriterName());
@@ -130,17 +130,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
                 binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletGrey));
                 binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.textColorPrimary));
-                setProfile(data.getWriterName());
+                Glide.with(itemView).load(data.getWriterProfileImg()).into(binding.userImg);
             }
         }
 
 
 
-        private void setAlertDialog(View view){
+        private void setAlertDialog(View view) {
 
-            BackDialog dialog =BackDialog.getInstance(1);
-            FragmentManager fm = ((AppCompatActivity)itemView.getContext()).getSupportFragmentManager();
-            dialog.show(fm,"delete");
+            BackDialog dialog = BackDialog.getInstance(1);
+            FragmentManager fm = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager();
+            dialog.show(fm, "delete");
 
             dialog.setBackInterface(new BackDialog.BackInterface() {
                 @Override
@@ -148,11 +148,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dataService.feedBack.delete(commentId).enqueue(new Callback<Integer>() {
                         @Override
                         public void onResponse(Call<Integer> call, Response<Integer> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 deleteItem(getAdapterPosition());
                                 Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void onFailure(Call<Integer> call, Throwable t) {
 
@@ -163,24 +164,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         }
-
-        private void setProfile(String userId){
-            dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-                @Override
-                public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                    if(response.isSuccessful()){
-                        final String path = response.body().getProfileImg();
-                        Glide.with(itemView).load(path).into(binding.userImg);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<UserProfileRes> call, Throwable t) {
-
-                }
-            });
-        }
-
     }
 
 

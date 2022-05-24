@@ -60,7 +60,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         binding.mentorIntro.setText(data.getInfo());
         binding.mentorSchool.setText(data.getSchool());
         profile = data;
-        setProfile(data.getUserName());
+        setProfile(data.getUserLoginId());
         this.activity = activity;
     }
 

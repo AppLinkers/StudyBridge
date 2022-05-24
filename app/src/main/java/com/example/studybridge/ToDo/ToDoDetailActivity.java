@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +42,7 @@ import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.feedBack.FindFeedBackRes;
 import com.example.studybridge.http.dto.feedBack.WriteFeedBackReq;
 import com.example.studybridge.http.dto.feedBack.WriteFeedBackRes;
+import com.example.studybridge.http.dto.toDo.UpdateToDoDueDateReq;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -47,6 +50,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,6 +90,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
     Intent gIntent;
     FindAssignedToDoRes toDo;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,10 +119,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setPath(){
-
-        setProfile(toDo.getMentorName(),binding.mentorImg);
-        setProfile(toDo.getMenteeName(),binding.menteeImg);
 
         if(isMentee){
             //멘티 접근 수정 코드
@@ -145,6 +148,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.todo_toolbar_menu,menu);
         return true;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,6 +157,37 @@ public class ToDoDetailActivity extends AppCompatActivity {
                 return true;
 
             case R.id.todo_save:
+
+                String dueDate = binding.dueDate.getText().toString();
+
+                if(!dueDate.equals(dateFormat(toDo.getDueDate()))){
+
+                    String[] splitDate = dueDate.split("/"); // 현재 날짜
+                    LocalDateTime dateTime = LocalDateTime.of(
+                            Integer.parseInt(splitDate[0]),
+                            Integer.parseInt(splitDate[1]),
+                            Integer.parseInt(splitDate[2]),0,0);
+
+                    String localDateTime = dateTime+":00";
+
+                    UpdateToDoDueDateReq dateReq = new UpdateToDoDueDateReq(toDo.getToDoId(),localDateTime);
+
+                    Toast.makeText(this, dateTime.toString(), Toast.LENGTH_SHORT).show();
+                    dataService.toDo.updateDueDate(dateReq).enqueue(new Callback<Integer>() {
+                        @Override
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                            if(response.isSuccessful()){
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+
+                        }
+                    });
+                }
+
                 if(binding.spinner.getVisibility() == View.VISIBLE) {
                     String statusReq = binding.spinner.getSelectedItem().toString().trim();
                     changeToDoStatusReq = new ChangeToDoStatusReq(menteePKId, toDo.getId(), statusReq); //멘토로 들어왔을때 멘티 아이디가 되어야함
@@ -160,8 +195,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ChangeToDoStatusRes> call, Response<ChangeToDoStatusRes> response) {
                             if(response.isSuccessful()){
-                                Toast.makeText(ToDoDetailActivity.this, "성공적으로 변경하였습니다", Toast.LENGTH_SHORT).show();
                                 finish();
+                                Toast.makeText(ToDoDetailActivity.this, "변경 완료", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -171,6 +206,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+
 
                 return true;
         }
@@ -199,23 +236,39 @@ public class ToDoDetailActivity extends AppCompatActivity {
     }
 
     //데이터
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUI(){
 
         setSpinnerText();
 
-        StringBuilder date = new StringBuilder();
-        date.append(toDo.getDueDate().substring(0,4))
-                .append("/")
-                .append(toDo.getDueDate().substring(5,7))
-                .append("/")
-                .append(toDo.getDueDate().substring(8,10));
-
         binding.taskName.setText(toDo.getTask());
-        binding.dueDate.setText(date.toString());
+        binding.dueDate.setText(dateFormat(toDo.getDueDate()));
         binding.mentorId.setText(toDo.getMentorName());
         binding.menteeId.setText(toDo.getMenteeName());
         binding.taskInfo.setText(toDo.getExplain());
+        Glide.with(this).load(toDo.getMenteeProfileImg()).into(binding.menteeImg);
+        Glide.with(this).load(toDo.getMentorProfileImg()).into(binding.mentorImg);
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String dateFormat(String dueDate){
+
+        LocalDateTime localDateTime = LocalDateTime.parse(dueDate);
+        StringBuilder sb = new StringBuilder();
+        sb.append(localDateTime.getYear()).append("/").append(monthInt(localDateTime.getMonthValue())).append("/").append(localDateTime.getDayOfMonth());
+
+        return sb.toString();
+    }
+
+    private String monthInt(int month){
+        if(month<10){
+            StringBuilder sb = new StringBuilder();
+            sb.append("0").append(month);
+            return sb.toString();
+        }
+        else return String.valueOf(month);
     }
 
 
@@ -374,23 +427,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
-            }
-        });
-    }
-
-    private void setProfile(String userId, ImageView imageView){
-        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-            @Override
-            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                if(response.isSuccessful()){
-                    final String path = response.body().getProfileImg();
-                    Glide.with(getApplicationContext()).load(path).into(imageView);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserProfileRes> call, Throwable t) {
 
             }
         });

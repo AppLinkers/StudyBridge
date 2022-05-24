@@ -6,9 +6,9 @@ public class UpdateToDoDueDateReq {
 
     private Long toDoId;
 
-    private LocalDateTime dueDate;
+    private String dueDate;
 
-    public UpdateToDoDueDateReq(Long toDoId, LocalDateTime dueDate) {
+    public UpdateToDoDueDateReq(Long toDoId, String dueDate) {
         this.toDoId = toDoId;
         this.dueDate = dueDate;
     }

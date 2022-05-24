@@ -31,8 +31,11 @@ import retrofit2.Response;
 
 public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<FindToDoRes> todoAssigned = new ArrayList<FindToDoRes>();
+    private List<FindToDoRes> todoAssigned;
 
+    public ToDoMentoInsideAdapter(List<FindToDoRes> todoAssigned) {
+        this.todoAssigned = todoAssigned;
+    }
 
     @NonNull
     @Override
@@ -53,9 +56,6 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyItemRangeChanged(position,todoAssigned.size());
     }
 
-    public void addItem(FindToDoRes data){
-        todoAssigned.add(data);
-    }
 
     @Override
     public int getItemCount() {

@@ -70,6 +70,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
         intentData();
         getProfile();
+
         getData();
         setFloatingActionButton();
         goChat();
@@ -95,30 +96,19 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         getData();
     }
 
-    private void setRecyclerView(ArrayList<FindToDoRes> findToDoRes) {
-
-        adapter = new ToDoMentoInsideAdapter();
+    private void getData(){
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.RCView.setLayoutManager(linearLayoutManager);
-        for(FindToDoRes data : findToDoRes){
-            adapter.addItem(data);
-        }
-        binding.RCView.setAdapter(adapter);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("(").append(adapter.getItemCount()).append(")");
-        binding.listNum.setText(sb.toString());
-
-    }
-    private void getData(){
         dataService.toDo.findOfStudy(study.getId(),userId).enqueue(new Callback<List<FindToDoRes>>() {
-            final ArrayList<FindToDoRes> findToDoRes = new ArrayList<>();
             @Override
             public void onResponse(Call<List<FindToDoRes>> call, Response<List<FindToDoRes>> response) {
                 assert response.body() != null;
-                findToDoRes.addAll(response.body());
-                setRecyclerView(findToDoRes);
+                adapter = new ToDoMentoInsideAdapter(response.body());
+                binding.RCView.setAdapter(adapter);
+                StringBuilder sb = new StringBuilder();
+                sb.append("(").append(adapter.getItemCount()).append(")");
+                binding.listNum.setText(sb.toString());
             }
 
             @Override

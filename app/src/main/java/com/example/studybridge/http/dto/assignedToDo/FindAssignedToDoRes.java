@@ -95,7 +95,9 @@ public class FindAssignedToDoRes implements Parcelable {
         parcel.writeLong(studyId);
         parcel.writeLong(menteeId);
         parcel.writeString(menteeName);
+        parcel.writeString(menteeProfileImg);
         parcel.writeString(mentorName);
+        parcel.writeString(mentorProfileImg);
         parcel.writeString(task);
         parcel.writeString(explain);
         parcel.writeString(dueDate);
@@ -108,7 +110,9 @@ public class FindAssignedToDoRes implements Parcelable {
         studyId = in.readLong();
         menteeId = in.readLong();
         menteeName = in.readString();
+        menteeProfileImg = in.readString();
         mentorName = in.readString();
+        mentorProfileImg = in.readString();
         task = in.readString();
         explain = in.readString();
         dueDate = in.readString();

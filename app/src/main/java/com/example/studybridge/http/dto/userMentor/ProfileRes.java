@@ -94,6 +94,10 @@ public class ProfileRes implements Parcelable {
                 '}';
     }
 
+    public String getUserLoginId() {
+        return userLoginId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -159,6 +163,7 @@ public class ProfileRes implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(userId);
+        dest.writeString(userLoginId);
         dest.writeString(userName);
         dest.writeString(location);
         dest.writeString(info);
@@ -176,6 +181,7 @@ public class ProfileRes implements Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void readFromParcel(Parcel in){
         userId = in.readLong();
+        userLoginId = in.readString();
         userName = in.readString();
         location = in.readString();
         info = in.readString();

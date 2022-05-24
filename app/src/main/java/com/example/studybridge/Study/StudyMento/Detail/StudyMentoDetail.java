@@ -102,7 +102,7 @@ public class StudyMentoDetail extends AppCompatActivity {
 
             mentoLong = profile.getUserId();
             isMentee(profile.getLiked());
-            setProfile(profile.getUserName());
+            setProfile(profile.getUserLoginId());
             binding.mentorName.setText(profile.getNickName());
             binding.mentorIntro.setText(profile.getInfo());
             binding.mentoSubject.setText(profile.getSubject());
@@ -124,7 +124,7 @@ public class StudyMentoDetail extends AppCompatActivity {
                     {
                         mentoLong = response.body().getUserId();
                         isMentee(response.body().getLiked());
-                        setProfile(response.body().getUserName());
+                        setProfile(response.body().getUserLoginId());
                         binding.mentorName.setText(response.body().getNickName());
                         binding.mentorIntro.setText(response.body().getInfo());
                         binding.mentoSubject.setText(response.body().getSubject());

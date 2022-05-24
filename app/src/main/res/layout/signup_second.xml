@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/signup_tv"
         android:layout_marginTop="5dp"
-        android:text="휴대폰 번호를 인증해주세요"
+        android:text="이름을 입력해주세요"
         android:textColor="@color/textColorPrimary"
         android:textSize="18sp" />
     <RelativeLayout
@@ -55,7 +55,7 @@
             android:background="@color/viewUnderline"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/signup_phoneCon"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -98,7 +98,7 @@
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="@color/viewUnderline"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="50dp"

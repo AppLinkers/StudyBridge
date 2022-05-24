@@ -35,8 +35,9 @@ public class SignUpSecond extends AppCompatActivity {
 
 
         intentData();
-        editData(binding.signupName,binding.signupNameLine,null,null);
-        editData(binding.signupPhone,binding.signupPhoneLine,binding.signupPhoneAuthCV,binding.signupPhoneAuth);
+/*        editData(binding.signupName,binding.signupNameLine,null,null);
+        editData(binding.signupPhone,binding.signupPhoneLine,binding.signupPhoneAuthCV,binding.signupPhoneAuth);*/
+        editName(binding.signupName,binding.signupNameLine);
 
         setBackBtn();
     }
@@ -44,6 +45,33 @@ public class SignUpSecond extends AppCompatActivity {
     private void intentData(){
         Intent intent = getIntent();
         role = intent.getStringExtra("role");
+    }
+
+    private void editName(EditText editText, View view){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.viewUnderline));
+                    binding.signupNextBtn.setEnabled(true);
+                    binding.signupNextBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+                }
+                else {
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
+                    setNext();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
     private void editData(EditText editText, View view, MaterialCardView cardView, TextView textView){
         editText.addTextChangedListener(new TextWatcher() {
@@ -97,17 +125,13 @@ public class SignUpSecond extends AppCompatActivity {
     }
     private void setNext(){
 
-/*        binding.signupName.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
-        binding.signupNameLine.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
-        binding.signupName.setEnabled(false);*/
-
-        binding.signupPhone.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+/*        binding.signupPhone.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneLine.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneAuthCV.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneAuth.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneAuth.setText("인증완료");
         binding.signupPhone.setEnabled(false);
-        binding.signupPhoneAuth.setEnabled(false);
+        binding.signupPhoneAuth.setEnabled(false);*/
 
         binding.signupNextBtn.setEnabled(true);
         binding.signupNextBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.palletRed));
@@ -118,7 +142,7 @@ public class SignUpSecond extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(),SignUpLast.class);
                     intent.putExtra("role",role);
                     intent.putExtra("name",binding.signupName.getText().toString().trim());
-                    intent.putExtra("number",binding.signupPhone.getText().toString().trim());
+                    intent.putExtra("number","01000000000");
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 } else{

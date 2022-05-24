@@ -524,31 +524,41 @@ public class StudyMentiDetail extends AppCompatActivity {
     }
 
     public void delStudy() {
-        StudyDeleteReq delReq = new StudyDeleteReq(studyId,userPkId);
-        dataService.study.delete(delReq).enqueue(new Callback<StudyDeleteRes>() {
-            @Override
-            public void onResponse(Call<StudyDeleteRes> call, Response<StudyDeleteRes> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(StudyMentiDetail.this, "삭제가 완료되었습니다. ", Toast.LENGTH_SHORT).show();
-                    finish();
+
+        if(study.getStatus().equals("MATCHED")){
+            Toast.makeText(this, "매칭 후 삭제가 불가합니다", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            StudyDeleteReq delReq = new StudyDeleteReq(studyId,userPkId);
+            dataService.study.delete(delReq).enqueue(new Callback<StudyDeleteRes>() {
+                @Override
+                public void onResponse(Call<StudyDeleteRes> call, Response<StudyDeleteRes> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(StudyMentiDetail.this, "삭제가 완료되었습니다. ", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<StudyDeleteRes> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<StudyDeleteRes> call, Throwable t) {
+                }
+            });
+        }
 
-            }
-        });
 
     }
     public void updateStudy(){
-
-        Intent intent = new Intent(getApplicationContext(),StudyAddActivity.class);
-        intent.putExtra("study",study);
-        intent.putExtra("managerId",makerId);
-        startActivity(intent);
-
+        if(study.getStatus().equals("MATCHED")){
+            Toast.makeText(this, "매칭 후 업데이트가 불가합니다", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(),StudyAddActivity.class);
+            intent.putExtra("study",study);
+            intent.putExtra("managerId",makerId);
+            startActivity(intent);
+        }
     }
 
     private void goToChat(){

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -40,6 +41,8 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +70,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
     public static final String USER_ID_KEY = "user_id_key";
     public static final String USER_PK_ID_KEY = "user_pk_id_key";
 
-    private List<Certificate> certificates;
+    private List<Certificate> certificateList;
 
     private String userName;
     private String userLoginId;
@@ -127,8 +130,9 @@ public class MyPageProfileActivity extends AppCompatActivity {
             chipForSubject.setChecked(true);
             chipForPlace.setChecked(true);
 
-            certificates = new ArrayList<>();
-            certificates = res.getCertificates();
+            certificateList = new ArrayList<>();
+            certificateList = res.getCertificates();
+            Toast.makeText(this, res.getCertificates().get(0).getImgUrl(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -152,7 +156,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.certiRV.setLayoutManager(linearLayoutManager);
-        adapter = new MyPageProfileAdapter(certificates,(Context)this);
+        adapter = new MyPageProfileAdapter(certificateList,(Context)this);
         binding.certiRV.setAdapter(adapter);
     }
 
@@ -257,7 +261,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
                         String dir = uriPath(result.getData().getData());
                         Certificate dataForAdd = new Certificate(null,dir);
-                        certificates.add(dataForAdd);
+                        certificateList.add(dataForAdd);
                         adapter.notifyItemInserted(adapter.getItemCount());
                     }
                 }
@@ -307,16 +311,12 @@ public class MyPageProfileActivity extends AppCompatActivity {
                         sbForSchool.toString(),
                         schoolDir,
                         selectedSubject,
-                        certificates,
+                        certificateList,
                         binding.exp.getText().toString().trim()+"",
                         binding.curi.getText().toString().trim()+"",
                         binding.appeal.getText().toString().trim()+"",
                         false
                 );
-
-/*                for(Certificate c: certificates ){
-                    System.out.println(c.getCertificate()+" "+ c.getImgUrl());
-                }*/
 
                 Map<String, RequestBody> profileReq = new HashMap<>();
 
@@ -336,17 +336,16 @@ public class MyPageProfileActivity extends AppCompatActivity {
                 if (mentoProfile.getCertificates().size() > 0) {
                     mentoProfile.getCertificates().forEach(cn -> {
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
-                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));
-                        certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", certificateImg));
+/*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
+                        certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));
                     });
                 }
 
                 // school Img
-                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));
-                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), schoolImg);
+/*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
+                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));
 
-
-                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
+/*                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
                     @Override
                     public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                         if (response.isSuccessful()) {
@@ -359,12 +358,25 @@ public class MyPageProfileActivity extends AppCompatActivity {
                     public void onFailure(Call<ProfileRes> call, Throwable t) {
                         Log.d("test", t.toString());
                     }
-                });
+                });*/
 
+
+                Log.d("certi", Arrays.toString(new List[]{certificateList}));
 
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private RequestBody requestBody(String dir){
+        final String dirFront = dir.substring(0,5);
+
+        if(dirFront.equals("https")){
+            return RequestBody.create(MediaType.parse("text/plain"),dir);
+        }
+        else{
+            return RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+        }
     }
 
 

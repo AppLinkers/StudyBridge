@@ -29,6 +29,7 @@ import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.HomeFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -173,11 +174,29 @@ public class HomeFragment extends Fragment {
                     binding.mentorItem.mentorName.setText(lastProf.getNickName());
                     binding.mentorItem.mentorIntro.setText(lastProf.getInfo());
                     binding.mentorItem.mentorSchool.setText(lastProf.getSchool());
+                    setProfile(lastProf.getUserLoginId());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ProfileRes>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setProfile(String userId){
+        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
+            @Override
+            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
+                if(response.isSuccessful()){
+                    final String path = response.body().getProfileImg();
+                    Glide.with(getActivity()).load(path).into(binding.mentorItem.mentorImg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileRes> call, Throwable t) {
 
             }
         });

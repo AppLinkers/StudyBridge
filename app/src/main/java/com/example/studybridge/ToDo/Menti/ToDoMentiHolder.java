@@ -59,7 +59,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         binding.dueDate.setText(data.getDueDate());
         setBackGround(binding.itemCon,data.getStatus());
         binding.dueDate.setText(getDday(data.getDueDate()));
-        setProfile(data.getMentorName());
+        Glide.with(itemView).load(data.getMentorProfileImg()).into(binding.img);
 
         if (data.getStatus().equals("CONFIRMED")){
             binding.dueDate.setVisibility(View.INVISIBLE);
@@ -120,21 +120,5 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         return strCount;
     }
 
-    private void setProfile(String userId){
-        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-            @Override
-            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                if(response.isSuccessful()){
-                    final String path = response.body().getProfileImg();
-                    Glide.with(itemView).load(path).into(binding.img);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserProfileRes> call, Throwable t) {
-
-            }
-        });
-    }
 
 }
