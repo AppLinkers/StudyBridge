@@ -20,6 +20,8 @@ public class ProfileRes implements Parcelable {
 
     private String userName;
 
+    private String profileImg;
+
     private String location;
 
     private String info;
@@ -79,7 +81,9 @@ public class ProfileRes implements Parcelable {
     public String toString() {
         return "ProfileRes{" +
                 "userId=" + userId +
+                ", userLoginId='" + userLoginId + '\'' +
                 ", userName='" + userName + '\'' +
+                ", profileImg='" + profileImg + '\'' +
                 ", location='" + location + '\'' +
                 ", info='" + info + '\'' +
                 ", nickName='" + nickName + '\'' +
@@ -102,6 +106,9 @@ public class ProfileRes implements Parcelable {
         return userId;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
 
     public String getUserName() {
         return userName;
