@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Mento.Inside.Detail;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,17 @@ import com.example.studybridge.R;
 import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ToDoMentoInsideDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<FindAssignedToDoRes> listItem = new ArrayList<FindAssignedToDoRes>() ;
+    private List<FindAssignedToDoRes> listItem;
+    private Activity activity;
 
+    public ToDoMentoInsideDetailAdapter(List<FindAssignedToDoRes> listItem, Activity activity) {
+        this.listItem = listItem;
+        this.activity = activity;
+    }
 
     @NonNull
     @Override
@@ -27,7 +34,7 @@ public class ToDoMentoInsideDetailAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        ((ToDoMentorInsdieDetailHolder) holder).onBind(listItem.get(position));
+        ((ToDoMentorInsdieDetailHolder) holder).onBind(listItem.get(position),activity);
     }
 
     public void addItem(FindAssignedToDoRes data){

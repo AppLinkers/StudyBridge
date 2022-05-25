@@ -1,2 +1,3 @@
 rootProject.name = "StudyBridge"
 include ':app'
+include ':nativetemplates'

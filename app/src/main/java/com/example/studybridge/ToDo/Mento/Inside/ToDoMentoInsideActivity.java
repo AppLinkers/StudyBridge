@@ -1,6 +1,7 @@
 package com.example.studybridge.ToDo.Mento.Inside;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     //리사이클러뷰
     private LinearLayoutManager linearLayoutManager;
     private ToDoMentoInsideAdapter adapter;
+    private Activity activity;
 
     private StudyFindRes study;
     private ArrayList<String> menteeArr;
@@ -70,10 +72,10 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
 
         intentData();
         getProfile();
-
         getData();
         setFloatingActionButton();
         goChat();
+
 
     }
 
@@ -97,14 +99,18 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     }
 
     private void getData(){
+
+        activity = (Activity) this;
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         binding.RCView.setLayoutManager(linearLayoutManager);
         dataService.toDo.findOfStudy(study.getId(),userId).enqueue(new Callback<List<FindToDoRes>>() {
             @Override
             public void onResponse(Call<List<FindToDoRes>> call, Response<List<FindToDoRes>> response) {
                 assert response.body() != null;
-                adapter = new ToDoMentoInsideAdapter(response.body());
+                adapter = new ToDoMentoInsideAdapter(response.body(), activity);
                 binding.RCView.setAdapter(adapter);
                 StringBuilder sb = new StringBuilder();
                 sb.append("(").append(adapter.getItemCount()).append(")");

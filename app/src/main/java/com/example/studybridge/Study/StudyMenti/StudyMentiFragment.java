@@ -73,6 +73,7 @@ public class StudyMentiFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         binding.rcView.setLayoutManager(linearLayoutManager);
+        binding.rcView.setItemViewCacheSize(4);
 
         setRecyclerView();
 
@@ -220,6 +221,7 @@ public class StudyMentiFragment extends Fragment {
         }
 
         adapter = new StudyMentiAdapter(getActivity());
+        adapter.setHasStableIds(true);
         filter = new StudyFilter(
                 binding.statusFilt.getText().toString(),
                 subject,

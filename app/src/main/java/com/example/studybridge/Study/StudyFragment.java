@@ -19,6 +19,10 @@ import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyMenti.StudyMentiFragment;
 import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
 import com.example.studybridge.databinding.StudyFragmentBinding;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -96,6 +100,8 @@ public class StudyFragment extends Fragment {
         changeFrame();
 
     }
+
+
 
     private void changeFrame(){
         binding.studyToStudy.setOnClickListener(new View.OnClickListener() {

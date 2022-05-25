@@ -63,6 +63,7 @@
             android:textSize="12sp" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/contentCon"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_marginLeft="15dp"
@@ -129,6 +130,17 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/adTemplate"
+            app:gnt_template_type="@layout/gnt_small_template_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/contentCon"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+
 
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StudyBridge</string>
+    <string name="app_name">스터디브릿지</string>
     <string name="error_password">비밀번호를 확인해주세요</string>
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>

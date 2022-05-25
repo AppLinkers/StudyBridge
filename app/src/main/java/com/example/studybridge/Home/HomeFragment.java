@@ -16,15 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.example.studybridge.MainActivity;
+
 import com.example.studybridge.Mypage.MyPageEditActivity;
-import com.example.studybridge.Mypage.MyPageFragment;
+
 import com.example.studybridge.R;
 import com.example.studybridge.Study.StudyAddActivity;
 import com.example.studybridge.Study.StudyFragment;
 import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.Study.StudyMento.Detail.StudyMentoDetail;
-import com.example.studybridge.Study.StudyMento.StudyMentoFragment;
 import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.HomeFragmentBinding;
 import com.example.studybridge.http.DataService;
@@ -62,6 +61,7 @@ public class HomeFragment extends Fragment {
     String managerId;
     Boolean isApplied;
     private StudyFindRes studyFindRes;
+
 
 
     @Override
@@ -298,4 +298,6 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

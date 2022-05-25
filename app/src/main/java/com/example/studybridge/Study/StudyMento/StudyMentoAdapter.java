@@ -45,6 +45,11 @@ public class StudyMentoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return listData.get(position).getUserId();
+    }
+
     public void addItem(ProfileRes data, StudyFilter filter) {
         if(isEqual(data.getSubject(),filter.getType())
                 &&isEqual(data.getLocation(),filter.getPlace())){

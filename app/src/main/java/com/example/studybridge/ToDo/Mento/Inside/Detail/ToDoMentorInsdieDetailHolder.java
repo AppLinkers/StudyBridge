@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Mento.Inside.Detail;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
 
     private FindAssignedToDoRes res;
     private Long menteePKId;
+    private Activity activity;
 
     public ToDoMentorInsdieDetailHolder(@NonNull View itemView) {
         super(itemView);
@@ -32,12 +34,14 @@ public class ToDoMentorInsdieDetailHolder extends RecyclerView.ViewHolder{
                 intent.putExtra("toDo",res);
                 intent.putExtra("menteePKId",menteePKId);
                 view.getContext().startActivity(intent);
+                activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
     }
 
-    public void onBind(FindAssignedToDoRes data){
+    public void onBind(FindAssignedToDoRes data,Activity activity){
 
+        this.activity = activity;
         binding.menteeId.setText(data.getMenteeName());
         binding.status.setText(data.getStatus());
         menteePKId = data.getMenteeId();

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,10 @@ import com.example.studybridge.Util.FilterDialog;
 import com.example.studybridge.databinding.StudyMentoFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,10 +83,12 @@ public class StudyMentoFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         binding.rCView.setLayoutManager(linearLayoutManager);
+        binding.rCView.setItemViewCacheSize(5);
 
 
 
         setRecyclerView();
+        adMob();
         setRefresh();
         setFilter(binding.subjectFilt, SUBJECT);
         setFilter(binding.placeFilt, PLACE);
@@ -99,6 +106,18 @@ public class StudyMentoFragment extends Fragment {
         handler.postDelayed(()->{
 
         },2000);*/
+    }
+
+    private void adMob(){
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
     }
 
     @Override
@@ -199,36 +218,10 @@ public class StudyMentoFragment extends Fragment {
         textView.setTypeface(null, Typeface.BOLD);
     }
 
-/*    private void setFilterFab(){
-        filterFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StudyFilterDialog bottomSheet = StudyFilterDialog.getInstance(MENTOFIND);
-                bottomSheet.show(getChildFragmentManager(), StudyFilterDialog.getInstance(MENTOFIND).getTag());
-                bottomSheet.setDialogInterfacer(new StudyFilterDialog.DialogInterfacer() {
-                    @Override
-                    public void onFilterBtnClick(String status, String subject, String place) {
-                        subjectFilter.setText(subject);
-                        placeFilter.setText(place);
-                    }
-                });
-                bottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        adapter = new StudyMentoAdapter();
-                        filter = new StudyFilter(
-                                subjectFilter.getText().toString(),
-                                placeFilter.getText().toString());
-                        getData();
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
-            }
-        });
-    }*/
 
     private void setRecyclerView(){
         adapter = new StudyMentoAdapter(getActivity());
+        adapter.setHasStableIds(true);
         filter = new StudyFilter(
                 binding.subjectFilt.getText().toString(),
                 binding.placeFilt.getText().toString());

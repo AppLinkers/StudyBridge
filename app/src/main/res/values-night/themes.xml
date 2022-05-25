@@ -1,16 +1,105 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.StudyBridge" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.StudyBridge" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/palletRed</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+    </style>
+
+    //textInput
+    <style name="Widget.StudyBridge.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
+        <item name="hintTextColor">@color/textColorPrimary</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="boxStrokeColor">@color/palletRed</item>
+    </style>
+
+    <style name="Widget.StudyBridge.TextInputLayout.black" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
+        <item name="hintTextColor">@color/textColorPrimary</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="boxStrokeColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.StudyBridge.TextInputLayout.white" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
+        <item name="boxStrokeColor">@color/white</item>
+    </style>
+
+    <style name="Widget.StudyBridge.TextInputEditText" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/viewUnderline</item> //unFocus일때
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="android:textCursorDrawable">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="expandedHintEnabled">false</item>
+    </style>
+
+    <style name="Widget.StudyBridge.TextInputEditText.White" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/white</item> //unFocus일때
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="android:textCursorDrawable">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    //Toolbar
+    <style name="Widget.StudyBridge.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/white</item>
+        <item name="android:theme">@style/Theme.StudyBridge</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+
+    //Button
+
+    <style name="Widget.StudyBridge.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="Widget.StudyBridge.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    //Dialog
+    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.ButtonForPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.Button</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogTheme.Button" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/black30</item>
+    </style>
+    <style name="AppTheme.AlertDialogTheme.ButtonForPositive" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/redDark</item>
+    </style>
+
+
+    //Chip
+
+    <style name="Widget.StudyBridge.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="checkedIcon">@drawable/ic_check_white</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="chipBackgroundColor">@color/chip_background_list</item>
+        <item name="android:textColor">@color/chip_text_list</item>
+    </style>
+    <style name="Widget.StudyBridge.ChipForFilter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="checkedIcon">@drawable/ic_check_red</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="chipBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="Widget.StudyBridge.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_list</item>
+        <item name="android:textColor">@color/chip_text_list</item>
     </style>
 </resources>

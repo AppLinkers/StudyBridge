@@ -1,8 +1,11 @@
 package com.example.studybridge.Mypage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -21,6 +24,12 @@ import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userMentee.LikeMentorRes;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +100,22 @@ public class MyPageFragment extends Fragment {
         Glide.with(getContext()).load(imgPath).into(binding.img);
         getData();
         setBtns();
+        setAd();
+    }
+
+    private void setAd(){
+        MobileAds.initialize(getContext());
+        AdLoader adLoader = new AdLoader.Builder(getContext(), "ca-app-pub-3940256099942544/2247696110")
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        binding.adTemplate.setNativeAd(nativeAd);
+                    }
+                })
+                .build();
+
+        adLoader.loadAd(new AdRequest.Builder().build());
     }
 
     private void setBtns(){

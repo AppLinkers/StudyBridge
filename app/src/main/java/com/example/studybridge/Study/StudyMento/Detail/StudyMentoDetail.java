@@ -87,7 +87,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -146,6 +146,7 @@ public class StudyMentoDetail extends AppCompatActivity {
         }
 
 
+        setBtn();
     }
 
 
@@ -234,10 +235,18 @@ public class StudyMentoDetail extends AppCompatActivity {
             }
         });
     }
+    private void setBtn(){
+        binding.talkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(StudyMentoDetail.this, "서비스 준비중입니다", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
 }

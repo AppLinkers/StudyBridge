@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Menti;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
     public final int ONE_DAY = 24 * 60 * 60 * 1000;
     private long dayResult;
 
-    private DataService dataService = new DataService();
+    private Activity activity;
 
 
     public ToDoMentiHolder(@NonNull View itemView) {
@@ -48,12 +49,13 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
                 intent.putExtra("toDo", toDoRes);
                 intent.putExtra("dayResult",dayResult);
                 view.getContext().startActivity(intent);
+                activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 
     }
 
-    public void onBind(FindAssignedToDoRes data){
+    public void onBind(FindAssignedToDoRes data,Activity activity){
 
         binding.name.setText(data.getTask());
         binding.dueDate.setText(data.getDueDate());
@@ -69,6 +71,7 @@ public class ToDoMentiHolder extends RecyclerView.ViewHolder{
         }
 
         toDoRes = data;
+        this.activity = activity;
 
     }
 

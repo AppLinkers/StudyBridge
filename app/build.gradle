@@ -92,4 +92,8 @@ dependencies {
     // shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //adMob
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
+    implementation project(':nativetemplates')
+
 }

@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Mento.Inside;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,11 @@ import retrofit2.Response;
 public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<FindToDoRes> todoAssigned;
+    private Activity activity;
 
-    public ToDoMentoInsideAdapter(List<FindToDoRes> todoAssigned) {
+    public ToDoMentoInsideAdapter(List<FindToDoRes> todoAssigned,Activity activity) {
         this.todoAssigned = todoAssigned;
+        this.activity = activity;
     }
 
     @NonNull
@@ -47,7 +50,7 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        ((ToDoMentorInsdieHolder) holder).onBind(todoAssigned.get(position));
+        ((ToDoMentorInsdieHolder) holder).onBind(todoAssigned.get(position),activity);
 
     }
     public void deleteItem(int position){
@@ -73,6 +76,7 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private ToDoMentoInsideDetailAdapter adapter;
         private DataService dataService = new DataService();
         private FindToDoRes todo;
+        private Activity activity;
 
         public final int ONE_DAY = 24 * 60 * 60 * 1000;
         private long dayResult;
@@ -108,17 +112,18 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             });
         }
 
-        public void onBind(FindToDoRes data){
+        public void onBind(FindToDoRes data, Activity activity){
             todo = data;
             binding.taskName.setText(data.getTask());
             binding.explain.setText(data.getExplain());
             binding.dueDate.setText(getDday(data.getDueDate()));
+            this.activity = activity;
 
         }
 
 
         private void setRecyclerView(){
-            adapter= new ToDoMentoInsideDetailAdapter();
+
             dataService = new DataService();
             binding.RCView.setVisibility(View.VISIBLE);
             binding.arrow.setImageResource(R.drawable.ic_arrow_up);
@@ -134,9 +139,7 @@ public class ToDoMentoInsideAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             dataService.assignedToDo.findByToDo(todo.getId()).enqueue(new Callback<List<FindAssignedToDoRes>>() {
                 @Override
                 public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
-                    for(FindAssignedToDoRes todo : response.body()){
-                        adapter.addItem(todo);
-                    }
+                    adapter = new ToDoMentoInsideDetailAdapter(response.body(),activity);
                     binding.RCView.setAdapter(adapter);
                 }
 

@@ -46,7 +46,7 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(), StudyMentoDetail.class);
                 intent.putExtra("profile", profile);
                 view.getContext().startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 

@@ -207,10 +207,10 @@ public class SignUpLast extends AppCompatActivity {
                 if(idOk &&isValidPassword(binding.signupPassword.getText().toString())){
                     signUpOk();
                 } else if(!isValidPassword(binding.signupPassword.getText().toString())){
-                    binding.signupPassword.requestFocus();
+                    binding.signupPasswordRe.requestFocus();
                 }
                 else {
-                    Toast.makeText(SignUpLast.this, "idNo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpLast.this, "아이디를 확인해주세요", Toast.LENGTH_SHORT).show();
                     binding.signupId.requestFocus();
                 }
 //                signUpOk();

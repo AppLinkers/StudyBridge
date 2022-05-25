@@ -32,12 +32,10 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="16sp" />
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            app:cardCornerRadius="30dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:cardCornerRadius="40dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/black30"
-            app:strokeWidth="1dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/title"
             android:layout_marginRight="15dp">

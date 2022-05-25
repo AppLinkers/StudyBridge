@@ -154,6 +154,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 return true;
 
             case R.id.todo_save:
@@ -172,7 +173,6 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
                     UpdateToDoDueDateReq dateReq = new UpdateToDoDueDateReq(toDo.getToDoId(),localDateTime);
 
-                    Toast.makeText(this, dateTime.toString(), Toast.LENGTH_SHORT).show();
                     dataService.toDo.updateDueDate(dateReq).enqueue(new Callback<Integer>() {
                         @Override
                         public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -257,12 +257,14 @@ public class ToDoDetailActivity extends AppCompatActivity {
 
         LocalDateTime localDateTime = LocalDateTime.parse(dueDate);
         StringBuilder sb = new StringBuilder();
-        sb.append(localDateTime.getYear()).append("/").append(monthInt(localDateTime.getMonthValue())).append("/").append(localDateTime.getDayOfMonth());
+        sb.append(localDateTime.getYear())
+                .append("/").append(overTenInt(localDateTime.getMonthValue()))
+                .append("/").append(overTenInt(localDateTime.getDayOfMonth()));
 
         return sb.toString();
     }
 
-    private String monthInt(int month){
+    private String overTenInt(int month){
         if(month<10){
             StringBuilder sb = new StringBuilder();
             sb.append("0").append(month);
@@ -432,4 +434,9 @@ public class ToDoDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    }
 }

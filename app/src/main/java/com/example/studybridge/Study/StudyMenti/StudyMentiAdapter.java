@@ -18,13 +18,12 @@ import java.util.ArrayList;
 
 public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private ArrayList<StudyFindRes> listData = new ArrayList<>();
+    private ArrayList<StudyFindRes> listData = new ArrayList<>(1000);
     private Activity activity;
 
     public StudyMentiAdapter(Activity activity) {
         this.activity = activity;
     }
-
 
 
     @NonNull
@@ -45,6 +44,10 @@ public class StudyMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listData.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return listData.get(position).getId();
+    }
 
     public void addItem(StudyFindRes data, StudyFilter filter) {
         if(isEqual(data.getStatus(),filter.getStatus())

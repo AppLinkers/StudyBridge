@@ -35,7 +35,9 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable-v24/colorprimary_dark_gradient45.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable-v24/ic_arrow_down_red.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable-v24/ic_check_primary.xml" value="0.2375" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.237" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable-v24/round_select.xml" value="0.238" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/app_icon_foreground.xml" value="0.237" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/button_clicked.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/button_clicked_gray.xml" value="0.2375" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/circle_shape.xml" value="0.2375" />
@@ -58,6 +60,7 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_filter.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_heart_gray.xml" value="0.238" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_heart_white.xml" value="0.238" />
+        <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_launcher_background.xml" value="0.237" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_location_white.xml" value="0.2405" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_mypage_white.xml" value="0.2405" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/drawable/ic_school.xml" value="0.238" />
@@ -180,6 +183,10 @@
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_detail_toolbar.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/study_toolbar_menu.xml" value="0.34010416666666665" />
         <entry key="..\:/androidProjects/StudyBridge/app/src/main/res/menu/todo_toolbar_menu.xml" value="0.34010416666666665" />
+        <entry key="..\:/androidProjects/StudyBridge/nativetemplates/src/main/res/drawable/gnt_outline_shape.xml" value="0.237" />
+        <entry key="..\:/androidProjects/StudyBridge/nativetemplates/src/main/res/drawable/gnt_rounded_corners_shape.xml" value="0.237" />
+        <entry key="..\:/androidProjects/StudyBridge/nativetemplates/src/main/res/layout/gnt_medium_template_view.xml" value="0.27521367521367524" />
+        <entry key="..\:/androidProjects/StudyBridge/nativetemplates/src/main/res/layout/gnt_small_template_view.xml" value="0.27521367521367524" />
         <entry key="app/src/main/res/layout/activity_atuh.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_atuh2.xml" value="0.11626139817629179" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.1480978260869565" />

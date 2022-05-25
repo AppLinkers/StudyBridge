@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.example.studybridge.AtuhActivity;
 import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
+import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.LoginActivityBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userAuth.UserLoginReq;
@@ -46,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_NAME = "user_name_key";
 
     SharedPreferences sharedPreferences;
+    SharedPreferences autoSharedPref;
+    String userId;
+    String userPw;
 
     private long backBtnTime = 0;
 
@@ -57,11 +61,20 @@ public class LoginActivity extends AppCompatActivity {
 
         // initializing our shared preferences.
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        // getting data from shared prefs and
-        // storing it in our string variable.
+
+        autoSharedPref = getSharedPreferences(SharedPrefKey.AUTO_LOGIN, Context.MODE_PRIVATE);
+        userId= autoSharedPref.getString(SharedPrefKey.USER_ID_KEY, null);
+        userPw = autoSharedPref.getString(SharedPrefKey.USER_PASSWORD,null);
 
         setUI();
 
+    }
+
+    private void AutoLogin(){
+        if(userId != null && userPw != null){
+            autoSignIn();
+        }
+        setUI();
     }
 
     private void setUI(){
@@ -115,6 +128,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void autoSignIn(){
+        UserLoginReq userLoginReq = new UserLoginReq(userId,userPw);
+
+        dataService.userAuth.login(userLoginReq).enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.isSuccessful()){
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
     private void signIn(){
 
         UserLoginReq userLoginReq = new UserLoginReq(binding.id.getText().toString().trim(), binding.pw.getText().toString().trim());
@@ -126,15 +159,22 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     UserLoginRes data = gson.fromJson(response.body().toString(), UserLoginRes.class);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    SharedPreferences.Editor autoEditor = autoSharedPref.edit();
 
                     editor.putLong(USER_PK_ID_KEY, data.getId());
                     editor.putString(USER_ID_KEY, data.getLoginId());
                     editor.putString(USER_NAME, data.getName());
                     editor.apply();
 
+                    autoEditor.putString(SharedPrefKey.USER_PASSWORD,binding.pw.getText().toString().trim());
+                    autoEditor.putString(SharedPrefKey.USER_ID_KEY, data.getLoginId());
+                    autoEditor.apply();
+
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
-                }else {
+                    finish();
+                }
+                else {
                     // 로그인 실패
                     Log.d("test", response.raw().message());
                     Toast.makeText(LoginActivity.this, "로그인 정보를 확인해주세요", Toast.LENGTH_SHORT).show();

@@ -71,7 +71,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 intentToDetail.putExtra("chosenMentor",chosneMentorId);
 
                 view.getContext().startActivity(intentToDetail);
-                activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                activity.overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 

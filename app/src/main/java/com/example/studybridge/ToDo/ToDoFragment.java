@@ -40,6 +40,11 @@ import com.example.studybridge.http.dto.assignedToDo.FindAssignedToDoRes;
 import com.example.studybridge.http.dto.message.FindRoomRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.toDo.ToDoStatus;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,12 +116,25 @@ public class ToDoFragment extends Fragment {
         setFilter();
         menteeRV();
         goChat();
+        adMob(menteebinding.adView);
 
     }
 
     private void mentorUI(){
         mentorRV();
+        adMob(mentorbinding.adView);
+    }
 
+    private void adMob(AdView adView){
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
     private void menteeRV(){
 
@@ -173,7 +191,7 @@ public class ToDoFragment extends Fragment {
             public void onResponse(Call<List<FindAssignedToDoRes>> call, Response<List<FindAssignedToDoRes>> response) {
                 if(response.isSuccessful()){
                     Collections.reverse(response.body());
-                    adapter = new ToDoMentiAdapter(response.body(),studyLong);
+                    adapter = new ToDoMentiAdapter(response.body(),studyLong,getActivity());
 
                     List<FindAssignedToDoRes> calcList = new ArrayList<>();
                     if(studyLong == null){

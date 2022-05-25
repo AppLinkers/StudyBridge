@@ -1,5 +1,6 @@
 package com.example.studybridge.ToDo.Menti;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ import java.util.List;
 public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<FindAssignedToDoRes> listData = new ArrayList<>();
+    private Activity activity;
 
-    public ToDoMentiAdapter(List<FindAssignedToDoRes> listData,Long studyId) {
+    public ToDoMentiAdapter(List<FindAssignedToDoRes> listData,Long studyId,Activity activity) {
+
+        this.activity = activity;
 
         if(studyId==null){
             this.listData = listData;
@@ -44,7 +48,7 @@ public class ToDoMentiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ToDoMentiHolder) holder).onBind(listData.get(position));
+        ((ToDoMentiHolder) holder).onBind(listData.get(position),activity);
     }
 
 
