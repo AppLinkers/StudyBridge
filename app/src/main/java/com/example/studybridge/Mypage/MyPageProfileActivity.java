@@ -344,13 +344,6 @@ public class MyPageProfileActivity extends AppCompatActivity {
                     });
                 }
 
-                Log.d("test", String.valueOf(certificatesImgReq.size()));
-                certificatesImgReq.forEach(
-                        c -> {
-                            Log.d("test", String.valueOf(c.body().contentType()));
-                        }
-                );
-
                 // school Img
 /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
                 MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchoolImg()+"");
