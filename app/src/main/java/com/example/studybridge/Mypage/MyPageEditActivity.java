@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -122,7 +123,7 @@ public class MyPageEditActivity extends AppCompatActivity {
                     binding.exp.setText(findNull(res.getExperience()));
                     binding.appeal.setText(findNull(res.getAppeal()));
 
-                    if(res.getCertificates().isEmpty()){
+                    if(res.getCertificates().size() == 0){
                         binding.nullCertiText.setVisibility(View.VISIBLE);
                     }
                     else{

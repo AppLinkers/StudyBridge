@@ -133,7 +133,6 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
             certificateList = new ArrayList<>();
             certificateList = res.getCertificates();
-            Toast.makeText(this, res.getCertificates().get(0).getImgUrl(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -339,47 +338,43 @@ public class MyPageProfileActivity extends AppCompatActivity {
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
 /*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
                         /*certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));*/
-                        certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()+""));
+                        certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()));
+
 
                     });
                 }
 
                 // school Img
 /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
-                MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchoolImg()+"");
+                MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchool());
                         /*MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));*/
 
                 dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
                     @Override
                     public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                         if (response.isSuccessful()) {
-                            Log.d("test", response.body().toString());
                             finish();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ProfileRes> call, Throwable t) {
-                        Log.d("test", t.toString());
                     }
                 });
-
-
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private MultipartBody.Part multiParts(String dir, String name,String fileName){
+
         final String dirFront = dir.substring(0,5);
         if(dirFront.equals("https")){
             RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
-            return MultipartBody.Part.createFormData(name,fileName, body);
+            return MultipartBody.Part.createFormData(name,dir, body);
         }
         else {
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
-
             return MultipartBody.Part.createFormData(name,fileName,body);
         }
     }
