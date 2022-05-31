@@ -344,6 +344,13 @@ public class MyPageProfileActivity extends AppCompatActivity {
                     });
                 }
 
+                Log.d("test", String.valueOf(certificatesImgReq.size()));
+                certificatesImgReq.forEach(
+                        c -> {
+                            Log.d("test", String.valueOf(c.body().contentType()));
+                        }
+                );
+
                 // school Img
 /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
                 MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchoolImg()+"");
@@ -374,7 +381,8 @@ public class MyPageProfileActivity extends AppCompatActivity {
     private MultipartBody.Part multiParts(String dir, String name,String fileName){
         final String dirFront = dir.substring(0,5);
         if(dirFront.equals("https")){
-            return MultipartBody.Part.createFormData(name,dir);
+            RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
+            return MultipartBody.Part.createFormData(name,fileName, body);
         }
         else {
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
