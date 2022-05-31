@@ -181,7 +181,6 @@ public class ChatActivity extends AppCompatActivity {
             });
         }
 
-        System.out.println(adapter.getItemCount());
         binding.rcView.setAdapter(adapter);
     }
 
