@@ -59,25 +59,11 @@ public class StudyMentoHolder extends RecyclerView.ViewHolder {
         binding.mentorName.setText(data.getNickName());
         binding.mentorIntro.setText(data.getInfo());
         binding.mentorSchool.setText(data.getSchool());
+        Glide.with(itemView).load(data.getProfileImg()).into(binding.mentorImg);
+
         profile = data;
-        setProfile(data.getUserLoginId());
+
         this.activity = activity;
     }
 
-    private void setProfile(String userId){
-        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-            @Override
-            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                if(response.isSuccessful()){
-                    final String path = response.body().getProfileImg();
-                    Glide.with(itemView).load(path).into(binding.mentorImg);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserProfileRes> call, Throwable t) {
-
-            }
-        });
-    }
 }

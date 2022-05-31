@@ -102,7 +102,7 @@ public class StudyMentoDetail extends AppCompatActivity {
 
             mentoLong = profile.getUserId();
             isMentee(profile.getLiked());
-            setProfile(profile.getUserLoginId());
+            Glide.with(this).load(profile.getProfileImg()).into(binding.mentorImg);
             binding.mentorName.setText(profile.getNickName());
             binding.mentorIntro.setText(profile.getInfo());
             binding.mentoSubject.setText(profile.getSubject());
@@ -124,7 +124,7 @@ public class StudyMentoDetail extends AppCompatActivity {
                     {
                         mentoLong = response.body().getUserId();
                         isMentee(response.body().getLiked());
-                        setProfile(response.body().getUserLoginId());
+                        Glide.with(getApplicationContext()).load(response.body().getProfileImg()).into(binding.mentorImg);
                         binding.mentorName.setText(response.body().getNickName());
                         binding.mentorIntro.setText(response.body().getInfo());
                         binding.mentoSubject.setText(response.body().getSubject());
@@ -219,22 +219,6 @@ public class StudyMentoDetail extends AppCompatActivity {
         });
     }
 
-    private void setProfile(String userId){
-        dataService.userAuth.getProfile(userId).enqueue(new Callback<UserProfileRes>() {
-            @Override
-            public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
-                if(response.isSuccessful()){
-                    final String path = response.body().getProfileImg();
-                    Glide.with(getApplicationContext()).load(path).into(binding.mentorImg);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserProfileRes> call, Throwable t) {
-
-            }
-        });
-    }
     private void setBtn(){
         binding.talkBtn.setOnClickListener(new View.OnClickListener() {
             @Override

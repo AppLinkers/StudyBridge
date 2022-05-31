@@ -54,6 +54,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 public class MyPageProfileActivity extends AppCompatActivity {
 
@@ -337,15 +338,18 @@ public class MyPageProfileActivity extends AppCompatActivity {
                     mentoProfile.getCertificates().forEach(cn -> {
                         certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
 /*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
-                        certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));
+                        /*certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));*/
+                        certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()+""));
+
                     });
                 }
 
                 // school Img
 /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
-                MultipartBody.Part schoolImgReq = MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));
+                MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchoolImg()+"");
+                        /*MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));*/
 
-/*                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
+                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
                     @Override
                     public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
                         if (response.isSuccessful()) {
@@ -358,17 +362,28 @@ public class MyPageProfileActivity extends AppCompatActivity {
                     public void onFailure(Call<ProfileRes> call, Throwable t) {
                         Log.d("test", t.toString());
                     }
-                });*/
+                });
 
 
-                Log.d("certi", Arrays.toString(new List[]{certificateList}));
 
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private RequestBody requestBody(String dir){
+    private MultipartBody.Part multiParts(String dir, String name,String fileName){
+        final String dirFront = dir.substring(0,5);
+        if(dirFront.equals("https")){
+            return MultipartBody.Part.createFormData(name,dir);
+        }
+        else {
+            RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+
+            return MultipartBody.Part.createFormData(name,fileName,body);
+        }
+    }
+
+/*    private RequestBody requestBody(String dir){
         final String dirFront = dir.substring(0,5);
 
         if(dirFront.equals("https")){
@@ -377,7 +392,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
         else{
             return RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
         }
-    }
+    }*/
 
 
     private String uriPath(Uri uri){

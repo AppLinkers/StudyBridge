@@ -172,6 +172,7 @@ public class ProfileRes implements Parcelable {
         dest.writeLong(userId);
         dest.writeString(userLoginId);
         dest.writeString(userName);
+        dest.writeString(profileImg);
         dest.writeString(location);
         dest.writeString(info);
         dest.writeString(nickName);
@@ -190,6 +191,7 @@ public class ProfileRes implements Parcelable {
         userId = in.readLong();
         userLoginId = in.readString();
         userName = in.readString();
+        profileImg = in.readString();
         location = in.readString();
         info = in.readString();
         nickName = in.readString();

@@ -65,7 +65,6 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     public void onBind(Message message){
 
 
-
         if(message.getMessageType().equals("TALK")){
             binding.chatCon.setVisibility(View.VISIBLE);
             binding.sendImgCon.setVisibility(View.GONE);

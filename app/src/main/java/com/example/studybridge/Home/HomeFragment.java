@@ -174,7 +174,8 @@ public class HomeFragment extends Fragment {
                     binding.mentorItem.mentorName.setText(lastProf.getNickName());
                     binding.mentorItem.mentorIntro.setText(lastProf.getInfo());
                     binding.mentorItem.mentorSchool.setText(lastProf.getSchool());
-                    setProfile(lastProf.getUserLoginId());
+                    Glide.with(getContext()).load(lastProf.getProfileImg()).into(binding.mentorItem.mentorImg);
+/*                    setProfile(lastProf.getUserLoginId());*/
                 }
             }
 
