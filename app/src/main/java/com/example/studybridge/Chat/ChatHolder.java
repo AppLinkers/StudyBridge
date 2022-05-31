@@ -1,15 +1,10 @@
 package com.example.studybridge.Chat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
@@ -21,9 +16,8 @@ import com.example.studybridge.Util.ImgView;
 import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.ChatItemBinding;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.MessageRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
-import com.google.android.material.card.MaterialCardView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,22 +56,21 @@ public class ChatHolder extends RecyclerView.ViewHolder {
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void onBind(Message message){
+    public void onBind(MessageRes message){
 
 
-        if(message.getMessageType().equals("TALK")){
-            binding.chatCon.setVisibility(View.VISIBLE);
-            binding.sendImgCon.setVisibility(View.GONE);
-            binding.chat.setText(message.getMessage());
-        }
-        else if(message.getMessageType().equals("PHOTO")){
+        if(message.getMessageType().equals("PHOTO")){
             binding.chatCon.setVisibility(View.GONE);
             binding.sendImgCon.setVisibility(View.VISIBLE);
             Glide.with(itemView.getContext()).load(message.getMessage()).into(binding.sendImg);
             uri = message.getMessage();
+        } else {
+            binding.chatCon.setVisibility(View.VISIBLE);
+            binding.sendImgCon.setVisibility(View.GONE);
+            binding.chat.setText(message.getMessage());
         }
 
-        if(message.getSenderId().equals(userPkId)) {
+        if(message.getUserId().equals(userPkId)) {
             binding.senderName.setVisibility(View.INVISIBLE);
             binding.getRoot().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletRed));
@@ -86,11 +79,12 @@ public class ChatHolder extends RecyclerView.ViewHolder {
 
         }else{
             binding.senderName.setVisibility(View.VISIBLE);
-            binding.senderName.setText(message.getSenderName());
+            binding.senderName.setText(message.getUserName());
             binding.getRoot().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             binding.chat.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.palletGrey));
             binding.chat.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.textColorPrimary));
-            setProfile(message.getSenderName());
+            Glide.with(itemView).load(message.getUserProfileImg()).into(binding.userImg);
+//            setProfile(message.getUserName());
         }
 
     }
@@ -101,7 +95,7 @@ public class ChatHolder extends RecyclerView.ViewHolder {
             public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
                 if(response.isSuccessful()){
                     final String path = response.body().getProfileImg();
-                    Glide.with(itemView).load(path).into(binding.userImg);
+
                 }
             }
 

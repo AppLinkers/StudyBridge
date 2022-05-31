@@ -3,7 +3,6 @@ package com.example.studybridge.Chat;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,7 @@ import com.example.studybridge.R;
 import com.example.studybridge.databinding.ChatroomItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.message.FindRoomRes;
-import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.MessageRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import java.util.List;
@@ -77,22 +76,22 @@ public class ChatRoomHolder extends RecyclerView.ViewHolder{
     }
 
     private void getLastMsg(Long roomId,TextView textView){
-        dataService.chat.messageList(roomId).enqueue(new Callback<List<Message>>() {
+        dataService.chat.messageList(roomId).enqueue(new Callback<List<MessageRes>>() {
             @Override
-            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+            public void onResponse(Call<List<MessageRes>> call, Response<List<MessageRes>> response) {
                 if(response.isSuccessful()){
                     StringBuilder sb = new StringBuilder();
 
                     if(response.body().size()==0){
                         sb.append("");
                     } else {
-                        Message m = response.body().get(response.body().size()-1);
+                        MessageRes m = response.body().get(response.body().size()-1);
 
                         if(m.getMessageType().equals("PHOTO")){
-                            sb.append(m.getSenderName()).append(": ").append("사진");
+                            sb.append(m.getUserName()).append(": ").append("사진");
                         }
                         else {
-                            sb.append(m.getSenderName()).append(": ").append(m.getMessage());
+                            sb.append(m.getUserName()).append(": ").append(m.getMessage());
                         }
                     }
 
@@ -101,7 +100,7 @@ public class ChatRoomHolder extends RecyclerView.ViewHolder{
             }
 
             @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
+            public void onFailure(Call<List<MessageRes>> call, Throwable t) {
 
             }
         });

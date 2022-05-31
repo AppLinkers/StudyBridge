@@ -9,17 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.message.FindRoomRes;
-import com.example.studybridge.http.dto.message.Message;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 

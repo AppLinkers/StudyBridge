@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybridge.R;
-import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.MessageRes;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
 
-    ArrayList<Message> listData = new ArrayList<Message>();
+    ArrayList<MessageRes> listData = new ArrayList<MessageRes>();
 
     @NonNull
     @Override
@@ -39,7 +39,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemCount() { return listData.size(); }
 
-    public void addItem(Message message){
+    public void addItem(MessageRes message){
         listData.add(message);
     }
 }

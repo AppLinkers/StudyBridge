@@ -1,25 +1,11 @@
 package com.example.studybridge.Chat;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -30,22 +16,28 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.bumptech.glide.Glide;
 import com.example.studybridge.R;
 import com.example.studybridge.databinding.ChatActivityBinding;
 import com.example.studybridge.http.DataService;
-import com.example.studybridge.http.dto.message.Message;
+import com.example.studybridge.http.dto.message.MessageReq;
+import com.example.studybridge.http.dto.message.MessageRes;
 import com.example.studybridge.http.dto.message.Room;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -144,10 +136,10 @@ public class ChatActivity extends AppCompatActivity {
     @SuppressLint({"staticFieldLeak", "NewApi"})
     public void getData(){
 
-        AsyncTask<Void, Void, List<Message>> listApi = new AsyncTask<Void, Void, List<Message>>() {
+        AsyncTask<Void, Void, List<MessageRes>> listApi = new AsyncTask<Void, Void, List<MessageRes>>() {
             @Override
-            protected List<Message> doInBackground(Void... voids) {
-                Call<List<Message>> call = dataService.chat.messageList(roomId);
+            protected List<MessageRes> doInBackground(Void... voids) {
+                Call<List<MessageRes>> call = dataService.chat.messageList(roomId);
                 try {
                     return call.execute().body();
                 } catch (IOException e) {
@@ -158,12 +150,12 @@ public class ChatActivity extends AppCompatActivity {
 
 
             @Override
-            protected void onPostExecute(List<Message> s) {
+            protected void onPostExecute(List<MessageRes> s) {
                 super.onPostExecute(s);
             }
         }.execute();
 
-        List<Message> result = null;
+        List<MessageRes> result = null;
 
         try {
             result = listApi.get();
@@ -173,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (result.size() > 0) {
             result.forEach(c -> {
-                if (c.getSenderId().equals(userPkId)) {
+                if (c.getUserId().equals(userPkId)) {
                     chk++;
                 }
 
@@ -204,16 +196,17 @@ public class ChatActivity extends AppCompatActivity {
                     binding.send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String newChat = charSequence+"";
+                            System.out.println(charSequence + "");
+                            String newChat = charSequence + "";
 
                             // send to server
-                            Message message = new Message("TALK", new Room(roomId), userPkId, userName, newChat);
+                            MessageReq message = new MessageReq("TALK", roomId, userPkId, newChat);
                             String sendMessage = gson.toJson(message);
                             stompClient.send("/pub/chat/message", sendMessage).subscribe();
 
-                            // edit UI
-                            adapter.addItem(message);
-                            binding.rcView.setAdapter(adapter);
+//                            // edit UI
+//                            adapter.addItem(message);
+//                            binding.rcView.setAdapter(adapter);
                             binding.rcView.scrollToPosition(adapter.getItemCount()-1);
                             binding.chat.setText("");
 
@@ -345,13 +338,13 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         // send to server
-        Message message = new Message("PHOTO", new Room(roomId), userPkId, userName, img_url);
+        MessageReq message = new MessageReq("PHOTO", roomId, userPkId, img_url);
         String sendMessage = gson.toJson(message);
         stompClient.send("/pub/chat/message", sendMessage).subscribe();
 
-        // edit UI
-        adapter.addItem(message);
-        binding.rcView.setAdapter(adapter);
+//        // edit UI
+//        adapter.addItem(message);
+//        binding.rcView.setAdapter(adapter);
         binding.rcView.scrollToPosition(adapter.getItemCount()-1);
         binding.chat.setText("");
 
@@ -382,7 +375,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void initStomp() {
-        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://3.141.122.128:8080/ws-stomp/websocket");
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/ws-stomp/websocket");
         stompClient.lifecycle().subscribe(lifecycleEvent -> {
             switch (lifecycleEvent.getType()) {
                 case OPENED:
@@ -403,13 +396,15 @@ public class ChatActivity extends AppCompatActivity {
         // message 수신
         stompClient.topic("/sub/chat/room/" + roomId).subscribe(topicMessage -> {
             Log.d(TAG, topicMessage.getPayload());
-            Message message = gson.fromJson(topicMessage.getPayload(), Message.class);
+            MessageRes message = gson.fromJson(topicMessage.getPayload(), MessageRes.class);
             runOnUiThread(new Runnable(){
                 @Override
                 public void run() {
-                    if (!message.getSenderId().equals(userPkId)) {
-                        adapter.addItem(message);
-                        binding.rcView.setAdapter(adapter);
+                    adapter.addItem(message);
+                    binding.rcView.setAdapter(adapter);
+                    binding.rcView.scrollToPosition(adapter.getItemCount()-1);
+                    if (message.getUserId().equals(userPkId)) {
+                        binding.chat.setText("");
                     }
                 }
             });
@@ -417,7 +412,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // 채팅방 입장 메시지 송신
         if (chk == 0) {
-            Message message = new Message("ENTER", new Room(roomId), userPkId, userName, "ENTER");
+            MessageReq message = new MessageReq("ENTER", roomId, userPkId, "ENTER");
             String enter = gson.toJson(message);
             stompClient.send("/pub/chat/message", enter).subscribe();
         }
