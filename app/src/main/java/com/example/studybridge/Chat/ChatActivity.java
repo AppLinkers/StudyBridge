@@ -375,7 +375,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void initStomp() {
-        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://10.0.2.2:8080/ws-stomp/websocket");
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://3.141.122.128:8080/ws-stomp/websocket");
         stompClient.lifecycle().subscribe(lifecycleEvent -> {
             switch (lifecycleEvent.getType()) {
                 case OPENED:
