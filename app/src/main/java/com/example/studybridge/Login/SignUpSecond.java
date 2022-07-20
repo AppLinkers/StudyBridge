@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +17,21 @@ import androidx.fragment.app.FragmentManager;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.BackDialog;
 import com.example.studybridge.databinding.SignupSecondBinding;
+import com.example.studybridge.http.DataService;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SignUpSecond extends AppCompatActivity {
 
     private SignupSecondBinding binding;
     private String role;
+    private DataService dataService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,9 +42,10 @@ public class SignUpSecond extends AppCompatActivity {
 
 
         intentData();
-/*        editData(binding.signupName,binding.signupNameLine,null,null);
-        editData(binding.signupPhone,binding.signupPhoneLine,binding.signupPhoneAuthCV,binding.signupPhoneAuth);*/
-        editName(binding.signupName,binding.signupNameLine);
+        editData(binding.signupName,binding.signupNameLine,null,null);
+        editData(binding.signupPhone,binding.signupPhoneLine,binding.signupPhoneAuthCV,binding.signupPhoneAuth);
+        editSms(binding.smsCheck,binding.smsLine,binding.smsCheckCV,binding.smsCheckBtn);
+//        editName(binding.signupName,binding.signupNameLine);
 
         setBackBtn();
     }
@@ -47,7 +55,7 @@ public class SignUpSecond extends AppCompatActivity {
         role = intent.getStringExtra("role");
     }
 
-    private void editName(EditText editText, View view){
+/*    private void editName(EditText editText, View view){
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -63,7 +71,7 @@ public class SignUpSecond extends AppCompatActivity {
                 }
                 else {
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
-                    setNext();
+//                    setNext();
                 }
             }
 
@@ -72,7 +80,7 @@ public class SignUpSecond extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
     private void editData(EditText editText, View view, MaterialCardView cardView, TextView textView){
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,6 +100,35 @@ public class SignUpSecond extends AppCompatActivity {
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
                     if(cardView !=null && textView != null){
                         setAuthBtn(textView,cardView,charSequence.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+    private void editSms(EditText editText, View view, MaterialCardView cardView, TextView textView){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().equals("")){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.viewUnderline));
+                    if(cardView !=null && textView != null){
+                        textView.setEnabled(false);
+                    }
+                }
+                else {
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.textColorPrimary70));
+                    if(cardView !=null && textView != null){
+                        setSmsBtn(textView,cardView,charSequence.toString());
                     }
                 }
             }
@@ -123,15 +160,65 @@ public class SignUpSecond extends AppCompatActivity {
         });
 
     }
+    private void setSmsBtn(TextView textView,MaterialCardView cardView,String smsNum){
+
+        //인증번호 형식 '4자리'
+        if(smsNum.length() == 4){
+            textView.setEnabled(true);
+            cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+            textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.textColorPrimary70));
+        } else {
+            textView.setEnabled(false);
+            cardView.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+            textView.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+        }
+
+        ////////////////인증 번호와 동일한지 여기서 확인
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextBtn();
+            }
+        });
+
+    }
     private void setNext(){
 
-/*        binding.signupPhone.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+        dataService = new DataService();
+        dataService.sms.sendSMS(binding.signupPhone.getText().toString()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(SignUpSecond.this, "send success", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+        binding.signupPhone.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneLine.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneAuthCV.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
         binding.signupPhoneAuth.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
-        binding.signupPhoneAuth.setText("인증완료");
+        binding.signupPhoneAuth.setText("재전송");
+
+        binding.smsCheckCon.setVisibility(View.VISIBLE);
+
+    }
+    private void nextBtn(){
+
         binding.signupPhone.setEnabled(false);
-        binding.signupPhoneAuth.setEnabled(false);*/
+        binding.signupPhoneAuth.setEnabled(false);
+
+        binding.smsCheck.setEnabled(false);
+        binding.smsCheckBtn.setEnabled(false);
+        binding.smsCheckBtn.setText("확인 완료");
+        binding.smsCheckCV.setStrokeColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+        binding.smsLine.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
+        binding.smsCheckBtn.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.viewUnderline));
 
         binding.signupNextBtn.setEnabled(true);
         binding.signupNextBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.palletRed));
