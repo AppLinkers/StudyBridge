@@ -143,6 +143,30 @@
             android:background="@color/viewUnderline"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/signup_passwordReCon"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/goPersonalInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/personalInfoTxt"
+            android:textSize="13sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="동의 (필수)"
+            android:textSize="13sp"/>
+    </LinearLayout>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="50dp"

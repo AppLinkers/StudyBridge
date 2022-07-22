@@ -1,6 +1,7 @@
 package com.example.studybridge.Login;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,6 +44,8 @@ public class SignUpLast extends AppCompatActivity {
         setRePassword();
 
         setBackBtn();
+
+        binding.goPersonalInfo.setPaintFlags(binding.goPersonalInfo.getPaintFlags() |Paint.UNDERLINE_TEXT_FLAG);
 
     }
 
@@ -250,10 +253,20 @@ public class SignUpLast extends AppCompatActivity {
         backDialog();
     }
     private void setBackBtn(){
+        //뒤로가기
         binding.signupBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 backDialog();
+            }
+        });
+        //개인정보 방침
+        binding.goPersonalInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),PersonalInfoActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
     }
