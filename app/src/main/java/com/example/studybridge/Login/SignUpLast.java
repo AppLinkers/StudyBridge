@@ -227,7 +227,7 @@ public class SignUpLast extends AppCompatActivity {
         password = binding.signupPassword.getText().toString().trim();
 
         Toast.makeText(this, id+" "+password, Toast.LENGTH_SHORT).show();
-        UserSignUpReq signUpReq = new UserSignUpReq(name,id,password,role,number,"MALE","서울");
+        UserSignUpReq signUpReq = new UserSignUpReq(name,id,password,role,number,"MALE","서울", true);
         dataService.userAuth.signUp(signUpReq).enqueue(new Callback<UserSignUpRes>() {
             @Override
             public void onResponse(Call<UserSignUpRes> call, Response<UserSignUpRes> response) {

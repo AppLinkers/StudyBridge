@@ -17,7 +17,9 @@ public class UserSignUpReq {
 
     private String location;
 
-    public UserSignUpReq(String name, String loginId, String loginPw, String role, String phone, String gender, String location) {
+    private Boolean personalInfo;
+
+    public UserSignUpReq(String name, String loginId, String loginPw, String role, String phone, String gender, String location, Boolean personalInfo) {
         this.name = name;
         this.loginId = loginId;
         this.loginPw = loginPw;
@@ -25,5 +27,6 @@ public class UserSignUpReq {
         this.phone = phone;
         this.gender = gender;
         this.location = location;
+        this.personalInfo = personalInfo;
     }
 }
