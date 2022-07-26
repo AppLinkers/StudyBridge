@@ -143,7 +143,15 @@ public class MyPageEditActivity extends AppCompatActivity {
 
     private void setBtns(){
 
-
+        //계정 관리
+        binding.account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MyPageAccountActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
         //사진 변경
         binding.imgChange.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,6 +28,29 @@
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
     </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/isMentor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        android:layout_toRightOf="@+id/study_statusCV"
+        android:layout_marginLeft="7dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/textColorPrimary"
+        android:visibility="invisible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멘토 개설"
+            android:textStyle="bold"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="13sp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/study_name"

@@ -99,12 +99,31 @@
             android:text="Id"
             android:textColor="@color/textColorPrimary"/>
 
+        <TextView
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            android:text="계정 관리"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@id/account"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_arrow_right" />
+
         <View
             android:id="@+id/headerLine"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_below="@+id/id"
-            android:layout_marginTop="25dp"
+            android:layout_below="@+id/account"
+
             android:background="@color/palletGrey" />
 
         <TextView
@@ -126,8 +145,6 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/ic_arrow_right" />
 
-
-
         <RelativeLayout
             android:id="@+id/mentorCon"
             android:layout_width="match_parent"
@@ -135,14 +152,12 @@
             android:layout_below="@id/imgChange"
             android:layout_alignParentBottom="true"
             android:paddingBottom="55dp">
-
             <View
                 android:id="@+id/headerLine3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/palletGrey"
                 android:layout_alignParentTop="true"/>
-
             <TextView
                 android:id="@+id/mentorInfoChange"
                 android:layout_width="match_parent"
@@ -397,7 +412,6 @@
                 android:text="어필"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="16sp" />
-
 
         </RelativeLayout>
 

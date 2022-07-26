@@ -102,4 +102,5 @@
         <item name="android:textColor">@color/chip_text_list</item>
     </style>
 
+
 </resources>

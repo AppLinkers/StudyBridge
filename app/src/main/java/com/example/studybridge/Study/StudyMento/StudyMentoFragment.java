@@ -28,6 +28,7 @@ import com.example.studybridge.databinding.StudyMentoFragmentBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.userMentor.ProfileRes;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -62,6 +63,8 @@ public class StudyMentoFragment extends Fragment {
     public static final int SUBJECT = 1;
     public static final int PLACE = 2;
 
+    private AdView adView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +91,8 @@ public class StudyMentoFragment extends Fragment {
 
 
         setRecyclerView();
-        adMob();
+        adView = binding.adView;
+        adMob(adView);
         setRefresh();
         setFilter(binding.subjectFilt, SUBJECT);
         setFilter(binding.placeFilt, PLACE);
@@ -108,7 +112,7 @@ public class StudyMentoFragment extends Fragment {
         },2000);*/
     }
 
-    private void adMob(){
+    private void adMob(AdView adView){
         MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
@@ -117,16 +121,9 @@ public class StudyMentoFragment extends Fragment {
         });
 
         AdRequest adRequest = new AdRequest.Builder().build();
-        binding.adView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.clearItem();
-        getData();
-        binding.rCView.setAdapter(adapter);
-    }
 
     private void setRefresh(){
         binding.swipeRC.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -270,7 +267,30 @@ public class StudyMentoFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if(adView!=null){
+            adView.destroy();
+        }
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onPause() {
+        if(adView!=null){
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adView!=null){
+            adView.resume();
+        }
+        adapter.clearItem();
+        getData();
+        binding.rCView.setAdapter(adapter);
+
     }
 }

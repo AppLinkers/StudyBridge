@@ -17,6 +17,7 @@ import com.example.studybridge.Study.StudyMenti.Detail.StudyMentiDetail;
 import com.example.studybridge.databinding.StudyMentiItemBinding;
 import com.example.studybridge.http.DataService;
 import com.example.studybridge.http.dto.study.StudyFindRes;
+import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -92,7 +93,7 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
         binding.studyNum.setText(sb.toString());
         data.statusSet(binding.studyStatus, itemView.getContext());
 
-        getManagerId(study_id);
+        getManagerId(study_id,binding.isMentor);
         findApplied(study_id);
         chosenMentor(data);
 
@@ -102,11 +103,12 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
     }
 
     //스터디 방장 찾기 위함
-    public void getManagerId(Long studyId){
+    public void getManagerId(Long studyId,MaterialCardView cardView){
         dataService.study.maker(studyId).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 managerId = response.body();
+                isMentorMake(managerId,cardView);
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
@@ -141,6 +143,24 @@ public class StudyMentiHolder extends RecyclerView.ViewHolder {
                 }
             });
         }
+    }
+    private void isMentorMake(String makerId, MaterialCardView cardView){
+        dataService.userAuth.isMentee(makerId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(!response.body()){
+                    cardView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    cardView.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
     }
 
 }

@@ -6,12 +6,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,10 +49,12 @@ import com.example.studybridge.http.dto.toDo.ToDoStatus;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +90,8 @@ public class ToDoFragment extends Fragment {
     private Long roomId;
     private StudyFindRes studyRes;
 
+    private AdView adView;
+
 
 
     @Nullable
@@ -115,15 +125,63 @@ public class ToDoFragment extends Fragment {
 
         setFilter();
         menteeRV();
+        menuBtn(menteebinding.menu);
         goChat();
-        adMob(menteebinding.adView);
+        adView = menteebinding.adView;
+        adMob(adView);
+
+    }
+
+    private void menuBtn(View button) {
+        PopupMenu popupMenu = new PopupMenu(getContext(),button);
+        popupMenu.getMenuInflater().inflate(R.menu.study_out_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(
+                new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(studyLong !=null){
+                            Toast.makeText(getContext(), "탈퇴처리", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        else {
+                            Toast.makeText(getContext(), "스터디를 선택해주세요", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                    }
+                }
+        );
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupMenu.show();
+            }
+        });
 
     }
 
     private void mentorUI(){
         mentorRV();
-        adMob(mentorbinding.adView);
+        adView = mentorbinding.adView;
+        adMob(adView);
     }
+
+/*    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.study_out_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.out_study:
+                Toast.makeText(getContext(), "탈퇴되었습니다", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }*/
 
     private void adMob(AdView adView){
         MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
@@ -132,6 +190,10 @@ public class ToDoFragment extends Fragment {
 
             }
         });
+        //test
+        MobileAds.setRequestConfiguration(
+                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
+                .build());
 
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
@@ -168,9 +230,10 @@ public class ToDoFragment extends Fragment {
                             studyRes = study;
                             getRoom(studyLong);
                         }
-                        else studyLong = null;
-
-
+                        else {
+                            studyLong = null;
+                            roomId = null;
+                        }
                     }
                 });
 
@@ -319,9 +382,20 @@ public class ToDoFragment extends Fragment {
     }
     @Override
     public void onDestroyView() {
+        if(adView!=null){
+            adView.destroy();
+        }
         super.onDestroyView();
         menteebinding = null;
         mentorbinding = null;
+    }
+
+    @Override
+    public void onPause() {
+        if(adView!=null){
+            adView.pause();
+        }
+        super.onPause();
     }
 
     @Override
@@ -329,6 +403,9 @@ public class ToDoFragment extends Fragment {
         super.onResume();
         if(isMentee){
             setData();
+        }
+        if(adView!=null){
+            adView.resume();
         }
 
     }

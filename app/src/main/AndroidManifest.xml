@@ -17,6 +17,9 @@
         android:theme="@style/Theme.StudyBridge"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Mypage.MyPageAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Login.PersonalInfoActivity"
             android:exported="false" />
 

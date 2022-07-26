@@ -84,12 +84,31 @@
             android:background="@color/viewUnderline"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/checkboxCon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_below="@id/pwCon"
+        android:layout_marginTop="15dp">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:buttonTint="@color/palletRed"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자동 로그인"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardCornerRadius="5dp"
-        android:layout_below="@id/pwCon"
-        android:layout_marginTop="25dp">
+        android:layout_below="@id/checkboxCon"
+        android:layout_marginTop="55dp">
         <TextView
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"

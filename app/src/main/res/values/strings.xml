@@ -7,5 +7,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
 
-    <string name="personalInfoTxt"><u>이용약관, 개인정보 취급 방침</u></string>
+    <!--개인정보-->
+    <string name="personalInfoTxt">이용약관, 개인정보 취급 방침</string>
+
+
 </resources>

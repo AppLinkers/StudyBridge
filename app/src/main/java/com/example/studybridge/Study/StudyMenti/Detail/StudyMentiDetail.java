@@ -34,6 +34,7 @@ import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyWithdrawReq;
 import com.example.studybridge.http.dto.study.StudyWithdrawRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -150,6 +151,8 @@ public class StudyMentiDetail extends AppCompatActivity {
         binding.makerId.setText(makerId);
         binding.explain.setText(study.getExplain());
         setProfile(makerId,binding.makerImg);
+
+        isMentorMake(makerId,binding.isMentor);
 
         if(chosenMentorId!=null){
             binding.chosenId.setText(chosenMentorId);
@@ -580,6 +583,24 @@ public class StudyMentiDetail extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserProfileRes> call, Throwable t) {
+
+            }
+        });
+    }
+    private void isMentorMake(String makerId, MaterialCardView cardView){
+        dataService.userAuth.isMentee(makerId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(!response.body()){
+                    cardView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    cardView.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
 
             }
         });

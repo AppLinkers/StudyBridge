@@ -96,4 +96,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation project(':nativetemplates')
 
+    //pdfViewer
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
 }
