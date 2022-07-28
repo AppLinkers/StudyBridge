@@ -1,5 +1,6 @@
 package com.example.studybridge.Mypage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,6 +74,8 @@ public class MyPageEditActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getData();
+        imgPath = sharedPreferences.getString(SharedPrefKey.USER_PROFILE,"img");
+        Glide.with(this).load(imgPath).into(binding.img);
     }
 
     private void setUI(){
@@ -148,7 +155,7 @@ public class MyPageEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MyPageAccountActivity.class);
-                startActivity(intent);
+                isFinish.launch(intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
@@ -189,6 +196,18 @@ public class MyPageEditActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
+    ActivityResultLauncher<Intent> isFinish = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }
+            }
+    );
 
     /* //갤러리에서 이미지 받아오는 메서드
     @RequiresApi(api = Build.VERSION_CODES.N)

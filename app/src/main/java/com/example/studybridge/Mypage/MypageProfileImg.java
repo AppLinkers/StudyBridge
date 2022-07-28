@@ -47,7 +47,9 @@ public class MypageProfileImg extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String USER_ID_KEY = "user_id_key";
-    public static final String USER_NAME = "user_name_key";
+
+    //basic image url
+    public static final String BASIC_IMG = "https://study-bridge.s3.us-east-2.amazonaws.com/user/profile/basic.png";
 
     private String dir;
     private String userLoginId;
@@ -120,12 +122,12 @@ public class MypageProfileImg extends AppCompatActivity {
         binding.basicImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dir = null; //기본이미지 경로
+                dir = BASIC_IMG; //기본이미지 경로
                 Glide.with(MypageProfileImg.this).load(dir).into(binding.img);
             }
         });
         //완료 버튼
-        binding.button.setOnClickListener(new View.OnClickListener() {
+        binding.buttonCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setConfirm();
@@ -134,23 +136,41 @@ public class MypageProfileImg extends AppCompatActivity {
     }
 
     private void setConfirm(){
+
+        binding.button.setText("업로드 중");
+        binding.btnProgress.setVisibility(View.VISIBLE);
+
         if(!dir.equals(imgPath)){
+
             dataService = new DataService();
+            String fileName = userLoginId + System.currentTimeMillis();
+            MultipartBody.Part imgReq;
+
+/*            if(dir.equals(BASIC_IMG)){
+                RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
+                imgReq = MultipartBody.Part.createFormData("imgFile",dir,body);
+                Toast.makeText(this, "베이직", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+                imgReq = MultipartBody.Part.createFormData("imgFile",fileName,body);
+                Toast.makeText(this, "나머지", Toast.LENGTH_SHORT).show();
+            }*/
+
+
+            imgReq = multiParts(dir,"imgFile",fileName);
             
-            File file = new File(dir);
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
-            
-            MultipartBody.Part body = MultipartBody.Part.createFormData("imgFile",file.getName(),requestFile);
-            
-            dataService.userAuth.updateProfileImg(userLoginId,body).enqueue(new Callback<UserProfileRes>() {
+            dataService.userAuth.updateProfileImg(userLoginId,imgReq).enqueue(new Callback<UserProfileRes>() {
                 @Override
                 public void onResponse(Call<UserProfileRes> call, Response<UserProfileRes> response) {
                     if(response.isSuccessful()){
 
+                        binding.btnProgress.setVisibility(View.INVISIBLE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(SharedPrefKey.USER_PROFILE,dir);
                         editor.apply();
 
+                        Toast.makeText(MypageProfileImg.this, "변경 완료", Toast.LENGTH_SHORT).show();
                         finish();
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                     }
@@ -159,7 +179,7 @@ public class MypageProfileImg extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<UserProfileRes> call, Throwable t) {
                     finish();
-                    Toast.makeText(MypageProfileImg.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -169,6 +189,18 @@ public class MypageProfileImg extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         }
 
+    }
+    private MultipartBody.Part multiParts(String dir, String name,String fileName){
+
+        final String dirFront = dir.substring(0,5);
+        if(dirFront.equals("https")){
+            RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
+            return MultipartBody.Part.createFormData(name, dir, body);
+        }
+        else {
+            RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+            return MultipartBody.Part.createFormData(name,fileName,body);
+        }
     }
 
     private String uriPath(Uri uri){

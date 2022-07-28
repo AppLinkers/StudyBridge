@@ -14,9 +14,24 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title=" "
-            app:menu="@menu/mypage_mentoprofile_menu"/>
+            app:title=" "/>
     </com.google.android.material.appbar.AppBarLayout>
+    <ProgressBar
+        android:id="@+id/btnProgress"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toLeftOf="@+id/btn"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="완료"
+        android:textSize="18sp"
+        android:textColor="@color/textColorPrimary"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"/>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="60dp">
+            android:paddingBottom="60dp"
+            android:paddingTop="25dp">
 
             <TextView
                 android:id="@+id/title"

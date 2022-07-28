@@ -74,16 +74,29 @@
         app:cardElevation="0dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp">
-        <TextView
-            android:id="@+id/button"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/palletRed"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="완 료"/>
+            android:background="@color/palletRed">
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="완 료"/>
+            <ProgressBar
+                android:id="@+id/btnProgress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/button"
+                android:layout_marginLeft="10dp"
+                android:indeterminateTint="@color/white"
+                android:visibility="invisible"/>
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

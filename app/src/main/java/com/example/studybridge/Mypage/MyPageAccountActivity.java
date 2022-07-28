@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.studybridge.Login.LoginActivity;
 import com.example.studybridge.R;
@@ -60,9 +61,12 @@ public class MyPageAccountActivity extends AppCompatActivity {
         editor.clear();
         editor.commit();
 
+        Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+        setResult(RESULT_OK,intent);
         finish();
+
     }
 
     //뒤로 가기 설정

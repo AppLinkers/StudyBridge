@@ -200,6 +200,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
     private void setButton(){
 
+        //학교 이미지
         binding.schoolImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,12 +210,22 @@ public class MyPageProfileActivity extends AppCompatActivity {
             }
         });
 
+        //자격증 이미지
         binding.addCerti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
                 goToAddCerti.launch(intent);
+            }
+        });
+
+        //완료버튼
+        binding.btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View view) {
+                save();
             }
         });
 
@@ -225,13 +236,8 @@ public class MyPageProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setTitle(" ");
 
-    }
-    //toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mypage_mentoprofile_menu,menu);
-        return true;
     }
 
     ActivityResultLauncher<Intent> goToGetImg = registerForActivityResult(
@@ -267,100 +273,101 @@ public class MyPageProfileActivity extends AppCompatActivity {
                 }
             }
     );
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void save(){
+
+        binding.btn.setText("업로드 중");
+        binding.btnProgress.setVisibility(View.VISIBLE);
+
+        String selectedPlace=null;
+        String selectedSubject=null;
+
+
+        for(int i=0; i<binding.placeSelect.getChildCount();i++){
+            Chip chip = (Chip) binding.placeSelect.getChildAt(i);
+            if(chip.isChecked()){
+                selectedPlace = chip.getText().toString();
+            }
+        }
+
+        for(int i=0; i<binding.subjectSelect.getChildCount();i++){
+            Chip chip = (Chip) binding.subjectSelect.getChildAt(i);
+            if(chip.isChecked()){
+                selectedSubject = chip.getText().toString();
+            }
+        }
+
+        StringBuilder sbForSchool = new StringBuilder();
+        sbForSchool.append(binding.school.getText().toString().trim()).append("-").append(binding.major.getText().toString().trim());
+
+        ProfileRes mentoProfile = new ProfileRes(
+                userPkId,
+                userName,
+                selectedPlace,
+                binding.intro.getText().toString().trim()+"",
+                binding.nickName.getText().toString().trim()+"",
+                sbForSchool.toString(),
+                schoolDir,
+                selectedSubject,
+                certificateList,
+                binding.exp.getText().toString().trim()+"",
+                binding.curi.getText().toString().trim()+"",
+                binding.appeal.getText().toString().trim()+"",
+                false
+        );
+
+        Map<String, RequestBody> profileReq = new HashMap<>();
+
+        profileReq.put("profileTextReq.userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
+        profileReq.put("profileTextReq.location", RequestBody.create(MultipartBody.FORM, mentoProfile.getLocation()));
+        profileReq.put("profileTextReq.info", RequestBody.create(MultipartBody.FORM, mentoProfile.getInfo()));
+        profileReq.put("profileTextReq.nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
+        profileReq.put("profileTextReq.subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
+        profileReq.put("profileTextReq.school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
+        profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExperience()));
+        profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCurriculum()));
+        profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
+
+        List<MultipartBody.Part> certificates = new ArrayList<>();
+        List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
+
+        if (mentoProfile.getCertificates().size() > 0) {
+            mentoProfile.getCertificates().forEach(cn -> {
+                certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
+                /*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
+                /*certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));*/
+                certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()));
+
+
+            });
+        }
+
+        // school Img
+        /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
+        MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchool());
+        /*MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));*/
+
+        dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
+            @Override
+            public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
+                if (response.isSuccessful()) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileRes> call, Throwable t) {
+            }
+        });
+    }
 
     //메뉴 버튼 설정
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-                return true;
-                //상단 완료버튼 눌렀을때
-            case R.id.complete_btn:
-
-
-                String selectedPlace=null;
-                String selectedSubject=null;
-
-
-                for(int i=0; i<binding.placeSelect.getChildCount();i++){
-                    Chip chip = (Chip) binding.placeSelect.getChildAt(i);
-                    if(chip.isChecked()){
-                        selectedPlace = chip.getText().toString();
-                    }
-                }
-
-                for(int i=0; i<binding.subjectSelect.getChildCount();i++){
-                    Chip chip = (Chip) binding.subjectSelect.getChildAt(i);
-                    if(chip.isChecked()){
-                        selectedSubject = chip.getText().toString();
-                    }
-                }
-
-                StringBuilder sbForSchool = new StringBuilder();
-                sbForSchool.append(binding.school.getText().toString().trim()).append("-").append(binding.major.getText().toString().trim());
-
-                ProfileRes mentoProfile = new ProfileRes(
-                        userPkId,
-                        userName,
-                        selectedPlace,
-                        binding.intro.getText().toString().trim()+"",
-                        binding.nickName.getText().toString().trim()+"",
-                        sbForSchool.toString(),
-                        schoolDir,
-                        selectedSubject,
-                        certificateList,
-                        binding.exp.getText().toString().trim()+"",
-                        binding.curi.getText().toString().trim()+"",
-                        binding.appeal.getText().toString().trim()+"",
-                        false
-                );
-
-                Map<String, RequestBody> profileReq = new HashMap<>();
-
-                profileReq.put("profileTextReq.userLoginId", RequestBody.create(MultipartBody.FORM, userLoginId));
-                profileReq.put("profileTextReq.location", RequestBody.create(MultipartBody.FORM, mentoProfile.getLocation()));
-                profileReq.put("profileTextReq.info", RequestBody.create(MultipartBody.FORM, mentoProfile.getInfo()));
-                profileReq.put("profileTextReq.nickName", RequestBody.create(MultipartBody.FORM, mentoProfile.getNickName()));
-                profileReq.put("profileTextReq.subject", RequestBody.create(MultipartBody.FORM, mentoProfile.getSubject()));
-                profileReq.put("profileTextReq.school", RequestBody.create(MultipartBody.FORM, mentoProfile.getSchool()));
-                profileReq.put("profileTextReq.experience", RequestBody.create(MultipartBody.FORM, mentoProfile.getExperience()));
-                profileReq.put("profileTextReq.curriculum", RequestBody.create(MultipartBody.FORM, mentoProfile.getCurriculum()));
-                profileReq.put("profileTextReq.appeal", RequestBody.create(MultipartBody.FORM, mentoProfile.getAppeal()));
-
-                List<MultipartBody.Part> certificates = new ArrayList<>();
-                List<MultipartBody.Part> certificatesImgReq = new ArrayList<>();
-
-                if (mentoProfile.getCertificates().size() > 0) {
-                    mentoProfile.getCertificates().forEach(cn -> {
-                        certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
-/*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
-                        /*certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));*/
-                        certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()));
-
-
-                    });
-                }
-
-                // school Img
-/*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
-                MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchool());
-                        /*MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));*/
-
-                dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
-                    @Override
-                    public void onResponse(Call<ProfileRes> call, Response<ProfileRes> response) {
-                        if (response.isSuccessful()) {
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ProfileRes> call, Throwable t) {
-                    }
-                });
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -378,18 +385,6 @@ public class MyPageProfileActivity extends AppCompatActivity {
             return MultipartBody.Part.createFormData(name,fileName,body);
         }
     }
-
-/*    private RequestBody requestBody(String dir){
-        final String dirFront = dir.substring(0,5);
-
-        if(dirFront.equals("https")){
-            return RequestBody.create(MediaType.parse("text/plain"),dir);
-        }
-        else{
-            return RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
-        }
-    }*/
-
 
     private String uriPath(Uri uri){
         Cursor cursor = null;
@@ -412,30 +407,6 @@ public class MyPageProfileActivity extends AppCompatActivity {
             }
         }
     }
-
-/*   public String saveUrlToJpg(String uri) {
-
-        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
-        String fileName = uri + ".jpg";
-        File imgFile = new File(storage, fileName);
-        try {
-            if(!imgFile.getParentFile().exists()){
-                imgFile.getParentFile().mkdirs();
-            }
-            if(!imgFile.exists()){
-                imgFile.createNewFile();
-            }
-            FileOutputStream out = new FileOutputStream(imgFile);
-            out.close();
-        } catch (FileNotFoundException e) {
-            Log.e("saveUrlToJpg","FileNotFoundException : " + e.getMessage());
-        } catch (IOException e) {
-            Log.e("saveUrlToJpg","IOException : " + e.getMessage());
-        }
-        Log.d("imgPath" , getCacheDir() + "/" +fileName);
-
-        return getCacheDir() + "/" +fileName;
-    }*/
 
     //기존 과목&&지역 선택 함수
     public static int checkChipForSubject(String str){
@@ -495,4 +466,37 @@ public class MyPageProfileActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
+    /*   public String saveUrlToJpg(String uri) {
+
+        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
+        String fileName = uri + ".jpg";
+        File imgFile = new File(storage, fileName);
+        try {
+            if(!imgFile.getParentFile().exists()){
+                imgFile.getParentFile().mkdirs();
+            }
+            if(!imgFile.exists()){
+                imgFile.createNewFile();
+            }
+            FileOutputStream out = new FileOutputStream(imgFile);
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.e("saveUrlToJpg","FileNotFoundException : " + e.getMessage());
+        } catch (IOException e) {
+            Log.e("saveUrlToJpg","IOException : " + e.getMessage());
+        }
+        Log.d("imgPath" , getCacheDir() + "/" +fileName);
+
+        return getCacheDir() + "/" +fileName;
+    }*/
+    /*    private RequestBody requestBody(String dir){
+        final String dirFront = dir.substring(0,5);
+
+        if(dirFront.equals("https")){
+            return RequestBody.create(MediaType.parse("text/plain"),dir);
+        }
+        else{
+            return RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
+        }
+    }*/
 }
