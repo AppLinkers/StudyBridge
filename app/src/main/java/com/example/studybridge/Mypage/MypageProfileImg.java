@@ -144,21 +144,12 @@ public class MypageProfileImg extends AppCompatActivity {
 
             dataService = new DataService();
             String fileName = userLoginId + System.currentTimeMillis();
-            MultipartBody.Part imgReq;
-
-/*            if(dir.equals(BASIC_IMG)){
-                RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
-                imgReq = MultipartBody.Part.createFormData("imgFile",dir,body);
-                Toast.makeText(this, "베이직", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));
-                imgReq = MultipartBody.Part.createFormData("imgFile",fileName,body);
-                Toast.makeText(this, "나머지", Toast.LENGTH_SHORT).show();
-            }*/
-
-
-            imgReq = multiParts(dir,"imgFile",fileName);
+            
+            MultipartBody.Part imgReq = multiParts(
+                    dir,
+                    "imgFile",
+                    fileName);
+            
             
             dataService.userAuth.updateProfileImg(userLoginId,imgReq).enqueue(new Callback<UserProfileRes>() {
                 @Override
@@ -179,7 +170,7 @@ public class MypageProfileImg extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<UserProfileRes> call, Throwable t) {
                     finish();
-//                    Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -195,7 +186,7 @@ public class MypageProfileImg extends AppCompatActivity {
         final String dirFront = dir.substring(0,5);
         if(dirFront.equals("https")){
             RequestBody body = RequestBody.create(MediaType.parse("text/plain"), dir);
-            return MultipartBody.Part.createFormData(name, dir, body);
+            return MultipartBody.Part.createFormData(name,dir, body);
         }
         else {
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"),new File(dir));

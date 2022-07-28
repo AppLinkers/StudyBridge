@@ -33,7 +33,6 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
 
     private TodoMentorRcItemBinding binding;
     private Activity activity;
-    private ArrayList<String> menteeArr;
 
     private DataService dataService = new DataService();
 
@@ -46,7 +45,6 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),ToDoMentoInsideActivity.class);
                 intent.putExtra("study", studyRes);
-                intent.putStringArrayListExtra("menteeArr",menteeArr);
                 view.getContext().startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
@@ -54,6 +52,7 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
     }
 
     public void onBind(StudyFindRes study,Activity activity) {
+        getProfile(study.getId());
         studyRes = study;
         this.activity = activity;
         binding.name.setText(study.getName());
@@ -64,7 +63,6 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
         sb.append(study.getMenteeCnt()).append("명 참여중..");
         setImgCnt(study.getMenteeCnt());
         binding.num.setText(sb.toString());
-        getProfile(study.getId());
 
     }
 
@@ -87,22 +85,21 @@ public class ToDoMentoHolder extends RecyclerView.ViewHolder{
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if(response.isSuccessful()){
 
-                    final List<String> arr = response.body();
-                    menteeArr = new ArrayList<>(arr);
-                    final int size = arr.size();
+                    List<String> menteeList = response.body();
+                    final int size = response.body().size();
 
                     if(size<=1){
-                        setImg(menteeArr.get(0),binding.img1);
+                        setImg(menteeList.get(0),binding.img1);
 
                     }
                     else if(size == 2){
-                        setImg(menteeArr.get(0),binding.img1);
-                        setImg(menteeArr.get(1),binding.img2);
+                        setImg(menteeList.get(0),binding.img1);
+                        setImg(menteeList.get(1),binding.img2);
                     }
                     else {
-                        setImg(menteeArr.get(0),binding.img1);
-                        setImg(menteeArr.get(1),binding.img2);
-                        setImg(menteeArr.get(2),binding.img3);
+                        setImg(menteeList.get(0),binding.img1);
+                        setImg(menteeList.get(1),binding.img2);
+                        setImg(menteeList.get(2),binding.img3);
                     }
                 }
             }

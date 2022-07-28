@@ -7,11 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.studybridge.MainActivity;
 import com.example.studybridge.R;
 import com.example.studybridge.Util.SharedPrefKey;
 import com.example.studybridge.databinding.MypageFragmentBinding;
@@ -37,11 +44,14 @@ import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.VideoController;
+import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdOptions;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +83,6 @@ public class MyPageFragment extends Fragment {
     public static final int APPLY_STUDY = 0;
     public static final int LIKE_MENTOR = 1;
 
-    private NativeAd nativeAd;
 
 
     @Override
@@ -107,9 +116,6 @@ public class MyPageFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if(nativeAd !=null){
-            nativeAd.destroy();
-        }
         super.onDestroyView();
         binding = null;
     }
@@ -119,21 +125,7 @@ public class MyPageFragment extends Fragment {
         Glide.with(getContext()).load(imgPath).into(binding.img);
         getData();
         setBtns();
-
-        setAd();
     }
-
-    private void setAd() {
-        // Initialize the Mobile Ads SDK.
-        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-        });
-
-    }
-
-
-
 
     private void setBtns(){
 
@@ -228,5 +220,6 @@ public class MyPageFragment extends Fragment {
                 }
             }
     );
+
 
 }

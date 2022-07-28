@@ -10,5 +10,6 @@
     <!--개인정보-->
     <string name="personalInfoTxt">이용약관, 개인정보 취급 방침</string>
 
-
+    <!--    adMob Id-->
+    <string name="nativeAdId">ca-app-pub-3940256099942544/2247696110</string>
 </resources>

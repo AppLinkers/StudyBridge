@@ -51,7 +51,6 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     private Activity activity;
 
     private StudyFindRes study;
-    private ArrayList<String> menteeArr;
 
     //sharedPref
     SharedPreferences sharedPreferences;
@@ -71,7 +70,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         userId= sharedPreferences.getLong(USER_PK_ID_KEY, 0);
 
         intentData();
-        getProfile();
+        getProfile(study.getId());
         getData();
         setFloatingActionButton();
         goChat();
@@ -82,13 +81,13 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
     private void intentData(){
         Intent intent = getIntent();
         study = intent.getExtras().getParcelable("study");
-        menteeArr = new ArrayList<>(intent.getStringArrayListExtra("menteeArr"));
         binding.title.setText(study.getName());
         binding.intro.setText(study.getInfo());
         binding.subject.setText(study.getType());
         binding.place.setText(study.getPlace());
         StringBuilder sb = new StringBuilder();
         sb.append(study.getMenteeCnt()).append("명 참여중..");
+        setImgCnt(study.getMenteeCnt());
         binding.num.setText(sb.toString());
     }
 
@@ -137,7 +136,7 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
         });
     }
 
-    private void getProfile(){
+/*    private void getProfile(){
 
         final int size = menteeArr.size();
 
@@ -157,6 +156,47 @@ public class ToDoMentoInsideActivity extends AppCompatActivity {
             setImg(menteeArr.get(1),binding.img2);
             setImg(menteeArr.get(2),binding.img3);
         }
+    }*/
+    private void setImgCnt(int cnt){
+        if(cnt<=1){
+            binding.imgSecondCon.setVisibility(View.GONE);
+            binding.imgThirdCon.setVisibility(View.GONE);
+        }
+        else if(cnt == 2){
+            binding.imgThirdCon.setVisibility(View.GONE);
+        }
+    }
+    private void getProfile(Long studyId){
+
+        dataService.study.menteeList(studyId).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+
+                    List<String> menteeList = response.body();
+                    final int size = response.body().size();
+
+                    if(size<=1){
+                        setImg(menteeList.get(0),binding.img1);
+
+                    }
+                    else if(size == 2){
+                        setImg(menteeList.get(0),binding.img1);
+                        setImg(menteeList.get(1),binding.img2);
+                    }
+                    else {
+                        setImg(menteeList.get(0),binding.img1);
+                        setImg(menteeList.get(1),binding.img2);
+                        setImg(menteeList.get(2),binding.img3);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setImg(String userId, ImageView imageView){

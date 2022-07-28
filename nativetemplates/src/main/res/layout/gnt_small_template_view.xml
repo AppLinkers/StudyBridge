@@ -137,7 +137,6 @@
                 app:layout_constraintStart_toEndOf="@id/ad_notification_view"
                 app:layout_constraintTop_toTopOf="parent">
             </RatingBar>-->
-
             <TextView
                 android:id="@+id/secondary"
                 android:background="@color/gnt_white"

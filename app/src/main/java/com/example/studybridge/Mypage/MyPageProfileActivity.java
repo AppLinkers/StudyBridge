@@ -334,7 +334,7 @@ public class MyPageProfileActivity extends AppCompatActivity {
         if (mentoProfile.getCertificates().size() > 0) {
             mentoProfile.getCertificates().forEach(cn -> {
                 certificates.add(MultipartBody.Part.createFormData("certificates", cn.getCertificate()));
-                /*                        RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
+                /*RequestBody certificateImg = RequestBody.create(MediaType.parse("multipart/form-data"),new File(cn.getImgUrl()));*/
                 /*certificatesImgReq.add(MultipartBody.Part.createFormData("certificatesImg", cn.getCertificate()+"", requestBody(cn.getImgUrl())));*/
                 certificatesImgReq.add(multiParts(cn.getImgUrl(),"certificatesImg",cn.getCertificate()));
 
@@ -343,9 +343,10 @@ public class MyPageProfileActivity extends AppCompatActivity {
         }
 
         // school Img
-        /*                RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
-        MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchool());
+        /*RequestBody schoolImg = RequestBody.create(MediaType.parse("multipart/form-data"), new File(mentoProfile.getSchoolImg()));*/
         /*MultipartBody.Part.createFormData("schoolImg", mentoProfile.getSchool(), requestBody(mentoProfile.getSchoolImg()));*/
+        MultipartBody.Part schoolImgReq = multiParts(mentoProfile.getSchoolImg(),"schoolImg",mentoProfile.getSchool());
+
 
         dataService.userMentor.profile(schoolImgReq,certificatesImgReq,certificates, profileReq).enqueue(new Callback<ProfileRes>() {
             @Override
