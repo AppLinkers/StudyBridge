@@ -1,10 +1,13 @@
 package com.example.studybridge.http;
 
+import com.example.studybridge.http.dto.message.MessageRes;
 import com.example.studybridge.http.dto.userAuth.UserLoginReq;
 import com.example.studybridge.http.dto.userAuth.UserProfileRes;
 import com.example.studybridge.http.dto.userAuth.UserProfileUpdateReq;
 import com.example.studybridge.http.dto.userAuth.UserSignUpReq;
 import com.example.studybridge.http.dto.userAuth.UserSignUpRes;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -13,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -20,6 +24,9 @@ public interface UserAuth {
 
     @POST("user/auth/sign")
     Call<UserSignUpRes> signUp(@Body UserSignUpReq userSignUpReq);
+
+    @POST("user/auth/sign/out/{userId}")
+    Call<String> signOut(@Path("userId") Long userId);
 
     @POST("user/auth/")
     Call<Object> login(@Body UserLoginReq userLoginReq);
@@ -39,4 +46,6 @@ public interface UserAuth {
     @Multipart
     @POST("user/auth/profile/img")
     Call<UserProfileRes> updateProfileImg(@Query("userLoginId") String userLoginId, @Part MultipartBody.Part imgFile);
+
+
 }

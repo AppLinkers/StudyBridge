@@ -9,6 +9,8 @@ import com.example.studybridge.http.dto.study.StudyDeleteRes;
 import com.example.studybridge.http.dto.study.StudyFindRes;
 import com.example.studybridge.http.dto.study.StudyMakeReq;
 import com.example.studybridge.http.dto.study.StudyMakeRes;
+import com.example.studybridge.http.dto.study.StudyOutReq;
+import com.example.studybridge.http.dto.study.StudyOutRes;
 import com.example.studybridge.http.dto.study.StudyUpdateReq;
 import com.example.studybridge.http.dto.study.StudyUpdateRes;
 import com.example.studybridge.http.dto.study.StudyWithdrawReq;
@@ -73,4 +75,7 @@ public interface Study {
 
     @POST("study/update")
     Call<StudyUpdateRes> update(@Body StudyUpdateReq studyUpdateReq);
+
+    @POST("study/out")
+    Call<StudyOutRes> studyOut(@Body StudyOutReq studyOutReq);
 }
