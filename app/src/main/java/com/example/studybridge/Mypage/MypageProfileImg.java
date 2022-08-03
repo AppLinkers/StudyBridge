@@ -137,10 +137,9 @@ public class MypageProfileImg extends AppCompatActivity {
 
     private void setConfirm(){
 
-        binding.button.setText("업로드 중");
-        binding.btnProgress.setVisibility(View.VISIBLE);
-
         if(!dir.equals(imgPath)){
+            binding.button.setText("업로드 중");
+            binding.btnProgress.setVisibility(View.VISIBLE);
 
             dataService = new DataService();
             String fileName = userLoginId + System.currentTimeMillis();
@@ -165,11 +164,16 @@ public class MypageProfileImg extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                     }
+                    else {
+                        Log.d("imgUpload",dir.equals(imgPath)+"변경 실패");
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<UserProfileRes> call, Throwable t) {
                     finish();
+                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    Log.d("imgUpload",t.toString());
                     Toast.makeText(MypageProfileImg.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                 }
             });
